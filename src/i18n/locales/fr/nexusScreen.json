@@ -70,5 +70,6 @@
   "lieutenantsCleared": "✓ Lieutenants éliminés ({{done}}/{{total}})",
   "lieutenantsRemaining": "⚔ Lieutenants : {{done}}/{{total}} vaincus",
   "arcPerduClues": "◆ Arc Perdu : {{count}}/4 indices",
-  "gambling": "🎲 Gambling : {{wins}}/3 manches"
+  "gambling": "🎲 Gambling : {{wins}}/3 manches",
+  "warNoFragment": "ne donne pas le fragment — déclenche une guerre"
 }

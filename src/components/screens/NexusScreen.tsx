@@ -356,6 +356,9 @@ export function NexusScreen() {
                     {chanceInfo && chance !== null && chance < 100 && (
                       <span className="t-xs" style={{ marginLeft: '8px', color: chanceInfo.color }}>{chance}% — {chanceInfo.label}</span>
                     )}
+                    {action === 'war' && (
+                      <span className="t-xs" style={{ marginLeft: '8px', color: 'var(--orange)' }}>{t('warNoFragment')}</span>
+                    )}
                     {isDanger && action !== 'force' && <span className="t-xs t-dim" style={{ marginLeft: '8px' }}>{t('permanentConsequences')}</span>}
                   </button>
                   {!check.ok && check.reason && (

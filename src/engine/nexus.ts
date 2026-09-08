@@ -49,7 +49,10 @@ export interface NexusResult {
 
 export function getActionSuccessChance(idx: number, action: NexusAction): number | null {
   if (action === 'manipulate') return [40, 35, 30, 40][idx] ?? null
-  if (action === 'war') return 60
+  // La guerre ne rend JAMAIS le fragment : elle dresse deux détenteurs l'un
+  // contre l'autre et rend celui du perdant accessible plus tard. Afficher un
+  // « 60 % » laissait croire à un jet raté alors qu'aucun jet n'a lieu.
+  if (action === 'war') return null
   if (action === 'force') return 100
   if (action === 'pay') return idx === 0 ? 50 : 0
   if (action === 'alliance') return 100
