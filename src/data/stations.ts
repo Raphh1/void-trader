@@ -608,3 +608,16 @@ export function findPath(from: string, to: string, excluded?: Set<string>): stri
 }
 
 export const getStations = memoByLang(buildStations)
+
+// Sièges des six détenteurs de piliers. Ce sont des destinations de fin de
+// partie : rien ne doit y envoyer un joueur qui débute. À distinguer de
+// BOSS_STATIONS, qui recense le chef local de presque toutes les stations,
+// y compris des hubs paisibles comme Port Méridien.
+export const PILLAR_SEAT_STATIONS = new Set([
+  'Emporium Requiem',       // Cesarion
+  "L'Arc Perdu",            // Raphazarus
+  'Arc Ouest Apocalypse',   // Alanossa
+  'Scotty Golden North',    // Samy Scotty
+  'La Tribosphère',         // Eliotis
+  'Paradoxa Eterna',        // Le Roi Maxance
+])

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { initI18n } from '../i18n/config'
 import { initCombat, processCombatAction } from '../engine/combat'
-import { getStations, getStation, getFuelCost, LOOT_ONLY_ITEMS } from '../data/stations'
+import { getStations, getStation, getFuelCost, LOOT_ONLY_ITEMS, PILLAR_SEAT_STATIONS } from '../data/stations'
 import { getClasses } from '../data/classes'
 import { getEnemyForStation, scaleEnemy } from '../data/enemies'
 import { buildTutorialQuest } from '../engine/quests'
@@ -93,6 +93,12 @@ describe('premier quart d\'heure', () => {
       expect(getStation(c.startStation).goods, `${c.name} : objet introuvable au départ`)
         .toContain(q.targetItem)
       expect(LOOT_ONLY_ITEMS.has(q.targetItem!), `${c.name} : objet non achetable (${q.targetItem})`)
+        .toBe(false)
+
+      // Et la cible ne doit pas être le siège d un détenteur de pilier : le
+      // Contrebandier était envoyé à Arc Ouest Apocalypse, chez Alanossa, pour
+      // sa toute première livraison.
+      expect(PILLAR_SEAT_STATIONS.has(cible), `${c.name} : tutoriel envoyé chez un détenteur de pilier (${cible})`)
         .toBe(false)
 
       console.log('  ' + c.name.padEnd(20) + (q.targetItem ?? '').slice(0, 22).padEnd(24) +

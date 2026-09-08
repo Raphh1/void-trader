@@ -1,5 +1,5 @@
 import type { GameState, Quest, QuestType } from '../types'
-import { getAccessibleStations, getStation, LOOT_ONLY_ITEMS } from '../data/stations'
+import { getAccessibleStations, getStation, LOOT_ONLY_ITEMS, PILLAR_SEAT_STATIONS } from '../data/stations'
 import { getRunQuestRewardMult } from '../data/runModifiers'
 import { translateGood, translateStationName } from './goodsI18n'
 import i18n from '../i18n/config'
@@ -47,10 +47,16 @@ export const CRAFTED_DELIVERY_ITEMS = ['Régulateur de Vide', 'Puce de Navigatio
 export const TUTORIAL_QUEST_ID = 'tutorial-delivery'
 
 export function buildTutorialQuest(startStation: string): Quest {
-  const accessible = getAccessibleStations(startStation)
-  // Cible : la station accessible la moins chère en carburant (la plus proche)
-  const target = accessible.length > 0
-    ? accessible.reduce((best, s) =>
+  // Cible : la station accessible la moins chère en carburant (la plus proche),
+  // en écartant les sièges de détenteurs de piliers. Envoyer le joueur chez
+  // un détenteur de pilier dès sa toute première livraison le confronte à des
+  // ennemis hors de sa portée avant qu'il ait compris les règles — le
+  // Contrebandier était ainsi expédié chez Alanossa.
+  const toutes = getAccessibleStations(startStation)
+  const sansBoss = toutes.filter(s => !PILLAR_SEAT_STATIONS.has(s.name))
+  const candidats = sansBoss.length > 0 ? sansBoss : toutes
+  const target = candidats.length > 0
+    ? candidats.reduce((best, s) =>
         (s.fuelCostFrom[startStation] ?? 99) < (best.fuelCostFrom[startStation] ?? 99) ? s : best
       )
     : null
