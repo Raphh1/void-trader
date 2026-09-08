@@ -1269,6 +1269,18 @@ export function StationHub() {
                 <button className="px-btn" onClick={() => goTo('market')}>
                   {t('market')}
                 </button>
+                {/* Endetté : sa dette est son outil. Il lève des fonds quand
+                    personne ne lui prêterait, au prix d'une saignée quotidienne. */}
+                {gs.class.name === 'Endetté' && (gs.loansTaken ?? 0) < 3 && (
+                  <button className="px-btn" style={{ borderColor: 'var(--gold)', color: 'var(--gold)' }}
+                    onClick={() => patch({
+                      credits: gs.credits + 5000,
+                      debtDailyAmount: (gs.debtDailyAmount ?? gs.class.dailyDebt ?? 0) + 75,
+                      loansTaken: (gs.loansTaken ?? 0) + 1,
+                    })}>
+                    {t('debtorLoan', { n: 3 - (gs.loansTaken ?? 0), debt: (gs.debtDailyAmount ?? gs.class.dailyDebt ?? 0) + 75 })}
+                  </button>
+                )}
                 {tutPhase >= 2 && (
                   <button className="px-btn" onClick={() => goTo('crafting')} style={{ borderColor: 'var(--orange)', color: 'var(--orange)' }}>
                     {t('crafting')}

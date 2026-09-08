@@ -222,3 +222,28 @@ describe('résolution par rachat et par service', () => {
     }
   })
 })
+
+describe('prix des pots-de-vin', () => {
+  it('garde le rachat comme échappatoire ponctuelle, jamais comme stratégie', () => {
+    const lts = ['alanossa', 'cesarion', 'raphazarus', 'scotty']
+      .flatMap(p => getSubBossesForPillar(p))
+    const prix = lts.filter(sb => sb.bribe).map(sb => sb.bribe!.credits)
+    const total = prix.reduce((a, b) => a + b, 0)
+
+    // Revenu de référence : une quête courante rapporte ~5 000 cr (médiane
+    // mesurée sur les 36 récompenses du jeu, hors objectifs légendaires).
+    const QUETE_MOYENNE = 5000
+    const mediane = [...prix].sort((a, b) => a - b)[Math.floor(prix.length / 2)]
+
+    console.log('\n── POTS-DE-VIN vs REVENUS ──')
+    console.log('  médiane ' + mediane + ' cr ≈ ' + Math.round(mediane / QUETE_MOYENNE) + ' quêtes')
+    console.log('  total 16 lieutenants : ' + total + ' cr ≈ ' + Math.round(total / QUETE_MOYENNE) + ' quêtes')
+
+    // Un rachat doit se mériter : au moins 2 quêtes d'économies.
+    expect(mediane / QUETE_MOYENNE, 'pot-de-vin médian trop bon marché').toBeGreaterThanOrEqual(2)
+    // Mais racheter TOUS les lieutenants doit rester hors de portée, sinon le
+    // système de combat et de services devient contournable à la carte.
+    expect(total / QUETE_MOYENNE, 'acheter les 16 lieutenants est trop accessible')
+      .toBeGreaterThan(40)
+  })
+})

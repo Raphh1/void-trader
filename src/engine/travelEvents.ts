@@ -158,9 +158,11 @@ export function spendAction(gs: GameState): Partial<GameState> {
       actionsToday: 0,
       day: gs.day + 1,
     }
-    // Endetté : -dette par jour
-    if (gs.class.dailyDebt && gs.class.dailyDebt > 0) {
-      dayChanges.credits = Math.max(0, gs.credits - gs.class.dailyDebt)
+    // Dette quotidienne : classe Endetté, emprunts contractés et modificateurs
+    // de run s'y cumulent via debtDailyAmount.
+    const dette = gs.debtDailyAmount ?? gs.class.dailyDebt ?? 0
+    if (dette > 0) {
+      dayChanges.credits = Math.max(0, gs.credits - dette)
     }
     return dayChanges
   }

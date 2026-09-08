@@ -477,7 +477,8 @@ export interface GameState {
   deathCause: string
   // Effets de classe spéciaux
   addictionLevel: number        // Accro
-  debtDailyAmount: number       // Endetté
+  debtDailyAmount: number       // Endetté, emprunts et modificateurs de run cumulés
+  loansTaken?: number           // Endetté: emprunts contractés (max 3)
   lastIncomeDay: number         // Héritier
   // Combat session solo
   combatEnemy: Enemy | null

@@ -9,7 +9,7 @@
   },
   "endette": {
     "description": "Quelqu'un veut récupérer son argent. Chaque. Jour. Tu dois 50cr par jour à quelqu'un que tu ne veux pas rencontrer.",
-    "bonusDesc": "⚠ -50cr par jour automatiquement · Combat standard"
+    "bonusDesc": "⚠ Dette quotidienne prélevée automatiquement · Peut emprunter 5 000 cr (3×) là où personne ne lui prêterait · Combat standard"
   },
   "accro": {
     "description": "T'as des habitudes coûteuses. C'est pas négociable. Chaque voyage te coûte 100cr en plus pour tes besoins.",

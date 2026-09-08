@@ -901,8 +901,7 @@ export const useGameStore = create<Store>()(persist((set, get) => ({
 
   rest: () => set(s => {
     if (!s.gs) return s
-    let debt = 0
-    if (s.gs.class.dailyDebt) debt = s.gs.class.dailyDebt
+    const debt = s.gs.debtDailyAmount ?? s.gs.class.dailyDebt ?? 0
     const dailyCost = getDailyExpenses(s.gs)
     const dayGs = {
       ...s.gs,

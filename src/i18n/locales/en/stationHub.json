@@ -368,5 +368,6 @@
     "giveIntelDeal": "You talk. They take notes. This intel might cost more than you think. +2 fuel. (-12 rep)",
     "giveIntelWhyNot": "They don't see you as someone who knows anything useful",
     "fuelSuffix": "+{{amount}} fuel"
-  }
+  },
+  "debtorLoan": "💰 Borrow 5,000 cr — debt rises to {{debt}}/day ({{n}} left)"
 }

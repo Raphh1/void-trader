@@ -368,5 +368,6 @@
     "giveIntelDeal": "Tu parles. Il prend des notes. Ces infos coûteront peut-être plus cher que tu ne le penses. +2 carburant. (-12 rép)",
     "giveIntelWhyNot": "Il te voit pas comme quelqu'un qui sait des choses utiles",
     "fuelSuffix": "+{{amount}} carburant"
-  }
+  },
+  "debtorLoan": "💰 Emprunter 5 000 cr — dette portée à {{debt}}/jour ({{n}} restants)"
 }
