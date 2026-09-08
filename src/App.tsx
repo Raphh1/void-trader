@@ -123,6 +123,7 @@ function RunStats({ gs }: { gs: ReturnType<typeof useGameStore.getState>['gs'] &
         <div className="grid2" style={{ gap: '8px' }}>
           <StatLine label={t('runStats.daysSurvived')}     value={`${gs.day}`}                         color="var(--text)" />
           <StatLine label={t('runStats.finalCredits')}     value={`${gs.credits.toLocaleString()} cr`} color="var(--gold)" />
+          <StatLine label={t('runStats.totalEarned')}      value={`${(gs.totalCreditsEarned ?? 0).toLocaleString()} cr`} color="var(--gold)" />
           <StatLine label={t('runStats.reputation')}       value={`${gs.reputation}`}                  color={gs.reputation >= 0 ? 'var(--green)' : 'var(--red)'} />
           <StatLine label={t('runStats.stationsVisited')}  value={`${gs.visitedStations.length}`}      color="var(--cyan)" />
           <StatLine label={t('runStats.combatsWon')}       value={`${gs.combatsWon}`}                  color="var(--green)" />

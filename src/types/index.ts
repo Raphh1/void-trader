@@ -416,7 +416,6 @@ export interface JournalEntry {
 
 export interface GameState {
   screen: Screen
-  playerName: string
   class: PlayerClass
   playerHp: number
   playerMaxHp: number

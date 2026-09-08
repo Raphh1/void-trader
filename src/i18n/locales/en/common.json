@@ -46,7 +46,8 @@
     "prisonEscapes": "Prison escapes",
     "class": "Class",
     "objectivesCompleted": "OBJECTIVES COMPLETED ({{count}})",
-    "arcsCompleted": "NARRATIVE ARCS COMPLETED"
+    "arcsCompleted": "NARRATIVE ARCS COMPLETED",
+    "totalEarned": "Total earned"
   },
   "legacyBadge": "★ +{{count}} legacy point{{plural}} available — invest them in LEGACY",
   "nextUnlock": {

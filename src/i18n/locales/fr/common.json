@@ -46,7 +46,8 @@
     "prisonEscapes": "Évasions de prison",
     "class": "Classe",
     "objectivesCompleted": "OBJECTIFS ACCOMPLIS ({{count}})",
-    "arcsCompleted": "ARCS NARRATIFS COMPLÉTÉS"
+    "arcsCompleted": "ARCS NARRATIFS COMPLÉTÉS",
+    "totalEarned": "Total gagné"
   },
   "legacyBadge": "★ +{{count}} point{{plural}} d'héritage disponible{{plural}} — investis-les dans HÉRITAGE",
   "nextUnlock": {

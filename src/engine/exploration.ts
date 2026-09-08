@@ -443,7 +443,12 @@ export function rollExplorationEvent(gs: GameState): ExploreResult {
     const gardiensRep = gs.factionReputation?.gardiens ?? 0
     const gardiensReduction = gardiensRep >= 80 ? 0.15 : gardiensRep >= 50 ? 0.10 : gardiensRep >= 20 ? 0.05 : 0
     const traqueMod = (gs.runModifiers ?? []).includes('traque') ? 0.15 : 0
-    const combatChance = Math.max(0, 0.15 + depth * 0.07 + danger * 0.08 - scannerReduction - gardiensReduction + traqueMod)
+    // Explorateur : « événements neutres plus fréquents ». Son bonus était
+    // déclaré sur la classe (neutralEventsBoost) mais lu nulle part. Moins de
+    // combats déclenchés = plus de scènes neutres, ce qui est exactement la
+    // promesse faite au joueur.
+    const explorateurReduction = gs.class.neutralEventsBoost ? 0.12 : 0
+    const combatChance = Math.max(0, 0.15 + depth * 0.07 + danger * 0.08 - scannerReduction - gardiensReduction - explorateurReduction + traqueMod)
     if (Math.random() < combatChance) {
       return { type: 'combat', depth }
     }

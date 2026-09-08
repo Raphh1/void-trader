@@ -40,7 +40,6 @@ const gt = (key: string, params?: Record<string, unknown>) => i18n.t(key, { ns: 
 function buildInitialState(playerClass: PlayerClass): GameState {
   return {
     screen: 'station-hub',
-    playerName: 'Joueur',
     class: playerClass,
     playerHp: playerClass.startHp,
     playerMaxHp: playerClass.startHp,
@@ -202,7 +201,25 @@ interface Store {
   dismissWorldEventPopup: () => void
 }
 
-export const useGameStore = create<Store>()(persist((set, get) => ({
+export const useGameStore = create<Store>()(persist((rawSet, get) => {
+  // Toute écriture d'état passe ici. C'est le seul point où l'on puisse
+  // comptabiliser les crédits gagnés sans instrumenter la vingtaine de sites
+  // qui touchent à la trésorerie — et donc le seul où la statistique de fin
+  // de run puisse être exacte plutôt qu'approximative.
+  const set: typeof rawSet = ((updater: unknown, replace?: boolean) => rawSet((state: Store) => {
+    const partial = (typeof updater === 'function'
+      ? (updater as (s: Store) => Partial<Store>)(state)
+      : updater) as Partial<Store>
+    if (partial?.gs && state.gs) {
+      const gagne = partial.gs.credits - state.gs.credits
+      if (gagne > 0) {
+        return { ...partial, gs: { ...partial.gs, totalCreditsEarned: (state.gs.totalCreditsEarned ?? 0) + gagne } }
+      }
+    }
+    return partial
+  }, replace as false)) as typeof rawSet
+
+  return {
   gs: null,
   travelEventMessage: null,
   objectivePopup: null,
@@ -947,7 +964,8 @@ export const useGameStore = create<Store>()(persist((set, get) => ({
       pendingMessage: gt('conquestMessage'),
     },
   } : s),
-}), {
+  }
+}, {
   name: 'snipeweb-save',
   version: 3,
   partialize: (state) => ({ gs: state.gs }),
