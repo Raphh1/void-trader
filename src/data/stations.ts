@@ -472,6 +472,16 @@ export function getAccessibleStations(currentName: string): StationData[] {
   })
 }
 
+
+// Marchandises jamais vendues en boutique : elles ne s'obtiennent qu'en butin
+// (ennemis, exploration, wander). Le marché les filtre — toute logique qui
+// demande au joueur d'en ACHETER une doit donc les exclure, sinon elle crée
+// un objectif impossible.
+export const LOOT_ONLY_ITEMS = new Set([
+  'Armes lourdes', 'Armes artisanales', 'Armes Tier 3', 'Armes Tier 4', 'Armes exotiques',
+  "Armures Faucon", "Armures d'élite", 'Armures premium', 'Armures Tier 4',
+])
+
 export function getFuelCost(from: string, to: string): number {
   const dest = getStation(to)
   return dest.fuelCostFrom[from] ?? 99

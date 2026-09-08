@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { playBuy, playSell } from '../../engine/sfx'
-import { getStation, FUEL_STATIONS } from '../../data/stations'
+import { getStation, FUEL_STATIONS, LOOT_ONLY_ITEMS } from '../../data/stations'
 import { getBuyDiscount } from '../../engine/factions'
 import { getWorldEventPriceMultiplier, getActiveEvents } from '../../engine/worldEvents'
 import { getCulteArtefactMult, getFactionSurchargeAtStation, getStationFactionName, getRepLevel, getFactionRep, STATION_FACTION_CONTROL } from '../../engine/factionRep'
@@ -49,11 +49,6 @@ function getBasePrice(item: string): number {
   return BASE_PRICES[item] ?? 200
 }
 
-// Armes et armures-cargo retirées du marché — loot only (ennemis, exploration, wander)
-const LOOT_ONLY_ITEMS = new Set([
-  'Armes lourdes', 'Armes artisanales', 'Armes Tier 3', 'Armes Tier 4', 'Armes exotiques',
-  'Armures Faucon', "Armures d'élite", 'Armures premium', 'Armures Tier 4',
-])
 
 // Limites de soute par item (protection anti-abus)
 export const ITEM_CARGO_MAX: Record<string, number> = {

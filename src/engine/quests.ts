@@ -1,5 +1,5 @@
 import type { GameState, Quest, QuestType } from '../types'
-import { getAccessibleStations, getStation } from '../data/stations'
+import { getAccessibleStations, getStation, LOOT_ONLY_ITEMS } from '../data/stations'
 import { getRunQuestRewardMult } from '../data/runModifiers'
 import { translateGood, translateStationName } from './goodsI18n'
 import i18n from '../i18n/config'
@@ -58,7 +58,8 @@ export function buildTutorialQuest(startStation: string): Quest {
   // Item vendu sur place mais PAS dans la cargaison de départ (Médicaments) :
   // force le joueur à passer par le marché pour apprendre l'achat.
   const startGoods = getStation(startStation).goods
-  const item = startGoods.find(g => g !== 'Médicaments') ?? startGoods[0] ?? 'Médicaments'
+  const achetables = startGoods.filter(g => !LOOT_ONLY_ITEMS.has(g))
+  const item = achetables.find(g => g !== 'Médicaments') ?? achetables[0] ?? 'Médicaments'
 
   return {
     id: TUTORIAL_QUEST_ID,
