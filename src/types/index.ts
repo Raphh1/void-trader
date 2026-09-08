@@ -249,6 +249,18 @@ export interface Quest {
   dayMult?: number
   factionId?: string
   progress?: number
+  // Recette de rendu du texte. `title` et `description` sont figés dans la
+  // langue de génération et persistés tels quels dans la sauvegarde : sans
+  // ces clés, une quête créée en français le reste après un passage en
+  // anglais. On stocke donc la clé i18n et les paramètres BRUTS (noms français
+  // de stations, marchandises, ennemis), retraduits à l'affichage.
+  titleI18n?: QuestText
+  descI18n?: QuestText
+}
+
+export interface QuestText {
+  key: string
+  params: Record<string, string>
 }
 
 // ── FACTIONS ─────────────────────────────────────────────────────────────────

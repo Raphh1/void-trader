@@ -6,7 +6,7 @@
     "steps": {
       "0": {
         "title": "The Rumor",
-        "desc": "In a bar on La Carcasse, someone slips you a message. 'Alanossa heard your name. He wants to talk to you. Not in a friendly way.'",
+        "desc": "In a bar on The Wreckyard, someone slips you a message. 'Alanossa heard your name. He wants to talk to you. Not in a friendly way.'",
         "c0": "Ignore it and move on",
         "c0msg": "You put the message away. Ignoring Alanossa is a choice.",
         "c1": "Investigate Alanossa's intentions",
@@ -14,9 +14,9 @@
       },
       "1": {
         "title": "The Messenger",
-        "desc": "One of Alanossa's lieutenants finds you at the dock. 'The boss invites you to Arc Ouest Apocalypse. Alone. Unarmed. These terms aren't negotiable.'",
+        "desc": "One of Alanossa's lieutenants finds you at the dock. 'The boss invites you to West Apocalypse Arc. Alone. Unarmed. These terms aren't negotiable.'",
         "c0": "Accept the terms",
-        "c0msg": "You accept. The messenger leaves. You head for Arc Ouest Apocalypse.",
+        "c0msg": "You accept. The messenger leaves. You head for West Apocalypse Arc.",
         "c1": "Refuse and propose neutral ground",
         "c1msg": "Alanossa reluctantly agrees. He respects that. +15 rep.",
         "c2": "Disappear — change sector",
@@ -37,8 +37,8 @@
   },
   "raphazarus": {
     "title": "The Prophet of the Void",
-    "intro": "The clues finally converge. L'Arc Perdu isn't a legend — it really drifts somewhere in the Black Nebula. What you're about to find there is like nothing you've been told.",
-    "completionMessage": "You met Raphazarus at L'Arc Perdu. The Cult of the Void awaits you — or fears you. Raphazarus can be confronted there if you want to settle this for good.",
+    "intro": "The clues finally converge. The Lost Arc isn't a legend — it really drifts somewhere in the Black Nebula. What you're about to find there is like nothing you've been told.",
+    "completionMessage": "You met Raphazarus at The Lost Arc. The Cult of the Void awaits you — or fears you. Raphazarus can be confronted there if you want to settle this for good.",
     "steps": {
       "0": {
         "title": "The Approach",
@@ -46,7 +46,7 @@
         "c0": "Scan the station before approaching",
         "c0msg": "The scans say almost nothing. The station absorbs more than it reflects. What you see doesn't match what the instruments measure. +8 rep (caution).",
         "c1": "Rush in — questions can wait",
-        "c1msg": "You don't wait. L'Arc Perdu grows in your sights, silent, as if it were waiting for you too."
+        "c1msg": "You don't wait. The Lost Arc grows in your sights, silent, as if it were waiting for you too."
       },
       "1": {
         "title": "The First Disciple",
@@ -60,7 +60,7 @@
       },
       "2": {
         "title": "Facing Raphazarus",
-        "conditionHint": "Head to L'Arc Perdu to meet Raphazarus.",
+        "conditionHint": "Head to The Lost Arc to meet Raphazarus.",
         "desc": "He's older than you thought. His eyes fix on something behind you. 'The void knows you. I've watched you for a long time. I'm not offering you a job — I'm offering you a purpose.' He waits for your answer.",
         "c0": "Join the Cult of the Void",
         "c0msg": "You join the Cult. He places a hand on your shoulder. 'The void has chosen you.' +60 rep. You're now a member of the Cult of the Void.",
@@ -75,12 +75,12 @@
   },
   "vael": {
     "title": "The Abyss Investigation",
-    "intro": "A station was destroyed. Les Abysses de Velkor. But survivors talk of something else — a disappearance before the disaster.",
+    "intro": "A station was destroyed. The Abyss of Velkor. But survivors talk of something else — a disappearance before the disaster.",
     "completionMessage": "The truth about Velkor is known. What comes of it is your choice.",
     "steps": {
       "0": {
         "title": "The Survivors",
-        "desc": "At Les Abysses de Velkor, an old researcher approaches you. 'Before the incident, someone stole our research. Someone from the inside. I have a name. I need a messenger.'",
+        "desc": "At The Abyss of Velkor, an old researcher approaches you. 'Before the incident, someone stole our research. Someone from the inside. I have a name. I need a messenger.'",
         "c0": "Accept the investigation",
         "c0msg": "You accept. She gives you a name and an address.",
         "c1": "Ask for an advance (500 cr)",

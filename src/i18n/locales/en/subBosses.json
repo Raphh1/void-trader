@@ -6,7 +6,7 @@
     "combatMechanic": "Predicts your attacks: auto-dodges every 3 turns. Must be struck while reloading.",
     "specialAbility": "Preemptive strike — attacks first every turn, ignores defensive stance.",
     "enemyDesc": "He's been watching for so long he doesn't know how to do anything else.",
-    "serviceDemand": "Three of my optical relays died this month. I don't leave this chair — I've seen what happens when someone does. Go down to Station Ombre, check the relay hasn't been turned, and bring back what I need to fix it. If you come back, you're not one of theirs."
+    "serviceDemand": "Three of my optical relays died this month. I don't leave this chair — I've seen what happens when someone does. Go down to Shadow Station, check the relay hasn't been turned, and bring back what I need to fix it. If you come back, you're not one of theirs."
   },
   "ala2": {
     "personality": "Calculating, cold, indispensable. He knows the Falcons collapse without him.",
@@ -20,11 +20,11 @@
   "ala3": {
     "personality": "Silent, lethal, loyal unto death. He's the armed fist Alanossa uses when words no longer suffice.",
     "motivation": "Carry out Alanossa's orders without question. His devotion is absolute.",
-    "backstory": "No one knows his real name. Alanossa found him in the ruins of Station Quarantaine — sole survivor of an epidemic that killed three hundred people. She took him in, trained him, forged him. He became her shadow.",
+    "backstory": "No one knows his real name. Alanossa found him in the ruins of Quarantine Station — sole survivor of an epidemic that killed three hundred people. She took him in, trained him, forged him. He became her shadow.",
     "combatMechanic": "Invisible on odd turns — can't be hit. Automatically counter-attacks when you miss.",
     "specialAbility": "Ghost strike — guaranteed critical hit from invisibility.",
     "enemyDesc": "You see him only once. Usually it's too late.",
-    "serviceDemand": "Alanossa gave me a name when I had nothing left. I don't want another. But someone is still digging through the Station Quarantaine registers, and I'm in them. Erase me from those archives — and show me you can kill quietly."
+    "serviceDemand": "Alanossa gave me a name when I had nothing left. I don't want another. But someone is still digging through the Quarantine Station registers, and I'm in them. Erase me from those archives — and show me you can kill quietly."
   },
   "ala4": {
     "personality": "Charismatic, ruthless, pragmatic. She inspires loyalty through both fear AND respect.",
@@ -37,7 +37,7 @@
   },
   "ces1": {
     "personality": "Smiling, poisonous, dangerous. She sells with a smile. What she sells always kills.",
-    "motivation": "Profit. Pure and simple. Cesarion lets her keep Comptoir Sud in exchange for a cut. And information.",
+    "motivation": "Profit. Pure and simple. Cesarion lets her keep Southern Trading Post in exchange for a cut. And information.",
     "backstory": "Daughter of merchants assassinated by pirates. She rebuilt the family empire selling the same weapons that killed her parents — to the same people. \"Business has no morals,\" she says. She genuinely believes it.",
     "combatMechanic": "Poisons her weapons — every hit inflicts stacking poison. The longer the fight, the more dangerous it gets.",
     "specialAbility": "Commercial poison — every turn, the player loses 5 extra HP (stacking).",
@@ -50,7 +50,7 @@
     "backstory": "A former customs officer turned logistics warlord. Cesarion recruited him because he was the only one who understood how to tax without killing trade. His efficiency has a price: regular disappearances of \"noncompliant\" merchants.",
     "combatMechanic": "Steals your credits on every successful hit (5% of your credits per strike). A fight against the clock.",
     "specialAbility": "Blood tax — every successful attack costs you credits.",
-    "enemyDesc": "He controls Relais de Transit. Everything that passes through, he taxes.",
+    "enemyDesc": "He controls Transit Relay. Everything that passes through, he taxes.",
     "serviceDemand": "Everything passing through my relay pays me. You included. Make the trip yourself, and bring me goods nobody will claim ownership of. What has no owner files no complaint."
   },
   "ces3": {
@@ -73,8 +73,8 @@
   },
   "raph1": {
     "personality": "Broken, methodical, haunted. He still obeys orders given forty years ago.",
-    "motivation": "Carry out Raphazarus's last directive: watch over Les Cendres and eliminate anyone who asks questions about L'Arc Perdu.",
-    "backstory": "Last survivor of Raphazarus's 3rd Battalion. He watched his comrades die one by one during the Siege of Les Cendres — 47 days without resupply. When rescue arrived, he was the only one standing. Raphazarus shook his hand and said: \"You stay here. You wait.\" He's still waiting.",
+    "motivation": "Carry out Raphazarus's last directive: watch over The Ashes and eliminate anyone who asks questions about The Lost Arc.",
+    "backstory": "Last survivor of Raphazarus's 3rd Battalion. He watched his comrades die one by one during the Siege of The Ashes — 47 days without resupply. When rescue arrived, he was the only one standing. Raphazarus shook his hand and said: \"You stay here. You wait.\" He's still waiting.",
     "combatMechanic": "Fights with relentless military discipline: always attacks twice in a row, but pauses one turn every 4 turns to \"reload\".",
     "specialAbility": "Firing cadence — double attack every turn, pauses every 4 turns.",
     "enemyDesc": "He's been waiting for forty years. He has all the time in the world.",
@@ -82,8 +82,8 @@
   },
   "raph2": {
     "personality": "Cold, surgical, devoted beyond reason. Her husband died under Raphazarus's orders — and she's grateful to him for it.",
-    "motivation": "Protect La Forteresse Exilée, Raphazarus's last known outpost before his disappearance. She holds information on the location of L'Arc Perdu.",
-    "backstory": "Her husband commanded Raphazarus's elite fleet. He died covering the General's retreat to L'Arc Perdu. Instead of hating him for it, she swore eternal allegiance. \"My husband chose to die for him. That choice deserves to be honored.\" She's become the most relentless guardian of all the veterans — the only one Raphazarus still occasionally contacts.",
+    "motivation": "Protect The Exiled Fortress, Raphazarus's last known outpost before his disappearance. She holds information on the location of The Lost Arc.",
+    "backstory": "Her husband commanded Raphazarus's elite fleet. He died covering the General's retreat to The Lost Arc. Instead of hating him for it, she swore eternal allegiance. \"My husband chose to die for him. That choice deserves to be honored.\" She's become the most relentless guardian of all the veterans — the only one Raphazarus still occasionally contacts.",
     "combatMechanic": "Wears mourning armor that absorbs 40% of physical damage. Energy weapons (burn, shock) ignore this reduction.",
     "specialAbility": "Mourning armor — reduces physical damage by 40%, vulnerable to energy weapons.",
     "enemyDesc": "Her husband died for Raphazarus. She'll live for him.",
@@ -91,16 +91,16 @@
   },
   "raph3": {
     "personality": "Invisible, silent, terrifying. He might not even be human anymore — no one's sure.",
-    "motivation": "Eliminate anyone who gets close to the truth about L'Arc Perdu. Raphazarus gave him a mission: make sure no one can ever find it. Ever.",
-    "backstory": "Former head of military intelligence for Raphazarus's 7th Corps. After the Great War, he erased every trace of L'Arc Perdu from official archives — coordinates, manifests, navigation logs. Then he erased himself. Station Fantôme bears his name: no one knows if he really lives there or if he's everywhere at once.",
+    "motivation": "Eliminate anyone who gets close to the truth about The Lost Arc. Raphazarus gave him a mission: make sure no one can ever find it. Ever.",
+    "backstory": "Former head of military intelligence for Raphazarus's 7th Corps. After the Great War, he erased every trace of The Lost Arc from official archives — coordinates, manifests, navigation logs. Then he erased himself. Ghost Station bears his name: no one knows if he really lives there or if he's everywhere at once.",
     "combatMechanic": "Alternates between two phases: visible (attacks normally) and spectral (immune to physical attacks, can only be hit by effects/special weapons). Switches phase every 2 turns.",
     "specialAbility": "Spectral phase — immune to direct attacks every 2 turns.",
-    "enemyDesc": "Head of intelligence. He erased L'Arc Perdu from the maps.",
-    "serviceDemand": "I erased the Lost Arc from every official archive. You're trying to put it back. Go to Station Fantôme, where the last copy sleeps, and show me you've survived enough fights to deserve what you'll find there. The curious die before they arrive."
+    "enemyDesc": "Head of intelligence. He erased The Lost Arc from the maps.",
+    "serviceDemand": "I erased the Lost Arc from every official archive. You're trying to put it back. Go to Ghost Station, where the last copy sleeps, and show me you've survived enough fights to deserve what you'll find there. The curious die before they arrive."
   },
   "raph4": {
     "personality": "Stoic, ruthless, respected even by Raphazarus's enemies. The last officer still active.",
-    "motivation": "Keep La Forge des Damnés operational — this is where Raphazarus forges his weapons and trains his last loyal soldiers. The Marshal is the last line of defense before the General.",
+    "motivation": "Keep The Forge of the Damned operational — this is where Raphazarus forges his weapons and trains his last loyal soldiers. The Marshal is the last line of defense before the General.",
     "backstory": "Raphazarus's right hand since before the Great War. He survived three assassination attempts, two betrayals, and an orbital bombardment. His nickname comes from his injuries: he's had so many fractures heal back together that his bones form natural armor. Raphazarus named him guardian of the Forge because he's the one man he trusts absolutely.",
     "combatMechanic": "His reinforced bones reduce critical damage by 60%. The more you hit him, the angrier he gets — +15% damage per 25% HP lost.",
     "specialAbility": "Armored bone structure — reduces criticals by 60%, growing rage (+15% damage/25% HP lost).",
@@ -108,13 +108,13 @@
     "serviceDemand": "No one walks past me unless the General wills it. Stay in this sector long enough for your name to reach him, forge weapons worthy of this Forge, and earn the respect of his people. Only then will we discuss letting you through."
   },
   "sco1": {
-    "personality": "Discreet, patient, deadly. He runs Port de Nuit from the shadows — no one ever sees him.",
-    "motivation": "Control the black market for Scotty. Port de Nuit is his kingdom.",
-    "backstory": "A former orphan from the Bas-Fonds. Scotty spotted him when he was twelve — he already had his own thief network. Scotty gave him Port de Nuit as a playground. He turned it into an empire.",
+    "personality": "Discreet, patient, deadly. He runs Night Port from the shadows — no one ever sees him.",
+    "motivation": "Control the black market for Scotty. Night Port is his kingdom.",
+    "backstory": "A former orphan from the Bas-Fonds. Scotty spotted him when he was twelve — he already had his own thief network. Scotty gave him Night Port as a playground. He turned it into an empire.",
     "combatMechanic": "Fights in darkness — your attacks deal 30% less damage unless you use a weapon with a \"burn\" or \"blind\" effect.",
     "specialAbility": "Night shadow — your attacks are reduced by 30% except incendiary weapons.",
-    "enemyDesc": "He runs Port de Nuit from the shadows.",
-    "serviceDemand": "Port de Nuit runs on chips, not credits — credits leave traces. Bring me enough to cover a night's losses, and lay them down yourself. I run this place from the shadows, but I want to see the face of those I deal with."
+    "enemyDesc": "He runs Night Port from the shadows.",
+    "serviceDemand": "Night Port runs on chips, not credits — credits leave traces. Bring me enough to cover a night's losses, and lay them down yourself. I run this place from the shadows, but I want to see the face of those I deal with."
   },
   "sco2": {
     "personality": "Seductive, manipulative, deadly charming. He knows everyone's secrets.",

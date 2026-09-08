@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { questTitle, questDescription } from '../../engine/questI18n'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { getFactions } from '../../engine/factions'
@@ -208,7 +209,7 @@ function FactionsTab({ gs }: { gs: GameState }) {
             <div className="col gap4">
               <div className="t-xs t-dim mb4">{t('factions.currentMission')}</div>
               <div className="px-box" style={{ padding: '8px 12px', borderColor: 'var(--cyan)' }}>
-                <div className="t-xs t-bright mb2">{activeFactionQuest.title}</div>
+                <div className="t-xs t-bright mb2">{questTitle(activeFactionQuest)}</div>
                 <div className="t-xs t-dim" style={{ lineHeight: '1.8' }}>{activeFactionQuest.description}</div>
                 <div className="t-xs t-gold mt4">{t('factions.destination', { station: translateStationName(activeFactionQuest.targetStation) })}</div>
                 <div className="t-xs t-dim mt2">{t('factions.reward', { credits: activeFactionQuest.creditReward.toLocaleString(), rep: activeFactionQuest.repReward })}</div>

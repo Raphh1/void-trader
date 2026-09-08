@@ -321,8 +321,8 @@
       "c0": "Buy the information (700cr)",
       "c0fail": "Not enough. She leaves.",
       "c0qTitle": "Bounty — Alanossa",
-      "c0qDesc": "The source gave you a window of opportunity on Arc Ouest Apocalypse. 'Alanossa will be exposed. Briefly.' An exceptional bounty awaits whoever acts.",
-      "c0msg": "Alanossa on Arc Ouest Apocalypse. Short window. -700cr, +30 rep in the underworld.",
+      "c0qDesc": "The source gave you a window of opportunity on West Apocalypse Arc. 'Alanossa will be exposed. Briefly.' An exceptional bounty awaits whoever acts.",
+      "c0msg": "Alanossa on West Apocalypse Arc. Short window. -700cr, +30 rep in the underworld.",
       "c1": "Negotiate the price",
       "c1msgFail": "She's not in the mood. She leaves. This information has a fixed price.",
       "c1msgWin": "-400cr. She agrees to a partial summary. +15 rep.",
@@ -485,8 +485,8 @@
         "c0qTitle": "Parts for Marek",
         "c0qDesc": "Marek needs specific components from {{target}}. 'Those parts, I can't find anywhere here. You've got a ship.' Fair payment on delivery.",
         "c0msg": "Marek has an order on {{target}}. Simple delivery, honest pay.",
-        "c1": "Ask him about La Carcasse",
-        "c1msg": "He talks while he works. Stories about La Carcasse no info board would tell. You leave with useful intel. +8 rep, some credits.",
+        "c1": "Ask him about The Wreckyard",
+        "c1msg": "He talks while he works. Stories about The Wreckyard no info board would tell. You leave with useful intel. +8 rep, some credits.",
         "c2": "Offer to help with the repair",
         "c2msg": "Two hours later, the engine runs. He takes a look at your ship in return. +12 rep, free repairs."
       },
@@ -497,8 +497,8 @@
         "c0msg": "It's good. You try not to think about it too much. +HP, -30cr.",
         "c1": "Ask where the meat comes from",
         "c1msg": "He looks at you. He doesn't answer. The kid looks at him too. You move on.",
-        "c2": "Report it to La Carcasse's authorities",
-        "c2msg": "La Carcasse's authorities? Good joke. There isn't really such a thing."
+        "c2": "Report it to The Wreckyard's authorities",
+        "c2msg": "The Wreckyard's authorities? Good joke. There isn't really such a thing."
       },
       "2": {
         "title": "The kids of the holds",
@@ -594,7 +594,7 @@
         "c0msg": "Neva needs information on {{target}}. +6 rep.",
         "c0fallbackTarget": "a destination",
         "c1": "Nod from a distance and keep going",
-        "c1msg": "She nods. That's enough. Le Purgatoire has its codes. +4 rep."
+        "c1msg": "She nods. That's enough. Purgatory has its codes. +4 rep."
       },
       "1": {
         "title": "A former prisoner with a debt",
@@ -716,11 +716,11 @@
         "desc": "A mechanical hum in a side corridor. A gyroscope. A cannon. It turns toward you before you understand what it is.",
         "c0": "Dive aside (30% survival)",
         "c0msgWin": "You avoid the worst of it. The burst grazes you. You run without looking back. -HP.",
-        "c0deathCause": "Automated sentinel in L'Arc Perdu. Pre-war system. No conscience. No mercy.",
+        "c0deathCause": "Automated sentinel in The Lost Arc. Pre-war system. No conscience. No mercy.",
         "c0msgLose": "The cannon didn't hesitate. You did.",
         "c1": "Raise your hands — maybe there's a surrender sensor",
         "c1msgPrison": "The system surrounds and escorts you. You end up in a cell. Raphazarus's soldiers arrive later.",
-        "c1deathCause": "The sentinel had no 'surrender' mode. L'Arc Perdu wasn't built to take prisoners.",
+        "c1deathCause": "The sentinel had no 'surrender' mode. The Lost Arc wasn't built to take prisoners.",
         "c1msgDeath": "There was no surrender protocol."
       },
       "1": {
@@ -730,7 +730,7 @@
         "c0msgPass": "One of them signals to let you through. Not a word. A test passed, you don't know why.",
         "c0journal": "Raphazarus's patrol let me pass. Not a word. They looked at me as if they knew something I don't.",
         "c0msgInterrogation": "They escort you. No force. 'You have questions. So do we.'",
-        "c0msgPrison": "One of them wasn't waiting for your answer. You wake up in a cell in L'Arc Perdu.",
+        "c0msgPrison": "One of them wasn't waiting for your answer. You wake up in a cell in The Lost Arc.",
         "c1": "Flee — immediately",
         "c1msgWin": "You run through the wreckage. They don't chase far. You get away, barely. -HP.",
         "c1msgLose": "They ran faster than you thought. The ruins hold no secrets for them.",
@@ -742,7 +742,7 @@
         "title": "Uncharted radiation zone",
         "desc": "A corridor deep in the ruins. The walls change color — a faint, almost beautiful glow. Something radiates in there.",
         "c0": "Enter — explore (high risk)",
-        "c0deathCause": "Lethal radiation in an uncharted zone of L'Arc Perdu. Fatal dose within minutes.",
+        "c0deathCause": "Lethal radiation in an uncharted zone of The Lost Arc. Fatal dose within minutes.",
         "c0msgDeath": "You move forward. The pain starts five minutes later. You don't come back out.",
         "c0msgHurt": "You recover pre-war artifacts. And nausea that won't fade anytime soon. -HP, +2 Artifacts.",
         "c0msgJackpot": "An armored capsule. Protected by the hull. Data from before the Great War. Priceless. +credits, +data.",

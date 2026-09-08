@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { questTitle } from '../../../engine/questI18n'
 import type { GameState, Quest } from '../../../types'
 import { getGossip } from '../../../engine/quests'
 
@@ -28,7 +29,7 @@ export function QuestOfferPanel({ gs, questOffer, addQuest, rerollsLeft, onRerol
       {questOffer ? (
         <div className="px-box px-box--hi">
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
-            <div className="t-sm t-bright">{questOffer.title}</div>
+            <div className="t-sm t-bright">{questTitle(questOffer)}</div>
             <div className={`tag t-xs ${questOffer.type === 'kill' ? 'tag--red' : questOffer.type === 'delivery' ? 'tag--cyan' : 'tag--dim'}`}>
               {questOffer.type.toUpperCase()}
             </div>

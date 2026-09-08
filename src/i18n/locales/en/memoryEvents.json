@@ -112,8 +112,8 @@
     "c2Msg": "-800 cr. He passes the message along. Emporium standing recovers slightly."
   },
   "raphazarusFavor": {
-    "title": "Courier from L'Arc Perdu",
-    "description": "A messenger in discreet armor. He doesn't give his name. He hands you a sealed cylinder. 'From the one who holds L'Arc Perdu. You behaved properly there.'",
+    "title": "Courier from The Lost Arc",
+    "description": "A messenger in discreet armor. He doesn't give his name. He hands you a sealed cylinder. 'From the one who holds The Lost Arc. You behaved properly there.'",
     "c0": "Open the cylinder",
     "c0Relics": "Artifacts from the Great War. Authentic. Priceless. +Relics, +Artifacts.",
     "c0Credits": "{{amount}} credits and a letter of recommendation. +20 rep. Raphazarus remembers.",

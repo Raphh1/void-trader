@@ -10,7 +10,7 @@
   "refueling": "REFUELING",
   "tankFull": "Tank full.",
   "noFuelDepot": "This station has no fuel depot.",
-  "joinFuelStation": "Head to a refueling station: La Carcasse, Port Méridien, La Balise, Confluent, La Raffinerie, Relais Noir, Relais de Transit, Fort Kharos.",
+  "joinFuelStation": "Head to a refueling station: The Wreckyard, Port Meridian, The Beacon, Confluence, The Refinery, Black Relay, Transit Relay, Fort Kharos.",
   "shipModules": "SHIP MODULES",
   "maxed": "MAXED",
   "mkProgress": "Mk {{current}} → Mk {{next}}",

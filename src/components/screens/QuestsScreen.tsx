@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { questTitle, questDescription } from '../../engine/questI18n'
 import type { TFunction } from 'i18next'
 import { useGameStore } from '../../store/gameStore'
 import { getNamedNpcs } from '../../engine/npcTracker'
@@ -204,11 +205,11 @@ export function QuestsScreen() {
           return (
             <div key={q.id} className="px-box">
               <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                <div className="t-sm t-bright" style={{ flex: 1, marginRight: '8px' }}>{q.title}</div>
+                <div className="t-sm t-bright" style={{ flex: 1, marginRight: '8px' }}>{questTitle(q)}</div>
                 <div className={`tag t-xs ${TYPE_CLASS[q.type]}`}>{TYPE_LABEL[q.type]}</div>
               </div>
 
-              <div className="t-xs" style={{ lineHeight: '2', marginBottom: '8px' }}>{q.description}</div>
+              <div className="t-xs" style={{ lineHeight: '2', marginBottom: '8px' }}>{questDescription(q)}</div>
 
               <div className="t-xs t-dim" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { questTitle, questDescription } from '../../engine/questI18n'
 import { TypewriterText } from '../ui/TypewriterText'
 import type { GameState, WeaponData } from '../../types'
 import { useGameStore } from '../../store/gameStore'
@@ -444,7 +445,7 @@ export function StationHub() {
         <div className="t-xs t-dim t-center">{t('delivery.header', { station: translateStationName(q.targetStation) })}</div>
         <div className="px-box px-box--hi">
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
-            <div className="t-sm t-bright">{q.title}</div>
+            <div className="t-sm t-bright">{questTitle(q)}</div>
             <div className="tag t-xs tag--cyan">{q.type.toUpperCase()}</div>
           </div>
           <div className="t-xs" style={{ lineHeight: '2.2', marginBottom: '10px' }}>
@@ -2084,7 +2085,7 @@ export function StationHub() {
               {isHere && !isDeliveryReady && !isPatrolHere && <span style={{ color: 'var(--gold)', fontSize: '8px' }}>{t('questSidebar.here')}</span>}
               {isDeliveryReady && <span style={{ color: 'var(--green)', fontSize: '8px' }}>{t('questSidebar.deliverTag')}</span>}
             </div>
-            <div style={{ fontSize: '9px', color: 'var(--text)', lineHeight: '1.6', marginBottom: '2px' }}>{q.title}</div>
+            <div style={{ fontSize: '9px', color: 'var(--text)', lineHeight: '1.6', marginBottom: '2px' }}>{questTitle(q)}</div>
             <div style={{ fontSize: '8px', color: 'var(--dim)' }}>→ {translateStationName(q.targetStation)}</div>
             {isPatrolHere && patrolProg < 3 && (
               <div style={{ marginTop: '4px', borderLeft: '2px solid var(--cyan)', paddingLeft: '6px', fontSize: '8px', color: 'var(--dim)' }}>
@@ -2105,8 +2106,8 @@ export function StationHub() {
             )}
             {isHov && (
               <div style={{ position: 'absolute', right: '104%', top: 0, width: '210px', background: 'var(--bg-panel2)', border: '2px solid var(--border-hi)', padding: '10px 12px', zIndex: 50, fontSize: '9px', lineHeight: '1.8', boxShadow: '2px 2px 0 var(--border-hi)' }}>
-                <div style={{ color: 'var(--gold)', marginBottom: '6px' }}>{q.title}</div>
-                <div style={{ color: 'var(--dim)', marginBottom: '6px', lineHeight: '1.6', fontSize: '8px' }}>{q.description}</div>
+                <div style={{ color: 'var(--gold)', marginBottom: '6px' }}>{questTitle(q)}</div>
+                <div style={{ color: 'var(--dim)', marginBottom: '6px', lineHeight: '1.6', fontSize: '8px' }}>{questDescription(q)}</div>
                 <div style={{ color: 'var(--text)' }}>{t('questSidebar.giver')} <span style={{ color: 'var(--cyan)' }}>{q.giver}</span></div>
                 <div style={{ color: 'var(--text)' }}>→ {translateStationName(q.targetStation)}</div>
                 {q.targetItem && <div style={{ color: 'var(--cyan)' }}>{t('questSidebar.item', { item: translateGood(q.targetItem) })}</div>}

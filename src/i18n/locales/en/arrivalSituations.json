@@ -13,13 +13,13 @@
     "c2": { "label": "Flee immediately", "msg": "You leave the way you came. -1 fuel." }
   },
   "laCarcasse": {
-    "title": "Arrival at La Carcasse",
+    "title": "Arrival at The Wreckyard",
     "description": "The smell of rusted metal and bootleg fuel. A kid runs toward you. 'You looking for work? I know a guy.'",
     "c0": { "label": "Listen to the kid", "msg": "A useful tip. +credits." },
     "c1": { "label": "Ignore him", "msg": "You walk past. He vanishes into the scrap." }
   },
   "portMeridien": {
-    "title": "Arrival at Port Méridien",
+    "title": "Arrival at Port Meridian",
     "description": "Clean, organized, monitored. A customs agent stamps your pass without looking at you.",
     "c0": { "label": "Declare your goods honestly", "msg": "+5 rep. No problem." },
     "c1": { "label": "Pass through without declaring", "caught": "Random check. Prison.", "safe": "You get through. This time." }
@@ -43,7 +43,7 @@
     "c1": { "label": "Present your military credentials (Veteran/Warlord)", "msg": "A professional welcome. +15 rep, some credits." }
   },
   "lePurgatoire": {
-    "title": "Arrival at Le Purgatoire",
+    "title": "Arrival at Purgatory",
     "description": "The doors open onto a heavy atmosphere. A former inmate watches you from the back.",
     "c0": { "label": "Enter and observe", "msg": "You walk in. The mood is heavy but manageable." },
     "c1": { "label": "Greet the old-timers (if you've done time)", "msg": "+10 rep. The solidarity of the condemned." }

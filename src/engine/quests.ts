@@ -1,4 +1,4 @@
-import type { GameState, Quest, QuestType } from '../types'
+import type { GameState, Quest, QuestType, QuestText } from '../types'
 import { getAccessibleStations, getStation, LOOT_ONLY_ITEMS, PILLAR_SEAT_STATIONS } from '../data/stations'
 import { getRunQuestRewardMult } from '../data/runModifiers'
 import { translateGood, translateStationName } from './goodsI18n'
@@ -12,9 +12,23 @@ const DESC_POOL_SIZES: Record<QuestType, number> = {
   delivery: 5, kill: 5, revenge: 5, escort: 5,
   sabotage: 4, heist: 4, extraction: 4, bounty: 4, patrol: 4,
 }
-function pickDesc(type: QuestType, params: Record<string, string>): string {
+// Rend la description ET renvoie sa recette : l'index tiré au hasard doit être
+// mémorisé, sinon le texte ne peut pas être régénéré dans une autre langue.
+function pickDesc(type: QuestType, bruts: Record<string, string>): { texte: string; recette: QuestText } {
   const idx = Math.floor(Math.random() * DESC_POOL_SIZES[type])
-  return i18n.t(`descs.${type}.${idx}`, { ns: 'quests', ...params })
+  const key = `descs.${type}.${idx}`
+  return { texte: i18n.t(key, { ns: 'quests', ...traduire(bruts) }), recette: { key, params: bruts } }
+}
+
+/** Traduit les paramètres bruts pour un rendu immédiat. */
+function traduire(bruts: Record<string, string>): Record<string, string> {
+  const out: Record<string, string> = {}
+  for (const [k, v] of Object.entries(bruts)) {
+    out[k] = k === 'item' ? translateGood(v)
+      : (k === 'target' || k === 'station') ? translateStationName(v)
+      : v
+  }
+  return out
 }
 
 // Économie volontairement dure : les quêtes rapportent nettement moins de crédits.
@@ -70,10 +84,12 @@ export function buildTutorialQuest(startStation: string): Quest {
   return {
     id: TUTORIAL_QUEST_ID,
     title: i18n.t('tutorial.title', { ns: 'quests', item: translateGood(item) }),
+    titleI18n: { key: 'tutorial.title', params: { item } },
     giver: 'Vieux Doss',
     giverStation: startStation,
     type: 'delivery',
     description: i18n.t('tutorial.description', { ns: 'quests', station: translateStationName(startStation), target: translateStationName(targetName), item: translateGood(item) }),
+    descI18n: { key: 'tutorial.description', params: { station: startStation, target: targetName, item } },
     targetStation: targetName,
     targetItem: item,
     creditReward: 800,
@@ -162,63 +178,65 @@ export function generateQuest(gs: GameState): Quest | null {
       const isCrafted = Math.random() < 0.20
       const item   = isCrafted ? pick(CRAFTED_DELIVERY_ITEMS) : pick(DELIVERY_ITEMS)
       const reward = isCrafted ? scale(rng(1400, 3200)) : scale(rng(600, 2200))
-      const desc   = isCrafted
-        ? i18n.t('craftedDeliveryDesc', { ns: 'quests', giver, item: translateGood(item), target: translateStationName(target.name) })
-        : pickDesc('delivery', { item: translateGood(item), giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.delivery', { ns: 'quests', item: translateGood(item) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, targetItem: item, creditReward: reward, repReward: isCrafted ? 15 : 10, dayMult }
+      const bruts  = { item, giver, target: target.name }
+      const dsc    = isCrafted
+        ? { texte: i18n.t('craftedDeliveryDesc', { ns: 'quests', ...traduire(bruts) }),
+            recette: { key: 'craftedDeliveryDesc', params: bruts } }
+        : pickDesc('delivery', bruts)
+      return { id, title: i18n.t('titles.delivery', { ns: 'quests', item: translateGood(item) }), titleI18n: { key: 'titles.delivery', params: { item } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, targetItem: item, creditReward: reward, repReward: isCrafted ? 15 : 10, dayMult }
     }
     case 'kill': {
       const boss   = BOSS_NAMES[target.name] ?? i18n.t('bossFallbackKill', { ns: 'quests', target: translateStationName(target.name) })
       const reward = scale(rng(1500, 5000))
-      const desc   = pickDesc('kill', { boss, giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.kill', { ns: 'quests', boss }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, creditReward: reward, repReward: 25, dayMult }
+      const dsc    = pickDesc('kill', { boss, giver, target: target.name })
+      return { id, title: i18n.t('titles.kill', { ns: 'quests', boss }), titleI18n: { key: 'titles.kill', params: { boss: BOSS_NAMES[target.name] ?? '', bossKey: 'bossFallbackKill', target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 25, dayMult }
     }
     case 'revenge': {
       const reward = scale(rng(900, 2800))
-      const desc   = pickDesc('revenge', { giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.revenge', { ns: 'quests', target: translateStationName(target.name) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, creditReward: reward, repReward: 18, dayMult }
+      const dsc    = pickDesc('revenge', { giver, target: target.name })
+      return { id, title: i18n.t('titles.revenge', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.revenge', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 18, dayMult }
     }
     case 'escort': {
       const reward = scale(rng(1400, 3500))
-      const desc   = pickDesc('escort', { giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.escort', { ns: 'quests', target: translateStationName(target.name) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, targetItem: 'Passager', creditReward: reward, repReward: 15, dayMult }
+      const dsc    = pickDesc('escort', { giver, target: target.name })
+      return { id, title: i18n.t('titles.escort', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.escort', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, targetItem: 'Passager', creditReward: reward, repReward: 15, dayMult }
     }
     case 'sabotage': {
       const reward = scale(rng(1800, 4500))
-      const desc   = pickDesc('sabotage', { giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.sabotage', { ns: 'quests', target: translateStationName(target.name) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, creditReward: reward, repReward: -5, dayMult }
+      const dsc    = pickDesc('sabotage', { giver, target: target.name })
+      return { id, title: i18n.t('titles.sabotage', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.sabotage', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: -5, dayMult }
     }
     case 'heist': {
       const item   = pick(HEIST_ITEMS)
       const reward = scale(rng(2200, 5500))
-      const desc   = pickDesc('heist', { item: translateGood(item), giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.heist', { ns: 'quests', item: translateGood(item) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, targetItem: item, creditReward: reward, repReward: 5, dayMult }
+      const dsc    = pickDesc('heist', { item, giver, target: target.name })
+      return { id, title: i18n.t('titles.heist', { ns: 'quests', item: translateGood(item) }), titleI18n: { key: 'titles.heist', params: { item } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, targetItem: item, creditReward: reward, repReward: 5, dayMult }
     }
     case 'extraction': {
       const item   = pick(EXTRACTION_ITEMS)
       const reward = scale(rng(1100, 3200))
-      const desc   = pickDesc('extraction', { item: translateGood(item), giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.extraction', { ns: 'quests', target: translateStationName(target.name) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, targetItem: item, creditReward: reward, repReward: 12, dayMult }
+      const dsc    = pickDesc('extraction', { item, giver, target: target.name })
+      return { id, title: i18n.t('titles.extraction', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.extraction', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, targetItem: item, creditReward: reward, repReward: 12, dayMult }
     }
     case 'bounty': {
       const boss   = BOSS_NAMES[target.name] ?? i18n.t('bossFallbackBounty', { ns: 'quests', target: translateStationName(target.name) })
       const reward = scale(rng(3000, 7000))
-      const desc   = pickDesc('bounty', { boss, giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.bounty', { ns: 'quests', boss }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, creditReward: reward, repReward: 35, dayMult }
+      const dsc    = pickDesc('bounty', { boss, giver, target: target.name })
+      return { id, title: i18n.t('titles.bounty', { ns: 'quests', boss }), titleI18n: { key: 'titles.bounty', params: { boss: BOSS_NAMES[target.name] ?? '', bossKey: 'bossFallbackBounty', target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 35, dayMult }
     }
     case 'patrol': {
       const reward = scale(rng(500, 1800))
-      const desc   = pickDesc('patrol', { giver, target: translateStationName(target.name) })
-      return { id, title: i18n.t('titles.patrol', { ns: 'quests', target: translateStationName(target.name) }), giver, giverStation: gs.currentStation, type,
-        description: desc, targetStation: target.name, creditReward: reward, repReward: 6, dayMult }
+      const dsc    = pickDesc('patrol', { giver, target: target.name })
+      return { id, title: i18n.t('titles.patrol', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.patrol', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 6, dayMult }
     }
   }
 }

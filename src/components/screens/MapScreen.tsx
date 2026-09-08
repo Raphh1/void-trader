@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
+import { questTitle } from '../../engine/questI18n'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { getStations, getAccessibleStations, PEACEFUL_STATIONS, findPath, FUEL_STATIONS } from '../../data/stations'
@@ -500,7 +501,7 @@ export function MapScreen() {
             </div>
           )}
           {gs.activeQuests.filter(q => q.targetStation === hovStation.name).map(q => (
-            <div key={q.id} style={{ fontSize: '8px', color: 'var(--gold)', marginTop: '4px' }}>★ {q.title}</div>
+            <div key={q.id} style={{ fontSize: '8px', color: 'var(--gold)', marginTop: '4px' }}>★ {questTitle(q)}</div>
           ))}
         </div>
       )}
