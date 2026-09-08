@@ -67,7 +67,7 @@ export function getClasses(): PlayerClass[] {
     bonusDesc: cl('maudit.bonusDesc'),
     color: '#8040ff', icon: '☠',
     cursedEvents: true,
-    combatAttackMult: 0.90, combatDefenseMult: 1.10,
+    combatAttackMult: 0.90, combatDefenseMult: 1.05,
   },
 
   // ── ÉQUILIBRÉES ───────────────────────────────────────────────────────────
@@ -79,6 +79,9 @@ export function getClasses(): PlayerClass[] {
     startStation: 'Port Méridien',
     bonusDesc: cl('marchand.bonusDesc'),
     color: '#c0c0c0', icon: '📦',
+    // Sa description promettait « Bonus sur les négociations » sans qu'aucune
+    // mécanique n'existe : le Marchand était la seule classe sans effet du tout.
+    tradeBonusPercent: 15,
   },
   {
     name: 'Mécanicien',
@@ -144,7 +147,7 @@ export function getClasses(): PlayerClass[] {
     bonusDesc: cl('heritier.bonusDesc'),
     color: '#ffd700', icon: '👑',
     cannotBuyWeapons: true, periodicIncome: 300,
-    combatAttackMult: 0.70, combatDefenseMult: 1.10,
+    combatAttackMult: 0.70, combatDefenseMult: 1.00,
   },
   {
     name: 'Hackeur',
@@ -155,7 +158,7 @@ export function getClasses(): PlayerClass[] {
     bonusDesc: cl('hackeur.bonusDesc'),
     color: '#40ffff', icon: '💻',
     seesPrices: true,
-    combatAttackMult: 0.82, combatDefenseMult: 1.12, combatStaminaRegen: 12,
+    combatAttackMult: 0.82, combatDefenseMult: 1.00, combatStaminaRegen: 12,
   },
   {
     name: 'Seigneur de guerre',

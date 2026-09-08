@@ -3,7 +3,25 @@ import i18n from '../i18n/config'
 
 const en = (key: string) => i18n.t(key, { ns: 'enemies' })
 
-export function getTierLow(): Enemy[] {
+// Ces getters reconstruisent leurs tableaux à chaque appel pour suivre la langue
+// active. C'est nécessaire, mais coûteux : stationPoolMap() reconstruisait les
+// 161 ennemis des dizaines de fois par tirage (~79 ms par rencontre, soit un gel
+// visible sur mobile). On mémoïse par langue : le cache est invalidé dès que la
+// langue change, donc le texte reste correct. Sûr car aucun objet Enemy n'est
+// muté en place (les PV de combat vivent dans CombatState, scaleEnemy copie).
+function memoByLang<T>(build: () => T): () => T {
+  let cachedLang: string | null = null
+  let cached: T
+  return () => {
+    if (cachedLang !== i18n.language) {
+      cached = build()
+      cachedLang = i18n.language
+    }
+    return cached
+  }
+}
+
+function buildTierLow(): Enemy[] {
   return [
   { name: 'Pickpocket désespéré',     maxHp: 20, damageMin: 3,  damageMax: 8,  lootMin: 50,  lootMax: 180, description: en('lowTier.pickpocketDesespere'),                  captureChance: 20, killChance: 5,  isBoss: false, role: 'normal' },
   { name: 'Ivrogne agressif',         maxHp: 25, damageMin: 2,  damageMax: 7,  lootMin: 40,  lootMax: 120, description: en('lowTier.ivrogneAgressif'),                      captureChance: 20, killChance: 5,  isBoss: false, role: 'normal' },
@@ -41,7 +59,7 @@ export function getTierLow(): Enemy[] {
 ]
 }
 
-export function getTierMid(): Enemy[] {
+function buildTierMid(): Enemy[] {
   return [
   { name: 'Pirate solitaire',          maxHp: 50, damageMin: 8,  damageMax: 18, lootMin: 240,  lootMax: 540,  description: en('midTier.pirateSolitaire'),              captureChance: 25, killChance: 20, isBoss: false, role: 'normal' },
   { name: 'Mercenaire bas de gamme',   maxHp: 55, damageMin: 9,  damageMax: 20, lootMin: 300,  lootMax: 600, description: en('midTier.mercenaireBasDeGamme'),                      captureChance: 20, killChance: 20, isBoss: false, role: 'normal' },
@@ -79,7 +97,7 @@ export function getTierMid(): Enemy[] {
 ]
 }
 
-export function getTierHigh(): Enemy[] {
+function buildTierHigh(): Enemy[] {
   return [
   { name: 'Élite des Faucons Noirs',     maxHp: 120, damageMin: 20, damageMax: 40, lootMin: 600,  lootMax: 1500, description: en('highTier.eliteDesFauconsNoirs'),               captureChance: 15, killChance: 25, isBoss: false, role: 'normal' },
   { name: 'Garde de l\'Emporium',        maxHp: 130, damageMin: 18, damageMax: 38, lootMin: 480,  lootMax: 1200, description: en('highTier.gardeDeLEmporium'),              captureChance: 40, killChance: 5,  isBoss: false, role: 'tank' },
@@ -117,7 +135,7 @@ export function getTierHigh(): Enemy[] {
 ]
 }
 
-export function getTierBoss(): Enemy[] {
+function buildTierBoss(): Enemy[] {
   return [
   { name: 'Alanossa',                    maxHp: 200, damageMin: 30, damageMax: 55, lootMin: 2400,  lootMax: 4800, description: en('bossTier.alanossa'),      captureChance: 10, killChance: 40, isBoss: true, role: 'normal' },
   { name: 'La Faucon',                   maxHp: 180, damageMin: 28, damageMax: 52, lootMin: 2100,  lootMax: 4200, description: en('bossTier.laFaucon'),        captureChance: 15, killChance: 35, isBoss: true, role: 'normal' },
@@ -199,7 +217,7 @@ export function getEnemyForDepth(depth: number, day: number): Enemy {
 
 // ── COMBATTANTS DE L'ARÈNE DE KORSUN ─────────────────────────────────────────
 // 10 adversaires en escalade pour le tournoi
-export function getArenaFighters(): Enemy[] {
+function buildArenaFighters(): Enemy[] {
   return [
   { name: 'Recrue des arènes',        maxHp: 50,  damageMin: 7,  damageMax: 15, lootMin: 0,  lootMax: 0, description: en('arenaFighters.recrueDesArenes'),             captureChance: 0, killChance: 5,  isBoss: false, role: 'normal' },
   { name: 'Gladiateur local',         maxHp: 70,  damageMin: 10, damageMax: 20, lootMin: 0,  lootMax: 0, description: en('arenaFighters.gladiateurLocal'),                    captureChance: 0, killChance: 8,  isBoss: false, role: 'normal' },
@@ -314,7 +332,7 @@ function poolScientifique(): StationPool {
   }
 }
 
-function stationPoolMap(): Record<string, StationPool> {
+function buildStationPoolMap(): Record<string, StationPool> {
   return {
   // Faucons Noirs
   'Arc Ouest Apocalypse':  poolFaucon(),
@@ -389,3 +407,15 @@ export function getEnemyForStation(stationName: string, depth: number, day: numb
   const arr = pool[tier]
   return arr[Math.floor(Math.random() * arr.length)]
 }
+
+export const getTierLow = memoByLang(buildTierLow)
+
+export const getTierMid = memoByLang(buildTierMid)
+
+export const getTierHigh = memoByLang(buildTierHigh)
+
+export const getTierBoss = memoByLang(buildTierBoss)
+
+export const getArenaFighters = memoByLang(buildArenaFighters)
+
+const stationPoolMap = memoByLang(buildStationPoolMap)

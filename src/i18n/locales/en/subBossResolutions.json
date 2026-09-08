@@ -4,7 +4,9 @@
     "manipulate": "Manipulate",
     "sabotage": "Sabotage",
     "ally": "Recruit",
-    "betray": "Betray"
+    "betray": "Betray",
+    "bribe": "Buy off",
+    "service": "Bargain"
   },
   "canResolve": {
     "manipulateWhyNot": "Short {{amount}} cr",
@@ -21,7 +23,16 @@
     "betrayHintFail": "Standing 15+ · big loot, -standing",
     "betrayHintOk": "Big loot · -standing, -reputation",
     "conditionsNotMet": "Conditions not met.",
-    "unavailable": "Method unavailable."
+    "unavailable": "Method unavailable.",
+    "bribeWhyNot": "He laughs in your face: {{amount}} cr short.",
+    "bribeHintFail": "Stands down for {{cr}} cr — certain, but far out of reach for now.",
+    "bribeHintOk": "Stands down for {{cr}} cr. No risk: he takes it and vanishes.",
+    "serviceHintFail": "He wants a favor before standing down: {{list}}",
+    "serviceHintOk": "You meet his terms ({{list}}). He stands down without a word.",
+    "serviceNotAccepted": "He is waiting for an answer. Commit: {{list}}",
+    "servicePending": "Bargain in progress — still missing: {{missing}}",
+    "servicePactBroken": "{{name}} does not renegotiate. You gave your word once.",
+    "servicePactBrokenHint": "Bargain broken. Only force or money remain."
   },
   "resolve": {
     "manipulateSuccess": "You stage a setup tailored to him: \"{{trait}}.\" You exploit exactly that. {{name}} takes the bait and withdraws, convinced he made the right call. He'll never understand. -{{cr}} cr.",
@@ -29,6 +40,43 @@
     "sabotageSuccess": "You rig his systems ahead of time — {{mechanic}}. When {{name}} tries to react, nothing responds. Neutralized without a shot fired. -2 Electronic components.",
     "sabotageFail": "The sabotage goes wrong — an alarm triggers. {{name}} now knows you came for him, and he's ready for you. -2 Electronic components.",
     "allySuccess": "You don't fight him: you offer him something better. \"{{motivation}}\" — you show him your path serves that goal better than {{boss}} ever will. {{name}} hesitates for a long time... then shakes your hand. He switches sides, and opens the doors to {{boss}}. +{{reward}} cr, +standing, +reputation.",
-    "betraySuccess": "You play the friend, the ally, the comrade. {{name}} lowers his guard — the first mistake of his career, and the last. You take everything: +{{loot}} cr. But {{boss}} will know how his lieutenant fell, and the whole sector will remember your method. -standing, -reputation."
+    "betraySuccess": "You play the friend, the ally, the comrade. {{name}} lowers his guard — the first mistake of his career, and the last. You take everything: +{{loot}} cr. But {{boss}} will know how his lieutenant fell, and the whole sector will remember your method. -standing, -reputation.",
+    "bribeSuccess": "{{name}} counts the {{cr}} cr twice, then waves his men to lower their weapons. \"Nothing personal. Tell {{boss}} the rate went up.\"",
+    "serviceSuccess": "{{name}} checks that you kept your word, nods once, and steps aside. \"One favor deserves another. {{boss}} doesn't need to know.\""
+  },
+  "service": {
+    "missing": {
+      "credits": "{{amount}} cr short",
+      "reputation": "reputation {{value}} — he demands {{needed}}",
+      "item": "{{name}}: {{have}}/{{needed}}",
+      "combatsWon": "{{value}} combats won — he demands {{needed}}",
+      "visitStation": "you have never set foot on {{station}}",
+      "bossKill": "{{boss}} is still alive",
+      "day": "day {{value}} — he will not deal before day {{needed}}",
+      "subBoss": "one of his rivals must fall first",
+      "pillarStanding": "{{pillar}} standing {{cur}} — he demands {{needed}}",
+      "factionReputation": "{{faction}} reputation {{cur}} — he demands {{needed}}",
+      "questsCompleted": "{{value}} quests completed — he demands {{needed}}"
+    },
+    "req": {
+      "credits": "{{amount}} cr",
+      "reputation": "reputation {{value}}",
+      "item": "{{qty}}× {{name}}",
+      "combatsWon": "{{value}} combats won",
+      "visitStation": "having passed through {{station}}",
+      "bossKill": "having killed {{boss}}",
+      "day": "day {{value}} minimum",
+      "subBoss": "a rival eliminated",
+      "pillarStanding": "{{pillar}} standing {{value}}",
+      "factionReputation": "{{faction}} reputation {{value}}",
+      "questsCompleted": "{{value}} quests completed"
+    }
+  },
+  "pact": {
+    "accepted": "{{name}} stares at you for a long moment, then nods. The bargain is struck: {{list}}. Come back when it is done — he does not like waiting.",
+    "broken": "You tell {{name}} the bargain is off. He says nothing. That is far worse than shouting: he will never offer you anything again.",
+    "journalAccepted": "Bargain struck with {{name}}, at {{station}}. He expects me to keep my word.",
+    "journalHonored": "Bargain honored. {{name}} stood down without another word.",
+    "journalBroken": "I broke my word with {{name}}. He will remember."
   }
 }

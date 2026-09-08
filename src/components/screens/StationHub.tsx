@@ -18,15 +18,15 @@ import { StopTheBar, type StopResult } from '../minigames/StopTheBar'
 import { CardGame } from '../minigames/CardGame'
 import { ScenarioGame } from '../minigames/ScenarioGame'
 import { CustomsGame } from '../minigames/CustomsGame'
-import { translateGood, translateWeaponName, translateArmorName, translateEnemyName, translateClassName, translateStationName } from '../../engine/goodsI18n'
+import { translateGood, translateWeaponName, translateArmorName, translateEnemyName, translateClassName, translateStationName, translateNpcRole } from '../../engine/goodsI18n'
 import { stalkerToEnemy, getStalkerAmbushChance, getStalkerPresenceText } from '../../engine/stalker'
 import { isFactionBlockedAtStation, getStationFactionName, STATION_FACTION_CONTROL } from '../../engine/factionRep'
 import { getArrivalSituation, type ArrivalSituation } from '../../engine/arrivalSituations'
 import { getBossHomeVisit, resolveBossHomeVisit, type BossHomeVisitDef, type BossHomeVisitResult } from '../../engine/bossHomeVisits'
 import { getRunModifiers } from '../../data/runModifiers'
 import { getRunObjective } from '../../data/runObjectives'
-import { getSubBossAtStation, isSubBossDefeated, getSubBossProgress, arePillarSubBossesCleared, getSubBossesForPillar, rollLieutenantClueEvent, LIEUTENANT_CLUE_REVEAL_LEVEL, type LieutenantClueEvent } from '../../data/subBosses'
-import { canResolveSubBoss, resolveSubBoss, getResolutionMeta } from '../../engine/subBossResolutions'
+import { getSubBossAtStation, isSubBossDefeated, getSubBossProgress, arePillarSubBossesCleared, getSubBossesForPillar, getSubBossStation, rollLieutenantClueEvent, LIEUTENANT_CLUE_REVEAL_LEVEL, type LieutenantClueEvent } from '../../data/subBosses'
+import { canResolveSubBoss, resolveSubBoss, getResolutionMeta, hasPact, pactProgress, breakPact } from '../../engine/subBossResolutions'
 import { getAvailableClues, canCollectClue, collectClue } from '../../engine/nexus'
 import { getDailyExpenses, getDailyExpenseBreakdown } from '../../engine/expenses'
 import { resolveShipDown } from '../../engine/shipDamage'
@@ -47,6 +47,7 @@ type HubMode = 'menu' | 'explore-result' | 'wander-result' | 'quest-offer' | 'st
 export function StationHub() {
   const { t, i18n }   = useTranslation('stationHub')
   const DANGER_LABEL = t('dangerLabels', { returnObjects: true }) as unknown as string[]
+
   const gs           = useGameStore(s => s.gs!)
   const goTo         = useGameStore(s => s.goTo)
   const startCombat  = useGameStore(s => s.startCombat)
@@ -55,6 +56,15 @@ export function StationHub() {
   const manualCompleteQuest = useGameStore(s => s.manualCompleteQuest)
   const resolveRayaneGamble = useGameStore(s => s.resolveRayaneGamble)
   const collectNexusFragment = useGameStore(s => s.collectNexusFragment)
+
+  // Marchés en cours avec des lieutenants, recalculés à chaque rendu pour que
+  // la progression suive l'état réel du joueur (cargo, réputation, voyages...).
+  const activePacts = (gs.lieutenantPacts ?? [])
+    .map(id => ['alanossa', 'cesarion', 'raphazarus', 'scotty']
+      .flatMap(p => getSubBossesForPillar(p, gs))
+      .find(sb => sb.id === id))
+    .filter((sb): sb is NonNullable<typeof sb> => !!sb)
+    .map(sb => ({ sb, progress: pactProgress(gs, sb) }))
 
   function tickPatrolProgress() {
     const q = gs.activeQuests.find(aq => aq.type === 'patrol' && aq.targetStation === gs.currentStation)
@@ -1387,10 +1397,29 @@ export function StationHub() {
                         }
                       }}>
                       <div className="t-xs t-bright">{meta.icon} {meta.label}</div>
+                      {/* Ce que le lieutenant demande, dans ses mots — sans ça,
+                          les conditions ne sont qu'une liste de courses. */}
+                      {action === 'service' && subBoss.service && (
+                        <div className="t-xs mt4" style={{ lineHeight: 1.9, fontStyle: 'italic', color: 'var(--cyan)' }}>
+                          « {subBoss.service.demand} »
+                        </div>
+                      )}
                       <div className="t-xs t-dim mt2">{check.ok ? check.hint : check.reason}</div>
                     </button>
                   )
                 })}
+                {/* Se dégager d'un marché en cours : possible, mais il ne
+                    reproposera plus rien — seuls la force et l'argent resteront. */}
+                {hasPact(gs, subBoss) && (
+                  <button className="px-btn" style={{ borderColor: 'var(--red)', color: 'var(--red)', textAlign: 'left' }}
+                    onClick={() => {
+                      const res = breakPact(gs, subBoss)
+                      patch(res.patch)
+                      setSubBossResult({ message: res.message, success: false })
+                    }}>
+                    <div className="t-xs">{t('lieutenant.breakPact')}</div>
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -1688,7 +1717,7 @@ export function StationHub() {
             <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
               <div>
                 <span className="t-sm t-bright">{localNpc.name}</span>
-                <span className="t-xs t-dim" style={{ marginLeft: '8px' }}>{localNpc.role}</span>
+                <span className="t-xs t-dim" style={{ marginLeft: '8px' }}>{translateNpcRole(localNpc.role)}</span>
               </div>
               {svc && (
                 <span className="t-xs" style={{ color: serviceUsed ? 'var(--text-dim)' : 'var(--cyan)', opacity: serviceUsed ? 0.5 : 1 }}>
@@ -1990,11 +2019,38 @@ export function StationHub() {
     <div className="hub-sidebar">
       <div style={{ fontSize: '9px', letterSpacing: '2px', color: 'var(--dim)', borderBottom: '1px solid var(--border)', paddingBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>{t('questSidebar.header')}</span>
-        <span style={{ color: 'var(--cyan)' }}>{gs.activeQuests.length}</span>
+        <span style={{ color: 'var(--cyan)' }}>{gs.activeQuests.length + activePacts.length}</span>
       </div>
-      {gs.activeQuests.length === 0 && (
+      {gs.activeQuests.length === 0 && activePacts.length === 0 && (
         <div style={{ fontSize: '9px', color: 'var(--dim)', fontStyle: 'italic', padding: '8px 0' }}>{t('questSidebar.noneActive')}</div>
       )}
+
+      {/* Marchés passés avec des lieutenants : suivis comme des quêtes, avec le
+          détail de ce qui manque encore et un rappel quand on est sur place. */}
+      {activePacts.map(({ sb, progress }) => {
+        const isHere = getSubBossStation(gs, sb) === gs.currentStation
+        const borderCol = progress.done ? 'var(--green)' : isHere ? 'var(--gold)' : 'var(--purple)'
+        return (
+          <div key={sb.id}
+            style={{ background: 'var(--bg-panel)', border: `2px solid ${borderCol}`, padding: '8px 10px', cursor: 'pointer' }}
+            onClick={() => goTo('quests')}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+              <span style={{ fontSize: '8px', letterSpacing: '1px', color: 'var(--purple)' }}>{t('questSidebar.pactType')}</span>
+              {progress.done && isHere && <span style={{ color: 'var(--green)', fontSize: '8px' }}>{t('questSidebar.pactReady')}</span>}
+              {isHere && !progress.done && <span style={{ color: 'var(--gold)', fontSize: '8px' }}>{t('questSidebar.here')}</span>}
+            </div>
+            <div style={{ fontSize: '9px', color: 'var(--text)', lineHeight: '1.6', marginBottom: '2px' }}>
+              {t('questSidebar.pactWith', { name: translateEnemyName(sb.name) })}
+            </div>
+            <div style={{ fontSize: '8px', color: 'var(--dim)' }}>→ {translateStationName(getSubBossStation(gs, sb))}</div>
+            {!progress.done && (
+              <div style={{ marginTop: '4px', borderLeft: '2px solid var(--purple)', paddingLeft: '6px', fontSize: '8px', color: 'var(--dim)', lineHeight: 1.6 }}>
+                {progress.missing.join(' · ')}
+              </div>
+            )}
+          </div>
+        )
+      })}
       {gs.activeQuests.map(q => {
         const isHere = q.targetStation === gs.currentStation
         const isDeliveryReady = isHere && (q.type === 'delivery' || q.type === 'heist') && !!q.targetItem && (gs.cargo[q.targetItem!] ?? 0) > 0

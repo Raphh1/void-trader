@@ -5,7 +5,7 @@
   },
   "ferrailleur": {
     "description": "Your ship is falling apart in real time. You repair it with scrap and hope. Mostly scrap.",
-    "bonusDesc": "⚠ 30% chance to lose cargo while traveling · Tough but slow"
+    "bonusDesc": "⚠ 30% chance to lose cargo while travelling · Scrap bomb: raw damage no mitigation absorbs"
   },
   "endette": {
     "description": "Someone wants their money back. Every. Day. You owe 50cr a day to someone you don't want to meet.",
@@ -21,19 +21,19 @@
   },
   "maudit": {
     "description": "The universe simply doesn't like you. Positive events have a 50% chance of turning against you.",
-    "bonusDesc": "⚠ Positive events 50% chance to fizzle · Balanced combat"
+    "bonusDesc": "⚠ Positive events 50% chance to fizzle · The curse refuses your death: 1×/run, survive at 1 HP"
   },
   "marchand": {
     "description": "Nothing special. Honest work in a dishonest universe. You buy, you sell, you survive.",
-    "bonusDesc": "Neutral class · Bonus on negotiations · Balanced stats"
+    "bonusDesc": "−15% on purchases and +15% on sales · Buys an opponent out of the fight · Balanced stats"
   },
   "mecanicien": {
     "description": "You know engines. You're broke as hell. But your ship holds together — roughly.",
-    "bonusDesc": "Max fuel +4 · Stamina bonus · Good combat endurance"
+    "bonusDesc": "Max fuel +4 · Field rig: jams the enemy weapon and patches himself up · Good endurance"
   },
   "explorateur": {
     "description": "Seen it all. Failed at it all. But you keep moving forward. Calm places reward you better.",
-    "bonusDesc": "Neutral events more frequent · Sharpened reflexes (+8% crit)"
+    "bonusDesc": "Neutral events more frequent · Reads the terrain: blinds the enemy · +8% crit"
   },
   "medecin": {
     "description": "You patch bodies in clandestine clinics. You know death. You delay it.",
@@ -49,11 +49,11 @@
   },
   "heritier": {
     "description": "Old money. Pacifist upbringing. You don't know how to fight but your wallet makes up for it.",
-    "bonusDesc": "+300cr every 5 days · ⚠ Can't buy weapons · Weak in combat"
+    "bonusDesc": "+300cr every 5 days · Hires an escort that soaks 3 hits · ⚠ Cannot buy weapons"
   },
   "hackeur": {
     "description": "Systems have no secrets from you. Walls are suggestions. Locks, invitations.",
-    "bonusDesc": "Sees destination prices · Hacks enemy equipment · Physically fragile"
+    "bonusDesc": "Sees prices at destination · Intrusion: cuts the weapon AND special mechanics for 3 turns · Fragile"
   },
   "seigneurDeGuerre": {
     "description": "Feared everywhere. Welcome nowhere peaceful. Pirates avoid you. So do merchants.",

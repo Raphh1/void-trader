@@ -216,7 +216,7 @@ export function MarketScreen() {
               .filter(item => !LOOT_ONLY_ITEMS.has(item))
               .map(item => {
               const rawPrice = Math.floor((frozenBasePrices[item] ?? 200) * stationSeed * getWorldEventPriceMultiplier(item, events) * runBuyMult * getFullBuyMult(gs, station.type, item))
-              const price = Math.floor(rawPrice * (1 - discount / 100) * (1 + factionSurcharge / 100))
+              const price = Math.floor(rawPrice * (1 - discount / 100) * (1 + factionSurcharge / 100) * (1 - (gs.class.tradeBonusPercent ?? 0) / 100))
               const canBuy = gs.credits >= price
               const banned = gs.class.cannotBuyWeapons && (item.toLowerCase().includes('arme') || item.toLowerCase().includes('munitions'))
               const itemMax = ITEM_CARGO_MAX[item]
@@ -301,7 +301,8 @@ export function MarketScreen() {
               const sellPrice = Math.floor(getBasePrice(item) * stationSeed * getFullSellMult(gs, station.type, item) * getWorldEventPriceMultiplier(item, events) * (1 + soutePct / 100) * culteMult * (factionSurcharge > 0 ? 0.75 : 1))
               const medBonus  = gs.class.medicBonus && item === 'Médicaments'
                 ? Math.floor(sellPrice * 0.5) : 0
-              const total = sellPrice + medBonus
+              const tradeBonus = Math.floor(sellPrice * (gs.class.tradeBonusPercent ?? 0) / 100)
+              const total = sellPrice + medBonus + tradeBonus
               return (
                 <button key={item} className="px-btn" style={{ borderColor: '#206040', color: 'var(--green)' }}
                   onClick={() => { playSell(); sellCargo(item, sellPrice) }}>

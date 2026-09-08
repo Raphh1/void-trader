@@ -5,7 +5,8 @@
     "backstory": "A former sharpshooter recruited by Alanossa after he took down three infiltrators in one night. He's never left his post since — literally. He sleeps in his watch chair. Recruits say he never blinks.",
     "combatMechanic": "Predicts your attacks: auto-dodges every 3 turns. Must be struck while reloading.",
     "specialAbility": "Preemptive strike — attacks first every turn, ignores defensive stance.",
-    "enemyDesc": "He's been watching for so long he doesn't know how to do anything else."
+    "enemyDesc": "He's been watching for so long he doesn't know how to do anything else.",
+    "serviceDemand": "Three of my optical relays died this month. I don't leave this chair — I've seen what happens when someone does. Go down to Station Ombre, check the relay hasn't been turned, and bring back what I need to fix it. If you come back, you're not one of theirs."
   },
   "ala2": {
     "personality": "Calculating, cold, indispensable. He knows the Falcons collapse without him.",
@@ -13,7 +14,8 @@
     "backstory": "A former smuggler recruited by Alanossa to organize her logistics. He made the Falcons self-sufficient in a year. He knows every route, every cache, every debt. Killing him would be easy. Replacing him, impossible.",
     "combatMechanic": "Uses support drones that repair his armor. The drones must be destroyed first (3 drones, 40 HP each).",
     "specialAbility": "Call for reinforcements — summons a drone that absorbs the next hit.",
-    "enemyDesc": "Without him the faction collapses. He knows it."
+    "enemyDesc": "Without him the faction collapses. He knows it.",
+    "serviceDemand": "You want through? Prove you understand this trade. I've got a column dry for six days — weapons are useless when men don't eat. Resupply it. Power isn't what you kill, it's what you supply."
   },
   "ala3": {
     "personality": "Silent, lethal, loyal unto death. He's the armed fist Alanossa uses when words no longer suffice.",
@@ -21,7 +23,8 @@
     "backstory": "No one knows his real name. Alanossa found him in the ruins of Station Quarantaine — sole survivor of an epidemic that killed three hundred people. She took him in, trained him, forged him. He became her shadow.",
     "combatMechanic": "Invisible on odd turns — can't be hit. Automatically counter-attacks when you miss.",
     "specialAbility": "Ghost strike — guaranteed critical hit from invisibility.",
-    "enemyDesc": "You see him only once. Usually it's too late."
+    "enemyDesc": "You see him only once. Usually it's too late.",
+    "serviceDemand": "Alanossa gave me a name when I had nothing left. I don't want another. But someone is still digging through the Station Quarantaine registers, and I'm in them. Erase me from those archives — and show me you can kill quietly."
   },
   "ala4": {
     "personality": "Charismatic, ruthless, pragmatic. She inspires loyalty through both fear AND respect.",
@@ -29,7 +32,8 @@
     "backstory": "A former military officer who deserted after watching her commander sacrifice an entire regiment to save his career. Alanossa offered her something the army never had: justice. Now she runs the Nest with iron discipline.",
     "combatMechanic": "Switches stance every 2 turns: offensive (×1.5 damage) or defensive (÷2 damage taken). You have to adapt.",
     "specialAbility": "Command — gains +5% cumulative damage each turn.",
-    "enemyDesc": "Chief of the Black Falcons. Calculating. Relentless."
+    "enemyDesc": "Chief of the Black Falcons. Calculating. Relentless.",
+    "serviceDemand": "The Ghost is closer to her than I am, and he has no ambition — what a waste. Take him off the board, and make yourself a real name among the Hawks while you're at it. The day I'm her right hand, I'll remember who helped me get there."
   },
   "ces1": {
     "personality": "Smiling, poisonous, dangerous. She sells with a smile. What she sells always kills.",
@@ -37,7 +41,8 @@
     "backstory": "Daughter of merchants assassinated by pirates. She rebuilt the family empire selling the same weapons that killed her parents — to the same people. \"Business has no morals,\" she says. She genuinely believes it.",
     "combatMechanic": "Poisons her weapons — every hit inflicts stacking poison. The longer the fight, the more dangerous it gets.",
     "specialAbility": "Commercial poison — every turn, the player loses 5 extra HP (stacking).",
-    "enemyDesc": "What she sells always kills, even the insurance policies."
+    "enemyDesc": "What she sells always kills, even the insurance policies.",
+    "serviceDemand": "I have unsold stock and a buyer getting nervous. Bring me the ammunition and the advance, I'll handle the rest. And don't ask who it's for — business has no morals, only deadlines."
   },
   "ces2": {
     "personality": "Brutal, territorial, possessive. Everything that passes through his relay belongs to him.",
@@ -45,7 +50,8 @@
     "backstory": "A former customs officer turned logistics warlord. Cesarion recruited him because he was the only one who understood how to tax without killing trade. His efficiency has a price: regular disappearances of \"noncompliant\" merchants.",
     "combatMechanic": "Steals your credits on every successful hit (5% of your credits per strike). A fight against the clock.",
     "specialAbility": "Blood tax — every successful attack costs you credits.",
-    "enemyDesc": "He controls Relais de Transit. Everything that passes through, he taxes."
+    "enemyDesc": "He controls Relais de Transit. Everything that passes through, he taxes.",
+    "serviceDemand": "Everything passing through my relay pays me. You included. Make the trip yourself, and bring me goods nobody will claim ownership of. What has no owner files no complaint."
   },
   "ces3": {
     "personality": "Methodical, invisible, omniscient within his domain. He knows everything that comes in and goes out.",
@@ -53,7 +59,8 @@
     "backstory": "No one knows his face — he's worn a mask since arriving at the Warehouse. Some say he's a former spy, others an ex-convict. What's certain: he knows all the Emporium's secrets. Cesarion keeps him alive because he can't be replaced.",
     "combatMechanic": "Knows your gear — reduces your weapon's effectiveness by 30%. Switching weapons mid-fight throws him off.",
     "specialAbility": "Tactical analysis — dodges the first hit of every sequence and counter-attacks.",
-    "enemyDesc": "He knows all the secrets. He buries the rest."
+    "enemyDesc": "He knows all the secrets. He buries the rest.",
+    "serviceDemand": "I want neither your money nor your violence — both leave traces. Bring me classified data, and prove you've moved around this sector enough to have seen things. What you know interests me more than what you're worth."
   },
   "ces4": {
     "personality": "Elusive, diplomatic on the surface, ruthless in the shadows. The man behind the man.",
@@ -61,7 +68,8 @@
     "backstory": "A former diplomat of a vanished nation. He watched his world collapse and swore never to be on the losing side again. Cesarion uses him as an interface with the outside world — a friendly face for brutal decisions.",
     "combatMechanic": "Has personal guards (2 guards, 60 HP each) who must be eliminated first. He heals himself as long as a guard is alive.",
     "specialAbility": "Ghost directive — heals 15 HP/turn as long as a guard is alive.",
-    "enemyDesc": "Officially a bureaucrat. Unofficially, a ghost."
+    "enemyDesc": "Officially a bureaucrat. Unofficially, a ghost.",
+    "serviceDemand": "I once bet on a side that ceased to exist. I won't make that mistake twice. Come back when the Emporium acknowledges you, when you have enough to carry weight in a negotiation, and when the Archivist is no longer between us. Then we'll talk as equals."
   },
   "raph1": {
     "personality": "Broken, methodical, haunted. He still obeys orders given forty years ago.",
@@ -69,7 +77,8 @@
     "backstory": "Last survivor of Raphazarus's 3rd Battalion. He watched his comrades die one by one during the Siege of Les Cendres — 47 days without resupply. When rescue arrived, he was the only one standing. Raphazarus shook his hand and said: \"You stay here. You wait.\" He's still waiting.",
     "combatMechanic": "Fights with relentless military discipline: always attacks twice in a row, but pauses one turn every 4 turns to \"reload\".",
     "specialAbility": "Firing cadence — double attack every turn, pauses every 4 turns.",
-    "enemyDesc": "He's been waiting for forty years. He has all the time in the world."
+    "enemyDesc": "He's been waiting for forty years. He has all the time in the world.",
+    "serviceDemand": "Forty-seven days. By the end, we were eating the dead men's rations. Go back to the Ashes, find where they fell, and bring medicine. Not for me — for them. It's forty years too late, but I could never go back alone."
   },
   "raph2": {
     "personality": "Cold, surgical, devoted beyond reason. Her husband died under Raphazarus's orders — and she's grateful to him for it.",
@@ -77,7 +86,8 @@
     "backstory": "Her husband commanded Raphazarus's elite fleet. He died covering the General's retreat to L'Arc Perdu. Instead of hating him for it, she swore eternal allegiance. \"My husband chose to die for him. That choice deserves to be honored.\" She's become the most relentless guardian of all the veterans — the only one Raphazarus still occasionally contacts.",
     "combatMechanic": "Wears mourning armor that absorbs 40% of physical damage. Energy weapons (burn, shock) ignore this reduction.",
     "specialAbility": "Mourning armor — reduces physical damage by 40%, vulnerable to energy weapons.",
-    "enemyDesc": "Her husband died for Raphazarus. She'll live for him."
+    "enemyDesc": "Her husband died for Raphazarus. She'll live for him.",
+    "serviceDemand": "My husband died covering the General's retreat. He was never given honors — there was no one left to give them. Bring me what I need to reforge his breastplate, and come back with a name that carries weight. I won't entrust his memory to a stranger."
   },
   "raph3": {
     "personality": "Invisible, silent, terrifying. He might not even be human anymore — no one's sure.",
@@ -85,7 +95,8 @@
     "backstory": "Former head of military intelligence for Raphazarus's 7th Corps. After the Great War, he erased every trace of L'Arc Perdu from official archives — coordinates, manifests, navigation logs. Then he erased himself. Station Fantôme bears his name: no one knows if he really lives there or if he's everywhere at once.",
     "combatMechanic": "Alternates between two phases: visible (attacks normally) and spectral (immune to physical attacks, can only be hit by effects/special weapons). Switches phase every 2 turns.",
     "specialAbility": "Spectral phase — immune to direct attacks every 2 turns.",
-    "enemyDesc": "Head of intelligence. He erased L'Arc Perdu from the maps."
+    "enemyDesc": "Head of intelligence. He erased L'Arc Perdu from the maps.",
+    "serviceDemand": "I erased the Lost Arc from every official archive. You're trying to put it back. Go to Station Fantôme, where the last copy sleeps, and show me you've survived enough fights to deserve what you'll find there. The curious die before they arrive."
   },
   "raph4": {
     "personality": "Stoic, ruthless, respected even by Raphazarus's enemies. The last officer still active.",
@@ -93,7 +104,8 @@
     "backstory": "Raphazarus's right hand since before the Great War. He survived three assassination attempts, two betrayals, and an orbital bombardment. His nickname comes from his injuries: he's had so many fractures heal back together that his bones form natural armor. Raphazarus named him guardian of the Forge because he's the one man he trusts absolutely.",
     "combatMechanic": "His reinforced bones reduce critical damage by 60%. The more you hit him, the angrier he gets — +15% damage per 25% HP lost.",
     "specialAbility": "Armored bone structure — reduces criticals by 60%, growing rage (+15% damage/25% HP lost).",
-    "enemyDesc": "Raphazarus's last officer. Three failed assassinations. Two betrayals survived. One orbital bombardment."
+    "enemyDesc": "Raphazarus's last officer. Three failed assassinations. Two betrayals survived. One orbital bombardment.",
+    "serviceDemand": "No one walks past me unless the General wills it. Stay in this sector long enough for your name to reach him, forge weapons worthy of this Forge, and earn the respect of his people. Only then will we discuss letting you through."
   },
   "sco1": {
     "personality": "Discreet, patient, deadly. He runs Port de Nuit from the shadows — no one ever sees him.",
@@ -101,7 +113,8 @@
     "backstory": "A former orphan from the Bas-Fonds. Scotty spotted him when he was twelve — he already had his own thief network. Scotty gave him Port de Nuit as a playground. He turned it into an empire.",
     "combatMechanic": "Fights in darkness — your attacks deal 30% less damage unless you use a weapon with a \"burn\" or \"blind\" effect.",
     "specialAbility": "Night shadow — your attacks are reduced by 30% except incendiary weapons.",
-    "enemyDesc": "He runs Port de Nuit from the shadows."
+    "enemyDesc": "He runs Port de Nuit from the shadows.",
+    "serviceDemand": "Port de Nuit runs on chips, not credits — credits leave traces. Bring me enough to cover a night's losses, and lay them down yourself. I run this place from the shadows, but I want to see the face of those I deal with."
   },
   "sco2": {
     "personality": "Seductive, manipulative, deadly charming. He knows everyone's secrets.",
@@ -109,7 +122,8 @@
     "backstory": "A former luxury-station gigolo turned master spy. Scotty saw his potential when he learned the Shadow Master had ended three political marriages in a week — just for sport. Now he listens, he records, and he sells. To Scotty first.",
     "combatMechanic": "Turns your weapons against you: 25% chance your attack hits you instead. Immune to confusion effects.",
     "specialAbility": "Mirror — 25% chance your attacks are reflected back.",
-    "enemyDesc": "The secrets he holds are worth armies."
+    "enemyDesc": "The secrets he holds are worth armies.",
+    "serviceDemand": "I collect what people hide. Bring me information that's actually worth something — and a name clean enough to get you into the salons where I work. You don't bring down a political marriage smelling of the cargo hold."
   },
   "sco3": {
     "personality": "Prophetic, condescending, terrifying. He claims to see the future — and he's often right.",
@@ -117,7 +131,8 @@
     "backstory": "A former AI researcher turned self-proclaimed oracle. His predictive ability isn't mystical — it's a network of sensors and algorithms he's hidden throughout La Couronne. He knows what you're going to do before you do.",
     "combatMechanic": "Predicts your attacks: automatically dodges the same attack type used the previous turn. Forces you to vary your approach.",
     "specialAbility": "Prediction — immune to the same attack type twice in a row.",
-    "enemyDesc": "He predicts your movements. He's already seen them."
+    "enemyDesc": "He predicts your movements. He's already seen them.",
+    "serviceDemand": "My predictions don't come from the stars, they come from sensors. Three went silent this week and the elites are starting to doubt. Bring me what I need to switch them back on, and I might tell you what I see about you. You won't like it."
   },
   "sco4": {
     "personality": "Calm. Terrifying precisely because he's calm. Nothing surprises him, nothing makes him react.",
@@ -125,7 +140,8 @@
     "backstory": "A former director of a research station gone wrong. The station fell into the Abyss, but Pale stayed. What he saw down there changed him. He no longer blinks. He no longer sleeps. He no longer eats. And yet he's still there.",
     "combatMechanic": "The more you hit him, the more dangerous he becomes: +10% damage per 20% HP lost.",
     "specialAbility": "Silent rage — his damage increases as he loses HP.",
-    "enemyDesc": "He's calm. That's worse."
+    "enemyDesc": "He's calm. That's worse.",
+    "serviceDemand": "What I keep here, Scotty has wanted for twelve years. He won't get it. You, perhaps. But first: become someone he listens to, have enough to fund a descent, and rid me of the Oracle. He sees too far, and he's started seeing me."
   },
   "informantLines": [
     "A stranger approaches you between corridors. \"I heard about what you're looking for,\" he says quietly, before vanishing into the crowd.",

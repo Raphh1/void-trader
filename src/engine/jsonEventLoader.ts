@@ -2,39 +2,51 @@ import type { GameState } from '../types'
 import { interpretOutcome } from './outcomeInterpreter'
 import type { WanderEvent, ExploreChoice, ExploreResult } from './exploration'
 
-import wanderFrRaw   from '../Content/wander.fr.json'
-import wanderEnRaw   from '../Content/wander.en.json'
-import explorationFrRaw from '../Content/exploration.fr.json'
-import explorationEnRaw from '../Content/exploration.en.json'
-import ambianceFrRaw from '../Content/ambiance.fr.json'
-import ambianceEnRaw from '../Content/ambiance.en.json'
 import i18n from '../i18n/config'
+import type { SupportedLanguage } from '../i18n/config'
 
 // ── Types JSON ───────────────────────────────────────────────────────────────
 
 interface JsonChoice { label: string; flavor: string; outcome: string }
 interface JsonEvent  { setup: string; choices: JsonChoice[] }
 
-const wanderFr    = wanderFrRaw    as Record<string, JsonEvent[]>
-const wanderEn     = wanderEnRaw    as Record<string, JsonEvent[]>
-const explorationFr = explorationFrRaw as Record<string, JsonEvent[]>
-const explorationEn = explorationEnRaw as Record<string, JsonEvent[]>
-const ambianceFr  = ambianceFrRaw as Record<string, string[]>
-const ambianceEn  = ambianceEnRaw as Record<string, string[]>
+// Le contenu narratif (~340 Ko) est chargé dynamiquement pour la seule langue
+// active : Vite en fait des chunks séparés, un joueur ne télécharge donc pas les
+// deux versions. `loadNarrativeContent()` doit être attendu avant le premier
+// rendu (voir main.tsx) et à chaque changement de langue.
+let wander: Record<string, JsonEvent[]> = {}
+let exploration: Record<string, JsonEvent[]> = {}
+let ambiance: Record<string, string[]> = {}
+
+export async function loadNarrativeContent(lang: SupportedLanguage): Promise<void> {
+  const [w, e, a] = lang === 'en'
+    ? await Promise.all([
+        import('../Content/wander.en.json'),
+        import('../Content/exploration.en.json'),
+        import('../Content/ambiance.en.json'),
+      ])
+    : await Promise.all([
+        import('../Content/wander.fr.json'),
+        import('../Content/exploration.fr.json'),
+        import('../Content/ambiance.fr.json'),
+      ])
+  wander      = w.default as unknown as Record<string, JsonEvent[]>
+  exploration = e.default as unknown as Record<string, JsonEvent[]>
+  ambiance    = a.default as unknown as Record<string, string[]>
+}
 
 function getWander(): Record<string, JsonEvent[]> {
-  return i18n.language === 'en' ? wanderEn : wanderFr
+  return wander
 }
 
 function getExploration(): Record<string, JsonEvent[]> {
-  return i18n.language === 'en' ? explorationEn : explorationFr
+  return exploration
 }
 
 // ── Ambiance ─────────────────────────────────────────────────────────────────
 
 export function getAmbiance(stationName: string): string | null {
-  const ambiance = i18n.language === 'en' ? ambianceEn : ambianceFr
-  const lines = ambiance[stationName] ?? ambianceFr[stationName]
+  const lines = ambiance[stationName]
   if (!lines || lines.length === 0) return null
   return lines[Math.floor(Math.random() * lines.length)]
 }

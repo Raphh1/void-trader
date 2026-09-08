@@ -5,7 +5,8 @@
     "backstory": "Ancien tireur d'élite recruté par Alanossa après qu'il a abattu trois infiltrateurs en une nuit. Il n'a jamais quitté son poste depuis — littéralement. Il dort sur sa chaise de vigie. Les recrues disent qu'il ne cligne jamais des yeux.",
     "combatMechanic": "Prévoit tes attaques : esquive automatique tous les 3 tours. Doit être frappé quand il recharge.",
     "specialAbility": "Tir préventif — attaque en premier chaque tour, ignore la défensive.",
-    "enemyDesc": "Il surveille depuis si longtemps qu'il ne sait plus rien faire d'autre."
+    "enemyDesc": "Il surveille depuis si longtemps qu'il ne sait plus rien faire d'autre.",
+    "serviceDemand": "Trois de mes relais optiques sont morts ce mois-ci. Je ne quitte pas cette chaise — j'ai vu ce qui arrive quand quelqu'un la quitte. Descends à Station Ombre, vérifie que le relais n'a pas été retourné, et rapporte de quoi le réparer. Si tu reviens, c'est que tu n'es pas des leurs."
   },
   "ala2": {
     "personality": "Calculateur, froid, indispensable. Il sait que sans lui, les Faucons s'effondrent.",
@@ -13,7 +14,8 @@
     "backstory": "Ancien contrebandier recruté par Alanossa pour organiser sa logistique. Il a rendu les Faucons autosuffisants en un an. Il connaît chaque route, chaque cache, chaque dette. Le tuer serait facile. Le remplacer, impossible.",
     "combatMechanic": "Utilise des drones de soutien qui réparent son armure. Il faut détruire les drones d'abord (3 drones, 40 PV chacun).",
     "specialAbility": "Appel de renforts — invoque un drone qui absorbe le prochain coup.",
-    "enemyDesc": "Sans lui la faction s'effondre. Il le sait."
+    "enemyDesc": "Sans lui la faction s'effondre. Il le sait.",
+    "serviceDemand": "Tu veux passer ? Prouve que tu comprends ce métier. J'ai une colonne bloquée à sec depuis six jours — les armes ne servent à rien quand les hommes ne mangent pas. Ravitaille-la. Le pouvoir, ce n'est pas ce que tu tues, c'est ce que tu approvisionnes."
   },
   "ala3": {
     "personality": "Silencieux, létal, loyal jusqu'à la mort. Il est le bras armé qu'Alanossa utilise quand les mots ne suffisent plus.",
@@ -21,7 +23,8 @@
     "backstory": "Personne ne connaît son vrai nom. Alanossa l'a trouvé dans les ruines de Station Quarantaine — seul survivant d'une épidémie qui a tué trois cents personnes. Elle l'a recueilli, entraîné, forgé. Il est devenu son ombre.",
     "combatMechanic": "Invisible les tours impairs — ne peut pas être touché. Contre-attaque automatiquement quand tu rates.",
     "specialAbility": "Frappe fantôme — coup critique garanti depuis l'invisibilité.",
-    "enemyDesc": "Tu ne le vois qu'une fois. En général c'est trop tard."
+    "enemyDesc": "Tu ne le vois qu'une fois. En général c'est trop tard.",
+    "serviceDemand": "Alanossa m'a donné un nom quand il ne me restait rien. Je n'en veux pas d'autre. Mais quelqu'un fouille encore les registres de Station Quarantaine, et j'y figure. Fais-moi disparaître de ces archives — et montre-moi que tu sais tuer sans faire de bruit."
   },
   "ala4": {
     "personality": "Charismatique, impitoyable, pragmatique. Elle inspire la loyauté par la peur ET le respect.",
@@ -29,7 +32,8 @@
     "backstory": "Ancienne officière militaire qui a déserté après avoir vu son commandant sacrifier un régiment entier pour sauver sa carrière. Alanossa lui a offert quelque chose que l'armée n'avait jamais offert : la justice. Maintenant elle dirige le Nid avec une discipline de fer.",
     "combatMechanic": "Change de stance tous les 2 tours : offensive (×1.5 dégâts) ou défensive (÷2 dégâts reçus). Il faut s'adapter.",
     "specialAbility": "Commandement — chaque tour elle gagne +5% de dégâts cumulatifs.",
-    "enemyDesc": "Cheffe des Faucons Noirs. Calculée. Implacable."
+    "enemyDesc": "Cheffe des Faucons Noirs. Calculée. Implacable.",
+    "serviceDemand": "Le Fantôme est plus proche d'elle que moi, et il n'a pas d'ambition — quel gâchis. Retire-le du tableau, et fais-toi un vrai nom chez les Faucons pendant que tu y es. Le jour où je serai son bras droit, je me souviendrai de qui m'y a aidée."
   },
   "ces1": {
     "personality": "Souriante, empoisonnée, dangereuse. Elle vend avec un sourire. Ce qu'elle vend tue toujours.",
@@ -37,7 +41,8 @@
     "backstory": "Fille de marchands assassinés par des pirates. Elle a reconstruit l'empire familial en vendant les mêmes armes qui avaient tué ses parents — aux mêmes personnes. \"Le business n'a pas de morale\", dit-elle. Elle y croit vraiment.",
     "combatMechanic": "Empoisonne ses armes — chaque coup inflige du poison cumulatif. Plus le combat dure, plus c'est dangereux.",
     "specialAbility": "Poison commercial — chaque tour, le joueur perd 5 PV supplémentaires (cumulatif).",
-    "enemyDesc": "Ce qu'elle vend tue toujours, même les contrats d'assurance."
+    "enemyDesc": "Ce qu'elle vend tue toujours, même les contrats d'assurance.",
+    "serviceDemand": "J'ai un lot d'invendus et un acheteur qui devient nerveux. Apporte-moi les munitions et l'avance, je m'occupe du reste. Et ne me demande pas à qui c'est destiné — le business n'a pas de morale, seulement des délais."
   },
   "ces2": {
     "personality": "Brutal, territorial, possessif. Tout ce qui passe par son relais lui appartient.",
@@ -45,7 +50,8 @@
     "backstory": "Ancien officier de douane devenu seigneur de guerre logistique. Cesarion l'a recruté parce qu'il était le seul à comprendre comment taxer sans tuer le commerce. Son efficacité a un prix : des disparitions régulières de marchands \"non conformes\".",
     "combatMechanic": "Vole tes crédits à chaque coup réussi (5% de tes crédits par frappe). Combat contre la montre.",
     "specialAbility": "Taxe de sang — chaque attaque réussie te coûte des crédits.",
-    "enemyDesc": "Il contrôle le Relais de Transit. Tout ce qui passe, il le taxe."
+    "enemyDesc": "Il contrôle le Relais de Transit. Tout ce qui passe, il le taxe.",
+    "serviceDemand": "Tout ce qui passe par mon relais me paie. Toi compris. Fais le trajet toi-même, et ramène-moi de la marchandise dont personne ne réclamera la propriété. Ce qui n'a pas de propriétaire n'a pas de plainte."
   },
   "ces3": {
     "personality": "Méthodique, invisible, omniscient dans son domaine. Il sait tout ce qui entre et sort.",
@@ -53,7 +59,8 @@
     "backstory": "Personne ne connaît son visage — il porte un masque depuis qu'il est arrivé à l'Entrepôt. Certains disent qu'il est un ancien espion, d'autres un ex-prisonnier. Ce qui est sûr : il connaît tous les secrets de l'Emporium. Cesarion le garde en vie parce qu'il ne peut pas le remplacer.",
     "combatMechanic": "Connaît ton équipement — réduit l'efficacité de ton arme de 30%. Changer d'arme en combat le déstabilise.",
     "specialAbility": "Analyse tactique — esquive le premier coup de chaque séquence et contre-attaque.",
-    "enemyDesc": "Il connaît tous les secrets. Il enterre le reste."
+    "enemyDesc": "Il connaît tous les secrets. Il enterre le reste.",
+    "serviceDemand": "Je ne veux ni ton argent ni ta violence — les deux laissent des traces. Apporte-moi des données classifiées, et prouve que tu as assez bougé dans ce secteur pour avoir vu des choses. Ce que tu sais m'intéresse plus que ce que tu vaux."
   },
   "ces4": {
     "personality": "Insaisissable, diplomatique en façade, impitoyable dans l'ombre. L'homme derrière l'homme.",
@@ -61,7 +68,8 @@
     "backstory": "Ancien diplomate d'une nation disparue. Il a vu son monde s'effondrer et a juré de ne plus jamais être du côté des perdants. Cesarion l'utilise comme interface avec le monde extérieur — un visage amical pour des décisions brutales.",
     "combatMechanic": "A des gardes personnels (2 gardes, 60 PV chacun) qui doivent être éliminés en premier. Lui-même se soigne tant que les gardes sont en vie.",
     "specialAbility": "Directive fantôme — se soigne de 15 PV/tour tant qu'un garde est en vie.",
-    "enemyDesc": "Officiellement un bureaucrate. Officieusement, un fantôme."
+    "enemyDesc": "Officiellement un bureaucrate. Officieusement, un fantôme.",
+    "serviceDemand": "J'ai déjà misé sur un camp qui a cessé d'exister. Je ne referai pas cette erreur. Reviens quand l'Emporium te reconnaîtra, quand tu auras de quoi peser dans une négociation, et quand l'Archiviste ne sera plus entre nous. Alors nous parlerons d'égal à égal."
   },
   "raph1": {
     "personality": "Brisé, méthodique, hanté. Il obéit encore à des ordres donnés il y a quarante ans.",
@@ -69,7 +77,8 @@
     "backstory": "Dernier survivant du 3e Bataillon de Raphazarus. Il a vu ses camarades mourir un par un pendant le Siège des Cendres — 47 jours sans ravitaillement. Quand les secours sont arrivés, il était le seul debout. Raphazarus lui a serré la main et lui a dit : \"Tu restes ici. Tu attends.\" Il attend encore.",
     "combatMechanic": "Se bat avec une discipline militaire implacable : attaque toujours deux fois de suite, mais pause un tour tous les 4 tours pour \"recharger\".",
     "specialAbility": "Cadence de tir — double attaque chaque tour, pause tous les 4 tours.",
-    "enemyDesc": "Il attend depuis quarante ans. Il a tout son temps."
+    "enemyDesc": "Il attend depuis quarante ans. Il a tout son temps.",
+    "serviceDemand": "Quarante-sept jours. À la fin, on mangeait les rations des morts. Retourne aux Cendres, trouve l'endroit où ils sont tombés, et apporte de quoi soigner. Pas pour moi — pour eux. C'est quarante ans trop tard, mais je n'ai jamais pu y retourner seul."
   },
   "raph2": {
     "personality": "Froide, chirurgicale, dévouée au-delà de la raison. Son mari est mort sous les ordres de Raphazarus — et elle lui en est reconnaissante.",
@@ -77,7 +86,8 @@
     "backstory": "Son mari commandait la flotte d'élite de Raphazarus. Il est mort en couvrant la retraite du Général vers l'Arc Perdu. Au lieu de le haïr, elle a juré allégeance éternelle. \"Mon mari a choisi de mourir pour lui. Ce choix mérite d'être honoré.\" Elle est devenue la gardienne la plus implacable de tous les vétérans — la seule que Raphazarus contacte encore parfois.",
     "combatMechanic": "Porte une armure de deuil qui absorbe 40% des dégâts physiques. Les armes à énergie (burn, shock) ignorent cette réduction.",
     "specialAbility": "Armure de deuil — réduit 40% des dégâts physiques, vulnérable aux armes énergétiques.",
-    "enemyDesc": "Son mari est mort pour Raphazarus. Elle vivra pour lui."
+    "enemyDesc": "Son mari est mort pour Raphazarus. Elle vivra pour lui.",
+    "serviceDemand": "Mon mari est mort en couvrant la retraite du Général. On ne lui a jamais rendu les honneurs — il n'y avait plus personne pour les rendre. Apporte-moi de quoi reforger son plastron, et reviens avec un nom qui pèse quelque chose. Je ne confierai pas sa mémoire à un inconnu."
   },
   "raph3": {
     "personality": "Invisible, silencieux, terrifiant. Il n'est peut-être même pas humain — plus personne n'est sûr.",
@@ -85,7 +95,8 @@
     "backstory": "Ancien chef du renseignement militaire du 7e Corps de Raphazarus. Après la Grande Guerre, il a fait disparaître toute trace de l'Arc Perdu des archives officielles — coordonnées, manifestes, logs de navigation. Puis il s'est fait disparaître lui-même. Station Fantôme porte son nom : personne ne sait s'il y habite vraiment ou s'il est partout à la fois.",
     "combatMechanic": "Alterne entre deux phases : visible (attaque normalement) et spectral (immunisé aux attaques physiques, ne peut être touché que par effets/armes spéciales). Change de phase tous les 2 tours.",
     "specialAbility": "Phase spectrale — immunisé aux attaques directes tous les 2 tours.",
-    "enemyDesc": "Chef du renseignement. Il a effacé l'Arc Perdu des cartes."
+    "enemyDesc": "Chef du renseignement. Il a effacé l'Arc Perdu des cartes.",
+    "serviceDemand": "J'ai effacé l'Arc Perdu de toutes les archives officielles. Toi, tu cherches à l'y remettre. Va à Station Fantôme, là où dort la dernière copie, et montre-moi que tu as survécu à assez de combats pour mériter ce que tu y trouveras. Les curieux meurent avant d'arriver."
   },
   "raph4": {
     "personality": "Stoïque, impitoyable, respecté même par les ennemis de Raphazarus. Le dernier officier encore en activité.",
@@ -93,7 +104,8 @@
     "backstory": "Bras droit de Raphazarus depuis avant la Grande Guerre. Il a survécu à trois tentatives d'assassinat, deux trahisons et un bombardement orbital. Son surnom vient de ses blessures : il a tellement de fractures recollées que ses os forment une armure naturelle. Raphazarus l'a nommé gardien de la Forge parce qu'il est le seul homme en qui il a une confiance absolue.",
     "combatMechanic": "Ses os renforcés réduisent les dégâts critiques de 60%. Plus tu le frappes, plus sa rage augmente — +15% dégâts par tranche de 25% PV perdus.",
     "specialAbility": "Ossature blindée — réduit les critiques de 60%, rage croissante (+15% dégâts/25% PV perdus).",
-    "enemyDesc": "Dernier officier de Raphazarus. Trois assassinats ratés. Deux trahisons survécues. Un bombardement orbital."
+    "enemyDesc": "Dernier officier de Raphazarus. Trois assassinats ratés. Deux trahisons survécues. Un bombardement orbital.",
+    "serviceDemand": "Personne ne passe devant moi sans que le Général l'ait voulu. Reste assez longtemps dans ce secteur pour que ton nom lui parvienne, forge des armes dignes de cette Forge, et fais-toi respecter des siens. Ensuite seulement, on parlera de te laisser passer."
   },
   "sco1": {
     "personality": "Discret, patient, mortel. Il dirige Port de Nuit depuis les ombres — personne ne le voit jamais.",
@@ -101,7 +113,8 @@
     "backstory": "Ancien orphelin des Bas-Fonds. Scotty l'a repéré quand il avait douze ans — il avait déjà son propre réseau de voleurs. Scotty lui a donné Port de Nuit comme terrain de jeu. Il en a fait un empire.",
     "combatMechanic": "Combat dans l'obscurité — tes attaques font 30% moins de dégâts sauf si tu utilises une arme avec effet \"burn\" ou \"blind\".",
     "specialAbility": "Ombre de nuit — tes attaques sont réduites de 30% sauf armes incendiaires.",
-    "enemyDesc": "Il dirige Port de Nuit depuis l'ombre."
+    "enemyDesc": "Il dirige Port de Nuit depuis l'ombre.",
+    "serviceDemand": "Port de Nuit tourne sur les jetons, pas sur les crédits — les crédits laissent des traces. Ramène-m'en assez pour couvrir une nuit de pertes, et viens les poser toi-même. Je dirige cet endroit depuis l'ombre, mais je veux voir le visage de ceux avec qui je traite."
   },
   "sco2": {
     "personality": "Séducteur, manipulateur, mortellement charmant. Il connaît les secrets de tout le monde.",
@@ -109,7 +122,8 @@
     "backstory": "Ancien gigolo des stations luxueuses devenu maître-espion. Scotty a vu son potentiel quand il a appris que le Maître des Ombres avait fait tomber trois mariages politiques en une semaine — juste pour le sport. Maintenant il écoute, il enregistre, et il vend. À Scotty en priorité.",
     "combatMechanic": "Retourne tes armes contre toi : 25% de chance que ton attaque te frappe à la place. Immunité aux effets de confusion.",
     "specialAbility": "Miroir — 25% de chance que tes attaques soient retournées.",
-    "enemyDesc": "Les secrets qu'il détient valent des armées."
+    "enemyDesc": "Les secrets qu'il détient valent des armées.",
+    "serviceDemand": "Je collectionne ce que les gens cachent. Apporte-moi des informations qui valent réellement quelque chose — et un nom assez propre pour qu'on te laisse entrer dans les salons où je travaille. On ne fait pas tomber un mariage politique en sentant la cale."
   },
   "sco3": {
     "personality": "Prophétique, condescendant, terrifiant. Il prétend voir l'avenir — et il a souvent raison.",
@@ -117,7 +131,8 @@
     "backstory": "Ancien chercheur en intelligence artificielle devenu oracle auto-proclamé. Sa capacité prédictive n'est pas mystique — c'est un réseau de capteurs et d'algorithmes qu'il a dissimulé dans toute La Couronne. Il sait ce que tu vas faire avant toi.",
     "combatMechanic": "Prédit tes attaques : esquive automatiquement le même type d'attaque utilisé au tour précédent. Oblige à varier.",
     "specialAbility": "Prédiction — immunisé au même type d'attaque deux tours de suite.",
-    "enemyDesc": "Il prédit tes mouvements. Il les a déjà vus."
+    "enemyDesc": "Il prédit tes mouvements. Il les a déjà vus.",
+    "serviceDemand": "Mes prédictions ne viennent pas des étoiles, elles viennent de capteurs. Trois se sont tus cette semaine et les élites commencent à douter. Apporte de quoi les rallumer, et je te dirai peut-être ce que je vois te concernant. Tu n'aimeras pas."
   },
   "sco4": {
     "personality": "Calme. Terrifiant justement parce qu'il est calme. Rien ne le surprend, rien ne le fait réagir.",
@@ -125,7 +140,8 @@
     "backstory": "Ancien directeur d'une station de recherche qui a mal tourné. La station est tombée dans les Abysses, mais Pale est resté. Ce qu'il a vu en bas l'a changé. Il ne cligne plus des yeux. Il ne dort plus. Il ne mange plus. Et pourtant il est toujours là.",
     "combatMechanic": "Plus tu le frappes, plus il devient dangereux : +10% dégâts par tranche de 20% PV perdus.",
     "specialAbility": "Rage silencieuse — ses dégâts augmentent à mesure qu'il perd des PV.",
-    "enemyDesc": "Il est calme. C'est pire."
+    "enemyDesc": "Il est calme. C'est pire.",
+    "serviceDemand": "Ce que je garde ici, Scotty le veut depuis douze ans. Il ne l'aura pas. Toi, peut-être. Mais d'abord : deviens quelqu'un qu'il écoute, aie de quoi financer une descente, et débarrasse-moi de l'Oracle. Il voit trop loin, et il a commencé à me voir moi."
   },
   "informantLines": [
     "Un inconnu t'aborde entre deux couloirs. \"J'ai entendu parler de ce que tu cherches,\" dit-il à voix basse, avant de disparaître dans la foule.",

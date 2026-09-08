@@ -126,5 +126,14 @@
   "effectCurse": "🔮 MALÉDICTION — Dégâts ennemis -40% pendant 3 tours !",
   "effectConfusion": "😵 CONFUSION — L'ennemi se prend lui-même pour cible pendant 2 tours !",
   "effectSilence": "🔇 SILENCE — L'ennemi est limité aux attaques basiques pendant 2 tours !",
-  "effectDisarm": "🗡 DÉSARMÉ — L'ennemi a perdu son arme ! -40% dégâts pendant 2 tours."
+  "effectDisarm": "🗡 DÉSARMÉ — L'ennemi a perdu son arme ! -40% dégâts pendant 2 tours.",
+  "merchantBuyOff": "Vous glissez {{cost}} crédits dans la main de votre adversaire. Il frappe soudain sans conviction.",
+  "merchantNoFunds": "Il faudrait {{cost}} crédits pour l'acheter. Vous ne les avez pas.",
+  "mechanicRig": "Vous sabotez son arme et rafistolez votre plaque ventrale (+{{amount}} PV).",
+  "explorerReadTerrain": "Vous lisez le terrain d'un coup d'œil : {{enemy}} perd ses repères.",
+  "scrapperBomb": "Votre bombe de ferraille explose : {{dmg}} dégâts bruts, rien ne les absorbe. ({{hp}}/{{max}})",
+  "heirEscort": "Vous payez {{cost}} crédits. Trois silhouettes armées se placent devant vous.",
+  "heirEscortBlock": "Votre escorte encaisse le coup à votre place. ({{n}} restant(s))",
+  "heirNoFunds": "Une escorte coûte {{cost}} crédits. Vos poches sont vides.",
+  "cursedSurvival": "Vous auriez dû mourir. La malédiction ne l'a pas permis — vous vous relevez à 1 PV."
 }

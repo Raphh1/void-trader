@@ -1,174 +1,50 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import commonFr from './locales/fr/common.json'
-import commonEn from './locales/en/common.json'
-import goodsFr from './locales/fr/goods.json'
-import goodsEn from './locales/en/goods.json'
-import stationHubFr from './locales/fr/stationHub.json'
-import stationHubEn from './locales/en/stationHub.json'
-import questsFr from './locales/fr/quests.json'
-import questsEn from './locales/en/quests.json'
-import explorationScenesFr from './locales/fr/explorationScenes.json'
-import explorationScenesEn from './locales/en/explorationScenes.json'
-import narrativeArcsFr from './locales/fr/narrativeArcs.json'
-import narrativeArcsEn from './locales/en/narrativeArcs.json'
-import narrativeArcsScreenFr from './locales/fr/narrativeArcsScreen.json'
-import narrativeArcsScreenEn from './locales/en/narrativeArcsScreen.json'
-import marketScreenFr from './locales/fr/marketScreen.json'
-import marketScreenEn from './locales/en/marketScreen.json'
-import combatScreenFr from './locales/fr/combatScreen.json'
-import combatScreenEn from './locales/en/combatScreen.json'
-import prisonScreenFr from './locales/fr/prisonScreen.json'
-import prisonScreenEn from './locales/en/prisonScreen.json'
-import worldEventsFr from './locales/fr/worldEvents.json'
-import worldEventsEn from './locales/en/worldEvents.json'
-import blackMarketFr from './locales/fr/blackMarket.json'
-import blackMarketEn from './locales/en/blackMarket.json'
-import travelEventsFr from './locales/fr/travelEvents.json'
-import travelEventsEn from './locales/en/travelEvents.json'
-import npcTrackerFr from './locales/fr/npcTracker.json'
-import npcTrackerEn from './locales/en/npcTracker.json'
-import chainEventsFr from './locales/fr/chainEvents.json'
-import chainEventsEn from './locales/en/chainEvents.json'
-import stationEventsFr from './locales/fr/stationEvents.json'
-import stationEventsEn from './locales/en/stationEvents.json'
-import memoryEventsFr from './locales/fr/memoryEvents.json'
-import memoryEventsEn from './locales/en/memoryEvents.json'
-import arrivalSituationsFr from './locales/fr/arrivalSituations.json'
-import arrivalSituationsEn from './locales/en/arrivalSituations.json'
-import stalkerFr from './locales/fr/stalker.json'
-import stalkerEn from './locales/en/stalker.json'
-import bossHomeVisitsFr from './locales/fr/bossHomeVisits.json'
-import bossHomeVisitsEn from './locales/en/bossHomeVisits.json'
-import subBossResolutionsFr from './locales/fr/subBossResolutions.json'
-import subBossResolutionsEn from './locales/en/subBossResolutions.json'
-import armorsFr from './locales/fr/armors.json'
-import armorsEn from './locales/en/armors.json'
-import weaponsFr from './locales/fr/weapons.json'
-import weaponsEn from './locales/en/weapons.json'
-import classesFr from './locales/fr/classes.json'
-import classesEn from './locales/en/classes.json'
-import runModifiersFr from './locales/fr/runModifiers.json'
-import runModifiersEn from './locales/en/runModifiers.json'
-import runObjectivesFr from './locales/fr/runObjectives.json'
-import runObjectivesEn from './locales/en/runObjectives.json'
-import metaUnlocksFr from './locales/fr/metaUnlocks.json'
-import metaUnlocksEn from './locales/en/metaUnlocks.json'
-import raphazarusFr from './locales/fr/raphazarus.json'
-import raphazarusEn from './locales/en/raphazarus.json'
-import pillarRumorsFr from './locales/fr/pillarRumors.json'
-import pillarRumorsEn from './locales/en/pillarRumors.json'
-import factionsFr from './locales/fr/factions.json'
-import factionsEn from './locales/en/factions.json'
-import deliveryEventsFr from './locales/fr/deliveryEvents.json'
-import deliveryEventsEn from './locales/en/deliveryEvents.json'
-import npcLoreFr from './locales/fr/npcLore.json'
-import npcLoreEn from './locales/en/npcLore.json'
-import majorQuestsFr from './locales/fr/majorQuests.json'
-import majorQuestsEn from './locales/en/majorQuests.json'
-import recipesFr from './locales/fr/recipes.json'
-import recipesEn from './locales/en/recipes.json'
-import subBossesFr from './locales/fr/subBosses.json'
-import subBossesEn from './locales/en/subBosses.json'
-import loreFragmentsFr from './locales/fr/loreFragments.json'
-import loreFragmentsEn from './locales/en/loreFragments.json'
-import stationsFr from './locales/fr/stations.json'
-import stationsEn from './locales/en/stations.json'
-import nexusFr from './locales/fr/nexus.json'
-import nexusEn from './locales/en/nexus.json'
-import wikiScreenFr from './locales/fr/wikiScreen.json'
-import wikiScreenEn from './locales/en/wikiScreen.json'
-import factionsScreenFr from './locales/fr/factionsScreen.json'
-import factionsScreenEn from './locales/en/factionsScreen.json'
-import introScreenFr from './locales/fr/introScreen.json'
-import introScreenEn from './locales/en/introScreen.json'
-import cinematicIntroFr from './locales/fr/cinematicIntro.json'
-import cinematicIntroEn from './locales/en/cinematicIntro.json'
-import combatOutcomeScreenFr from './locales/fr/combatOutcomeScreen.json'
-import combatOutcomeScreenEn from './locales/en/combatOutcomeScreen.json'
-import interrogationQuestionsFr from './locales/fr/interrogationQuestions.json'
-import interrogationQuestionsEn from './locales/en/interrogationQuestions.json'
-import interrogationScreenFr from './locales/fr/interrogationScreen.json'
-import interrogationScreenEn from './locales/en/interrogationScreen.json'
-import mapScreenFr from './locales/fr/mapScreen.json'
-import mapScreenEn from './locales/en/mapScreen.json'
-import scenarioGameFr from './locales/fr/scenarioGame.json'
-import scenarioGameEn from './locales/en/scenarioGame.json'
-import npcEncounterPanelFr from './locales/fr/npcEncounterPanel.json'
-import npcEncounterPanelEn from './locales/en/npcEncounterPanel.json'
-import gameStoreFr from './locales/fr/gameStore.json'
-import gameStoreEn from './locales/en/gameStore.json'
-import craftingScreenFr from './locales/fr/craftingScreen.json'
-import craftingScreenEn from './locales/en/craftingScreen.json'
-import exploreResultPanelFr from './locales/fr/exploreResultPanel.json'
-import exploreResultPanelEn from './locales/en/exploreResultPanel.json'
-import wanderResultPanelFr from './locales/fr/wanderResultPanel.json'
-import wanderResultPanelEn from './locales/en/wanderResultPanel.json'
-import inventoryScreenFr from './locales/fr/inventoryScreen.json'
-import inventoryScreenEn from './locales/en/inventoryScreen.json'
-import nexusScreenFr from './locales/fr/nexusScreen.json'
-import nexusScreenEn from './locales/en/nexusScreen.json'
-import questsScreenFr from './locales/fr/questsScreen.json'
-import questsScreenEn from './locales/en/questsScreen.json'
-import shipWorkshopScreenFr from './locales/fr/shipWorkshopScreen.json'
-import shipWorkshopScreenEn from './locales/en/shipWorkshopScreen.json'
-import travelScreenFr from './locales/fr/travelScreen.json'
-import travelScreenEn from './locales/en/travelScreen.json'
-import outcomeInterpreterFr from './locales/fr/outcomeInterpreter.json'
-import outcomeInterpreterEn from './locales/en/outcomeInterpreter.json'
-import equipmentQuestsFr from './locales/fr/equipmentQuests.json'
-import equipmentQuestsEn from './locales/en/equipmentQuests.json'
-import objectivesScreenFr from './locales/fr/objectivesScreen.json'
-import objectivesScreenEn from './locales/en/objectivesScreen.json'
-import consumablesFr from './locales/fr/consumables.json'
-import consumablesEn from './locales/en/consumables.json'
-import combatFr from './locales/fr/combat.json'
-import combatEn from './locales/en/combat.json'
-import multiCombatFr from './locales/fr/multiCombat.json'
-import multiCombatEn from './locales/en/multiCombat.json'
-import minigamesFr from './locales/fr/minigames.json'
-import minigamesEn from './locales/en/minigames.json'
-import classSelectFr from './locales/fr/classSelect.json'
-import classSelectEn from './locales/en/classSelect.json'
-import combatResultScreenFr from './locales/fr/combatResultScreen.json'
-import combatResultScreenEn from './locales/en/combatResultScreen.json'
-import hubPanelsFr from './locales/fr/hubPanels.json'
-import hubPanelsEn from './locales/en/hubPanels.json'
-import loreScreenFr from './locales/fr/loreScreen.json'
-import loreScreenEn from './locales/en/loreScreen.json'
-import multiCombatScreenFr from './locales/fr/multiCombatScreen.json'
-import multiCombatScreenEn from './locales/en/multiCombatScreen.json'
-import stationArrivalScreenFr from './locales/fr/stationArrivalScreen.json'
-import stationArrivalScreenEn from './locales/en/stationArrivalScreen.json'
-import metaScreenFr from './locales/fr/metaScreen.json'
-import metaScreenEn from './locales/en/metaScreen.json'
-import enemiesFr from './locales/fr/enemies.json'
-import enemiesEn from './locales/en/enemies.json'
 
 const STORAGE_KEY = 'vt_language'
 
 export const SUPPORTED_LANGUAGES = ['fr', 'en'] as const
 export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number]
 
-function detectInitialLanguage(): SupportedLanguage {
+export function detectInitialLanguage(): SupportedLanguage {
   const saved = localStorage.getItem(STORAGE_KEY)
   if (saved === 'fr' || saved === 'en') return saved
   return navigator.language.toLowerCase().startsWith('fr') ? 'fr' : 'en'
 }
 
-i18n.use(initReactI18next).init({
-  resources: {
-    fr: { common: commonFr, goods: goodsFr, stationHub: stationHubFr, quests: questsFr, explorationScenes: explorationScenesFr, narrativeArcs: narrativeArcsFr, narrativeArcsScreen: narrativeArcsScreenFr, marketScreen: marketScreenFr, combatScreen: combatScreenFr, prisonScreen: prisonScreenFr, worldEvents: worldEventsFr, blackMarket: blackMarketFr, travelEvents: travelEventsFr, npcTracker: npcTrackerFr, chainEvents: chainEventsFr, stationEvents: stationEventsFr, memoryEvents: memoryEventsFr, arrivalSituations: arrivalSituationsFr, stalker: stalkerFr, bossHomeVisits: bossHomeVisitsFr, subBossResolutions: subBossResolutionsFr, armors: armorsFr, weapons: weaponsFr, classes: classesFr, runModifiers: runModifiersFr, runObjectives: runObjectivesFr, metaUnlocks: metaUnlocksFr, raphazarus: raphazarusFr, pillarRumors: pillarRumorsFr, factions: factionsFr, deliveryEvents: deliveryEventsFr, npcLore: npcLoreFr, majorQuests: majorQuestsFr, recipes: recipesFr, subBosses: subBossesFr, loreFragments: loreFragmentsFr, stations: stationsFr, nexus: nexusFr, wikiScreen: wikiScreenFr, factionsScreen: factionsScreenFr, introScreen: introScreenFr, cinematicIntro: cinematicIntroFr, combatOutcomeScreen: combatOutcomeScreenFr, interrogationQuestions: interrogationQuestionsFr, interrogationScreen: interrogationScreenFr, mapScreen: mapScreenFr, scenarioGame: scenarioGameFr, npcEncounterPanel: npcEncounterPanelFr, gameStore: gameStoreFr, craftingScreen: craftingScreenFr, exploreResultPanel: exploreResultPanelFr, wanderResultPanel: wanderResultPanelFr, inventoryScreen: inventoryScreenFr, nexusScreen: nexusScreenFr, questsScreen: questsScreenFr, shipWorkshopScreen: shipWorkshopScreenFr, travelScreen: travelScreenFr, outcomeInterpreter: outcomeInterpreterFr, equipmentQuests: equipmentQuestsFr, objectivesScreen: objectivesScreenFr, consumables: consumablesFr, combat: combatFr, multiCombat: multiCombatFr, minigames: minigamesFr, classSelect: classSelectFr, combatResultScreen: combatResultScreenFr, hubPanels: hubPanelsFr, loreScreen: loreScreenFr, multiCombatScreen: multiCombatScreenFr, stationArrivalScreen: stationArrivalScreenFr, metaScreen: metaScreenFr, enemies: enemiesFr },
-    en: { common: commonEn, goods: goodsEn, stationHub: stationHubEn, quests: questsEn, explorationScenes: explorationScenesEn, narrativeArcs: narrativeArcsEn, narrativeArcsScreen: narrativeArcsScreenEn, marketScreen: marketScreenEn, combatScreen: combatScreenEn, prisonScreen: prisonScreenEn, worldEvents: worldEventsEn, blackMarket: blackMarketEn, travelEvents: travelEventsEn, npcTracker: npcTrackerEn, chainEvents: chainEventsEn, stationEvents: stationEventsEn, memoryEvents: memoryEventsEn, arrivalSituations: arrivalSituationsEn, stalker: stalkerEn, bossHomeVisits: bossHomeVisitsEn, subBossResolutions: subBossResolutionsEn, armors: armorsEn, weapons: weaponsEn, classes: classesEn, runModifiers: runModifiersEn, runObjectives: runObjectivesEn, metaUnlocks: metaUnlocksEn, raphazarus: raphazarusEn, pillarRumors: pillarRumorsEn, factions: factionsEn, deliveryEvents: deliveryEventsEn, npcLore: npcLoreEn, majorQuests: majorQuestsEn, recipes: recipesEn, subBosses: subBossesEn, loreFragments: loreFragmentsEn, stations: stationsEn, nexus: nexusEn, wikiScreen: wikiScreenEn, factionsScreen: factionsScreenEn, introScreen: introScreenEn, cinematicIntro: cinematicIntroEn, combatOutcomeScreen: combatOutcomeScreenEn, interrogationQuestions: interrogationQuestionsEn, interrogationScreen: interrogationScreenEn, mapScreen: mapScreenEn, scenarioGame: scenarioGameEn, npcEncounterPanel: npcEncounterPanelEn, gameStore: gameStoreEn, craftingScreen: craftingScreenEn, exploreResultPanel: exploreResultPanelEn, wanderResultPanel: wanderResultPanelEn, inventoryScreen: inventoryScreenEn, nexusScreen: nexusScreenEn, questsScreen: questsScreenEn, shipWorkshopScreen: shipWorkshopScreenEn, travelScreen: travelScreenEn, outcomeInterpreter: outcomeInterpreterEn, equipmentQuests: equipmentQuestsEn, objectivesScreen: objectivesScreenEn, consumables: consumablesEn, combat: combatEn, multiCombat: multiCombatEn, minigames: minigamesEn, classSelect: classSelectEn, combatResultScreen: combatResultScreenEn, hubPanels: hubPanelsEn, loreScreen: loreScreenEn, multiCombatScreen: multiCombatScreenEn, stationArrivalScreen: stationArrivalScreenEn, metaScreen: metaScreenEn, enemies: enemiesEn },
-  },
-  lng: detectInitialLanguage(),
-  fallbackLng: 'en',
-  defaultNS: 'common',
-  interpolation: { escapeValue: false },
-})
+// Les ressources de chaque langue sont dans un module dédié importé
+// dynamiquement : Vite en fait un chunk séparé, donc on ne télécharge que la
+// langue réellement utilisée (~600 Ko économisés sur le chargement initial).
+async function loadLanguageResources(lang: SupportedLanguage) {
+  if (i18n.hasResourceBundle(lang, 'common')) return
+  const mod = lang === 'fr'
+    ? await import('./resources.fr')
+    : await import('./resources.en')
+  const bundles = mod.default as Record<string, Record<string, unknown>>
+  for (const [ns, resources] of Object.entries(bundles)) {
+    i18n.addResourceBundle(lang, ns, resources, true, true)
+  }
+}
 
-export function setLanguage(lang: SupportedLanguage) {
-  i18n.changeLanguage(lang)
+// À appeler (et attendre) avant le premier rendu React — sinon les écrans
+// s'afficheraient avec des clés brutes le temps du chargement.
+export async function initI18n(): Promise<void> {
+  const lng = detectInitialLanguage()
+  await i18n.use(initReactI18next).init({
+    resources: {},
+    lng,
+    fallbackLng: 'en',
+    defaultNS: 'common',
+    interpolation: { escapeValue: false },
+  })
+  await loadLanguageResources(lng)
+}
+
+// Charge la langue cible AVANT de basculer, pour éviter tout rendu intermédiaire
+// avec des clés manquantes.
+export async function setLanguage(lang: SupportedLanguage): Promise<void> {
+  await loadLanguageResources(lang)
+  await i18n.changeLanguage(lang)
   localStorage.setItem(STORAGE_KEY, lang)
 }
 

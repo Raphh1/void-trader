@@ -95,6 +95,11 @@
     "hacker": "[HACKEUR] Pirater équipement ennemi · 2 tours désactivé · -30 sta · 1×/combat",
     "smuggler": "[CONTREBANDIER] Fuite garantie · -1 carburant · 1×/combat",
     "wanderer": "[VAGABOND] Coup bas · ignore armure, dégâts élevés · -10 rép · 1×/combat",
-    "rayane": "[RAYANE] 🪙 Pile ou face · pile : ×4 dégâts (armure ignorée) · face : -30% PV max, étourdi · 1×/combat"
+    "rayane": "[RAYANE] 🪙 Pile ou face · pile : ×4 dégâts (armure ignorée) · face : -30% PV max, étourdi · 1×/combat",
+    "merchant": "💰 Racheter sa retraite",
+    "mechanic": "⚙ Bricolage de fortune",
+    "explorer": "🗺 Lecture du terrain",
+    "scrapper": "🔧 Bombe de ferraille",
+    "heir": "👑 Payer une escorte (1500 cr)"
   }
 }

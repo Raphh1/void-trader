@@ -765,7 +765,8 @@ export const useGameStore = create<Store>()(persist((set, get) => ({
     const cargo = { ...s.gs.cargo, [item]: s.gs.cargo[item] - 1 }
     if (cargo[item] === 0) delete cargo[item]
     const medBonus = s.gs.class.medicBonus && item === 'Médicaments' ? Math.floor(price * 0.5) : 0
-    return { gs: { ...s.gs, credits: s.gs.credits + price + medBonus, cargo } }
+    const tradeBonus = Math.floor(price * (s.gs.class.tradeBonusPercent ?? 0) / 100)
+    return { gs: { ...s.gs, credits: s.gs.credits + price + medBonus + tradeBonus, cargo } }
   }),
 
   buyFuel: (amount, priceEach) => set(s => {
@@ -949,7 +950,7 @@ export const useGameStore = create<Store>()(persist((set, get) => ({
   } : s),
 }), {
   name: 'snipeweb-save',
-  version: 2,
+  version: 3,
   partialize: (state) => ({ gs: state.gs }),
   migrate: (persisted: unknown, version: number) => {
     const state = persisted as { gs: GameState | null }
@@ -961,6 +962,11 @@ export const useGameStore = create<Store>()(persist((set, get) => ({
       // Les saves existantes ont déjà passé le tutoriel : tracker visible d'office
       state.gs.nexusTrackerUnlocked = state.gs.nexusTrackerUnlocked ?? true
       state.gs.pillarRumorsSeen = state.gs.pillarRumorsSeen ?? []
+    }
+    if (version < 3 && state.gs) {
+      // Marchés avec les lieutenants : aucune save existante n'en a
+      state.gs.lieutenantPacts = state.gs.lieutenantPacts ?? []
+      state.gs.brokenPacts = state.gs.brokenPacts ?? []
     }
     return state
   },

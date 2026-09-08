@@ -5,6 +5,7 @@ import type { NamedNpcDef as NamedNpc } from '../../../engine/npcTracker'
 import { getNpcReaction, getNpcGreeting, recordMeeting, getNpcService } from '../../../engine/npcTracker'
 import { getMajorQuestForNpc } from '../../../engine/majorQuests'
 import { getPillarRumor } from '../../../engine/npcLore'
+import { translateNpcRole } from '../../../engine/goodsI18n'
 
 interface Props {
   gs: GameState
@@ -131,7 +132,7 @@ export function NpcEncounterPanel({ gs, localNpc, npcDialogResult, onDialogResul
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
           <div>
             <div className="t-sm t-bright">{localNpc.name}</div>
-            <div className="t-xs t-dim">{localNpc.role}</div>
+            <div className="t-xs t-dim">{translateNpcRole(localNpc.role)}</div>
           </div>
           <div className="t-xs" style={{ color: REACTION_COLOR[reaction] }}>{t(`reactionLabels.${reaction}`)}</div>
         </div>

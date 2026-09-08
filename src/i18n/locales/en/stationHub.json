@@ -47,17 +47,44 @@
     "turnBackSuspicious": "← Turn back — it's shady",
     "complete": "Complete the delivery (+{{credits}} cr · +{{rep}} rep)",
     "scenes": [
-      { "desc": "{{giver}}'s contact waits for you in a back room. They check the goods in silence, then nod. Clean transaction.", "outcome": "smooth" },
-      { "desc": "You find the recipient after twenty minutes searching the corridors. They look at the item, then at you. \"You're late.\" They pay anyway.", "outcome": "smooth" },
-      { "desc": "The recipient is there, but not alone. Two figures in the shadows. They ask if you were followed.", "outcome": "tense" },
-      { "desc": "You arrive at the address given — the place is closed. A note pinned to the door says to go to the lower level.", "outcome": "detour" },
-      { "desc": "On the way to the delivery, someone shoves past you in the corridor and deliberately knocks over your crate. Eyes turn toward you.", "outcome": "ambush" },
-      { "desc": "The recipient is there but initially refuses the goods. \"Terms have changed.\" They try to renegotiate downward.", "outcome": "negotiation" }
+      {
+        "desc": "{{giver}}'s contact waits for you in a back room. They check the goods in silence, then nod. Clean transaction.",
+        "outcome": "smooth"
+      },
+      {
+        "desc": "You find the recipient after twenty minutes searching the corridors. They look at the item, then at you. \"You're late.\" They pay anyway.",
+        "outcome": "smooth"
+      },
+      {
+        "desc": "The recipient is there, but not alone. Two figures in the shadows. They ask if you were followed.",
+        "outcome": "tense"
+      },
+      {
+        "desc": "You arrive at the address given — the place is closed. A note pinned to the door says to go to the lower level.",
+        "outcome": "detour"
+      },
+      {
+        "desc": "On the way to the delivery, someone shoves past you in the corridor and deliberately knocks over your crate. Eyes turn toward you.",
+        "outcome": "ambush"
+      },
+      {
+        "desc": "The recipient is there but initially refuses the goods. \"Terms have changed.\" They try to renegotiate downward.",
+        "outcome": "negotiation"
+      }
     ],
     "heistScenes": [
-      { "desc": "You hand the item to {{giver}}. They don't even look at it — they already knew what it was. Payment comes without a word.", "outcome": "smooth" },
-      { "desc": "Someone else was after this item. They're right there in the corridor, and they saw you.", "outcome": "ambush" },
-      { "desc": "The handoff happens. {{giver}} examines the item for a long time. \"This is the one.\" They pay. But you wonder how long they'd been waiting for exactly this.", "outcome": "smooth" }
+      {
+        "desc": "You hand the item to {{giver}}. They don't even look at it — they already knew what it was. Payment comes without a word.",
+        "outcome": "smooth"
+      },
+      {
+        "desc": "Someone else was after this item. They're right there in the corridor, and they saw you.",
+        "outcome": "ambush"
+      },
+      {
+        "desc": "The handoff happens. {{giver}} examines the item for a long time. \"This is the one.\" They pay. But you wonder how long they'd been waiting for exactly this.",
+        "outcome": "smooth"
+      }
     ]
   },
   "daySummary": {
@@ -206,7 +233,8 @@
     "mechanic": "Mechanic: {{mechanic}}",
     "defeated": "✓ DEFEATED",
     "orderRequired": "⛔ Order required — defeat lieutenant {{order}} first: {{name}} at {{station}}",
-    "confront": "⚔ Confront {{name}} — combat"
+    "confront": "⚔ Confront {{name}} — combat",
+    "breakPact": "✗ Break the bargain — he will not renegotiate"
   },
   "abandonRun": "Abandon run",
   "questSidebar": {
@@ -220,7 +248,10 @@
     "giver": "Giver:",
     "item": "Item: {{item}}",
     "reward": "+{{credits}} cr · +{{rep}} rep",
-    "timeLimit": "⏱ Time limit"
+    "timeLimit": "⏱ Time limit",
+    "pactType": "BARGAIN",
+    "pactWith": "Bargain — {{name}}",
+    "pactReady": "▶ HONOR"
   },
   "equipmentQuestsHeader": "🗡 EQUIPMENT QUESTS",
   "completeButton": "✓ Complete",
@@ -229,10 +260,22 @@
   "cluesCollected": "Clues collected: {{count}}/4",
   "ok": "OK",
   "alertConfig": {
-    "siege": { "label": "⚔ SIEGE ZONE", "desc": "Fighting rages here. Exits are risky, markets are in disarray." },
-    "lockdown": { "label": "🔒 LOCKDOWN", "desc": "Military authorities in full control. Some services are suspended." },
-    "epidemic": { "label": "☣ EPIDEMIC", "desc": "A pathogen is spreading. Trade is restricted, quarantine active." },
-    "festival": { "label": "★ FESTIVAL", "desc": "The station is celebrating. Luxury goods in demand, relaxed atmosphere." }
+    "siege": {
+      "label": "⚔ SIEGE ZONE",
+      "desc": "Fighting rages here. Exits are risky, markets are in disarray."
+    },
+    "lockdown": {
+      "label": "🔒 LOCKDOWN",
+      "desc": "Military authorities in full control. Some services are suspended."
+    },
+    "epidemic": {
+      "label": "☣ EPIDEMIC",
+      "desc": "A pathogen is spreading. Trade is restricted, quarantine active."
+    },
+    "festival": {
+      "label": "★ FESTIVAL",
+      "desc": "The station is celebrating. Luxury goods in demand, relaxed atmosphere."
+    }
   },
   "hostileTerritory": "⚠ HOSTILE TERRITORY — {{faction}}",
   "hostileTerritoryDesc": "This faction considers you an enemy. Prices are marked up 30%, quests and repairs are refused.",
@@ -247,7 +290,12 @@
     "header": "◆ ARRIVAL — {{station}}",
     "conditionNotMet": "Condition not met"
   },
-  "dangerLabels": ["◆ SECURE", "◆ RISKY", "◆ DANGEROUS", "◆ WAR ZONE"],
+  "dangerLabels": [
+    "◆ SECURE",
+    "◆ RISKY",
+    "◆ DANGEROUS",
+    "◆ WAR ZONE"
+  ],
   "inventoryHeader": "◆ INVENTORY",
   "cargoHold": "HOLD {{current}}/{{max}}{{full}}",
   "cargoHoldFull": " ▲ FULL",

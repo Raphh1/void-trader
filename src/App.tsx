@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { useGameStore } from './store/gameStore'
 import { useMetaStore }  from './store/metaStore'
 import { ClassSelect }          from './components/screens/ClassSelect'
@@ -7,25 +7,29 @@ import { CombatScreen }         from './components/screens/CombatScreen'
 import { TravelScreen }         from './components/screens/TravelScreen'
 import { MarketScreen }         from './components/screens/MarketScreen'
 import { InventoryScreen }      from './components/screens/InventoryScreen'
-import { PrisonScreen }         from './components/screens/PrisonScreen'
-import { FactionsScreen }       from './components/screens/FactionsScreen'
-import { QuestsScreen }         from './components/screens/QuestsScreen'
-import { ObjectivesScreen }     from './components/screens/ObjectivesScreen'
-import { ShipWorkshopScreen }   from './components/screens/ShipWorkshopScreen'
 import { NarrativeArcsScreen }  from './components/screens/NarrativeArcsScreen'
 import { CombatResultScreen }   from './components/screens/CombatResultScreen'
 import { CombatOutcomeScreen }  from './components/screens/CombatOutcomeScreen'
 import { StationArrivalScreen } from './components/screens/StationArrivalScreen'
 import { MetaScreen }           from './components/screens/MetaScreen'
-import { CraftingScreen }       from './components/screens/CraftingScreen'
-import { LoreScreen }           from './components/screens/LoreScreen'
-import { InterrogationScreen }  from './components/screens/InterrogationScreen'
-import { NexusScreen }          from './components/screens/NexusScreen'
-import { JournalScreen }        from './components/screens/JournalScreen'
 import { IntroScreen }          from './components/screens/IntroScreen'
 import { CinematicIntro }       from './components/screens/CinematicIntro'
-import { EscortMiniGameScreen } from './components/screens/EscortMiniGameScreen'
-import { MapScreen }           from './components/screens/MapScreen'
+
+// Écrans secondaires : rarement ouverts et jamais dans la boucle de jeu
+// principale (hub → marché/voyage → combat). Les charger à la demande allège
+// le bundle initial sans faire clignoter les écrans qu'on enchaîne souvent.
+const PrisonScreen        = lazy(() => import('./components/screens/PrisonScreen').then(m => ({ default: m.PrisonScreen })))
+const FactionsScreen      = lazy(() => import('./components/screens/FactionsScreen').then(m => ({ default: m.FactionsScreen })))
+const QuestsScreen        = lazy(() => import('./components/screens/QuestsScreen').then(m => ({ default: m.QuestsScreen })))
+const ObjectivesScreen    = lazy(() => import('./components/screens/ObjectivesScreen').then(m => ({ default: m.ObjectivesScreen })))
+const ShipWorkshopScreen  = lazy(() => import('./components/screens/ShipWorkshopScreen').then(m => ({ default: m.ShipWorkshopScreen })))
+const CraftingScreen      = lazy(() => import('./components/screens/CraftingScreen').then(m => ({ default: m.CraftingScreen })))
+const LoreScreen          = lazy(() => import('./components/screens/LoreScreen').then(m => ({ default: m.LoreScreen })))
+const InterrogationScreen = lazy(() => import('./components/screens/InterrogationScreen').then(m => ({ default: m.InterrogationScreen })))
+const NexusScreen         = lazy(() => import('./components/screens/NexusScreen').then(m => ({ default: m.NexusScreen })))
+const JournalScreen       = lazy(() => import('./components/screens/JournalScreen').then(m => ({ default: m.JournalScreen })))
+const EscortMiniGameScreen = lazy(() => import('./components/screens/EscortMiniGameScreen').then(m => ({ default: m.EscortMiniGameScreen })))
+const MapScreen           = lazy(() => import('./components/screens/MapScreen').then(m => ({ default: m.MapScreen })))
 import { getObjectives }        from './engine/objectives'
 import { getMetaUnlocks }         from './data/metaUnlocks'
 import { useTranslation }       from 'react-i18next'
@@ -97,7 +101,9 @@ export default function App() {
   return (
     <>
       <div key={gs.screen} className="screen-enter">
-        {renderScreen(gs.screen)}
+        <Suspense fallback={<div className="layout" />}>
+          {renderScreen(gs.screen)}
+        </Suspense>
       </div>
       {gs.pendingMessage && (
         <Toast message={gs.pendingMessage} onDismiss={() => patch({ pendingMessage: null })} />

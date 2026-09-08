@@ -47,17 +47,44 @@
     "turnBackSuspicious": "← Rebrousser chemin — c'est louche",
     "complete": "Compléter la livraison (+{{credits}} cr · +{{rep}} rép)",
     "scenes": [
-      { "desc": "Le contact de {{giver}} t'attend dans une arrière-salle. Il vérifie la marchandise en silence, puis hoche la tête. Transaction propre.", "outcome": "smooth" },
-      { "desc": "Tu trouves le destinataire après vingt minutes à chercher dans les couloirs. Il regarde l'item, puis toi. \"T'es en retard.\" Il paie quand même.", "outcome": "smooth" },
-      { "desc": "Le destinataire est là, mais il n'est pas seul. Deux types dans l'ombre. Il te demande si tu es suivi.", "outcome": "tense" },
-      { "desc": "Tu arrives à l'adresse indiquée — le local est fermé. Un message épinglé sur la porte dit de te rendre au niveau inférieur.", "outcome": "detour" },
-      { "desc": "En chemin pour la livraison, quelqu'un te double dans le couloir et renverse délibérément ta caisse. Les regards se tournent vers toi.", "outcome": "ambush" },
-      { "desc": "Le destinataire est là mais refuse d'abord la marchandise. \"Les termes ont changé.\" Il cherche à renégocier à la baisse.", "outcome": "negotiation" }
+      {
+        "desc": "Le contact de {{giver}} t'attend dans une arrière-salle. Il vérifie la marchandise en silence, puis hoche la tête. Transaction propre.",
+        "outcome": "smooth"
+      },
+      {
+        "desc": "Tu trouves le destinataire après vingt minutes à chercher dans les couloirs. Il regarde l'item, puis toi. \"T'es en retard.\" Il paie quand même.",
+        "outcome": "smooth"
+      },
+      {
+        "desc": "Le destinataire est là, mais il n'est pas seul. Deux types dans l'ombre. Il te demande si tu es suivi.",
+        "outcome": "tense"
+      },
+      {
+        "desc": "Tu arrives à l'adresse indiquée — le local est fermé. Un message épinglé sur la porte dit de te rendre au niveau inférieur.",
+        "outcome": "detour"
+      },
+      {
+        "desc": "En chemin pour la livraison, quelqu'un te double dans le couloir et renverse délibérément ta caisse. Les regards se tournent vers toi.",
+        "outcome": "ambush"
+      },
+      {
+        "desc": "Le destinataire est là mais refuse d'abord la marchandise. \"Les termes ont changé.\" Il cherche à renégocier à la baisse.",
+        "outcome": "negotiation"
+      }
     ],
     "heistScenes": [
-      { "desc": "Tu remets l'objet à {{giver}}. Il ne le regarde même pas — il savait déjà ce que c'était. Le paiement arrive sans un mot.", "outcome": "smooth" },
-      { "desc": "Quelqu'un d'autre cherchait cet item. Il est là, dans le couloir, et il t'a vu.", "outcome": "ambush" },
-      { "desc": "La remise se passe. {{giver}} examine l'objet longuement. \"C'est le bon.\" Il paie. Mais tu te demandes depuis combien de temps il attendait exactement ça.", "outcome": "smooth" }
+      {
+        "desc": "Tu remets l'objet à {{giver}}. Il ne le regarde même pas — il savait déjà ce que c'était. Le paiement arrive sans un mot.",
+        "outcome": "smooth"
+      },
+      {
+        "desc": "Quelqu'un d'autre cherchait cet item. Il est là, dans le couloir, et il t'a vu.",
+        "outcome": "ambush"
+      },
+      {
+        "desc": "La remise se passe. {{giver}} examine l'objet longuement. \"C'est le bon.\" Il paie. Mais tu te demandes depuis combien de temps il attendait exactement ça.",
+        "outcome": "smooth"
+      }
     ]
   },
   "daySummary": {
@@ -206,7 +233,8 @@
     "mechanic": "Mécanique : {{mechanic}}",
     "defeated": "✓ VAINCU",
     "orderRequired": "⛔ Ordre obligatoire — vaincre d'abord le lieutenant {{order}} : {{name}} à {{station}}",
-    "confront": "⚔ Affronter {{name}} — combat"
+    "confront": "⚔ Affronter {{name}} — combat",
+    "breakPact": "✗ Rompre le marché — il ne renégociera plus"
   },
   "abandonRun": "Abandonner la run",
   "questSidebar": {
@@ -220,7 +248,10 @@
     "giver": "Donneur :",
     "item": "Item : {{item}}",
     "reward": "+{{credits}} cr · +{{rep}} rép",
-    "timeLimit": "⏱ Limite de temps"
+    "timeLimit": "⏱ Limite de temps",
+    "pactType": "MARCHÉ",
+    "pactWith": "Marché — {{name}}",
+    "pactReady": "▶ HONORER"
   },
   "equipmentQuestsHeader": "🗡 QUÊTES D'ÉQUIPEMENT",
   "completeButton": "✓ Compléter",
@@ -229,10 +260,22 @@
   "cluesCollected": "Indices collectés : {{count}}/4",
   "ok": "OK",
   "alertConfig": {
-    "siege": { "label": "⚔ ZONE DE SIÈGE", "desc": "Des combats font rage ici. Les sorties sont risquées, les marchés en désordre." },
-    "lockdown": { "label": "🔒 VERROUILLAGE", "desc": "Autorités militaires en contrôle total. Certains services sont suspendus." },
-    "epidemic": { "label": "☣ ÉPIDÉMIE", "desc": "Un pathogène circule. Les échanges sont restreints, la quarantaine active." },
-    "festival": { "label": "★ FESTIVAL", "desc": "La station est en fête. Marchandises de luxe en demande, ambiance détendue." }
+    "siege": {
+      "label": "⚔ ZONE DE SIÈGE",
+      "desc": "Des combats font rage ici. Les sorties sont risquées, les marchés en désordre."
+    },
+    "lockdown": {
+      "label": "🔒 VERROUILLAGE",
+      "desc": "Autorités militaires en contrôle total. Certains services sont suspendus."
+    },
+    "epidemic": {
+      "label": "☣ ÉPIDÉMIE",
+      "desc": "Un pathogène circule. Les échanges sont restreints, la quarantaine active."
+    },
+    "festival": {
+      "label": "★ FESTIVAL",
+      "desc": "La station est en fête. Marchandises de luxe en demande, ambiance détendue."
+    }
   },
   "hostileTerritory": "⚠ TERRITOIRE HOSTILE — {{faction}}",
   "hostileTerritoryDesc": "Cette faction te considère comme un ennemi. Les prix sont majorés de 30%, les quêtes et réparations te sont refusées.",
@@ -247,7 +290,12 @@
     "header": "◆ ARRIVÉE — {{station}}",
     "conditionNotMet": "Condition non remplie"
   },
-  "dangerLabels": ["◆ SÉCURISÉE", "◆ RISQUÉE", "◆ DANGEREUSE", "◆ ZONE DE GUERRE"],
+  "dangerLabels": [
+    "◆ SÉCURISÉE",
+    "◆ RISQUÉE",
+    "◆ DANGEREUSE",
+    "◆ ZONE DE GUERRE"
+  ],
   "inventoryHeader": "◆ INVENTAIRE",
   "cargoHold": "SOUTE {{current}}/{{max}}{{full}}",
   "cargoHoldFull": " ▲ PLEINE",

@@ -4,7 +4,9 @@
     "manipulate": "Manipuler",
     "sabotage": "Saboter",
     "ally": "Rallier",
-    "betray": "Trahir"
+    "betray": "Trahir",
+    "bribe": "Racheter",
+    "service": "Marché"
   },
   "canResolve": {
     "manipulateWhyNot": "Manque {{amount}} cr",
@@ -21,7 +23,16 @@
     "betrayHintFail": "Standing 15+ · gros butin, -standing",
     "betrayHintOk": "Gros butin · -standing, -réputation",
     "conditionsNotMet": "Conditions non remplies.",
-    "unavailable": "Méthode indisponible."
+    "unavailable": "Méthode indisponible.",
+    "bribeWhyNot": "Il te rit au nez : il manque {{amount}} cr.",
+    "bribeHintFail": "Se retire contre {{cr}} cr — certain, mais hors de prix pour l'instant.",
+    "bribeHintOk": "Se retire contre {{cr}} cr. Aucun risque : il prend et il disparaît.",
+    "serviceHintFail": "Il veut un service avant de se retirer : {{list}}",
+    "serviceHintOk": "Tu remplis ses conditions ({{list}}). Il se retire sans un mot.",
+    "serviceNotAccepted": "Il attend une réponse. S'engager : {{list}}",
+    "servicePending": "Marché en cours — il manque encore : {{missing}}",
+    "servicePactBroken": "{{name}} ne renégocie pas. Tu as donné ta parole une fois.",
+    "servicePactBrokenHint": "Marché rompu. Il ne reste que la force ou l'argent."
   },
   "resolve": {
     "manipulateSuccess": "Tu montes une mise en scène taillée pour lui : « {{trait}}. » Tu exploites précisément ça. {{name}} mord à l'hameçon et se retire, persuadé d'avoir pris la bonne décision. Il ne comprendra jamais. -{{cr}} cr.",
@@ -29,6 +40,43 @@
     "sabotageSuccess": "Tu bricoles ses systèmes en amont — {{mechanic}}. Quand {{name}} veut réagir, rien ne répond. Neutralisé sans un coup de feu. -2 Composants électroniques.",
     "sabotageFail": "Le sabotage tourne mal — une alarme se déclenche. {{name}} sait maintenant que tu es venu pour lui, et il t'attend de pied ferme. -2 Composants électroniques.",
     "allySuccess": "Tu ne le combats pas : tu lui offres mieux. « {{motivation}} » — tu lui montres que ton chemin sert ce but plus que {{boss}} ne le fera jamais. {{name}} hésite longtemps… puis te serre la main. Il passe dans ton camp, et t'ouvre les portes vers {{boss}}. +{{reward}} cr, +standing, +réputation.",
-    "betraySuccess": "Tu joues l'ami, l'allié, le camarade. {{name}} baisse sa garde — la première erreur de sa carrière, la dernière aussi. Tu prends tout : +{{loot}} cr. Mais {{boss}} saura comment son lieutenant est tombé, et le secteur entier retiendra ta méthode. -standing, -réputation."
+    "betraySuccess": "Tu joues l'ami, l'allié, le camarade. {{name}} baisse sa garde — la première erreur de sa carrière, la dernière aussi. Tu prends tout : +{{loot}} cr. Mais {{boss}} saura comment son lieutenant est tombé, et le secteur entier retiendra ta méthode. -standing, -réputation.",
+    "bribeSuccess": "{{name}} compte les {{cr}} cr deux fois, puis fait signe à ses hommes de baisser les armes. « Rien de personnel. Dis à {{boss}} que le tarif a augmenté. »",
+    "serviceSuccess": "{{name}} vérifie que tu as tenu parole, hoche la tête une seule fois et s'écarte du passage. « Un service en vaut un autre. {{boss}} n'a pas besoin de le savoir. »"
+  },
+  "service": {
+    "missing": {
+      "credits": "il manque {{amount}} cr",
+      "reputation": "réputation {{value}} — il en exige {{needed}}",
+      "item": "{{name}} : {{have}}/{{needed}}",
+      "combatsWon": "{{value}} combats gagnés — il en exige {{needed}}",
+      "visitStation": "tu n'as jamais mis les pieds à {{station}}",
+      "bossKill": "{{boss}} est toujours en vie",
+      "day": "jour {{value}} — il ne traitera pas avant le jour {{needed}}",
+      "subBoss": "un de ses rivaux doit tomber avant",
+      "pillarStanding": "standing {{pillar}} {{cur}} — il en exige {{needed}}",
+      "factionReputation": "réputation {{faction}} {{cur}} — il en exige {{needed}}",
+      "questsCompleted": "{{value}} quêtes accomplies — il en exige {{needed}}"
+    },
+    "req": {
+      "credits": "{{amount}} cr",
+      "reputation": "réputation {{value}}",
+      "item": "{{qty}}× {{name}}",
+      "combatsWon": "{{value}} combats gagnés",
+      "visitStation": "être passé par {{station}}",
+      "bossKill": "avoir abattu {{boss}}",
+      "day": "jour {{value}} minimum",
+      "subBoss": "un rival éliminé",
+      "pillarStanding": "standing {{pillar}} {{value}}",
+      "factionReputation": "réputation {{faction}} {{value}}",
+      "questsCompleted": "{{value}} quêtes accomplies"
+    }
+  },
+  "pact": {
+    "accepted": "{{name}} te dévisage un long moment, puis hoche la tête. Le marché est passé : {{list}}. Reviens quand ce sera fait — il n'aime pas attendre.",
+    "broken": "Tu annonces à {{name}} que le marché ne tient plus. Il ne dit rien. C'est bien pire qu'un cri : il ne te proposera plus jamais rien.",
+    "journalAccepted": "Marché passé avec {{name}}, à {{station}}. Il attend que je tienne parole.",
+    "journalHonored": "Marché honoré. {{name}} s'est retiré sans un mot de plus.",
+    "journalBroken": "J'ai rompu ma parole avec {{name}}. Il s'en souviendra."
   }
 }

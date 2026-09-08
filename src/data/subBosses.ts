@@ -35,7 +35,12 @@ function getAlanossaSubs(): SubBossData[] {
     combatMechanic: sb('ala1.combatMechanic'),
     specialAbility: sb('ala1.specialAbility'),
     reward: { type: 'weapon', value: 'Lunette du Vigie' },
-    resolutions: ['kill', 'manipulate', 'sabotage'],
+    resolutions: ['kill', 'manipulate', 'sabotage', 'bribe', 'service'],
+    bribe: { credits: 9000 },
+    service: { demand: sb('ala1.serviceDemand'), requirements: [
+      { type: 'item', name: 'Composants électroniques', qty: 4 },
+      { type: 'visitStation', station: 'Station Ombre' },
+    ] },
     enemy: makeEnemy('Le Vigie Immortel', 160, 18, 35, 2000, 4500, sb('ala1.enemyDesc'), 'ranged'),
   },
   {
@@ -50,7 +55,12 @@ function getAlanossaSubs(): SubBossData[] {
     combatMechanic: sb('ala2.combatMechanic'),
     specialAbility: sb('ala2.specialAbility'),
     reward: { type: 'item', value: 'Carte des routes Faucon' },
-    resolutions: ['kill', 'ally', 'betray'],
+    resolutions: ['kill', 'ally', 'betray', 'bribe', 'service'],
+    bribe: { credits: 12000 },
+    service: { demand: sb('ala2.serviceDemand'), requirements: [
+      { type: 'item', name: 'Rations militaires', qty: 5 },
+      { type: 'item', name: 'Carburant de récup', qty: 3 },
+    ] },
     enemy: makeEnemy("Le Ravitailleur de l'Ombre", 200, 20, 38, 2500, 5500, sb('ala2.enemyDesc'), 'normal'),
   },
   {
@@ -65,8 +75,16 @@ function getAlanossaSubs(): SubBossData[] {
     combatMechanic: sb('ala3.combatMechanic'),
     specialAbility: sb('ala3.specialAbility'),
     reward: { type: 'armor', value: 'Cape des Ombres' },
-    resolutions: ['kill', 'manipulate', 'sabotage'],
-    enemy: makeEnemy('Le Fantôme des Ombres', 180, 28, 52, 3000, 6500, sb('ala3.enemyDesc'), 'ranged'),
+    resolutions: ['kill', 'manipulate', 'sabotage', 'bribe', 'service'],
+    bribe: { credits: 21000 },
+    service: { demand: sb('ala3.serviceDemand'), requirements: [
+      { type: 'combatsWon', min: 12 },
+      { type: 'item', name: 'Fausses identités', qty: 2 },
+    ] },
+    // Invisible un tour sur deux : la moitié des coups est annulée, et il
+    // contre-attaque en plus. Avec le plafond de base, le cumul rend le combat
+    // ingagnable même en équipement maximal — on le relève donc fortement.
+    enemy: { ...makeEnemy('Le Fantôme des Ombres', 180, 28, 52, 3000, 6500, sb('ala3.enemyDesc'), 'ranged'), damageCapPct: 0.45 },
   },
   {
     id: 'ala-4',
@@ -80,7 +98,12 @@ function getAlanossaSubs(): SubBossData[] {
     combatMechanic: sb('ala4.combatMechanic'),
     specialAbility: sb('ala4.specialAbility'),
     reward: { type: 'weapon', value: 'Lame de la Faucon' },
-    resolutions: ['kill', 'ally', 'betray'],
+    resolutions: ['kill', 'ally', 'betray', 'bribe', 'service'],
+    bribe: { credits: 34000 },
+    service: { demand: sb('ala4.serviceDemand'), requirements: [
+      { type: 'factionReputation', faction: 'faucons', min: 45 },
+      { type: 'subBoss', subBossId: 'ala-3' },
+    ] },
     enemy: makeEnemy('La Faucon', 250, 28, 52, 3500, 7000, sb('ala4.enemyDesc'), 'normal'),
   },
   ]
@@ -101,7 +124,12 @@ function getCesarionSubs(): SubBossData[] {
     combatMechanic: sb('ces1.combatMechanic'),
     specialAbility: sb('ces1.specialAbility'),
     reward: { type: 'weapon', value: 'Dague empoisonnée de Morte' },
-    resolutions: ['kill', 'manipulate', 'ally'],
+    resolutions: ['kill', 'manipulate', 'ally', 'bribe', 'service'],
+    bribe: { credits: 11000 },
+    service: { demand: sb('ces1.serviceDemand'), requirements: [
+      { type: 'item', name: 'Munitions spéciales', qty: 4 },
+      { type: 'credits', amount: 6000 },
+    ] },
     enemy: makeEnemy('La Marchande de Mort', 155, 18, 36, 2200, 5000, sb('ces1.enemyDesc'), 'ranged'),
   },
   {
@@ -116,7 +144,12 @@ function getCesarionSubs(): SubBossData[] {
     combatMechanic: sb('ces2.combatMechanic'),
     specialAbility: sb('ces2.specialAbility'),
     reward: { type: 'credits', value: 5000 },
-    resolutions: ['kill', 'manipulate', 'betray'],
+    resolutions: ['kill', 'manipulate', 'betray', 'bribe', 'service'],
+    bribe: { credits: 15000 },
+    service: { demand: sb('ces2.serviceDemand'), requirements: [
+      { type: 'visitStation', station: 'Relais de Transit' },
+      { type: 'item', name: 'Marchandises volées', qty: 3 },
+    ] },
     enemy: makeEnemy('Le Passeur Sanguinaire', 190, 22, 42, 3000, 6000, sb('ces2.enemyDesc'), 'normal'),
   },
   {
@@ -131,7 +164,12 @@ function getCesarionSubs(): SubBossData[] {
     combatMechanic: sb('ces3.combatMechanic'),
     specialAbility: sb('ces3.specialAbility'),
     reward: { type: 'item', value: 'Dossier Cesarion' },
-    resolutions: ['kill', 'manipulate', 'sabotage'],
+    resolutions: ['kill', 'manipulate', 'sabotage', 'bribe', 'service'],
+    bribe: { credits: 24000 },
+    service: { demand: sb('ces3.serviceDemand'), requirements: [
+      { type: 'item', name: 'Données classifiées', qty: 4 },
+      { type: 'questsCompleted', min: 6 },
+    ] },
     enemy: makeEnemy("L'Archiviste sans Visage", 175, 26, 48, 3500, 7000, sb('ces3.enemyDesc'), 'ranged'),
   },
   {
@@ -146,7 +184,13 @@ function getCesarionSubs(): SubBossData[] {
     combatMechanic: sb('ces4.combatMechanic'),
     specialAbility: sb('ces4.specialAbility'),
     reward: { type: 'armor', value: 'Uniforme Diplomatique' },
-    resolutions: ['kill', 'ally', 'betray', 'manipulate'],
+    resolutions: ['kill', 'ally', 'betray', 'manipulate', 'bribe', 'service'],
+    bribe: { credits: 40000 },
+    service: { demand: sb('ces4.serviceDemand'), requirements: [
+      { type: 'factionReputation', faction: 'emporium', min: 50 },
+      { type: 'credits', amount: 20000 },
+      { type: 'subBoss', subBossId: 'ces-3' },
+    ] },
     enemy: makeEnemy('Le Directeur Fantôme', 220, 24, 46, 4000, 8000, sb('ces4.enemyDesc'), 'support'),
   },
   ]
@@ -167,7 +211,12 @@ function getRaphazarusSubs(): SubBossData[] {
     combatMechanic: sb('raph1.combatMechanic'),
     specialAbility: sb('raph1.specialAbility'),
     reward: { type: 'item', value: 'Plaque d\'identification 3e Bataillon' },
-    resolutions: ['kill', 'manipulate', 'sabotage'],
+    resolutions: ['kill', 'manipulate', 'sabotage', 'bribe', 'service'],
+    bribe: { credits: 8000 },
+    service: { demand: sb('raph1.serviceDemand'), requirements: [
+      { type: 'visitStation', station: 'Les Cendres' },
+      { type: 'item', name: 'Médicaments', qty: 4 },
+    ] },
     enemy: makeEnemy('Le Sergent Cendré', 170, 20, 38, 2200, 5000, sb('raph1.enemyDesc'), 'normal'),
   },
   {
@@ -182,7 +231,12 @@ function getRaphazarusSubs(): SubBossData[] {
     combatMechanic: sb('raph2.combatMechanic'),
     specialAbility: sb('raph2.specialAbility'),
     reward: { type: 'armor', value: 'Armure de la Veuve' },
-    resolutions: ['kill', 'manipulate', 'betray'],
+    resolutions: ['kill', 'manipulate', 'betray', 'bribe', 'service'],
+    bribe: { credits: 16000 },
+    service: { demand: sb('raph2.serviceDemand'), requirements: [
+      { type: 'item', name: 'Composants d\'armure', qty: 3 },
+      { type: 'reputation', min: 45 },
+    ] },
     enemy: makeEnemy('La Veuve de Fer', 210, 24, 45, 3000, 6500, sb('raph2.enemyDesc'), 'tank'),
   },
   {
@@ -197,8 +251,15 @@ function getRaphazarusSubs(): SubBossData[] {
     combatMechanic: sb('raph3.combatMechanic'),
     specialAbility: sb('raph3.specialAbility'),
     reward: { type: 'weapon', value: 'Lame Fantôme du 7e' },
-    resolutions: ['kill', 'manipulate', 'sabotage'],
-    enemy: makeEnemy('Le Spectre du 7e', 230, 30, 55, 4000, 8000, sb('raph3.enemyDesc'), 'ranged'),
+    resolutions: ['kill', 'manipulate', 'sabotage', 'bribe', 'service'],
+    bribe: { credits: 23000 },
+    service: { demand: sb('raph3.serviceDemand'), requirements: [
+      { type: 'visitStation', station: 'Station Fantôme' },
+      { type: 'combatsWon', min: 15 },
+    ] },
+    // Phase spectrale un tour sur deux : même logique que Le Fantôme, en moins
+    // sévère puisqu'il ne contre-attaque pas.
+    enemy: { ...makeEnemy('Le Spectre du 7e', 230, 30, 55, 4000, 8000, sb('raph3.enemyDesc'), 'ranged'), damageCapPct: 0.28 },
   },
   {
     id: 'raph-4',
@@ -212,7 +273,13 @@ function getRaphazarusSubs(): SubBossData[] {
     combatMechanic: sb('raph4.combatMechanic'),
     specialAbility: sb('raph4.specialAbility'),
     reward: { type: 'weapon', value: 'Le Poing du Maréchal' },
-    resolutions: ['kill', 'ally'],
+    resolutions: ['kill', 'ally', 'bribe', 'service'],
+    bribe: { credits: 38000 },
+    service: { demand: sb('raph4.serviceDemand'), requirements: [
+      { type: 'pillarStanding', pillar: 'raphazarus', min: 35 },
+      { type: 'item', name: 'Armes artisanales', qty: 3 },
+      { type: 'day', min: 25 },
+    ] },
     enemy: makeEnemy('Le Maréchal Osseux', 280, 30, 58, 5000, 10000, sb('raph4.enemyDesc'), 'tank'),
   },
   ]
@@ -233,7 +300,12 @@ function getScottySubs(): SubBossData[] {
     combatMechanic: sb('sco1.combatMechanic'),
     specialAbility: sb('sco1.specialAbility'),
     reward: { type: 'weapon', value: 'Dague de la Nuit' },
-    resolutions: ['kill', 'manipulate', 'betray'],
+    resolutions: ['kill', 'manipulate', 'betray', 'bribe', 'service'],
+    bribe: { credits: 10000 },
+    service: { demand: sb('sco1.serviceDemand'), requirements: [
+      { type: 'item', name: 'Jetons de casino', qty: 6 },
+      { type: 'visitStation', station: 'Port de Nuit' },
+    ] },
     enemy: makeEnemy('Le Roi de Nuit', 175, 20, 40, 2500, 5500, sb('sco1.enemyDesc'), 'normal'),
   },
   {
@@ -248,7 +320,12 @@ function getScottySubs(): SubBossData[] {
     combatMechanic: sb('sco2.combatMechanic'),
     specialAbility: sb('sco2.specialAbility'),
     reward: { type: 'item', value: 'Carnet de Chantage' },
-    resolutions: ['kill', 'manipulate', 'ally', 'betray'],
+    resolutions: ['kill', 'manipulate', 'ally', 'betray', 'bribe', 'service'],
+    bribe: { credits: 18000 },
+    service: { demand: sb('sco2.serviceDemand'), requirements: [
+      { type: 'item', name: 'Informations VIP', qty: 3 },
+      { type: 'reputation', min: 50 },
+    ] },
     enemy: makeEnemy('Le Maître des Ombres', 195, 24, 45, 3000, 6500, sb('sco2.enemyDesc'), 'ranged'),
   },
   {
@@ -263,7 +340,12 @@ function getScottySubs(): SubBossData[] {
     combatMechanic: sb('sco3.combatMechanic'),
     specialAbility: sb('sco3.specialAbility'),
     reward: { type: 'armor', value: 'Armure Prédictive' },
-    resolutions: ['kill', 'manipulate', 'sabotage'],
+    resolutions: ['kill', 'manipulate', 'sabotage', 'bribe', 'service'],
+    bribe: { credits: 26000 },
+    service: { demand: sb('sco3.serviceDemand'), requirements: [
+      { type: 'item', name: 'Composants expérimentaux', qty: 4 },
+      { type: 'item', name: 'Cristaux énergétiques', qty: 3 },
+    ] },
     enemy: makeEnemy('Oracle de la Singularité', 210, 30, 55, 4000, 8000, sb('sco3.enemyDesc'), 'ranged'),
   },
   {
@@ -278,7 +360,13 @@ function getScottySubs(): SubBossData[] {
     combatMechanic: sb('sco4.combatMechanic'),
     specialAbility: sb('sco4.specialAbility'),
     reward: { type: 'weapon', value: 'Scalpel de Velkor' },
-    resolutions: ['kill', 'manipulate'],
+    resolutions: ['kill', 'manipulate', 'bribe', 'service'],
+    bribe: { credits: 42000 },
+    service: { demand: sb('sco4.serviceDemand'), requirements: [
+      { type: 'pillarStanding', pillar: 'scotty', min: 40 },
+      { type: 'credits', amount: 25000 },
+      { type: 'subBoss', subBossId: 'sco-3' },
+    ] },
     enemy: makeEnemy('Directeur Pale', 260, 25, 50, 5000, 10000, sb('sco4.enemyDesc'), 'normal'),
   },
   ]

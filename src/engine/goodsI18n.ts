@@ -488,3 +488,11 @@ export function translateStationName(name: string): string {
   if (!key) return name
   return i18n.t(`names.${key}`, { ns: 'stations', defaultValue: name })
 }
+
+// Rôles de PNJ : le rôle sert aussi de clé de données (ROLE_META dans quests.ts,
+// SERVICES dans npcTracker.ts, talkLines.*) — on ne traduit donc qu'à l'affichage.
+// Les NOMS de PNJ (Marek, Sela, Torvak...) sont des noms propres inventés et
+// restent identiques dans les deux langues, comme Alanossa ou Raphazarus.
+export function translateNpcRole(role: string): string {
+  return i18n.t(`roles.${role}`, { ns: 'npcTracker', defaultValue: role })
+}

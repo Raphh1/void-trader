@@ -3,7 +3,23 @@ import i18n from '../i18n/config'
 
 const st = (key: string) => i18n.t(key, { ns: 'stations' })
 
-export function getStations(): StationData[] {
+// Même mémoïsation par langue que dans data/enemies.ts : getStations() est
+// appelé en boucle (findPath, carte, marché) et reconstruisait les 60 stations
+// à chaque fois. Le cache est invalidé au changement de langue, donc les
+// descriptions restent traduites. Aucun appelant ne mute le tableau retourné.
+function memoByLang<T>(build: () => T): () => T {
+  let cachedLang: string | null = null
+  let cached: T
+  return () => {
+    if (cachedLang !== i18n.language) {
+      cached = build()
+      cachedLang = i18n.language
+    }
+    return cached
+  }
+}
+
+function buildStations(): StationData[] {
   return [
   {
     name: 'La Carcasse',
@@ -580,3 +596,5 @@ export function findPath(from: string, to: string, excluded?: Set<string>): stri
   }
   return []
 }
+
+export const getStations = memoByLang(buildStations)

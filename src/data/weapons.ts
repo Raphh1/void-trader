@@ -64,16 +64,22 @@ export function getWeapons(): WeaponData[] {
   w('L\'Éveilleur',               4, 22, 44, 19, 'momentum_surge',0,we('eveilleur'),          0,  0, { Vétéran: 1.2, 'Seigneur de guerre': 1.1 }),
 
   // ── TIER 5 ── Armes légendaires — certaines peuvent tuer leur porteur ────────
-  w('Canon à trou noir miniaturisé', 5, 40, 80, 25, 'flee',     30, we('canonTrouNoirMiniaturise'),                30, 35, { 'Seigneur de guerre': 1.2 }),
-  w('Canon à singularité',           5, 45, 85, 28, 'armorPierce',0,we('canonSingularite'),            25, 30),
-  w('Dernière Parole',               5, 50, 90, 35, 'stun',     50, we('derniereParole'),                          20, 25),
+  // Chaque classe a désormais au moins une arme légendaire "signature" : avant,
+  // seuls le Vétéran et le Seigneur de guerre avaient des affinités au tier 5,
+  // donc les 13 autres classes perdaient toute identité en fin de partie.
+  // Les affinités guerrières sont légèrement réduites car ces deux classes
+  // bénéficient aussi de CLASS_WEAPON_MULT (voir engine/combat.ts).
+  w('Canon à trou noir miniaturisé', 5, 40, 80, 25, 'flee',     30, we('canonTrouNoirMiniaturise'),                30, 35, { Contrebandier: 1.2, Vagabond: 1.15 }),
+  w('Canon à singularité',           5, 45, 85, 28, 'armorPierce',0,we('canonSingularite'),            25, 30, { Mécanicien: 1.2, Ferrailleur: 1.15 }),
+  w('Dernière Parole',               5, 50, 90, 35, 'stun',     50, we('derniereParole'),                          20, 25, { Hackeur: 1.2, Marchand: 1.15 }),
   // redesigns
-  w('Le Sceptre de Raphazarus',      5, 38, 78, 30, 'berserker', 0, we('sceptreRaphazarus'), 0, 0, { Vétéran: 1.25, 'Seigneur de guerre': 1.15 }),
-  w('Bombe à paradoxe',              5, 42, 82, 28, 'confusion',55, we('bombeParadoxe'), 20, 30),
-  w('Lame de la Fin des Temps',      5, 50, 95, 35, 'nuclear',   0, we('lameFinDesTemps'), 0, 0, { 'Seigneur de guerre': 1.2 }),
-  w('Archon Mk-VII',                 5, 40, 78, 32, 'paralyze', 60, we('archonMkVII'),                          5, 15, { Vétéran: 1.2 }),
-  // nouvelle arme dangereuse
-  w('Réacteur à fission',            5, 35, 70, 25, 'unstable',  0, we('reacteurFission'), 30, 40),
+  w('Le Sceptre de Raphazarus',      5, 38, 78, 30, 'berserker', 0, we('sceptreRaphazarus'), 0, 0, { Vétéran: 1.2, 'Seigneur de guerre': 1.1 }),
+  w('Bombe à paradoxe',              5, 42, 82, 28, 'confusion',55, we('bombeParadoxe'), 20, 30, { Maudit: 1.25, Explorateur: 1.15 }),
+  w('Lame de la Fin des Temps',      5, 50, 95, 35, 'nuclear',   0, we('lameFinDesTemps'), 0, 0, { 'Seigneur de guerre': 1.15, Endetté: 1.2 }),
+  w('Archon Mk-VII',                 5, 40, 78, 32, 'paralyze', 60, we('archonMkVII'),                          5, 15, { Médecin: 1.2, Héritier: 1.15 }),
+  // nouvelle arme dangereuse — la plus risquée, donc la plus généreuse pour les
+  // classes qui vivent du risque
+  w('Réacteur à fission',            5, 35, 70, 25, 'unstable',  0, we('reacteurFission'), 30, 40, { Rayane: 1.3, Accro: 1.25, Ferrailleur: 1.2 }),
   ]
 }
 

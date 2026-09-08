@@ -16,13 +16,22 @@ const roll = (chance: number) => Math.random() * 100 < chance
 
 // Rayane — sursis de mort à pile ou face, une seule fois par run. Face = pas
 // de miracle, la résolution normale (mort/capture/assommé) suit son cours.
-function tryDeathFlip(gs: GameState, addLog: (t: string, type: CombatLogEntry['type']) => void): { survived: boolean; usedFlip: boolean } {
-  if (gs.class.name !== 'Rayane' || gs.rayaneDeathFlipUsed) return { survived: false, usedFlip: false }
-  const heads = roll(50)
-  addLog(heads
-    ? ct('deathFlipHeads')
-    : ct('deathFlipTails'), heads ? 'crit' : 'warning')
-  return { survived: heads, usedFlip: true }
+function tryDeathFlip(gs: GameState, addLog: (t: string, type: CombatLogEntry['type']) => void):
+  { survived: boolean; flag?: 'rayaneDeathFlipUsed' | 'cursedSurvivalUsed' } {
+  // Rayane joue sa vie à pile ou face, une fois par run.
+  if (gs.class.name === 'Rayane' && !gs.rayaneDeathFlipUsed) {
+    const heads = roll(50)
+    addLog(heads ? ct('deathFlipHeads') : ct('deathFlipTails'), heads ? 'crit' : 'warning')
+    // Le pile ou face est dépensé qu'il réussisse ou non.
+    return { survived: heads, flag: 'rayaneDeathFlipUsed' }
+  }
+  // Le Maudit ne peut pas mourir tant que sa malédiction n'a pas été dépensée :
+  // une fois par run, elle le ramène à 1 PV. C'est sa compétence non combattante.
+  if (gs.class.name === 'Maudit' && !gs.cursedSurvivalUsed) {
+    addLog(ct('cursedSurvival'), 'crit')
+    return { survived: true, flag: 'cursedSurvivalUsed' }
+  }
+  return { survived: false }
 }
 
 export function initCombat(enemy: Enemy): CombatState {
@@ -54,6 +63,7 @@ export function initCombat(enemy: Enemy): CombatState {
     subBossShadowHits: 0,
     subBossDefenseStacks: 0,
     fleeAttempts: 0,
+    escortHits: 0,
     log: [],
   }
 }
@@ -104,10 +114,33 @@ function generateIntent(enemy: Enemy, cs: CombatState): EnemyIntent {
   return 'disarm'
 }
 
+// Bonus de combat propres aux classes guerrières. Exprimés en multiplicateur
+// (et non en bonus plat) pour rester proportionnés du tier 1 au tier 5 : un
+// "+8-20" plat doublerait un couteau de rue mais serait négligeable sur une
+// arme de fin de jeu. Ces valeurs reproduisent l'intention d'origine (~+25 % pour
+// le Seigneur de guerre, ~+15 % pour le Vétéran) à l'échelle d'une arme équipée.
+const CLASS_WEAPON_MULT: Partial<Record<PlayerClassName, number>> = {
+  'Seigneur de guerre': 1.25,
+  'Vétéran': 1.15,
+  'Vagabond': 0.92,
+}
+
+// Plafond de dégâts par coup contre un sous-boss. Par défaut 20 % de ses PV
+// max ; relevé au cas par cas (voir data/subBosses.ts) pour les lieutenants qui
+// annulent ou absorbent déjà une partie des coups, sinon les deux effets se
+// cumulent et le combat devient ingagnable même en équipement maximal.
+function subBossHitCap(enemy: Enemy): number {
+  return Math.ceil(enemy.maxHp * (enemy.damageCapPct ?? 0.20))
+}
+
 function calcWeaponDamage(weapon: WeaponData, className: PlayerClassName, special: boolean, critBonus = 0): { dmg: number; crit: boolean } {
   let dmg = rng(weapon.damageMin, weapon.damageMax)
   const affinity = weapon.affinities[className] ?? 1.0
   dmg = Math.floor(dmg * affinity)
+  // Le bonus de classe s'appliquait uniquement à mains nues : les classes de
+  // combat perdaient donc toute identité offensive dès qu'elles s'équipaient,
+  // c'est-à-dire exactement quand ça compte (boss de fin de jeu).
+  dmg = Math.floor(dmg * (CLASS_WEAPON_MULT[className] ?? 1.0))
   if (weapon.effect === 'armorPierce') dmg = Math.floor(dmg * 1.3)
   const critChance = (special ? weapon.critChance + 10 : weapon.critChance) + critBonus
   const crit = roll(critChance)
@@ -164,6 +197,20 @@ export function processCombatAction(
   action: CombatAction
 ): CombatResult {
   const newCs: CombatState = { ...cs, log: [] }
+  // PV réels de l'ennemi, NON clampés à 0. newCs.enemyHp est clampé pour
+  // l'affichage, ce qui fait disparaître le surplus d'un coup fatal ; les
+  // mécaniques de mitigation des sous-boss « remboursaient » ensuite un
+  // pourcentage des dégâts bruts sur cette valeur déjà remise à zéro, et
+  // ressuscitaient l'ennemi. La Veuve de Fer, qui absorbe 40 % sans aucune
+  // condition, en devenait strictement immortelle (0 % de victoire quel que
+  // soit le plafond). On rembourse donc sur la valeur vraie.
+  let enemyHpTrue = cs.enemyHp
+
+  /** Rend des PV à l'ennemi sans jamais le ramener d'entre les morts. */
+  function mitigate(amount: number) {
+    enemyHpTrue += amount
+    newCs.enemyHp = Math.max(0, Math.min(enemy.maxHp, enemyHpTrue))
+  }
   newCs.turnCount = (cs.turnCount ?? 0) + 1
   const newGs: Partial<GameState> = {}
   let playerHp = gs.playerHp
@@ -197,14 +244,14 @@ export function processCombatAction(
       const flip = tryDeathFlip(gs, addLog)
       if (flip.survived) {
         playerHp = 1
-        newGs.rayaneDeathFlipUsed = true
+        if (flip.flag) newGs[flip.flag] = true
       } else {
         const r2 = Math.random() * 100
         let outcome2: CombatOutcome = 'stunned'
         if (r2 < enemy.killChance) outcome2 = 'dead'
         else if (r2 < enemy.killChance + enemy.captureChance) outcome2 = 'captured'
         return {
-          newGs: { ...newGs, ...(flip.usedFlip ? { rayaneDeathFlipUsed: true } : {}), playerHp: outcome2 === 'captured' ? Math.floor(gs.playerMaxHp / 2) : 0, stamina, credits, reputation, equippedWeapon, cargo },
+          newGs: { ...newGs, ...(flip.flag ? { [flip.flag]: true } : {}), playerHp: outcome2 === 'captured' ? Math.floor(gs.playerMaxHp / 2) : 0, stamina, credits, reputation, equippedWeapon, cargo },
           newCs, outcome: outcome2,
         }
       }
@@ -237,7 +284,7 @@ export function processCombatAction(
       const flip = tryDeathFlip(gs, addLog)
       if (flip.survived) {
         playerHp = 1
-        newGs.rayaneDeathFlipUsed = true
+        if (flip.flag) newGs[flip.flag] = true
       } else {
         addLog(ct('youFall', { enemy: translateEnemyName(enemy.name) }), 'enemy')
         const r2 = Math.random() * 100
@@ -246,7 +293,7 @@ export function processCombatAction(
         else if (r2 < enemy.killChance + enemy.captureChance) outcome2 = 'captured'
         const survivedHp = outcome2 === 'captured' ? Math.floor(gs.playerMaxHp / 2) : 0
         return {
-          newGs: { ...newGs, ...(flip.usedFlip ? { rayaneDeathFlipUsed: true } : {}), playerHp: survivedHp, stamina, credits, reputation, equippedWeapon, cargo },
+          newGs: { ...newGs, ...(flip.flag ? { [flip.flag]: true } : {}), playerHp: survivedHp, stamina, credits, reputation, equippedWeapon, cargo },
           newCs, outcome: outcome2,
         }
       }
@@ -279,10 +326,18 @@ export function processCombatAction(
       ? 1 + (gs.class.coupDeGraceBonus ?? 0) / 100
       : 1.0
     let dmg = Math.floor(result.dmg * mult * attackMult * folieMult * weakenMult * coupDeGrace * precisionMult)
+    // Plafond anti-farm des sous-boss, appliqué AVANT de retirer les PV.
+    // Auparavant on retirait les dégâts bruts (clampés à 0 par Math.max) puis on
+    // « remboursait » le surplus : quand un gros coup dépassait les PV restants,
+    // le surplus perdu au clamp était rendu quand même et le sous-boss REMONTAIT
+    // en PV. Plus l'arme était puissante, plus elle le soignait — Le Vigie
+    // Immortel en devenait invincible (0 % de victoire en équipement maximal).
+    if (isSubBoss) dmg = Math.min(dmg, subBossHitCap(enemy))
     if (precisionMult >= 1.5) addLog(ct('perfectHit'), 'crit')
     else if (precisionMult <= 0.6) addLog(ct('badHit'), 'warning')
     if (result.crit) addLog(ct('critHit'), 'crit')
-    newCs.enemyHp = Math.max(0, newCs.enemyHp - dmg)
+    enemyHpTrue -= dmg
+    newCs.enemyHp = Math.max(0, enemyHpTrue)
     newCs.lastPlayerDmg = dmg
     newCs.playerStance = stance
     addLog(ct('dealDamage', { dmg, enemy: translateEnemyName(enemy.name), hp: newCs.enemyHp, max: enemy.maxHp }), 'player')
@@ -458,6 +513,10 @@ export function processCombatAction(
         case 'Hackeur': {
           stamina -= 30
           newCs.enemyWeaponDisabledTurns = 2
+          // Le silence neutralise aussi les mitigations des lieutenants
+          // (absorption, invisibilité, phase) : c’est là que son intrusion
+          // vaut mieux qu’un coup d’épée.
+          newCs.enemySilencedTurns = 3
           addLog(ct('hackSuccess', { enemy: translateEnemyName(enemy.name) }), 'player')
           break
         }
@@ -475,6 +534,56 @@ export function processCombatAction(
           newCs.lastPlayerDmg = dmg
           reputation -= 10
           addLog(ct('vagabondCheapShot', { dmg }), 'player')
+          break
+        }
+        // ── Compétences non combattantes ───────────────────────────────
+        // Ces classes n'avaient aucune action de classe : elles subissaient
+        // le combat sans jamais pouvoir y appliquer leur propre identité.
+        case 'Marchand': {
+          // Il achète la retraite de l'adversaire plutôt que de le vaincre.
+          const prix = 200 * Math.max(1, gs.day)
+          if (credits >= prix) {
+            credits -= prix
+            newCs.enemyWeakenedTurns = 3
+            addLog(ct('merchantBuyOff', { cost: prix }), 'player')
+          } else addLog(ct('merchantNoFunds', { cost: prix }), 'warning')
+          break
+        }
+        case 'Mécanicien': {
+          // Bricolage de fortune : il sabote l'arme adverse et rafistole la sienne.
+          stamina -= 15
+          newCs.enemyWeaponDisabledTurns = 3
+          const repaired = Math.min(20, gs.playerMaxHp - playerHp)
+          playerHp = Math.min(gs.playerMaxHp, playerHp + 20)
+          addLog(ct('mechanicRig', { amount: repaired }), 'player')
+          break
+        }
+        case 'Explorateur': {
+          // Lecture du terrain : il repère la faille et aveugle l'adversaire.
+          stamina -= 15
+          newCs.enemyBlinded = true
+          newCs.playerStance = 'offensive'
+          addLog(ct('explorerReadTerrain', { enemy: translateEnemyName(enemy.name) }), 'player')
+          break
+        }
+        case 'Ferrailleur': {
+          // Bombe de ferraille : dégâts bruts qui ignorent le plafond et les
+          // mitigations des lieutenants — sa seule vraie réponse à un mur.
+          const boom = rng(40, 70)
+          enemyHpTrue -= boom
+          newCs.enemyHp = Math.max(0, enemyHpTrue)
+          newCs.lastPlayerDmg = 0 // hors mitigations : ne déclenche pas les absorptions
+          addLog(ct('scrapperBomb', { dmg: boom, hp: newCs.enemyHp, max: enemy.maxHp }), 'crit')
+          break
+        }
+        case 'Héritier': {
+          // Escorte payée : sa fortune encaisse les coups à sa place.
+          const cout = 1500
+          if (credits >= cout) {
+            credits -= cout
+            newCs.escortHits = 3
+            addLog(ct('heirEscort', { cost: cout }), 'player')
+          } else addLog(ct('heirNoFunds', { cost: cout }), 'warning')
           break
         }
         case 'Rayane': {
@@ -674,29 +783,27 @@ export function processCombatAction(
   }
 
   // ── SUB-BOSS DAMAGE MODIFIERS (after player deals damage) ──────────────
-  if (isSubBoss && newCs.lastPlayerDmg > 0) {
-    // Plafond anti-farm : peu importe la puissance accumulée par le joueur,
-    // un sous-boss ne peut jamais perdre plus de 12% de ses PV max en un seul
-    // coup. Il faut donc tenir la distance, pas juste frapper fort une fois.
-    const perHitCap = Math.ceil(enemy.maxHp * 0.12)
-    if (newCs.lastPlayerDmg > perHitCap) {
-      const excess = newCs.lastPlayerDmg - perHitCap
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + excess)
-      newCs.lastPlayerDmg = perHitCap
+  const mitigationsSilenced = newCs.enemySilencedTurns > 0
+  if (isSubBoss && newCs.lastPlayerDmg > 0 && !mitigationsSilenced) {
+    // Le plafond anti-farm (20 % des PV max par coup par défaut) est appliqué
+    // dans dealPlayerDamage(), avant de retirer les PV — voir le commentaire
+    // là-bas. On se contente ici d'informer le joueur quand il a plafonné.
+    const perHitCap = subBossHitCap(enemy)
+    if (newCs.lastPlayerDmg >= perHitCap) {
       addLog(ct('subBossDamageCap', { enemy: translateEnemyName(enemy.name), cap: perHitCap }), 'info')
     }
     const dmgDealt = newCs.lastPlayerDmg
 
     // Le Vigie Immortel — esquive auto tous les 3 tours
     if (enemy.name === 'Le Vigie Immortel' && sbTurn % 3 === 0) {
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + dmgDealt)
+      mitigate(dmgDealt)
       newCs.lastPlayerDmg = 0
       addLog(ct('vigieDodge'), 'enemy')
     }
 
     // Le Fantôme des Ombres — invisible les tours impairs
     if (enemy.name === 'Le Fantôme des Ombres' && sbTurn % 2 === 1) {
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + dmgDealt)
+      mitigate(dmgDealt)
       newCs.lastPlayerDmg = 0
       const counterDmg = Math.floor(rng(enemy.damageMin, enemy.damageMax) * 0.5)
       playerHp = Math.max(0, playerHp - counterDmg)
@@ -706,7 +813,7 @@ export function processCombatAction(
     // Le Passeur Sanguinaire — mode défensif tous les 2 tours pairs, réduit dégâts de 50%
     if (enemy.name === 'Le Passeur Sanguinaire' && sbTurn % 4 < 2) {
       const reduced = Math.floor(dmgDealt * 0.5)
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + reduced)
+      mitigate(reduced)
       newCs.lastPlayerDmg = dmgDealt - reduced
       addLog(ct('passeurDefensive', { amount: reduced }), 'enemy')
     }
@@ -724,7 +831,7 @@ export function processCombatAction(
       const ignoresArmor = weaponEffect === 'burn' || weaponEffect === 'shock'
       if (!ignoresArmor) {
         const absorbed = Math.floor(dmgDealt * 0.4)
-        newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + absorbed)
+        mitigate(absorbed)
         newCs.lastPlayerDmg = dmgDealt - absorbed
         addLog(ct('veuveAbsorb', { amount: absorbed }), 'enemy')
       }
@@ -732,7 +839,7 @@ export function processCombatAction(
 
     // Le Spectre du 7e — immunisé aux attaques directes tous les 2 tours
     if (enemy.name === 'Le Spectre du 7e' && sbTurn % 2 === 0) {
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + dmgDealt)
+      mitigate(dmgDealt)
       newCs.lastPlayerDmg = 0
       addLog(ct('spectrePhase'), 'enemy')
     }
@@ -749,7 +856,7 @@ export function processCombatAction(
 
     // Le Roi de Nuit — ténèbres, 25% chance de rater complètement
     if (enemy.name === 'Le Roi de Nuit' && roll(25)) {
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + dmgDealt)
+      mitigate(dmgDealt)
       newCs.lastPlayerDmg = 0
       addLog(ct('roiDeNuitDodge'), 'enemy')
     }
@@ -757,7 +864,7 @@ export function processCombatAction(
     // Le Maître des Ombres — ombre absorbe 30% des dégâts, se brise après 3 coups
     if (enemy.name === 'Le Maître des Ombres' && (cs.subBossShadowHits ?? 0) < 3) {
       const absorbed = Math.floor(dmgDealt * 0.3)
-      newCs.enemyHp = Math.min(enemy.maxHp, newCs.enemyHp + absorbed)
+      mitigate(absorbed)
       newCs.lastPlayerDmg = dmgDealt - absorbed
       newCs.subBossShadowHits = (cs.subBossShadowHits ?? 0) + 1
       if (newCs.subBossShadowHits >= 3) {
@@ -924,11 +1031,20 @@ export function processCombatAction(
         break
       }
       case 'phantom_strike': {
-        // Raphazarus — frappe depuis l'angle mort, ignore armure, dodge ne fonctionne pas
+        // Raphazarus — frappe depuis l'angle mort : perce l'armure et ignore le dodge.
+        // L'armure ne protégeait AUCUNEMENT contre cette attaque, ce qui annulait
+        // toute la progression défensive du joueur face au boss le plus dur du jeu
+        // (580 PV, déclenchement 30-40 %). Elle compte désormais à moitié : la
+        // frappe reste la plus dangereuse du jeu, mais s'équiper sert à quelque chose.
         enemyDmg = Math.floor(rng(enemy.damageMin, enemy.damageMax) * 1.6)
         if (wasBlinded) enemyDmg = Math.floor(enemyDmg * 0.6)
+        const armorPhantom = gs.equippedArmor
+        if (armorPhantom) {
+          const halfRed = Math.floor(enemyDmg * (armorPhantom.defense / 2) / 100)
+          enemyDmg = Math.max(1, enemyDmg - halfRed)
+        }
         addLog(ct('phantomStrike'), 'crit')
-        // Appliqué directement sans armure ni dodge
+        // Appliqué directement, sans dodge
         playerHp = Math.max(0, playerHp - enemyDmg)
         addLog(ct('armorIgnoredDamage', { dmg: enemyDmg, hp: playerHp, max: gs.playerMaxHp }), 'enemy')
         skipped = true
@@ -1028,6 +1144,11 @@ export function processCombatAction(
         }
       }
 
+      if (enemyDmg > 0 && newCs.escortHits > 0) {
+        newCs.escortHits--
+        addLog(ct('heirEscortBlock', { n: newCs.escortHits }), 'player')
+        enemyDmg = 0
+      }
       if (enemyDmg > 0) {
         newCs.momentum = 0
         playerHp = Math.max(0, playerHp - enemyDmg)
@@ -1045,7 +1166,7 @@ export function processCombatAction(
       const flip = tryDeathFlip(gs, addLog)
       if (flip.survived) {
         playerHp = 1
-        newGs.rayaneDeathFlipUsed = true
+        if (flip.flag) newGs[flip.flag] = true
       } else {
         addLog(ct('poisonKilled'), 'enemy')
         const rp = Math.random() * 100
@@ -1054,7 +1175,7 @@ export function processCombatAction(
         else if (rp < enemy.killChance + enemy.captureChance) outcomeP = 'captured'
         const survivedHpP = outcomeP === 'captured' ? Math.floor(gs.playerMaxHp / 2) : 0
         return {
-          newGs: { ...newGs, ...(flip.usedFlip ? { rayaneDeathFlipUsed: true } : {}), playerHp: survivedHpP, stamina, credits, reputation, equippedWeapon, cargo },
+          newGs: { ...newGs, ...(flip.flag ? { [flip.flag]: true } : {}), playerHp: survivedHpP, stamina, credits, reputation, equippedWeapon, cargo },
           newCs, outcome: outcomeP,
         }
       }
@@ -1138,7 +1259,7 @@ export function processCombatAction(
     const flip = tryDeathFlip(gs, addLog)
     if (flip.survived) {
       playerHp = 1
-      newGs.rayaneDeathFlipUsed = true
+      if (flip.flag) newGs[flip.flag] = true
     } else {
       addLog(ct('youFall', { enemy: translateEnemyName(enemy.name) }), 'enemy')
       const r = Math.random() * 100
@@ -1147,7 +1268,7 @@ export function processCombatAction(
       else if (r < enemy.killChance + enemy.captureChance) outcome = 'captured'
       const survivedHpFinal = outcome === 'captured' ? Math.floor(gs.playerMaxHp / 2) : 0
       return {
-        newGs: { ...newGs, ...(flip.usedFlip ? { rayaneDeathFlipUsed: true } : {}), playerHp: survivedHpFinal, stamina, credits, reputation, equippedWeapon, cargo },
+        newGs: { ...newGs, ...(flip.flag ? { [flip.flag]: true } : {}), playerHp: survivedHpFinal, stamina, credits, reputation, equippedWeapon, cargo },
         newCs, outcome,
       }
     }

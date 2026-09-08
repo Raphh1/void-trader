@@ -95,6 +95,11 @@
     "hacker": "[HACKER] Hack enemy equipment · 2 turns disabled · -30 sta · 1×/fight",
     "smuggler": "[SMUGGLER] Guaranteed escape · -1 fuel · 1×/fight",
     "wanderer": "[WANDERER] Cheap shot · ignores armor, high damage · -10 rep · 1×/fight",
-    "rayane": "[RAYANE] 🪙 Coin flip · heads: ×4 damage (armor ignored) · tails: -30% max HP, stunned · 1×/fight"
+    "rayane": "[RAYANE] 🪙 Coin flip · heads: ×4 damage (armor ignored) · tails: -30% max HP, stunned · 1×/fight",
+    "merchant": "💰 Buy them off",
+    "mechanic": "⚙ Field rig",
+    "explorer": "🗺 Read the terrain",
+    "scrapper": "🔧 Scrap bomb",
+    "heir": "👑 Hire an escort (1500 cr)"
   }
 }

@@ -66,6 +66,7 @@ export interface PlayerClass {
   peacefulBan?: boolean         // Seigneur de guerre: stations paisibles refusent
   medicBonus?: boolean          // Médecin: médicaments vendus 50% plus cher
   neutralEventsBoost?: boolean  // Explorateur: événements neutres plus fréquents
+  tradeBonusPercent?: number    // Marchand: % de remise à l'achat ET de bonus à la vente
   // Stats de combat
   combatAttackMult?: number     // multiplicateur dégâts infligés (défaut 1.0)
   combatDefenseMult?: number    // multiplicateur dégâts reçus (défaut 1.0, < 1 = résistant)
@@ -138,9 +139,29 @@ export interface Enemy {
   role: EnemyRole
   pillarAbility?: PillarAbility
   isSubBoss?: boolean
+  // Plafond de dégâts par coup pour un sous-boss, en fraction de ses PV max
+  // (défaut 0.12). Les lieutenants qui annulent ou réduisent déjà les dégâts
+  // (esquive, invisibilité, absorption) ont besoin d'un plafond plus haut :
+  // sinon leur mitigation se cumule au plafond et les rend imbattables.
+  damageCapPct?: number
 }
 
-export type SubBossResolution = 'kill' | 'manipulate' | 'betray' | 'ally' | 'sabotage'
+export type SubBossResolution = 'kill' | 'manipulate' | 'betray' | 'ally' | 'sabotage' | 'bribe' | 'service'
+
+// Conditions d'un service demandé par un lieutenant. Même vocabulaire que les
+// quêtes d'équipement, pour rester cohérent et réutiliser l'évaluateur.
+export type SubBossRequirement =
+  | { type: 'credits'; amount: number }
+  | { type: 'reputation'; min: number }
+  | { type: 'item'; name: string; qty: number }
+  | { type: 'combatsWon'; min: number }
+  | { type: 'visitStation'; station: string }
+  | { type: 'bossKill'; bossName: string }
+  | { type: 'day'; min: number }
+  | { type: 'subBoss'; subBossId: string }
+  | { type: 'pillarStanding'; pillar: string; min: number }
+  | { type: 'factionReputation'; faction: 'faucons' | 'emporium' | 'gardiens' | 'culte'; min: number }
+  | { type: 'questsCompleted'; min: number }
 
 export interface SubBossData {
   id: string
@@ -155,6 +176,13 @@ export interface SubBossData {
   specialAbility: string
   reward: { type: 'weapon' | 'armor' | 'credits' | 'rep' | 'item'; value: string | number }
   resolutions: SubBossResolution[]
+  // Prix de rachat propre à ce lieutenant : fiable à 100 %, mais cher.
+  // Distinct de `manipulate`, qui reste risqué et bon marché.
+  bribe?: { credits: number }
+  // Service exigé par ce lieutenant : gratuit, mais engageant. `demand` est sa
+  // demande écrite, tirée de son passé et de sa motivation — sans elle, les
+  // conditions ne seraient qu'une liste de courses anonyme.
+  service?: { demand: string; requirements: SubBossRequirement[] }
   enemy: Enemy
 }
 
@@ -189,6 +217,7 @@ export interface CombatState {
   subBossShadowHits: number    // Le Maître des Ombres — coups encaissés par l'ombre (se brise après 3)
   subBossDefenseStacks: number
   fleeAttempts: number
+  escortHits: number           // Héritier — coups encaissés à sa place par l'escorte payée
   log: CombatLogEntry[]
 }
 
@@ -547,6 +576,13 @@ export interface GameState {
   waypoint?: string
   // Sous-boss vaincus par pilier { pillarKey: subBossId[] }
   subBossesDefeated: Record<string, string[]>
+  // Marchés passés avec des lieutenants : ids des sous-boss dont on a accepté le
+  // service. Tant que le marché est ouvert, il est suivi comme une quête ; on ne
+  // peut l'honorer qu'en revenant voir le lieutenant, conditions remplies.
+  lieutenantPacts?: string[]
+  // Marchés acceptés puis rompus : le lieutenant s'en souvient et refuse de
+  // renégocier — il ne restera que le combat ou le rachat.
+  brokenPacts?: string[]
   // Stations des lieutenants pour cette run — mélangées à la création (voir
   // generateLieutenantStationAssignment) pour qu'un même pilier n'ait pas
   // toujours ses lieutenants aux mêmes endroits d'une run à l'autre.
@@ -563,6 +599,7 @@ export interface GameState {
   rayaneGambleOffer?: number
   // Rayane — sursis de mort à pile ou face, utilisable une seule fois par run
   rayaneDeathFlipUsed?: boolean
+  cursedSurvivalUsed?: boolean  // Maudit — la malédiction l'a déjà sauvé une fois
   // Quêtes d'équipement complétées
   completedEquipmentQuests: string[]
   conquestMode?: boolean

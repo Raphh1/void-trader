@@ -5,7 +5,7 @@
   },
   "ferrailleur": {
     "description": "Ton vaisseau se désintègre en temps réel. Tu répares avec de la ferraille et de l'espoir. Surtout de la ferraille.",
-    "bonusDesc": "⚠ 30% chance de perdre un cargo en voyage · Coriace mais lent"
+    "bonusDesc": "⚠ 30% chance de perdre un cargo en voyage · Bombe de ferraille : dégâts bruts qu'aucune mitigation n'absorbe"
   },
   "endette": {
     "description": "Quelqu'un veut récupérer son argent. Chaque. Jour. Tu dois 50cr par jour à quelqu'un que tu ne veux pas rencontrer.",
@@ -21,19 +21,19 @@
   },
   "maudit": {
     "description": "L'univers ne t'aime tout simplement pas. Les événements positifs ont 50% de chance de se retourner contre toi.",
-    "bonusDesc": "⚠ Événements positifs 50% chance de fizzle · Combat équilibré"
+    "bonusDesc": "⚠ Événements positifs 50% chance de fizzle · La malédiction refuse votre mort : 1×/run, survie à 1 PV"
   },
   "marchand": {
     "description": "Rien de spécial. Un travail honnête dans un univers malhonnête. Tu achètes, tu vends, tu survies.",
-    "bonusDesc": "Classe neutre · Bonus sur les négociations · Stats équilibrées"
+    "bonusDesc": "−15% à l'achat et +15% à la vente · Rachète la retraite d'un adversaire en combat · Stats équilibrées"
   },
   "mecanicien": {
     "description": "Tu connais les moteurs. Tu es fauché comme les blés. Mais ton vaisseau tient — à peu près.",
-    "bonusDesc": "Carburant max +4 · Stamina bonus · Bonne endurance en combat"
+    "bonusDesc": "Carburant max +4 · Bricolage : sabote l'arme adverse et se rafistole · Bonne endurance"
   },
   "explorateur": {
     "description": "Tout vu. Tout raté. Mais tu continues d'avancer. Les endroits calmes te récompensent mieux.",
-    "bonusDesc": "Événements neutres plus fréquents · Réflexes accrus (+8% crit)"
+    "bonusDesc": "Événements neutres plus fréquents · Lecture du terrain : aveugle l'adversaire · +8% crit"
   },
   "medecin": {
     "description": "Tu répares des corps dans des cliniques clandestines. La mort, tu la connais. Tu la retardes.",
@@ -49,11 +49,11 @@
   },
   "heritier": {
     "description": "Vieux argent. Éducation pacifiste. Tu ne sais pas te battre mais ton portefeuille compense.",
-    "bonusDesc": "+300cr toutes les 5 jours · ⚠ Ne peut pas acheter d'armes · Faible en combat"
+    "bonusDesc": "+300cr tous les 5 jours · Paie une escorte qui encaisse 3 coups · ⚠ Ne peut pas acheter d'armes"
   },
   "hackeur": {
     "description": "Les systèmes n'ont pas de secrets pour toi. Les murs sont des suggestions. Les serrures, des invitations.",
-    "bonusDesc": "Voit les prix à destination · Pirate équipement ennemi · Fragile physiquement"
+    "bonusDesc": "Voit les prix à destination · Intrusion : coupe l'arme ET les mécaniques spéciales 3 tours · Fragile"
   },
   "seigneurDeGuerre": {
     "description": "Craint partout. Bienvenu nulle part de paisible. Les pirates t'évitent. Les marchands aussi.",

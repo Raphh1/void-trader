@@ -635,6 +635,26 @@ function ClassAction({ gs, onAct, disabled }: { gs: ReturnType<typeof useGameSto
       return <button className="px-btn" style={{ color: 'var(--cyan)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
         {t('class.wanderer')}
       </button>
+    case 'Marchand':
+      return gs.credits >= 200 * Math.max(1, gs.day) ? <button className="px-btn" style={{ color: 'var(--cyan)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.merchant')}
+      </button> : null
+    case 'Mécanicien':
+      return gs.stamina >= 15 ? <button className="px-btn" style={{ color: 'var(--cyan)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.mechanic')}
+      </button> : null
+    case 'Explorateur':
+      return gs.stamina >= 15 ? <button className="px-btn" style={{ color: 'var(--cyan)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.explorer')}
+      </button> : null
+    case 'Ferrailleur':
+      return <button className="px-btn" style={{ color: 'var(--orange)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.scrapper')}
+      </button>
+    case 'Héritier':
+      return gs.credits >= 1500 ? <button className="px-btn" style={{ color: 'var(--gold)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.heir')}
+      </button> : null
     case 'Rayane':
       return <button className="px-btn" style={{ color: 'var(--gold)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
         {t('class.rayane')}

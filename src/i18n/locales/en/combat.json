@@ -126,5 +126,14 @@
   "effectCurse": "🔮 CURSE — Enemy damage -40% for 3 turns!",
   "effectConfusion": "😵 CONFUSION — The enemy targets themself for 2 turns!",
   "effectSilence": "🔇 SILENCE — The enemy is limited to basic attacks for 2 turns!",
-  "effectDisarm": "🗡 DISARMED — The enemy lost their weapon! -40% damage for 2 turns."
+  "effectDisarm": "🗡 DISARMED — The enemy lost their weapon! -40% damage for 2 turns.",
+  "merchantBuyOff": "You press {{cost}} credits into your opponent's hand. Their next blows land without conviction.",
+  "merchantNoFunds": "Buying them off would take {{cost}} credits. You don't have it.",
+  "mechanicRig": "You jam their weapon and patch your own chest plate (+{{amount}} HP).",
+  "explorerReadTerrain": "One glance reads the ground: {{enemy}} loses their bearings.",
+  "scrapperBomb": "Your scrap bomb goes off: {{dmg}} raw damage, nothing absorbs it. ({{hp}}/{{max}})",
+  "heirEscort": "You pay {{cost}} credits. Three armed silhouettes step in front of you.",
+  "heirEscortBlock": "Your escort takes the hit for you. ({{n}} left)",
+  "heirNoFunds": "An escort costs {{cost}} credits. Your pockets are empty.",
+  "cursedSurvival": "You should have died. The curse would not allow it — you rise again at 1 HP."
 }
