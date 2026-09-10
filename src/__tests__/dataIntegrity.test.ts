@@ -54,10 +54,35 @@ describe('intégrité des données', () => {
     expect(fautives, 'référence(s) vers une station inexistante :\n' + fautives.join('\n')).toEqual([])
   })
 
-  // NOTE : la vérification « aucun objet exigé introuvable » est retirée le
-  // temps de trancher le sort de LOOT_ONLY_ITEMS — elle échoue aujourd hui sur
-  // « Armes artisanales », exigé par eq-lame-noctis et par le service du
-  // Maréchal Osseux, mais vendable nulle part et octroyé nulle part.
+  it('ne demande aucun objet impossible à obtenir', () => {
+    // « Armes artisanales » était exigé par eq-lame-noctis et par le service du
+    // Maréchal Osseux, alors qu'il ne se vendait nulle part et ne tombait nulle
+    // part : les deux étaient infaisables.
+    const obtenables = new Set<string>()
+    for (const s of getStations()) {
+      for (const g of s.goods) if (!LOOT_ONLY_ITEMS.has(g)) obtenables.add(g)
+    }
+    // Butin de combat (SALVAGE_BY_TIER) et fabrication à l'Atelier : deux
+    // sources légitimes hors commerce.
+    for (const g of ['Armures premium', 'Armes Tier 3', 'Armes lourdes', 'Armures Faucon',
+      "Armures d'élite", 'Armes Tier 4', 'Armures Tier 4', 'Armes exotiques',
+      'Régulateur de Vide', 'Puce de Navigation Fantôme', 'Alliage Recuit']) obtenables.add(g)
+
+    const introuvables: string[] = []
+    const verifier = (reqs: readonly { type: string; name?: string }[], source: string) => {
+      for (const req of reqs) {
+        if (req.type === 'item' && req.name && !obtenables.has(req.name)) {
+          introuvables.push(source + ' → « ' + req.name + ' »')
+        }
+      }
+    }
+    for (const p of PILIERS) {
+      for (const sb of getSubBossesForPillar(p)) verifier(sb.service?.requirements ?? [], 'service de ' + sb.name)
+    }
+    for (const q of getEquipmentQuests()) verifier(q.requirements, 'quête ' + q.id)
+
+    expect(introuvables, 'objet(s) exigé(s) mais introuvable(s) :\n' + introuvables.join('\n')).toEqual([])
+  })
 
   it('ne référence aucun lieutenant ni ennemi inexistant', () => {
     const lieutenants = new Set(PILIERS.flatMap(p => getSubBossesForPillar(p)).map(sb => sb.id))

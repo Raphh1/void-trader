@@ -536,7 +536,7 @@ export interface GameState {
   combatsWon: number
   combatsFled: number
   // Résultat du dernier combat (affiché sur combat-result)
-  combatRewardData: { loot: number; weaponName?: string; armorName?: string; isBossKill: boolean } | null
+  combatRewardData: { loot: number; weaponName?: string; armorName?: string; salvageName?: string; isBossKill: boolean } | null
   // Barre de folie (Accro + Cannibale)
   folieLevel: number
   folieConsumedThisTurn: boolean

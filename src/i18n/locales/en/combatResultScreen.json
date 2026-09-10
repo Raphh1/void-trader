@@ -27,5 +27,6 @@
   "hungerPrompt": "The hunger is here. {{name}} is here.",
   "consumeButton": "Consume (−50 madness)",
   "ok": "OK",
-  "backToCell": "Back to cell →"
+  "backToCell": "Back to cell →",
+  "salvageFound": "Salvaged from the body"
 }

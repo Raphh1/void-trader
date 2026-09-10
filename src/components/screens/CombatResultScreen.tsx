@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
-import { translateEnemyName, translateWeaponName, translateArmorName } from '../../engine/goodsI18n'
+import { translateEnemyName, translateWeaponName, translateArmorName, translateGood } from '../../engine/goodsI18n'
 
 export function CombatResultScreen() {
   const { t } = useTranslation('combatResultScreen')
@@ -107,6 +107,12 @@ export function CombatResultScreen() {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span className="t-xs t-dim">{t('armorFound')}</span>
                   <span className="t-xs" style={{ color: 'var(--blue)' }}>{translateArmorName(reward.armorName)}</span>
+                </div>
+              )}
+              {reward.salvageName && (
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span className="t-xs t-dim">{t('salvageFound')}</span>
+                  <span className="t-xs t-gold">{translateGood(reward.salvageName)}</span>
                 </div>
               )}
             </div>

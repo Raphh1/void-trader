@@ -1303,7 +1303,19 @@ function inferEnemyTier(enemy: Enemy): 1 | 2 | 3 | 4 {
   return 1
 }
 
-function resolveVictory(gs: GameState, enemy: Enemy): { loot: number; extra: Partial<GameState>; rewardInfo: { loot: number; weaponName?: string; armorName?: string; isBossKill: boolean } } {
+// Les marchandises « butin » ne s'achètent nulle part : c'est ici qu'elles
+// entrent dans le jeu. Ce sont les biens les plus chers du jeu, le tirage est
+// donc avare et réservé aux adversaires sérieux — un ennemi de bas étage ne
+// transporte pas une armure de Tier 4.
+const SALVAGE_BY_TIER: Record<number, string[]> = {
+  1: [],
+  2: ['Armures premium', 'Armes Tier 3'],
+  3: ['Armes lourdes', 'Armures Faucon', "Armures d'élite"],
+  4: ['Armes Tier 4', 'Armures Tier 4', 'Armes exotiques'],
+}
+const SALVAGE_CHANCE = 18
+
+function resolveVictory(gs: GameState, enemy: Enemy): { loot: number; extra: Partial<GameState>; rewardInfo: { loot: number; weaponName?: string; armorName?: string; salvageName?: string; isBossKill: boolean } } {
   const fauconsRep = gs.factionReputation?.faucons ?? 0
   const lootMult = fauconsRep >= 80 ? 1.30 : fauconsRep >= 50 ? 1.20 : fauconsRep >= 20 ? 1.10 : 1.0
   // Économie dure : butin de combat réduit (cf. ECONOMY dans quests.ts).
@@ -1318,6 +1330,7 @@ function resolveVictory(gs: GameState, enemy: Enemy): { loot: number; extra: Par
   const isBossKill = bossNames.includes(enemy.name)
   let weaponName: string | undefined
   let armorName: string | undefined
+  let salvageName: string | undefined
 
   if (isBossKill) {
     extra.bossesDefeated = (gs.bossesDefeated ?? 0) + 1
@@ -1349,5 +1362,16 @@ function resolveVictory(gs: GameState, enemy: Enemy): { loot: number; extra: Par
       }
     }
   }
-  return { loot, extra, rewardInfo: { loot, weaponName, armorName, isBossKill } }
+  // Récupération sur le cadavre : la seule source des marchandises « butin ».
+  // On respecte la capacité de soute, sinon l'objet se perdrait en silence.
+  const salvagePool = SALVAGE_BY_TIER[isBossKill ? 4 : inferEnemyTier(enemy)] ?? []
+  const capacite = 15 + (gs.shipModules?.soute ?? 0) * 5
+  const occupe = Object.values(gs.cargo).reduce((a, b) => a + b, 0)
+  if (salvagePool.length > 0 && occupe < capacite && rng(0, 99) < SALVAGE_CHANCE) {
+    const trouve = salvagePool[Math.floor(Math.random() * salvagePool.length)]
+    extra.cargo = { ...gs.cargo, [trouve]: (gs.cargo[trouve] ?? 0) + 1 }
+    salvageName = trouve
+  }
+
+  return { loot, extra, rewardInfo: { loot, weaponName, armorName, salvageName, isBossKill } }
 }

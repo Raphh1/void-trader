@@ -486,11 +486,16 @@ export function getAccessibleStations(currentName: string): StationData[] {
 
 
 // Marchandises jamais vendues en boutique : elles ne s'obtiennent qu'en butin
-// (ennemis, exploration, wander). Le marché les filtre — toute logique qui
-// demande au joueur d'en ACHETER une doit donc les exclure, sinon elle crée
+// de combat (voir SALVAGE_BY_TIER dans engine/combat.ts). Ce sont les biens
+// les plus chers du jeu — sept des douze premiers prix — d'où leur retrait du
+// marché : achetables, elles feraient de la revente une imprimante à crédits.
+// « Armes artisanales » en a été sortie : à 640 elle est d'un prix ordinaire,
+// et c'est la spécialité exclusive de La Forge Noire, dont la propre quête la
+// réclame. Le marché filtre les autres — toute logique qui
+// demande au joueur d'en ACHETER une doit les exclure, sinon elle crée
 // un objectif impossible.
 export const LOOT_ONLY_ITEMS = new Set([
-  'Armes lourdes', 'Armes artisanales', 'Armes Tier 3', 'Armes Tier 4', 'Armes exotiques',
+  'Armes lourdes', 'Armes Tier 3', 'Armes Tier 4', 'Armes exotiques',
   "Armures Faucon", "Armures d'élite", 'Armures premium', 'Armures Tier 4',
 ])
 

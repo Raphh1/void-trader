@@ -27,5 +27,6 @@
   "hungerPrompt": "La faim est là. {{name}} est là.",
   "consumeButton": "Consommer (−50 folie)",
   "ok": "OK",
-  "backToCell": "Retour en cellule →"
+  "backToCell": "Retour en cellule →",
+  "salvageFound": "Récupéré sur le corps"
 }
