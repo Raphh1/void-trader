@@ -12,12 +12,23 @@
     "title": "TOURNE TON TÉLÉPHONE",
     "desc": "La carte du secteur a besoin d'espace horizontal. Passe en mode paysage pour naviguer, zoomer et poser des waypoints au doigt."
   },
-  "dangerLabels": ["Sûre", "Risquée", "Dangereuse", "Zone de guerre"],
+  "dangerLabels": [
+    "Sûre",
+    "Risquée",
+    "Dangereuse",
+    "Zone de guerre"
+  ],
   "tooltip": {
     "closedByEvent": "⚠ FERMÉE PAR ÉVÉNEMENT MONDIAL",
     "accessBanned": "⛔ ACCÈS BANNI",
     "activeQuest": "★ QUÊTE ACTIVE",
     "fuelFromHere": "⛽ {{cost}} carburant depuis ici",
     "sellsFuel": "⛽ VEND DU CARBURANT (ravitaillement possible)"
-  }
+  },
+  "setOrigin": "⚑ Départ",
+  "pickOrigin": "⚑ Choisir la station de départ…",
+  "routeFrom": "Depuis {{station}}",
+  "clearOrigin": "Repartir de ma position",
+  "routeFuel": "{{cost}} fuel",
+  "noRoute": "aucun itinéraire"
 }

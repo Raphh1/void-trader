@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { initI18n } from '../i18n/config'
-import { getStations, getAccessibleStations, getFuelCost } from '../data/stations'
+import { getStations, getAccessibleStations, getFuelCost, findPath } from '../data/stations'
 
 // Les liaisons sont saisies sur la station d'ARRIVÉE (`fuelCostFrom`), et les
 // retours n'ont pour la plupart pas été écrits. Résultat : la poche
@@ -65,5 +65,32 @@ describe('réseau de stations', () => {
         expect(aller, `${s.name} → ${voisine.name} : liaison sans coût`).toBeLessThan(99)
       }
     }
+  })
+})
+
+describe('itinéraire entre deux stations quelconques', () => {
+  it('relie n’importe quel couple de stations, pas seulement depuis la position', () => {
+    // La carte ne savait tracer un trajet que depuis la station courante, alors
+    // que findPath accepte déjà une origine libre. On vérifie que planifier
+    // entre deux stations distantes fonctionne réellement.
+    const noms = getStations().map(s => s.name).filter(n => n !== "L'Arc Perdu")
+    let echecs = 0
+    for (let i = 0; i < noms.length; i += 7) {
+      for (let j = 3; j < noms.length; j += 11) {
+        const a = noms[i]
+        const b = noms[j]
+        if (a === b) continue
+        const chemin = findPath(a, b)
+        if (chemin.length === 0) { echecs++; continue }
+        expect(chemin[0], a + ' → ' + b + ' : mauvais départ').toBe(a)
+        expect(chemin[chemin.length - 1], a + ' → ' + b + ' : mauvaise arrivée').toBe(b)
+        // Chaque saut du trajet doit être une liaison réelle et chiffrable.
+        for (let k = 1; k < chemin.length; k++) {
+          const cout = getFuelCost(chemin[k - 1], chemin[k])
+          expect(cout, chemin[k - 1] + ' → ' + chemin[k] + ' : saut sans coût').toBeLessThan(99)
+        }
+      }
+    }
+    expect(echecs, 'des couples de stations restent sans itinéraire').toBe(0)
   })
 })

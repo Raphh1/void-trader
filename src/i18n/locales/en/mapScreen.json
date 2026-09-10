@@ -12,12 +12,23 @@
     "title": "ROTATE YOUR PHONE",
     "desc": "The sector map needs horizontal space. Switch to landscape mode to navigate, zoom, and place waypoints with your finger."
   },
-  "dangerLabels": ["Safe", "Risky", "Dangerous", "War zone"],
+  "dangerLabels": [
+    "Safe",
+    "Risky",
+    "Dangerous",
+    "War zone"
+  ],
   "tooltip": {
     "closedByEvent": "⚠ CLOSED BY WORLD EVENT",
     "accessBanned": "⛔ ACCESS BANNED",
     "activeQuest": "★ ACTIVE QUEST",
     "fuelFromHere": "⛽ {{cost}} fuel from here",
     "sellsFuel": "⛽ SELLS FUEL (refueling available)"
-  }
+  },
+  "setOrigin": "⚑ Origin",
+  "pickOrigin": "⚑ Pick a starting station…",
+  "routeFrom": "From {{station}}",
+  "clearOrigin": "Back to my position",
+  "routeFuel": "{{cost}} fuel",
+  "noRoute": "no route"
 }

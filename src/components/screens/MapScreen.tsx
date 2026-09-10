@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import { questTitle } from '../../engine/questI18n'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
-import { getStations, getAccessibleStations, PEACEFUL_STATIONS, findPath, FUEL_STATIONS } from '../../data/stations'
+import { getStations, getAccessibleStations, PEACEFUL_STATIONS, findPath, getFuelCost, FUEL_STATIONS } from '../../data/stations'
 import { STATION_POSITIONS } from '../../data/stationPositions'
 import { STATION_FACTION_CONTROL } from '../../engine/factionRep'
 import { getClosedStations, getWorldEventFuelBonus, getActiveEvents } from '../../engine/worldEvents'
@@ -118,12 +118,28 @@ export function MapScreen() {
     return ex
   }, [closedStations, gs.arcPerduUnlocked, bannedNow])
 
+  // Point de départ de l’itinéraire. Par défaut la position réelle, mais on
+  // peut planifier depuis n’importe quelle station : préparer la suite du
+  // trajet sans avoir à s’y rendre d’abord. C’est un outil de planification,
+  // donc un état d’écran — rien à persister dans la partie.
+  const [origine, setOrigine] = useState<string | null>(null)
+  const [modeOrigine, setModeOrigine] = useState(false)
+  const depart = origine ?? gs.currentStation
+
   const waypoint    = gs.waypoint ?? null
+
+  // Voyager rend le départ planifié caduc : on repart de là où l’on est.
+  useEffect(() => { setOrigine(null); setModeOrigine(false) }, [gs.currentStation])
   const waypointPath = useMemo(
-    () => waypoint ? findPath(gs.currentStation, waypoint, excludedStations) : [],
-    [gs.currentStation, waypoint, excludedStations]
+    () => waypoint ? findPath(depart, waypoint, excludedStations) : [],
+    [depart, waypoint, excludedStations]
   )
   const pathSet = new Set(waypointPath)
+  // Coût cumulé du trajet : la vraie question quand on planifie, c’est
+  // « est-ce que j’ai le carburant pour ça ».
+  const coutTrajet = useMemo(
+    () => waypointPath.slice(1).reduce((total, etape, i) => total + getFuelCost(waypointPath[i], etape) + fuelBonus, 0),
+    [waypointPath, fuelBonus])
 
   // ── PAN / ZOOM ──────────────────────────────────────────────────────────
 
@@ -239,15 +255,43 @@ export function MapScreen() {
             {fuelBonus > 0 ? t('fuelBonus', { value: fuelBonus }) : ''}
           </span>
         )}
+        {/* Point de départ de l’itinéraire */}
+        <button
+          className="px-btn px-btn--sm"
+          style={{ width: 'auto', marginLeft: '8px',
+            borderColor: modeOrigine ? 'var(--cyan)' : undefined,
+            color: modeOrigine ? 'var(--cyan)' : undefined }}
+          onClick={() => setModeOrigine(m => !m)}
+        >
+          {modeOrigine ? t('pickOrigin') : t('setOrigin')}
+        </button>
+        {origine && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(64,208,255,0.08)', border: '1px solid var(--cyan)', padding: '4px 10px' }}>
+            <span style={{ fontSize: '9px', color: 'var(--cyan)', letterSpacing: '1px' }}>
+              {t('routeFrom', { station: translateStationName(origine) })}
+            </span>
+            <button
+              style={{ background: 'none', border: 'none', color: 'var(--dim)', cursor: 'pointer', fontSize: '11px', padding: '0 2px', lineHeight: 1 }}
+              onClick={() => setOrigine(null)}
+              title={t('clearOrigin')}
+            >✕</button>
+          </div>
+        )}
         {/* Waypoint actif */}
         {waypoint && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,215,0,0.08)', border: '1px solid #ffd700', padding: '4px 10px', marginLeft: '8px' }}>
             <span style={{ fontSize: '9px', color: '#ffd700', letterSpacing: '1px' }}>
-              {t('routeTo', { station: waypoint })}
-              {waypointPath.length > 2 && (
+              {t('routeTo', { station: translateStationName(waypoint) })}
+              {waypointPath.length > 1 && (
                 <span style={{ color: 'var(--dim)', marginLeft: '6px' }}>
                   {t('hops', { count: waypointPath.length - 1, plural: waypointPath.length - 1 > 1 ? 's' : '' })}
+                  <span style={{ color: coutTrajet > gs.fuel ? 'var(--red)' : 'var(--green)', marginLeft: '6px' }}>
+                    {t('routeFuel', { cost: coutTrajet })}
+                  </span>
                 </span>
+              )}
+              {waypoint && waypointPath.length === 0 && (
+                <span style={{ color: 'var(--red)', marginLeft: '6px' }}>{t('noRoute')}</span>
               )}
             </span>
             <button
@@ -369,6 +413,11 @@ export function MapScreen() {
                   if (didDragRef.current) return
                   // Tap/clic affiche toujours les infos — utile au tactile, qui n'a pas de survol.
                   setSelected(station.name)
+                  if (modeOrigine) {
+                    setOrigine(station.name === gs.currentStation ? null : station.name)
+                    setModeOrigine(false)
+                    return
+                  }
                   if (!isCurrent) setWaypoint(isWaypoint ? null : station.name)
                 }}
               >
