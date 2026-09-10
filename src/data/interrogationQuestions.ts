@@ -48,15 +48,18 @@ function melangerChoix(q: QuestionBrute, impossible: boolean): InterrogationQues
 }
 
 // Composition d'un interrogatoire : 6 faciles + 4 thématiques + 2 absurdes.
-// Seuil mesuré sur des profils de joueurs plutôt que choisi au doigt mouillé.
-// À 8, même un joueur distrait passait deux fois sur trois — aucune tension. À
-// 9 : joueur attentif 95 %, moyen 68 %, distrait 38 %. Échouer n'est pas fatal
-// (la cellule reste jouable), donc le mécanisme peut se permettre de mordre.
+// Seuil mesuré sur des profils de joueurs simulés plutôt que choisi au jugé.
+// La tension vient du chrono de 15 s par question (cf. InterrogationScreen) :
+// sans lui, un seuil de 8 laissait passer un joueur distrait deux fois sur
+// trois. Avec lui, à 8 : joueur attentif 98 %, moyen 72 %, distrait 33 %.
+// Monter à 9 par-dessus le chrono revenait à punir deux fois — un joueur moyen
+// y échouait plus d'une fois sur deux. Échouer n'est de toute façon pas fatal :
+// la cellule reste un état jouable.
 const NB_THEMATIQUES = 4
 const NB_FACILES = 6
 const NB_ABSURDES = 2
 
-export const INTERROGATION_PASS_SCORE = 9
+export const INTERROGATION_PASS_SCORE = 8
 export const INTERROGATION_TOTAL = NB_THEMATIQUES + NB_FACILES + NB_ABSURDES
 
 export function drawInterrogation(kind: InterrogatorKind = 'local'): InterrogationQuestion[] {

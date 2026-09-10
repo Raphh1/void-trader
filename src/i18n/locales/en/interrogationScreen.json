@@ -40,7 +40,10 @@
     "passMessage": "You answered {{score}}/{{total}} questions correctly. The interrogator sighs, disappointed they can't keep you. \"Model citizen, apparently.\" They let you go.",
     "passJournal": "I survived {{faction}}'s cultural interrogation ({{score}}/{{total}}). They couldn't keep me.",
     "failMessage": "Only {{score}}/{{total}} correct answers. \"Either you're a spy or you're uneducated. Either way, cell.\" They take you away.",
-    "failJournal": "I failed {{faction}}'s cultural interrogation ({{score}}/{{total}}). Cell."
+    "failJournal": "I failed {{faction}}'s cultural interrogation ({{score}}/{{total}}). Cell.",
+    "timeLeft": "⏱ {{s}}s",
+    "timeStopped": "⏱ —",
+    "timeOut": "Time is up. Silence counts as an answer — and a wrong one."
   },
   "result": {
     "header": "— END OF INTERROGATION —",

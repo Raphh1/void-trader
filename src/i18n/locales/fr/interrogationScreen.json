@@ -40,7 +40,10 @@
     "passMessage": "Tu as répondu juste à {{score}}/{{total}} questions. L'interrogateur soupire, déçu de ne pas pouvoir te garder. « Citoyen modèle, apparemment. » On te relâche.",
     "passJournal": "J'ai survécu à l'interrogatoire culturel de {{faction}} ({{score}}/{{total}}). Ils n'ont pas pu me garder.",
     "failMessage": "Seulement {{score}}/{{total}} bonnes réponses. « Soit tu es un espion, soit tu es inculte. Dans les deux cas, cellule. » Ils t'emmènent.",
-    "failJournal": "J'ai échoué à l'interrogatoire culturel de {{faction}} ({{score}}/{{total}}). Cellule."
+    "failJournal": "J'ai échoué à l'interrogatoire culturel de {{faction}} ({{score}}/{{total}}). Cellule.",
+    "timeLeft": "⏱ {{s}} s",
+    "timeStopped": "⏱ —",
+    "timeOut": "Temps écoulé. Le silence vaut réponse — et elle est mauvaise."
   },
   "result": {
     "header": "— FIN D'INTERROGATOIRE —",

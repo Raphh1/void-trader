@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { addDecision, shiftPillar } from '../../engine/memoryEvents'
@@ -7,6 +7,11 @@ import { drawInterrogation, interrogatorKind, type InterrogatorKind, INTERROGATI
 import { translateStationName } from '../../engine/goodsI18n'
 
 type Phase = 'intro' | 'choices' | 'quiz' | 'result'
+
+// Secondes pour répondre. Un interrogatoire où l’on peut réfléchir dix minutes
+// n’en est pas un — et rien n’empêchait d’aller chercher les réponses
+// ailleurs. Assez large pour lire quatre propositions sans se presser.
+const TEMPS_PAR_QUESTION = 15
 
 interface InterrogatorProfile {
   title: string
@@ -64,6 +69,17 @@ export function InterrogationScreen() {
   // Chaque classe peut peser une fois sur l’interrogatoire, à sa manière.
   const [atoutUtilise, setAtoutUtilise] = useState(false)
   const [revele, setRevele]   = useState<number | null>(null)
+  const [reste, setReste]     = useState(TEMPS_PAR_QUESTION)
+
+  // Le compte à rebours repart à chaque question…
+  useEffect(() => { setReste(TEMPS_PAR_QUESTION) }, [qIdx])
+  // …et s’arrête dès qu’une réponse est donnée, pour laisser lire le verdict.
+  useEffect(() => {
+    if (phase !== 'quiz' || picked !== null) return
+    if (reste <= 0) { setPicked(-1); return }   // temps écoulé = réponse fausse
+    const minuteur = setTimeout(() => setReste(r => r - 1), 1000)
+    return () => clearTimeout(minuteur)
+  }, [phase, picked, reste])
   const profile = getInterrogatorProfile(kind, t)
   // Le Marchand fait son métier : il négocie le prix de sa liberté.
   const remiseMarchand = gs.class.tradeBonusPercent ? 0.6 : 1
@@ -198,6 +214,9 @@ export function InterrogationScreen() {
 
         <div className="row" style={{ justifyContent: 'space-between' }}>
           <span className="t-xs t-dim">{t('quiz.questionOf', { current: qIdx + 1, total: quiz.length })}</span>
+          <span className="t-xs" style={{ color: reste <= 5 ? 'var(--red)' : 'var(--orange)' }}>
+            {answered ? t('quiz.timeStopped') : t('quiz.timeLeft', { s: reste })}
+          </span>
           <span className="t-xs">{t('quiz.score', { score, pass: INTERROGATION_PASS_SCORE })}</span>
         </div>
 
@@ -238,6 +257,10 @@ export function InterrogationScreen() {
           <div className="t-xs" style={{ color: 'var(--cyan)' }}>
             {t('classPerk.revealed', { answer: question.choices[revele] })}
           </div>
+        )}
+
+        {picked === -1 && (
+          <div className="t-xs t-red">{t('quiz.timeOut')}</div>
         )}
 
         {answered && (

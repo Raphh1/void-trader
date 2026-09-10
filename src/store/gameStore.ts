@@ -1224,12 +1224,15 @@ function handleCombatOutcome(
     const captureInfo    = JSON.stringify({ creditsFine, weaponName: weaponSeized ? gs.equippedWeapon?.name ?? null : null, cargoLost: cargoSeized.length })
     const newCargo       = { ...gs.cargo }
     for (const k of cargoSeized) delete newCargo[k]
-    // La capture reste punitive — amende, arme et cargaison saisies — mais
-    // elle ouvre désormais un interrogatoire : c'est là que le joueur peut
-    // encore jouer sa liberté au lieu de subir la cellule sans un mot.
+    // La capture reste punitive — amende, arme et cargaison saisies. Une fois
+    // sur deux, elle ouvre en plus un interrogatoire : le joueur peut alors
+    // jouer sa liberté au lieu de subir la cellule sans un mot. L'autre
+    // moitié du temps on est simplement jeté en cellule — sans quoi la scène
+    // perdrait sa surprise à force de se répéter.
     const autorite = getStationFactionName(gs.currentStation) ?? gt('localAuthorities')
-    set({ gs: { ...newGs, isImprisoned: false, prisonDaysLeft: 0, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
-      pendingInterrogation: { faction: autorite, captureStation: gs.currentStation },
+    const interroge = Math.random() < 0.5
+    set({ gs: { ...newGs, isImprisoned: !interroge, prisonDaysLeft: interroge ? 0 : 3, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
+      pendingInterrogation: interroge ? { faction: autorite, captureStation: gs.currentStation } : null,
       credits: Math.max(0, gs.credits - creditsFine),
       cargo: newCargo,
       equippedWeapon: weaponSeized ? null : gs.equippedWeapon,
