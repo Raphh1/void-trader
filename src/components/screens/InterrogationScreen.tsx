@@ -11,7 +11,7 @@ type Phase = 'intro' | 'choices' | 'quiz' | 'result'
 // Secondes pour répondre. Un interrogatoire où l’on peut réfléchir dix minutes
 // n’en est pas un — et rien n’empêchait d’aller chercher les réponses
 // ailleurs. Assez large pour lire quatre propositions sans se presser.
-const TEMPS_PAR_QUESTION = 15
+const TEMPS_PAR_QUESTION = 20
 
 interface InterrogatorProfile {
   title: string

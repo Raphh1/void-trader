@@ -49,12 +49,11 @@ function melangerChoix(q: QuestionBrute, impossible: boolean): InterrogationQues
 
 // Composition d'un interrogatoire : 6 faciles + 4 thématiques + 2 absurdes.
 // Seuil mesuré sur des profils de joueurs simulés plutôt que choisi au jugé.
-// La tension vient du chrono de 15 s par question (cf. InterrogationScreen) :
-// sans lui, un seuil de 8 laissait passer un joueur distrait deux fois sur
-// trois. Avec lui, à 8 : joueur attentif 98 %, moyen 72 %, distrait 33 %.
-// Monter à 9 par-dessus le chrono revenait à punir deux fois — un joueur moyen
-// y échouait plus d'une fois sur deux. Échouer n'est de toute façon pas fatal :
-// la cellule reste un état jouable.
+// La tension vient d'abord du chrono de 20 s par question (cf.
+// InterrogationScreen). Avec lui, à 8 : joueur attentif 99 %, moyen 81 %,
+// distrait 47 %. Monter à 9 par-dessus le chrono revenait à punir deux fois —
+// un joueur moyen n'y passait plus qu'une fois sur deux (57 %). Échouer n'est
+// de toute façon pas fatal : la cellule reste un état jouable.
 const NB_THEMATIQUES = 4
 const NB_FACILES = 6
 const NB_ABSURDES = 2
