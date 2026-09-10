@@ -26,7 +26,8 @@
     "threeDays": "3 days",
     "options": "You can serve your sentence, pay bail, bribe a guard, or attempt an escape.",
     "costWarning": "Serving your sentence has a cost. So does freedom.",
-    "toCell": "To the cell →"
+    "toCell": "To the cell →",
+    "toInterrogation": "Follow the guards"
   },
   "fled": {
     "title": "FLED",

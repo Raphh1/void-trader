@@ -482,7 +482,9 @@ export interface GameState {
   isImprisoned: boolean
   prisonDaysLeft: number
   // Interrogatoire (transfert forcé)
-  pendingInterrogation: { faction: string; captureStation: string } | null
+  // `fromPrison` : le joueur plaide sa cause depuis sa cellule plutôt que
+  // d'être cueilli dehors — réussir le libère, échouer rallonge la peine.
+  pendingInterrogation: { faction: string; captureStation: string; fromPrison?: boolean } | null
   // Mort
   isDead: boolean
   deathCause: string

@@ -26,7 +26,8 @@
     "threeDays": "3 jours",
     "options": "Tu peux purger ta peine, payer la caution, soudoyer un garde, ou tenter une évasion.",
     "costWarning": "Purger sa peine a un coût. La liberté aussi.",
-    "toCell": "Vers la cellule →"
+    "toCell": "Vers la cellule →",
+    "toInterrogation": "Suivre les gardes"
   },
   "fled": {
     "title": "FUITE",

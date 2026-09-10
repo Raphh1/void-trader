@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { addDecision, shiftPillar } from '../../engine/memoryEvents'
 import { addJournal } from '../../engine/journal'
-import { drawInterrogation, INTERROGATION_PASS_SCORE, INTERROGATION_TOTAL, type InterrogationQuestion } from '../../data/interrogationQuestions'
+import { drawInterrogation, interrogatorKind, type InterrogatorKind, INTERROGATION_PASS_SCORE, INTERROGATION_TOTAL, type InterrogationQuestion } from '../../data/interrogationQuestions'
 import { translateStationName } from '../../engine/goodsI18n'
 
 type Phase = 'intro' | 'choices' | 'quiz' | 'result'
@@ -15,20 +15,20 @@ interface InterrogatorProfile {
   tone: string
 }
 
-function getInterrogatorProfile(faction: string, t: (key: string) => string): InterrogatorProfile {
-  if (faction.includes('Raphazarus')) return {
+function getInterrogatorProfile(kind: InterrogatorKind, t: (key: string) => string): InterrogatorProfile {
+  if (kind === 'raphazarus') return {
     title: t('profiles.raphazarus.title'),
     description: t('profiles.raphazarus.description'),
     demandLabel: t('profiles.raphazarus.demandLabel'),
     tone: "var(--orange)",
   }
-  if (faction.includes('Emporium') || faction.includes('Cesarion') || faction.includes('Pistis')) return {
+  if (kind === 'emporium') return {
     title: t('profiles.emporium.title'),
     description: t('profiles.emporium.description'),
     demandLabel: t('profiles.emporium.demandLabel'),
     tone: "var(--cyan)",
   }
-  if (faction.includes('Gardien') || faction.includes('Kharos')) return {
+  if (kind === 'gardiens') return {
     title: t('profiles.gardiens.title'),
     description: t('profiles.gardiens.description'),
     demandLabel: t('profiles.gardiens.demandLabel'),
@@ -51,24 +51,36 @@ export function InterrogationScreen() {
   const [phase, setPhase]   = useState<Phase>('intro')
   const [result, setResult] = useState<{ text: string; free: boolean }>({ text: '', free: false })
 
+  const info = gs.pendingInterrogation ?? { faction: 'Autorités locales', captureStation: gs.currentStation }
+  const kind = interrogatorKind(info.faction)
+
   // ── Quiz d'interrogatoire ──
-  const [quiz, setQuiz]       = useState<InterrogationQuestion[]>(() => drawInterrogation(INTERROGATION_TOTAL))
+  // Tiré une seule fois : re-tirer à chaque rendu changerait les questions
+  // sous les doigts du joueur. Le pool dépend de qui interroge.
+  const [quiz] = useState<InterrogationQuestion[]>(() => drawInterrogation(kind))
   const [qIdx, setQIdx]       = useState(0)
   const [score, setScore]     = useState(0)
   const [picked, setPicked]   = useState<number | null>(null)
-
-  const info = gs.pendingInterrogation ?? { faction: 'Autorités locales', captureStation: gs.currentStation }
-  const profile = getInterrogatorProfile(info.faction, t)
-  const bribeAmount = 600 + gs.day * 25
+  // Chaque classe peut peser une fois sur l’interrogatoire, à sa manière.
+  const [atoutUtilise, setAtoutUtilise] = useState(false)
+  const [revele, setRevele]   = useState<number | null>(null)
+  const profile = getInterrogatorProfile(kind, t)
+  // Le Marchand fait son métier : il négocie le prix de sa liberté.
+  const remiseMarchand = gs.class.tradeBonusPercent ? 0.6 : 1
+  const bribeAmount = Math.floor((600 + gs.day * 25) * remiseMarchand)
 
   function free(text: string, extraPatch?: Partial<typeof gs>) {
-    patch({ pendingInterrogation: null, interrogationsSurvived: gs.interrogationsSurvived + 1, ...extraPatch })
+    // Plaider depuis la cellule et convaincre, c'est sortir pour de bon.
+    const sortieDeCellule = info.fromPrison ? { isImprisoned: false, prisonDaysLeft: 0 } : {}
+    patch({ pendingInterrogation: null, interrogationsSurvived: gs.interrogationsSurvived + 1, ...sortieDeCellule, ...extraPatch })
     setResult({ text, free: true })
     setPhase('result')
   }
 
   function prison(text: string, days: number, extraPatch?: Partial<typeof gs>) {
-    patch({ pendingInterrogation: null, isImprisoned: true, prisonDaysLeft: days, ...extraPatch })
+    // Un plaidoyer raté depuis la cellule ALLONGE la peine, il ne la remplace pas.
+    const peine = info.fromPrison ? (gs.prisonDaysLeft ?? 0) + days : days
+    patch({ pendingInterrogation: null, isImprisoned: true, prisonDaysLeft: peine, ...extraPatch })
     setResult({ text, free: false })
     setPhase('result')
   }
@@ -136,6 +148,26 @@ export function InterrogationScreen() {
       if (i === question.answer) setScore(s => s + 1)
     }
 
+    // Chaque classe pèse sur l’interrogatoire selon ce qu’elle sait faire :
+    // le Hackeur lit le terminal, le Seigneur de guerre fait taire la
+    // question, Rayane rejoue son échec à pile ou face.
+    const atout = gs.class.name === 'Hackeur' ? 'reveal'
+      : gs.class.name === 'Seigneur de guerre' ? 'skip'
+      : gs.class.name === 'Rayane' ? 'flip'
+      : null
+
+    function jouerAtout() {
+      if (atoutUtilise || atout === null) return
+      setAtoutUtilise(true)
+      if (atout === 'reveal') { setRevele(question.answer); return }
+      if (atout === 'skip') { setPicked(question.answer); setScore(n => n + 1); return }
+      // Rayane : pile, la réponse ratée devient bonne ; face, tant pis.
+      if (atout === 'flip' && picked !== null && picked !== question.answer && Math.random() < 0.5) {
+        setScore(n => n + 1)
+        setRevele(question.answer)
+      }
+    }
+
     function next() {
       if (isLast) {
         const finalScore = score
@@ -194,6 +226,19 @@ export function InterrogationScreen() {
             )
           })}
         </div>
+
+        {atout && !atoutUtilise && (
+          <button className="px-btn" style={{ borderColor: 'var(--cyan)', color: 'var(--cyan)' }}
+            disabled={atout === 'flip' ? picked === null || picked === question.answer : answered}
+            onClick={jouerAtout}>
+            {t('classPerk.' + atout)}
+          </button>
+        )}
+        {revele !== null && (
+          <div className="t-xs" style={{ color: 'var(--cyan)' }}>
+            {t('classPerk.revealed', { answer: question.choices[revele] })}
+          </div>
+        )}
 
         {answered && (
           <>

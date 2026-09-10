@@ -1,42 +1,1004 @@
 {
-  "easy": [
-    { "q": "Combien de jours dans une semaine ?", "choices": ["5", "7", "10", "12"] },
-    { "q": "Quelle est la couleur du ciel par temps clair ?", "choices": ["Vert", "Rouge", "Bleu", "Jaune"] },
-    { "q": "Combien font 7 × 8 ?", "choices": ["54", "56", "64", "49"] },
-    { "q": "Quel astre éclaire la Terre le jour ?", "choices": ["La Lune", "Le Soleil", "Mars", "Vénus"] },
-    { "q": "Combien de pattes a une araignée ?", "choices": ["6", "8", "10", "4"] },
-    { "q": "Quelle planète habitons-nous ?", "choices": ["Mars", "Jupiter", "La Terre", "Saturne"] },
-    { "q": "Combien de côtés a un triangle ?", "choices": ["3", "4", "5", "6"] },
-    { "q": "Quel animal aboie ?", "choices": ["Le chat", "Le chien", "La vache", "Le canard"] },
-    { "q": "Quelle est la capitale de la France ?", "choices": ["Lyon", "Marseille", "Paris", "Bordeaux"] },
-    { "q": "Combien font 100 ÷ 4 ?", "choices": ["20", "25", "40", "50"] },
-    { "q": "De quelle couleur est l'herbe ?", "choices": ["Bleue", "Verte", "Rouge", "Noire"] },
-    { "q": "Quel liquide tombe quand il pleut ?", "choices": ["Du lait", "De l'eau", "Du sable", "De l'huile"] },
-    { "q": "Combien de doigts a une main (en général) ?", "choices": ["4", "5", "6", "3"] },
-    { "q": "Quel est le contraire de \"chaud\" ?", "choices": ["Froid", "Mouillé", "Grand", "Lourd"] },
-    { "q": "Dans quel océan se trouve la France métropolitaine côté ouest ?", "choices": ["Pacifique", "Indien", "Atlantique", "Arctique"] },
-    { "q": "Combien font 12 + 13 ?", "choices": ["24", "25", "26", "23"] },
-    { "q": "Quel fruit est jaune et courbé ?", "choices": ["La pomme", "La banane", "La fraise", "Le raisin"] },
-    { "q": "Quelle saison vient après l'hiver ?", "choices": ["L'été", "L'automne", "Le printemps", "La mousson"] },
-    { "q": "Combien de minutes dans une heure ?", "choices": ["30", "45", "60", "100"] },
-    { "q": "Quel métal est attiré par un aimant ?", "choices": ["L'or", "Le fer", "Le cuivre", "L'argent"] },
-    { "q": "Quelle forme a un ballon de football ?", "choices": ["Cube", "Sphère", "Pyramide", "Cylindre"] },
-    { "q": "Combien de continents y a-t-il (modèle courant) ?", "choices": ["5", "6", "7", "9"] },
-    { "q": "Quel gaz respirons-nous pour vivre ?", "choices": ["Azote", "Oxygène", "Hélium", "Méthane"] },
-    { "q": "Quel est le premier nombre premier ?", "choices": ["0", "1", "2", "3"] },
-    { "q": "Quelle est la couleur du sang humain ?", "choices": ["Bleu", "Rouge", "Vert", "Jaune"] },
-    { "q": "Combien de roues a une voiture standard ?", "choices": ["2", "3", "4", "6"] }
-  ],
-  "impossible": [
-    { "q": "Combien de grains de sable y a-t-il exactement sur la plage de Velkor ?", "choices": ["8 412 003 991", "8 412 003 992", "8 412 003 990", "Aucune idée, évidemment"] },
-    { "q": "À quoi pensait l'interrogateur précisément il y a trois secondes ?", "choices": ["À sa retraite", "À toi", "À son petit-déjeuner", "À rien"] },
-    { "q": "Quel était le prénom du chien du voisin de ton geôlier en 2174 ?", "choices": ["Brutus", "Pixel", "Sergent", "Mochi"] },
-    { "q": "Quelle est la 9 999 999e décimale de Pi ?", "choices": ["1", "4", "7", "8"] },
-    { "q": "Combien de fois as-tu cligné des yeux depuis ta capture ?", "choices": ["142", "317", "88", "Personne ne compte ça"] },
-    { "q": "Quel nombre l'interrogateur a-t-il en tête, là, maintenant ?", "choices": ["7", "42", "13", "666"] },
-    { "q": "Quelle est la couleur préférée du grand-père de l'Empereur Cesarion ?", "choices": ["Pourpre", "Ocre", "Cyan", "Personne ne le sait"] },
-    { "q": "Quel jour de la semaine tomberait le 3e anniversaire du vaisseau qui t'a capturé ?", "choices": ["Lundi", "Jeudi", "Samedi", "Dimanche"] },
-    { "q": "Combien de poils as-tu exactement sur le bras gauche ?", "choices": ["2 209", "11 040", "7 777", "Sérieusement ?"] },
-    { "q": "Quel est le dernier mot que prononcera l'interrogateur avant de mourir ?", "choices": ["\"Maman\"", "\"Encore\"", "\"Pourquoi\"", "Indéterminable"] }
-  ]
+  "common": {
+    "easy": [
+      {
+        "q": "Combien de jours dans une semaine ?",
+        "choices": [
+          "7",
+          "5",
+          "10",
+          "12"
+        ]
+      },
+      {
+        "q": "Quelle est la couleur du ciel par temps clair ?",
+        "choices": [
+          "Bleu",
+          "Vert",
+          "Rouge",
+          "Jaune"
+        ]
+      },
+      {
+        "q": "Combien font 7 × 8 ?",
+        "choices": [
+          "56",
+          "54",
+          "64",
+          "49"
+        ]
+      },
+      {
+        "q": "Quel astre éclaire la Terre le jour ?",
+        "choices": [
+          "Le Soleil",
+          "La Lune",
+          "Mars",
+          "Vénus"
+        ]
+      },
+      {
+        "q": "Combien de pattes a une araignée ?",
+        "choices": [
+          "8",
+          "6",
+          "10",
+          "4"
+        ]
+      },
+      {
+        "q": "Quelle planète habitons-nous ?",
+        "choices": [
+          "La Terre",
+          "Mars",
+          "Jupiter",
+          "Saturne"
+        ]
+      },
+      {
+        "q": "Combien de côtés a un triangle ?",
+        "choices": [
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      {
+        "q": "Quel animal aboie ?",
+        "choices": [
+          "Le chien",
+          "Le chat",
+          "La vache",
+          "Le canard"
+        ]
+      },
+      {
+        "q": "Quelle est la capitale de la France ?",
+        "choices": [
+          "Paris",
+          "Lyon",
+          "Marseille",
+          "Bordeaux"
+        ]
+      },
+      {
+        "q": "Combien font 100 ÷ 4 ?",
+        "choices": [
+          "25",
+          "20",
+          "40",
+          "50"
+        ]
+      },
+      {
+        "q": "De quelle couleur est l'herbe ?",
+        "choices": [
+          "Verte",
+          "Bleue",
+          "Rouge",
+          "Noire"
+        ]
+      },
+      {
+        "q": "Quel liquide tombe quand il pleut ?",
+        "choices": [
+          "De l'eau",
+          "Du lait",
+          "Du sable",
+          "De l'huile"
+        ]
+      },
+      {
+        "q": "Combien de doigts a une main (en général) ?",
+        "choices": [
+          "5",
+          "4",
+          "6",
+          "3"
+        ]
+      },
+      {
+        "q": "Quel est le contraire de \"chaud\" ?",
+        "choices": [
+          "Froid",
+          "Mouillé",
+          "Grand",
+          "Lourd"
+        ]
+      },
+      {
+        "q": "Dans quel océan se trouve la France métropolitaine côté ouest ?",
+        "choices": [
+          "Atlantique",
+          "Pacifique",
+          "Indien",
+          "Arctique"
+        ]
+      },
+      {
+        "q": "Combien font 12 + 13 ?",
+        "choices": [
+          "25",
+          "24",
+          "26",
+          "23"
+        ]
+      },
+      {
+        "q": "Quel fruit est jaune et courbé ?",
+        "choices": [
+          "La banane",
+          "La pomme",
+          "La fraise",
+          "Le raisin"
+        ]
+      },
+      {
+        "q": "Quelle saison vient après l'hiver ?",
+        "choices": [
+          "Le printemps",
+          "L'été",
+          "L'automne",
+          "La mousson"
+        ]
+      },
+      {
+        "q": "Combien de minutes dans une heure ?",
+        "choices": [
+          "60",
+          "30",
+          "45",
+          "100"
+        ]
+      },
+      {
+        "q": "Quel métal est attiré par un aimant ?",
+        "choices": [
+          "Le fer",
+          "L'or",
+          "Le cuivre",
+          "L'argent"
+        ]
+      },
+      {
+        "q": "Quelle forme a un ballon de football ?",
+        "choices": [
+          "Sphère",
+          "Cube",
+          "Pyramide",
+          "Cylindre"
+        ]
+      },
+      {
+        "q": "Combien de continents y a-t-il (modèle courant) ?",
+        "choices": [
+          "7",
+          "5",
+          "6",
+          "9"
+        ]
+      },
+      {
+        "q": "Quel gaz respirons-nous pour vivre ?",
+        "choices": [
+          "Oxygène",
+          "Azote",
+          "Hélium",
+          "Méthane"
+        ]
+      },
+      {
+        "q": "Quel est le premier nombre premier ?",
+        "choices": [
+          "2",
+          "0",
+          "1",
+          "3"
+        ]
+      },
+      {
+        "q": "Quelle est la couleur du sang humain ?",
+        "choices": [
+          "Rouge",
+          "Bleu",
+          "Vert",
+          "Jaune"
+        ]
+      },
+      {
+        "q": "Combien de roues a une voiture standard ?",
+        "choices": [
+          "4",
+          "2",
+          "3",
+          "6"
+        ]
+      },
+      {
+        "q": "Quelle est la première lettre de l'alphabet ?",
+        "choices": [
+          "A",
+          "B",
+          "Z",
+          "M"
+        ]
+      },
+      {
+        "q": "Combien de mois dans une année ?",
+        "choices": [
+          "12",
+          "10",
+          "14",
+          "7"
+        ]
+      },
+      {
+        "q": "À quelle température l'eau bout-elle, au niveau de la mer ?",
+        "choices": [
+          "100 °C",
+          "50 °C",
+          "200 °C",
+          "0 °C"
+        ]
+      },
+      {
+        "q": "Combien font 10 % de 200 ?",
+        "choices": [
+          "20",
+          "2",
+          "50",
+          "100"
+        ]
+      },
+      {
+        "q": "Quel est le contraire de « haut » ?",
+        "choices": [
+          "Bas",
+          "Large",
+          "Vide",
+          "Lourd"
+        ]
+      },
+      {
+        "q": "Combien de roues a une brouette ?",
+        "choices": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "q": "De quelle couleur est le charbon ?",
+        "choices": [
+          "Noir",
+          "Blanc",
+          "Rose",
+          "Vert"
+        ]
+      },
+      {
+        "q": "Combien d'angles droits a un carré ?",
+        "choices": [
+          "4",
+          "2",
+          "1",
+          "6"
+        ]
+      },
+      {
+        "q": "De quoi a-t-on besoin pour respirer ?",
+        "choices": [
+          "D'oxygène",
+          "De sable",
+          "De lumière",
+          "De sel"
+        ]
+      },
+      {
+        "q": "Combien font 100 divisé par 4 ?",
+        "choices": [
+          "25",
+          "20",
+          "40",
+          "14"
+        ]
+      },
+      {
+        "q": "Quel astre nous éclaire le jour ?",
+        "choices": [
+          "Le Soleil",
+          "La Lune",
+          "Mars",
+          "Une lampe"
+        ]
+      },
+      {
+        "q": "Combien de doigts sur deux mains ?",
+        "choices": [
+          "10",
+          "8",
+          "12",
+          "20"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Combien de grains de sable y a-t-il exactement sur la plage de Velkor ?",
+        "choices": [
+          "Aucune idée, évidemment",
+          "8 412 003 991",
+          "8 412 003 992",
+          "8 412 003 990"
+        ]
+      },
+      {
+        "q": "À quoi pensait l'interrogateur précisément il y a trois secondes ?",
+        "choices": [
+          "À toi",
+          "À sa retraite",
+          "À son petit-déjeuner",
+          "À rien"
+        ]
+      },
+      {
+        "q": "Quel était le prénom du chien du voisin de ton geôlier en 2174 ?",
+        "choices": [
+          "Sergent",
+          "Brutus",
+          "Pixel",
+          "Mochi"
+        ]
+      },
+      {
+        "q": "Quelle est la 9 999 999e décimale de Pi ?",
+        "choices": [
+          "1",
+          "4",
+          "7",
+          "8"
+        ]
+      },
+      {
+        "q": "Combien de fois as-tu cligné des yeux depuis ta capture ?",
+        "choices": [
+          "317",
+          "142",
+          "88",
+          "Personne ne compte ça"
+        ]
+      },
+      {
+        "q": "Quel nombre l'interrogateur a-t-il en tête, là, maintenant ?",
+        "choices": [
+          "42",
+          "7",
+          "13",
+          "666"
+        ]
+      },
+      {
+        "q": "Quelle est la couleur préférée du grand-père de l'Empereur Cesarion ?",
+        "choices": [
+          "Pourpre",
+          "Ocre",
+          "Cyan",
+          "Personne ne le sait"
+        ]
+      },
+      {
+        "q": "Quel jour de la semaine tomberait le 3e anniversaire du vaisseau qui t'a capturé ?",
+        "choices": [
+          "Samedi",
+          "Lundi",
+          "Jeudi",
+          "Dimanche"
+        ]
+      },
+      {
+        "q": "Combien de poils as-tu exactement sur le bras gauche ?",
+        "choices": [
+          "11 040",
+          "2 209",
+          "7 777",
+          "Sérieusement ?"
+        ]
+      },
+      {
+        "q": "Quel est le dernier mot que prononcera l'interrogateur avant de mourir ?",
+        "choices": [
+          "Indéterminable",
+          "\"Maman\"",
+          "\"Encore\"",
+          "\"Pourquoi\""
+        ]
+      }
+    ]
+  },
+  "local": {
+    "themed": [
+      {
+        "q": "Combien de pieds a un tabouret à trois pieds ?",
+        "choices": [
+          "3",
+          "4",
+          "2",
+          "1"
+        ]
+      },
+      {
+        "q": "Il pleut. Le sol devient…",
+        "choices": [
+          "Mouillé",
+          "Sec",
+          "Brûlant",
+          "Bleu"
+        ]
+      },
+      {
+        "q": "Combien font 2 + 2 ?",
+        "choices": [
+          "4",
+          "5",
+          "22",
+          "2"
+        ]
+      },
+      {
+        "q": "Avec quoi éteint-on un feu ?",
+        "choices": [
+          "De l'eau",
+          "De l'huile",
+          "Du papier",
+          "Du vent"
+        ]
+      },
+      {
+        "q": "Quel jour vient après lundi ?",
+        "choices": [
+          "Mardi",
+          "Dimanche",
+          "Vendredi",
+          "Lundi"
+        ]
+      },
+      {
+        "q": "Une porte fermée à clé s'ouvre avec…",
+        "choices": [
+          "Une clé",
+          "Un regard",
+          "Une chanson",
+          "Un ticket"
+        ]
+      },
+      {
+        "q": "Combien de saisons dans une année ?",
+        "choices": [
+          "4",
+          "2",
+          "12",
+          "7"
+        ]
+      },
+      {
+        "q": "Quel est le contraire de « vide » ?",
+        "choices": [
+          "Plein",
+          "Lourd",
+          "Ouvert",
+          "Rond"
+        ]
+      },
+      {
+        "q": "Un objet volé appartient à…",
+        "choices": [
+          "Son propriétaire",
+          "Le voleur",
+          "Personne",
+          "La milice"
+        ]
+      },
+      {
+        "q": "Combien de secondes dans une minute ?",
+        "choices": [
+          "60",
+          "100",
+          "30",
+          "24"
+        ]
+      },
+      {
+        "q": "On paie une amende avec…",
+        "choices": [
+          "Des crédits",
+          "Des cailloux",
+          "Des excuses",
+          "Du sable"
+        ]
+      },
+      {
+        "q": "Deux témoins, c'est plus ou moins qu'un ?",
+        "choices": [
+          "Plus",
+          "Moins",
+          "Pareil",
+          "Ça dépend"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Combien de fenêtres compte cette station, exactement ?",
+        "choices": [
+          "Personne n'en sait rien",
+          "3 040",
+          "3 041",
+          "3 039"
+        ]
+      },
+      {
+        "q": "À quelle heure exacte mon collègue a-t-il déjeuné avant-hier ?",
+        "choices": [
+          "Comment le saurais-je",
+          "12 h 04",
+          "12 h 05",
+          "12 h 06"
+        ]
+      },
+      {
+        "q": "Quel est le prénom complet du cousin de mon voisin de palier ?",
+        "choices": [
+          "Aucune idée",
+          "Jorik",
+          "Jorel",
+          "Joran"
+        ]
+      }
+    ]
+  },
+  "raphazarus": {
+    "themed": [
+      {
+        "q": "Combien de flèches faut-il pour vider un carquois de douze ?",
+        "choices": [
+          "12",
+          "6",
+          "24",
+          "1"
+        ]
+      },
+      {
+        "q": "Une escouade compte dix soldats. Trois tombent. Combien restent debout ?",
+        "choices": [
+          "7",
+          "13",
+          "3",
+          "10"
+        ]
+      },
+      {
+        "q": "Qu'est-ce qui perce une armure : une lame émoussée ou une lame aiguisée ?",
+        "choices": [
+          "Une lame aiguisée",
+          "Une lame émoussée",
+          "Les deux pareil",
+          "Aucune des deux"
+        ]
+      },
+      {
+        "q": "Un siège dure quarante jours. Combien de semaines complètes ?",
+        "choices": [
+          "5",
+          "4",
+          "6",
+          "40"
+        ]
+      },
+      {
+        "q": "Combien de côtés a un bouclier hexagonal ?",
+        "choices": [
+          "6",
+          "4",
+          "8",
+          "5"
+        ]
+      },
+      {
+        "q": "Deux sentinelles se relaient toutes les six heures. Combien de relèves par jour ?",
+        "choices": [
+          "4",
+          "2",
+          "6",
+          "12"
+        ]
+      },
+      {
+        "q": "Le sang séché, il est de quelle couleur ?",
+        "choices": [
+          "Brun",
+          "Bleu",
+          "Vert",
+          "Doré"
+        ]
+      },
+      {
+        "q": "Un fusil à trois balles tire trois fois. Combien de balles reste-t-il ?",
+        "choices": [
+          "Aucune",
+          "Une",
+          "Deux",
+          "Trois"
+        ]
+      },
+      {
+        "q": "Qu'est-ce qui pèse le plus : un kilo de plomb ou un kilo de plumes ?",
+        "choices": [
+          "Ni l'un ni l'autre",
+          "Le plomb",
+          "Les plumes",
+          "Ça dépend du vent"
+        ]
+      },
+      {
+        "q": "Combien de morts dans un charnier vide ?",
+        "choices": [
+          "Zéro",
+          "Un",
+          "Dix",
+          "Beaucoup"
+        ]
+      },
+      {
+        "q": "Une lame chauffée au rouge est-elle chaude ou froide ?",
+        "choices": [
+          "Chaude",
+          "Froide",
+          "Tiède",
+          "Ça dépend"
+        ]
+      },
+      {
+        "q": "Marcher trente kilomètres à cinq kilomètres par heure prend…",
+        "choices": [
+          "6 heures",
+          "3 heures",
+          "30 heures",
+          "5 heures"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Combien de crânes exactement dans les fosses de L'Arc Perdu ?",
+        "choices": [
+          "Personne ne les a comptés",
+          "4 411",
+          "4 412",
+          "4 410"
+        ]
+      },
+      {
+        "q": "Quel a été le dernier mot du dernier homme que j'ai tué ?",
+        "choices": [
+          "Comment le saurais-je",
+          "« Pitié »",
+          "« Maman »",
+          "« Encore »"
+        ]
+      },
+      {
+        "q": "De quelle main Raphazarus tient-il sa lame les jours de pluie ?",
+        "choices": [
+          "Aucune idée",
+          "La gauche",
+          "La droite",
+          "Les deux"
+        ]
+      }
+    ]
+  },
+  "emporium": {
+    "themed": [
+      {
+        "q": "Vous achetez à 100, vous vendez à 150. Votre marge ?",
+        "choices": [
+          "50",
+          "150",
+          "250",
+          "100"
+        ]
+      },
+      {
+        "q": "Une remise de 10 % sur 200 crédits : combien à payer ?",
+        "choices": [
+          "180",
+          "190",
+          "20",
+          "210"
+        ]
+      },
+      {
+        "q": "Qu'est-ce qui coûte le plus cher : rare ou commun ?",
+        "choices": [
+          "Rare",
+          "Commun",
+          "Pareil",
+          "Ni l'un ni l'autre"
+        ]
+      },
+      {
+        "q": "Douze unités à 5 crédits l'unité. Total ?",
+        "choices": [
+          "60",
+          "17",
+          "50",
+          "120"
+        ]
+      },
+      {
+        "q": "Si l'offre augmente et la demande ne bouge pas, le prix…",
+        "choices": [
+          "Baisse",
+          "Monte",
+          "Ne bouge pas",
+          "Double"
+        ]
+      },
+      {
+        "q": "Un contrat signé par une seule des deux parties est…",
+        "choices": [
+          "Incomplet",
+          "Valide",
+          "Doublé",
+          "Annulé par un tiers"
+        ]
+      },
+      {
+        "q": "Vous devez 1 000 et remboursez 400. Il reste…",
+        "choices": [
+          "600",
+          "1 400",
+          "400",
+          "1 000"
+        ]
+      },
+      {
+        "q": "Quel est le meilleur résultat : +200 crédits ou −200 crédits ?",
+        "choices": [
+          "+200",
+          "−200",
+          "Les deux",
+          "Aucun"
+        ]
+      },
+      {
+        "q": "Acheter cher et vendre bon marché, cela s’appelle…",
+        "choices": [
+          "Une perte",
+          "Un profit",
+          "Une opération neutre",
+          "Une remise"
+        ]
+      },
+      {
+        "q": "Combien font 25 % de 400 ?",
+        "choices": [
+          "100",
+          "50",
+          "200",
+          "75"
+        ]
+      },
+      {
+        "q": "Une facture émise en double se paie combien de fois ?",
+        "choices": [
+          "Une",
+          "Deux",
+          "Zéro",
+          "Trois"
+        ]
+      },
+      {
+        "q": "Un stock de zéro unité vaut…",
+        "choices": [
+          "Rien",
+          "Beaucoup",
+          "Le double",
+          "Ça dépend du cours"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Quel était le cours du cuivre à Requiem il y a onze ans, à la seconde près ?",
+        "choices": [
+          "Nul ne peut le savoir",
+          "412,07",
+          "412,08",
+          "412,06"
+        ]
+      },
+      {
+        "q": "Combien de crédits ont transité par ce bureau depuis sa construction ?",
+        "choices": [
+          "Impossible à dire",
+          "9 milliards",
+          "8 milliards",
+          "10 milliards"
+        ]
+      },
+      {
+        "q": "Quel est le numéro de série de la troisième vis du fauteuil derrière vous ?",
+        "choices": [
+          "Personne ne le sait",
+          "VX-3",
+          "VX-4",
+          "VX-5"
+        ]
+      }
+    ]
+  },
+  "gardiens": {
+    "themed": [
+      {
+        "q": "Un garde en faction doit-il dormir ?",
+        "choices": [
+          "Non",
+          "Oui",
+          "Seulement debout",
+          "Une heure sur deux"
+        ]
+      },
+      {
+        "q": "Combien de degrés dans un demi-tour ?",
+        "choices": [
+          "180",
+          "90",
+          "360",
+          "45"
+        ]
+      },
+      {
+        "q": "Qui commande : un général ou un caporal ?",
+        "choices": [
+          "Le général",
+          "Le caporal",
+          "Personne",
+          "Les deux"
+        ]
+      },
+      {
+        "q": "Un couvre-feu à 22 h autorise-t-il une sortie à 23 h ?",
+        "choices": [
+          "Non",
+          "Oui",
+          "Seulement en courant",
+          "Uniquement le mardi"
+        ]
+      },
+      {
+        "q": "Combien de soldats dans une paire de sentinelles ?",
+        "choices": [
+          "2",
+          "1",
+          "4",
+          "12"
+        ]
+      },
+      {
+        "q": "Le règlement, ça se lit ou ça s’invente ?",
+        "choices": [
+          "Ça se lit",
+          "Ça s’invente",
+          "Ça se mange",
+          "Ça se vend"
+        ]
+      },
+      {
+        "q": "Trois quarts de huit heures, cela fait…",
+        "choices": [
+          "6 heures",
+          "4 heures",
+          "2 heures",
+          "8 heures"
+        ]
+      },
+      {
+        "q": "Une alarme qui sonne signifie…",
+        "choices": [
+          "Un problème",
+          "Une fête",
+          "La fin du service",
+          "Rien du tout"
+        ]
+      },
+      {
+        "q": "Combien d'angles droits dans un rectangle ?",
+        "choices": [
+          "4",
+          "2",
+          "1",
+          "0"
+        ]
+      },
+      {
+        "q": "Un uniforme réglementaire se porte comment ?",
+        "choices": [
+          "Correctement",
+          "À l'envers",
+          "Déchiré",
+          "En écharpe"
+        ]
+      },
+      {
+        "q": "Vous êtes 8 en patrouille, 2 rentrent. Combien dehors ?",
+        "choices": [
+          "6",
+          "10",
+          "2",
+          "8"
+        ]
+      },
+      {
+        "q": "Le silence radio, cela veut dire qu’on parle ?",
+        "choices": [
+          "Non",
+          "Oui",
+          "Seulement fort",
+          "Uniquement en chantant"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Article 4 447, alinéa 12 du règlement : citez-le mot pour mot.",
+        "choices": [
+          "Cet article n'existe pas",
+          "« Le port du casque… »",
+          "« Nul ne peut… »",
+          "« En cas de siège… »"
+        ]
+      },
+      {
+        "q": "Combien de pas séparent exactement la porte est de la porte ouest de Fort Kharos ?",
+        "choices": [
+          "Personne ne les a comptés",
+          "1 204",
+          "1 205",
+          "1 203"
+        ]
+      },
+      {
+        "q": "De quelle couleur étaient les chaussettes du Général Ossian le jour de sa nomination ?",
+        "choices": [
+          "Aucune idée",
+          "Grises",
+          "Noires",
+          "Bleues"
+        ]
+      }
+    ]
+  }
 }

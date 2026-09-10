@@ -77,5 +77,11 @@
     "betray": "Balancer quelqu'un d'autre (+500 cr, -25 rép, tag 'délateur')",
     "betrayResult": "Tu donnes un nom. Pas le tien — celui de quelqu'un d'autre. Quelqu'un que tu as croisé. Quelqu'un qui n'a rien demandé. Ils notent. Tu sors. -25 rép. Tag 'délateur'.",
     "betrayJournal": "J'ai donné un nom qui n'était pas le mien à l'interrogatoire. Je ne sais pas ce qu'ils ont fait de ce nom. Je ne veux pas le savoir."
+  },
+  "classPerk": {
+    "reveal": "💻 Pirater le terminal — révéler la réponse",
+    "skip": "⚔ Intimider — il passe la question",
+    "flip": "🪙 Rejouer à pile ou face",
+    "revealed": "Le terminal affiche : {{answer}}"
   }
 }

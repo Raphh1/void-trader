@@ -134,9 +134,9 @@ export function CombatOutcomeScreen() {
 
           <button className="px-btn px-btn--danger" onClick={() => {
             patch({ pendingCombatOutcome: null, pendingMessage: null })
-            goTo('prison')
+            goTo(gs.pendingInterrogation ? 'interrogation' : 'prison')
           }}>
-            {t('captured.toCell')}
+            {gs.pendingInterrogation ? t('captured.toInterrogation') : t('captured.toCell')}
           </button>
         </div>
       </div>

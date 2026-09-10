@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { getStationFactionName } from '../engine/factionRep'
 import { persist } from 'zustand/middleware'
 import type { GameState, PlayerClass, Screen, Enemy, CombatOutcome, Quest } from '../types'
 import { getClasses } from '../data/classes'
@@ -1223,7 +1224,12 @@ function handleCombatOutcome(
     const captureInfo    = JSON.stringify({ creditsFine, weaponName: weaponSeized ? gs.equippedWeapon?.name ?? null : null, cargoLost: cargoSeized.length })
     const newCargo       = { ...gs.cargo }
     for (const k of cargoSeized) delete newCargo[k]
-    set({ gs: { ...newGs, isImprisoned: true, prisonDaysLeft: 3, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
+    // La capture reste punitive — amende, arme et cargaison saisies — mais
+    // elle ouvre désormais un interrogatoire : c'est là que le joueur peut
+    // encore jouer sa liberté au lieu de subir la cellule sans un mot.
+    const autorite = getStationFactionName(gs.currentStation) ?? gt('localAuthorities')
+    set({ gs: { ...newGs, isImprisoned: false, prisonDaysLeft: 0, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
+      pendingInterrogation: { faction: autorite, captureStation: gs.currentStation },
       credits: Math.max(0, gs.credits - creditsFine),
       cargo: newCargo,
       equippedWeapon: weaponSeized ? null : gs.equippedWeapon,

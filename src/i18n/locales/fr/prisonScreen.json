@@ -1,5 +1,9 @@
 {
-  "roundLabels": ["Serrure de cellule", "Couloir de garde", "Porte de sortie"],
+  "roundLabels": [
+    "Serrure de cellule",
+    "Couloir de garde",
+    "Porte de sortie"
+  ],
   "roundDescs": [
     "La serrure électronique de ta cellule. Le garde repasse dans quelques secondes. Un timing parfait l'ouvre en silence.",
     "Tu es dans le couloir. Une grille magnétique bloque le passage. Elle s'ouvre par à-coups. Tu dois saisir la fenêtre exacte.",
@@ -142,6 +146,8 @@
     "escapeLastChance": " ⚠ DERNIÈRE CHANCE · MORT SI RATÉ",
     "escape1chanceAfter": " · ⚠ 1 chance restante après",
     "escape0item": " · 0 item si raté",
-    "escapeDefault": " · 25% items si raté · 70% succès final"
+    "escapeDefault": " · 25% items si raté · 70% succès final",
+    "pleadButton": "⚖ Plaider sa cause devant le magistrat",
+    "pleadFaction": "Autorités locales"
   }
 }

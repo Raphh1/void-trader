@@ -1,42 +1,1004 @@
 {
-  "easy": [
-    { "q": "How many days are in a week?", "choices": ["5", "7", "10", "12"] },
-    { "q": "What color is the sky on a clear day?", "choices": ["Green", "Red", "Blue", "Yellow"] },
-    { "q": "What is 7 × 8?", "choices": ["54", "56", "64", "49"] },
-    { "q": "Which celestial body lights the Earth during the day?", "choices": ["The Moon", "The Sun", "Mars", "Venus"] },
-    { "q": "How many legs does a spider have?", "choices": ["6", "8", "10", "4"] },
-    { "q": "Which planet do we live on?", "choices": ["Mars", "Jupiter", "Earth", "Saturn"] },
-    { "q": "How many sides does a triangle have?", "choices": ["3", "4", "5", "6"] },
-    { "q": "Which animal barks?", "choices": ["The cat", "The dog", "The cow", "The duck"] },
-    { "q": "What is the capital of France?", "choices": ["Lyon", "Marseille", "Paris", "Bordeaux"] },
-    { "q": "What is 100 ÷ 4?", "choices": ["20", "25", "40", "50"] },
-    { "q": "What color is grass?", "choices": ["Blue", "Green", "Red", "Black"] },
-    { "q": "What liquid falls when it rains?", "choices": ["Milk", "Water", "Sand", "Oil"] },
-    { "q": "How many fingers does a hand have (generally)?", "choices": ["4", "5", "6", "3"] },
-    { "q": "What is the opposite of \"hot\"?", "choices": ["Cold", "Wet", "Big", "Heavy"] },
-    { "q": "Which ocean borders mainland France to the west?", "choices": ["Pacific", "Indian", "Atlantic", "Arctic"] },
-    { "q": "What is 12 + 13?", "choices": ["24", "25", "26", "23"] },
-    { "q": "Which fruit is yellow and curved?", "choices": ["Apple", "Banana", "Strawberry", "Grape"] },
-    { "q": "Which season comes after winter?", "choices": ["Summer", "Autumn", "Spring", "Monsoon"] },
-    { "q": "How many minutes are in an hour?", "choices": ["30", "45", "60", "100"] },
-    { "q": "Which metal is attracted by a magnet?", "choices": ["Gold", "Iron", "Copper", "Silver"] },
-    { "q": "What shape is a football?", "choices": ["Cube", "Sphere", "Pyramid", "Cylinder"] },
-    { "q": "How many continents are there (common model)?", "choices": ["5", "6", "7", "9"] },
-    { "q": "Which gas do we breathe to live?", "choices": ["Nitrogen", "Oxygen", "Helium", "Methane"] },
-    { "q": "What is the first prime number?", "choices": ["0", "1", "2", "3"] },
-    { "q": "What color is human blood?", "choices": ["Blue", "Red", "Green", "Yellow"] },
-    { "q": "How many wheels does a standard car have?", "choices": ["2", "3", "4", "6"] }
-  ],
-  "impossible": [
-    { "q": "How many grains of sand are there exactly on Velkor beach?", "choices": ["8,412,003,991", "8,412,003,992", "8,412,003,990", "No idea, obviously"] },
-    { "q": "What was the interrogator thinking exactly three seconds ago?", "choices": ["His retirement", "You", "His breakfast", "Nothing"] },
-    { "q": "What was the name of your jailer's neighbor's dog in 2174?", "choices": ["Brutus", "Pixel", "Sergeant", "Mochi"] },
-    { "q": "What is the 9,999,999th decimal digit of Pi?", "choices": ["1", "4", "7", "8"] },
-    { "q": "How many times have you blinked since your capture?", "choices": ["142", "317", "88", "Nobody counts that"] },
-    { "q": "What number is the interrogator thinking of, right now?", "choices": ["7", "42", "13", "666"] },
-    { "q": "What is Emperor Cesarion's grandfather's favorite color?", "choices": ["Purple", "Ochre", "Cyan", "Nobody knows"] },
-    { "q": "What day of the week would the 3rd anniversary of the ship that captured you fall on?", "choices": ["Monday", "Thursday", "Saturday", "Sunday"] },
-    { "q": "How many hairs do you have exactly on your left arm?", "choices": ["2,209", "11,040", "7,777", "Seriously?"] },
-    { "q": "What will be the interrogator's last word before dying?", "choices": ["\"Mom\"", "\"Again\"", "\"Why\"", "Undeterminable"] }
-  ]
+  "common": {
+    "easy": [
+      {
+        "q": "How many days are in a week?",
+        "choices": [
+          "7",
+          "5",
+          "10",
+          "12"
+        ]
+      },
+      {
+        "q": "What color is the sky on a clear day?",
+        "choices": [
+          "Blue",
+          "Green",
+          "Red",
+          "Yellow"
+        ]
+      },
+      {
+        "q": "What is 7 × 8?",
+        "choices": [
+          "56",
+          "54",
+          "64",
+          "49"
+        ]
+      },
+      {
+        "q": "Which celestial body lights the Earth during the day?",
+        "choices": [
+          "The Sun",
+          "The Moon",
+          "Mars",
+          "Venus"
+        ]
+      },
+      {
+        "q": "How many legs does a spider have?",
+        "choices": [
+          "8",
+          "6",
+          "10",
+          "4"
+        ]
+      },
+      {
+        "q": "Which planet do we live on?",
+        "choices": [
+          "Earth",
+          "Mars",
+          "Jupiter",
+          "Saturn"
+        ]
+      },
+      {
+        "q": "How many sides does a triangle have?",
+        "choices": [
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      {
+        "q": "Which animal barks?",
+        "choices": [
+          "The dog",
+          "The cat",
+          "The cow",
+          "The duck"
+        ]
+      },
+      {
+        "q": "What is the capital of France?",
+        "choices": [
+          "Paris",
+          "Lyon",
+          "Marseille",
+          "Bordeaux"
+        ]
+      },
+      {
+        "q": "What is 100 ÷ 4?",
+        "choices": [
+          "25",
+          "20",
+          "40",
+          "50"
+        ]
+      },
+      {
+        "q": "What color is grass?",
+        "choices": [
+          "Green",
+          "Blue",
+          "Red",
+          "Black"
+        ]
+      },
+      {
+        "q": "What liquid falls when it rains?",
+        "choices": [
+          "Water",
+          "Milk",
+          "Sand",
+          "Oil"
+        ]
+      },
+      {
+        "q": "How many fingers does a hand have (generally)?",
+        "choices": [
+          "5",
+          "4",
+          "6",
+          "3"
+        ]
+      },
+      {
+        "q": "What is the opposite of \"hot\"?",
+        "choices": [
+          "Cold",
+          "Wet",
+          "Big",
+          "Heavy"
+        ]
+      },
+      {
+        "q": "Which ocean borders mainland France to the west?",
+        "choices": [
+          "Atlantic",
+          "Pacific",
+          "Indian",
+          "Arctic"
+        ]
+      },
+      {
+        "q": "What is 12 + 13?",
+        "choices": [
+          "25",
+          "24",
+          "26",
+          "23"
+        ]
+      },
+      {
+        "q": "Which fruit is yellow and curved?",
+        "choices": [
+          "Banana",
+          "Apple",
+          "Strawberry",
+          "Grape"
+        ]
+      },
+      {
+        "q": "Which season comes after winter?",
+        "choices": [
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Monsoon"
+        ]
+      },
+      {
+        "q": "How many minutes are in an hour?",
+        "choices": [
+          "60",
+          "30",
+          "45",
+          "100"
+        ]
+      },
+      {
+        "q": "Which metal is attracted by a magnet?",
+        "choices": [
+          "Iron",
+          "Gold",
+          "Copper",
+          "Silver"
+        ]
+      },
+      {
+        "q": "What shape is a football?",
+        "choices": [
+          "Sphere",
+          "Cube",
+          "Pyramid",
+          "Cylinder"
+        ]
+      },
+      {
+        "q": "How many continents are there (common model)?",
+        "choices": [
+          "7",
+          "5",
+          "6",
+          "9"
+        ]
+      },
+      {
+        "q": "Which gas do we breathe to live?",
+        "choices": [
+          "Oxygen",
+          "Nitrogen",
+          "Helium",
+          "Methane"
+        ]
+      },
+      {
+        "q": "What is the first prime number?",
+        "choices": [
+          "2",
+          "0",
+          "1",
+          "3"
+        ]
+      },
+      {
+        "q": "What color is human blood?",
+        "choices": [
+          "Red",
+          "Blue",
+          "Green",
+          "Yellow"
+        ]
+      },
+      {
+        "q": "How many wheels does a standard car have?",
+        "choices": [
+          "4",
+          "2",
+          "3",
+          "6"
+        ]
+      },
+      {
+        "q": "What is the first letter of the alphabet?",
+        "choices": [
+          "A",
+          "B",
+          "Z",
+          "M"
+        ]
+      },
+      {
+        "q": "How many months are in a year?",
+        "choices": [
+          "12",
+          "10",
+          "14",
+          "7"
+        ]
+      },
+      {
+        "q": "At what temperature does water boil at sea level?",
+        "choices": [
+          "100 °C",
+          "50 °C",
+          "200 °C",
+          "0 °C"
+        ]
+      },
+      {
+        "q": "What is 10% of 200?",
+        "choices": [
+          "20",
+          "2",
+          "50",
+          "100"
+        ]
+      },
+      {
+        "q": "What is the opposite of \"high\"?",
+        "choices": [
+          "Low",
+          "Wide",
+          "Empty",
+          "Heavy"
+        ]
+      },
+      {
+        "q": "How many wheels does a wheelbarrow have?",
+        "choices": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "q": "What colour is coal?",
+        "choices": [
+          "Black",
+          "White",
+          "Pink",
+          "Green"
+        ]
+      },
+      {
+        "q": "How many right angles does a square have?",
+        "choices": [
+          "4",
+          "2",
+          "1",
+          "6"
+        ]
+      },
+      {
+        "q": "What do you need in order to breathe?",
+        "choices": [
+          "Oxygen",
+          "Sand",
+          "Light",
+          "Salt"
+        ]
+      },
+      {
+        "q": "What is 100 divided by 4?",
+        "choices": [
+          "25",
+          "20",
+          "40",
+          "14"
+        ]
+      },
+      {
+        "q": "Which body lights our day?",
+        "choices": [
+          "The Sun",
+          "The Moon",
+          "Mars",
+          "A lamp"
+        ]
+      },
+      {
+        "q": "How many fingers on two hands?",
+        "choices": [
+          "10",
+          "8",
+          "12",
+          "20"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "How many grains of sand are there exactly on Velkor beach?",
+        "choices": [
+          "No idea, obviously",
+          "8,412,003,991",
+          "8,412,003,992",
+          "8,412,003,990"
+        ]
+      },
+      {
+        "q": "What was the interrogator thinking exactly three seconds ago?",
+        "choices": [
+          "You",
+          "His retirement",
+          "His breakfast",
+          "Nothing"
+        ]
+      },
+      {
+        "q": "What was the name of your jailer's neighbor's dog in 2174?",
+        "choices": [
+          "Sergeant",
+          "Brutus",
+          "Pixel",
+          "Mochi"
+        ]
+      },
+      {
+        "q": "What is the 9,999,999th decimal digit of Pi?",
+        "choices": [
+          "1",
+          "4",
+          "7",
+          "8"
+        ]
+      },
+      {
+        "q": "How many times have you blinked since your capture?",
+        "choices": [
+          "317",
+          "142",
+          "88",
+          "Nobody counts that"
+        ]
+      },
+      {
+        "q": "What number is the interrogator thinking of, right now?",
+        "choices": [
+          "42",
+          "7",
+          "13",
+          "666"
+        ]
+      },
+      {
+        "q": "What is Emperor Cesarion's grandfather's favorite color?",
+        "choices": [
+          "Purple",
+          "Ochre",
+          "Cyan",
+          "Nobody knows"
+        ]
+      },
+      {
+        "q": "What day of the week would the 3rd anniversary of the ship that captured you fall on?",
+        "choices": [
+          "Saturday",
+          "Monday",
+          "Thursday",
+          "Sunday"
+        ]
+      },
+      {
+        "q": "How many hairs do you have exactly on your left arm?",
+        "choices": [
+          "11,040",
+          "2,209",
+          "7,777",
+          "Seriously?"
+        ]
+      },
+      {
+        "q": "What will be the interrogator's last word before dying?",
+        "choices": [
+          "Undeterminable",
+          "\"Mom\"",
+          "\"Again\"",
+          "\"Why\""
+        ]
+      }
+    ]
+  },
+  "local": {
+    "themed": [
+      {
+        "q": "How many legs does a three-legged stool have?",
+        "choices": [
+          "3",
+          "4",
+          "2",
+          "1"
+        ]
+      },
+      {
+        "q": "It is raining. The ground becomes…",
+        "choices": [
+          "Wet",
+          "Dry",
+          "Scorching",
+          "Blue"
+        ]
+      },
+      {
+        "q": "What is 2 + 2?",
+        "choices": [
+          "4",
+          "5",
+          "22",
+          "2"
+        ]
+      },
+      {
+        "q": "What do you put a fire out with?",
+        "choices": [
+          "Water",
+          "Oil",
+          "Paper",
+          "Wind"
+        ]
+      },
+      {
+        "q": "Which day comes after Monday?",
+        "choices": [
+          "Tuesday",
+          "Sunday",
+          "Friday",
+          "Monday"
+        ]
+      },
+      {
+        "q": "A locked door opens with…",
+        "choices": [
+          "A key",
+          "A stare",
+          "A song",
+          "A ticket"
+        ]
+      },
+      {
+        "q": "How many seasons are in a year?",
+        "choices": [
+          "4",
+          "2",
+          "12",
+          "7"
+        ]
+      },
+      {
+        "q": "What is the opposite of \"empty\"?",
+        "choices": [
+          "Full",
+          "Heavy",
+          "Open",
+          "Round"
+        ]
+      },
+      {
+        "q": "A stolen object belongs to…",
+        "choices": [
+          "Its owner",
+          "The thief",
+          "Nobody",
+          "The militia"
+        ]
+      },
+      {
+        "q": "How many seconds are in a minute?",
+        "choices": [
+          "60",
+          "100",
+          "30",
+          "24"
+        ]
+      },
+      {
+        "q": "You pay a fine with…",
+        "choices": [
+          "Credits",
+          "Pebbles",
+          "Apologies",
+          "Sand"
+        ]
+      },
+      {
+        "q": "Two witnesses — more or fewer than one?",
+        "choices": [
+          "More",
+          "Fewer",
+          "The same",
+          "It depends"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Exactly how many windows does this station have?",
+        "choices": [
+          "Nobody knows",
+          "3,040",
+          "3,041",
+          "3,039"
+        ]
+      },
+      {
+        "q": "At exactly what time did my colleague eat lunch the day before yesterday?",
+        "choices": [
+          "How would I know",
+          "12:04",
+          "12:05",
+          "12:06"
+        ]
+      },
+      {
+        "q": "What is the full first name of my next-door neighbour's cousin?",
+        "choices": [
+          "No idea",
+          "Jorik",
+          "Jorel",
+          "Joran"
+        ]
+      }
+    ]
+  },
+  "raphazarus": {
+    "themed": [
+      {
+        "q": "How many arrows does it take to empty a quiver of twelve?",
+        "choices": [
+          "12",
+          "6",
+          "24",
+          "1"
+        ]
+      },
+      {
+        "q": "A squad has ten soldiers. Three fall. How many are left standing?",
+        "choices": [
+          "7",
+          "13",
+          "3",
+          "10"
+        ]
+      },
+      {
+        "q": "What pierces armour: a blunt blade or a sharp one?",
+        "choices": [
+          "A sharp blade",
+          "A blunt blade",
+          "Both equally",
+          "Neither"
+        ]
+      },
+      {
+        "q": "A siege lasts forty days. How many full weeks is that?",
+        "choices": [
+          "5",
+          "4",
+          "6",
+          "40"
+        ]
+      },
+      {
+        "q": "How many sides does a hexagonal shield have?",
+        "choices": [
+          "6",
+          "4",
+          "8",
+          "5"
+        ]
+      },
+      {
+        "q": "Two sentries swap every six hours. How many changeovers per day?",
+        "choices": [
+          "4",
+          "2",
+          "6",
+          "12"
+        ]
+      },
+      {
+        "q": "What colour is dried blood?",
+        "choices": [
+          "Brown",
+          "Blue",
+          "Green",
+          "Golden"
+        ]
+      },
+      {
+        "q": "A three-round rifle fires three times. How many rounds are left?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "Three"
+        ]
+      },
+      {
+        "q": "Which weighs more: a kilo of lead or a kilo of feathers?",
+        "choices": [
+          "Neither",
+          "The lead",
+          "The feathers",
+          "Depends on the wind"
+        ]
+      },
+      {
+        "q": "How many dead in an empty mass grave?",
+        "choices": [
+          "Zero",
+          "One",
+          "Ten",
+          "Many"
+        ]
+      },
+      {
+        "q": "Is a blade heated red-hot hot or cold?",
+        "choices": [
+          "Hot",
+          "Cold",
+          "Lukewarm",
+          "It depends"
+        ]
+      },
+      {
+        "q": "Marching thirty kilometres at five kilometres an hour takes…",
+        "choices": [
+          "6 hours",
+          "3 hours",
+          "30 hours",
+          "5 hours"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Exactly how many skulls lie in the pits of The Lost Arc?",
+        "choices": [
+          "Nobody has counted them",
+          "4,411",
+          "4,412",
+          "4,410"
+        ]
+      },
+      {
+        "q": "What was the last word of the last man I killed?",
+        "choices": [
+          "How would I know",
+          "\"Mercy\"",
+          "\"Mother\"",
+          "\"Again\""
+        ]
+      },
+      {
+        "q": "In which hand does Raphazarus hold his blade on rainy days?",
+        "choices": [
+          "No idea",
+          "The left",
+          "The right",
+          "Both"
+        ]
+      }
+    ]
+  },
+  "emporium": {
+    "themed": [
+      {
+        "q": "You buy at 100 and sell at 150. Your margin?",
+        "choices": [
+          "50",
+          "150",
+          "250",
+          "100"
+        ]
+      },
+      {
+        "q": "A 10% discount on 200 credits: how much do you pay?",
+        "choices": [
+          "180",
+          "190",
+          "20",
+          "210"
+        ]
+      },
+      {
+        "q": "Which costs more: rare or common?",
+        "choices": [
+          "Rare",
+          "Common",
+          "The same",
+          "Neither"
+        ]
+      },
+      {
+        "q": "Twelve units at 5 credits each. Total?",
+        "choices": [
+          "60",
+          "17",
+          "50",
+          "120"
+        ]
+      },
+      {
+        "q": "If supply rises and demand holds steady, the price…",
+        "choices": [
+          "Falls",
+          "Rises",
+          "Holds",
+          "Doubles"
+        ]
+      },
+      {
+        "q": "A contract signed by only one of the two parties is…",
+        "choices": [
+          "Incomplete",
+          "Valid",
+          "Doubled",
+          "Void by a third party"
+        ]
+      },
+      {
+        "q": "You owe 1,000 and repay 400. Remaining…",
+        "choices": [
+          "600",
+          "1,400",
+          "400",
+          "1,000"
+        ]
+      },
+      {
+        "q": "Which is the better result: +200 credits or −200 credits?",
+        "choices": [
+          "+200",
+          "−200",
+          "Both",
+          "Neither"
+        ]
+      },
+      {
+        "q": "Buying dear and selling cheap is called…",
+        "choices": [
+          "A loss",
+          "A profit",
+          "A break-even",
+          "A discount"
+        ]
+      },
+      {
+        "q": "What is 25% of 400?",
+        "choices": [
+          "100",
+          "50",
+          "200",
+          "75"
+        ]
+      },
+      {
+        "q": "An invoice issued twice gets paid how many times?",
+        "choices": [
+          "Once",
+          "Twice",
+          "Never",
+          "Three times"
+        ]
+      },
+      {
+        "q": "A stock of zero units is worth…",
+        "choices": [
+          "Nothing",
+          "A lot",
+          "Double",
+          "Depends on the market"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "What was the copper price at Requiem eleven years ago, to the second?",
+        "choices": [
+          "Nobody can know that",
+          "412.07",
+          "412.08",
+          "412.06"
+        ]
+      },
+      {
+        "q": "How many credits have passed through this office since it was built?",
+        "choices": [
+          "Impossible to say",
+          "9 billion",
+          "8 billion",
+          "10 billion"
+        ]
+      },
+      {
+        "q": "What is the serial number of the third screw in the chair behind you?",
+        "choices": [
+          "Nobody knows",
+          "VX-3",
+          "VX-4",
+          "VX-5"
+        ]
+      }
+    ]
+  },
+  "gardiens": {
+    "themed": [
+      {
+        "q": "Should a guard on watch sleep?",
+        "choices": [
+          "No",
+          "Yes",
+          "Only standing up",
+          "Every other hour"
+        ]
+      },
+      {
+        "q": "How many degrees in an about-face?",
+        "choices": [
+          "180",
+          "90",
+          "360",
+          "45"
+        ]
+      },
+      {
+        "q": "Who gives the orders: a general or a corporal?",
+        "choices": [
+          "The general",
+          "The corporal",
+          "Nobody",
+          "Both"
+        ]
+      },
+      {
+        "q": "Does a 10 p.m. curfew allow going out at 11 p.m.?",
+        "choices": [
+          "No",
+          "Yes",
+          "Only at a run",
+          "Only on Tuesdays"
+        ]
+      },
+      {
+        "q": "How many soldiers in a pair of sentries?",
+        "choices": [
+          "2",
+          "1",
+          "4",
+          "12"
+        ]
+      },
+      {
+        "q": "Regulations: are they read or invented?",
+        "choices": [
+          "Read",
+          "Invented",
+          "Eaten",
+          "Sold"
+        ]
+      },
+      {
+        "q": "Three quarters of eight hours is…",
+        "choices": [
+          "6 hours",
+          "4 hours",
+          "2 hours",
+          "8 hours"
+        ]
+      },
+      {
+        "q": "An alarm going off means…",
+        "choices": [
+          "Trouble",
+          "A party",
+          "End of shift",
+          "Nothing at all"
+        ]
+      },
+      {
+        "q": "How many right angles in a rectangle?",
+        "choices": [
+          "4",
+          "2",
+          "1",
+          "0"
+        ]
+      },
+      {
+        "q": "How is a regulation uniform worn?",
+        "choices": [
+          "Properly",
+          "Inside out",
+          "Torn",
+          "As a scarf"
+        ]
+      },
+      {
+        "q": "Eight of you on patrol, two head back. How many are still out?",
+        "choices": [
+          "6",
+          "10",
+          "2",
+          "8"
+        ]
+      },
+      {
+        "q": "Radio silence means you talk?",
+        "choices": [
+          "No",
+          "Yes",
+          "Only loudly",
+          "Only in song"
+        ]
+      }
+    ],
+    "impossible": [
+      {
+        "q": "Article 4,447, paragraph 12 of the regulations: quote it word for word.",
+        "choices": [
+          "That article does not exist",
+          "\"Helmets shall be…\"",
+          "\"No one may…\"",
+          "\"In case of siege…\""
+        ]
+      },
+      {
+        "q": "Exactly how many paces separate the east and west gates of Fort Kharos?",
+        "choices": [
+          "Nobody has counted them",
+          "1,204",
+          "1,205",
+          "1,203"
+        ]
+      },
+      {
+        "q": "What colour were General Ossian's socks on the day of his appointment?",
+        "choices": [
+          "No idea",
+          "Grey",
+          "Black",
+          "Blue"
+        ]
+      }
+    ]
+  }
 }

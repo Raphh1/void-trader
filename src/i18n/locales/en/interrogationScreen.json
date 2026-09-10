@@ -77,5 +77,11 @@
     "betray": "Rat someone else out (+500 cr, -25 rep, 'informant' tag)",
     "betrayResult": "You give a name. Not yours — someone else's. Someone you crossed paths with. Someone who asked for nothing. They take note. You walk out. -25 rep. 'Informant' tag.",
     "betrayJournal": "I gave a name that wasn't mine at the interrogation. I don't know what they did with that name. I don't want to know."
+  },
+  "classPerk": {
+    "reveal": "💻 Hack the terminal — reveal the answer",
+    "skip": "⚔ Intimidate — he drops the question",
+    "flip": "🪙 Reroll on a coin flip",
+    "revealed": "The terminal reads: {{answer}}"
   }
 }

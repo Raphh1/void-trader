@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { getStationFactionName } from '../../engine/factionRep'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { StopTheBar, type StopResult } from '../minigames/StopTheBar'
@@ -677,6 +678,13 @@ export function PrisonScreen() {
           <button className="px-btn" onClick={payCaution} disabled={gs.credits < caution}>
             {t('menu.payCautionButton', { amount: caution.toLocaleString() })}
             {gs.credits < caution ? t('menu.payCautionMissing', { amount: (caution - gs.credits).toLocaleString() }) : ''}
+          </button>
+          <button className="px-btn" style={{ color: 'var(--cyan)', borderColor: 'var(--cyan)' }}
+            onClick={() => {
+              patch({ pendingInterrogation: { faction: getStationFactionName(gs.currentStation) ?? t('menu.pleadFaction'), captureStation: gs.currentStation, fromPrison: true } })
+              goTo('interrogation')
+            }}>
+            {t('menu.pleadButton')}
           </button>
           <button className="px-btn" onClick={bribeGuard} disabled={gs.credits < 400}>
             {t('menu.bribeButton', { amount: 400, chance: 50 + (gs.reputation > 40 ? 10 : 0) })}

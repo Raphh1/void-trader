@@ -1,6 +1,12 @@
 {
-  "pirate": { "name": "Pirate spatial", "description": "Attaque surprise depuis les débris." },
-  "bountyHunter": { "name": "Chasseur de primes", "description": "Ta réputation t'a précédé. Il t'attendait." },
+  "pirate": {
+    "name": "Pirate spatial",
+    "description": "Attaque surprise depuis les débris."
+  },
+  "bountyHunter": {
+    "name": "Chasseur de primes",
+    "description": "Ta réputation t'a précédé. Il t'attendait."
+  },
   "combatImmediate": "⚔ {{title}} — Combat immédiat.",
   "questLine": "★ {{title}}\n+{{credits}} cr · +{{rep}} rép",
   "objectiveComplete": "★ OBJECTIF : {{names}}",
@@ -54,5 +60,6 @@
   "multiCombatDeath": "Trop nombreux. Tu n'as pas survécu.",
   "unknownEnemy": "un ennemi",
   "fragmentRetaken": "{{name}} m'a rattrapé et a repris le fragment de {{boss}}. Il ne me traque plus — il a eu ce qu'il voulait.",
-  "shipTowed": "💥 Ton vaisseau lâche complètement. Un remorqueur clandestin te repêche — {{fee}} cr de \"frais de sauvetage\", -8 rép."
+  "shipTowed": "💥 Ton vaisseau lâche complètement. Un remorqueur clandestin te repêche — {{fee}} cr de \"frais de sauvetage\", -8 rép.",
+  "localAuthorities": "Autorités locales"
 }

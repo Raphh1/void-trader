@@ -1,5 +1,9 @@
 {
-  "roundLabels": ["Cell lock", "Guard corridor", "Exit door"],
+  "roundLabels": [
+    "Cell lock",
+    "Guard corridor",
+    "Exit door"
+  ],
   "roundDescs": [
     "Your cell's electronic lock. The guard passes by again in a few seconds. Perfect timing opens it silently.",
     "You're in the corridor. A magnetic gate blocks the way. It opens in bursts. You need to catch the exact window.",
@@ -142,6 +146,8 @@
     "escapeLastChance": " ⚠ LAST CHANCE · DEATH IF FAILED",
     "escape1chanceAfter": " · ⚠ 1 chance left after",
     "escape0item": " · 0 items if failed",
-    "escapeDefault": " · 25% items if failed · 70% final success"
+    "escapeDefault": " · 25% items if failed · 70% final success",
+    "pleadButton": "⚖ Plead your case before the magistrate",
+    "pleadFaction": "Local authorities"
   }
 }

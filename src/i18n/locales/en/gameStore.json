@@ -1,6 +1,12 @@
 {
-  "pirate": { "name": "Space Pirate", "description": "Surprise attack from the debris." },
-  "bountyHunter": { "name": "Bounty Hunter", "description": "Your reputation preceded you. He was waiting." },
+  "pirate": {
+    "name": "Space Pirate",
+    "description": "Surprise attack from the debris."
+  },
+  "bountyHunter": {
+    "name": "Bounty Hunter",
+    "description": "Your reputation preceded you. He was waiting."
+  },
   "combatImmediate": "⚔ {{title}} — Immediate combat.",
   "questLine": "★ {{title}}\n+{{credits}} cr · +{{rep}} rep",
   "objectiveComplete": "★ OBJECTIVE: {{names}}",
@@ -54,5 +60,6 @@
   "multiCombatDeath": "Too many. You didn't survive.",
   "unknownEnemy": "an enemy",
   "fragmentRetaken": "{{name}} caught up with me and took back {{boss}}'s fragment. They're not hunting me anymore — they got what they wanted.",
-  "shipTowed": "💥 Your ship completely gives out. A shady tow crew fishes you out — {{fee}} cr in \"rescue fees\", -8 rep."
+  "shipTowed": "💥 Your ship completely gives out. A shady tow crew fishes you out — {{fee}} cr in \"rescue fees\", -8 rep.",
+  "localAuthorities": "Local authorities"
 }
