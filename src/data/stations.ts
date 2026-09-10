@@ -302,7 +302,7 @@ function buildStations(): StationData[] {
     description: st('oasisDeFer'),
     danger: 1, type: 'peaceful',
     goods: ['Médicaments', 'Carburant de récup', 'Nourriture fraîche'],
-    fuelCostFrom: { 'Le Purgatoire': 3, 'La Citadelle Écarlate': 3, 'Fort Ossian': 4 } },
+    fuelCostFrom: { 'Le Purgatoire': 3, 'La Citadelle Écarlate': 3, 'Fort Ossian': 3 } },
 
   { name: 'La Balise',
     description: st('laBalise'),
@@ -464,11 +464,23 @@ export function getStation(name: string): StationData {
   return getStations().find(s => s.name === name) ?? getStations()[0]
 }
 
+// Les liaisons sont saisies sur la station d'ARRIVÉE (`fuelCostFrom`), et les
+// retours n'ont pour la plupart pas été écrits : 77 des 215 liaisons n'avaient
+// pas de réciproque. La carte, elle, dédoublonne avec une clé triée et ne
+// dessine qu'un trait sans flèche par paire : elle promet donc un réseau
+// bidirectionnel. Le moteur suit désormais cette promesse — sans quoi la poche
+// Les Cendres / Station Quarantaine / L'Épave Vivante était un piège sans
+// retour tant que L'Arc Perdu restait verrouillé.
+export function areLinked(a: string, b: string): number | undefined {
+  const direct = getStation(b).fuelCostFrom[a]
+  if (direct !== undefined) return direct
+  return getStation(a).fuelCostFrom[b]
+}
+
 export function getAccessibleStations(currentName: string): StationData[] {
   return getStations().filter(s => {
     if (s.name === currentName) return false
-    const cost = s.fuelCostFrom[currentName]
-    return cost !== undefined
+    return areLinked(currentName, s.name) !== undefined
   })
 }
 
@@ -483,8 +495,7 @@ export const LOOT_ONLY_ITEMS = new Set([
 ])
 
 export function getFuelCost(from: string, to: string): number {
-  const dest = getStation(to)
-  return dest.fuelCostFrom[from] ?? 99
+  return areLinked(from, to) ?? 99
 }
 
 export const PEACEFUL_STATIONS = new Set([
@@ -590,6 +601,9 @@ export function findPath(from: string, to: string, excluded?: Set<string>): stri
       if (excluded && excluded.has(src) && src !== from) continue
       if (!adj[src]) adj[src] = []
       adj[src].push(s.name)
+      // et le retour, que les données n'écrivent pas
+      if (!adj[s.name]) adj[s.name] = []
+      adj[s.name].push(src)
     }
   }
   const visited = new Set<string>([from])
