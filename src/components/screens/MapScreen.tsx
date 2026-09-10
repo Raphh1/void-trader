@@ -83,12 +83,23 @@ export function MapScreen() {
     window.addEventListener('resize', onResize)
     window.addEventListener('orientationchange', onResize)
 
-    // Tentative best-effort de verrouillage — échoue silencieusement si non supporté.
+    // Passage en plein écran et verrouillage en paysage : utile sur un
+    // téléphone, où la carte est illisible en portrait. Sur un ordinateur
+    // c'est une agression — on s'y contentait de saisir tout l'écran sans
+    // que personne ne l'ait demandé. On ne le tente donc que sur un appareil
+    // tactile à petit écran, et on rend la main en quittant la carte.
+    const estMobile = window.matchMedia?.('(pointer: coarse)').matches === true && window.innerWidth < 900
+    let pleinEcranDemande = false
+
     const attemptLock = async () => {
+      if (!estMobile) return
       try {
         const el = document.documentElement as HTMLElement & { requestFullscreen?: () => Promise<void> }
         const orientation = (screen as Screen & { orientation?: { lock?: (o: string) => Promise<void> } }).orientation
-        if (el.requestFullscreen) await el.requestFullscreen()
+        if (el.requestFullscreen && !document.fullscreenElement) {
+          await el.requestFullscreen()
+          pleinEcranDemande = true
+        }
         if (orientation?.lock) await orientation.lock('landscape')
       } catch {
         // Ignoré — le repli "tourne ton téléphone" prend le relais.
@@ -99,6 +110,13 @@ export function MapScreen() {
     return () => {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('orientationchange', onResize)
+      // On ne referme que ce que l’on a soi-même ouvert : si le joueur était
+      // déjà en plein écran avant d’entrer, on ne lui reprend pas.
+      const orientation = (screen as Screen & { orientation?: { unlock?: () => void } }).orientation
+      try { orientation?.unlock?.() } catch { /* non supporté */ }
+      if (pleinEcranDemande && document.fullscreenElement) {
+        void document.exitFullscreen?.().catch(() => { /* ignoré */ })
+      }
     }
   }, [])
 
