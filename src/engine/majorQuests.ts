@@ -53,16 +53,39 @@ export function checkMajorQuestAdvancement(gs: GameState): { newGs: Partial<Game
       majorQuests[qi] = { ...q, currentStage: nextStage, completed: isComplete }
 
       if (isComplete) {
-        messages.push(mq('advancement.completed', { title: q.title }))
+        messages.push(mq('advancement.completed', { title: localizeMajorQuest(q).title }))
       } else {
-        const nextStageDef = q.stages[nextStage]
-        messages.push(mq('advancement.stageProgress', { title: q.title, current: nextStage, total: q.stages.length, stageTitle: nextStageDef?.title ?? '' }))
-        if (reward?.message) messages.push(reward.message)
+        const loc = localizeMajorQuest(q)
+        const nextStageDef = loc.stages[nextStage]
+        messages.push(mq('advancement.stageProgress', { title: loc.title, current: nextStage, total: q.stages.length, stageTitle: nextStageDef?.title ?? '' }))
+        if (reward?.message) messages.push(loc.stages[q.currentStage]?.reward?.message ?? reward.message)
       }
     }
   }
 
   return { newGs: { majorQuests, credits, reputation }, messages }
+}
+
+// ── TEXTES DANS LA LANGUE COURANTE ────────────────────────────────────────────
+// Une quête sauvegardée garde les textes de la langue active au moment où elle a
+// été acceptée : on les réhydrate depuis les définitions, par id.
+
+export function localizeMajorQuest(q: MajorQuest): MajorQuest {
+  const def = getMajorQuestsList().find(d => d.id === q.id)
+  if (!def) return q
+  return {
+    ...q,
+    title: def.title,
+    lore: def.lore,
+    stages: q.stages.map(s => {
+      const ds = def.stages.find(x => x.id === s.id)
+      if (!ds) return s
+      return {
+        ...s, title: ds.title, description: ds.description, objective: ds.objective,
+        reward: s.reward && { ...s.reward, message: ds.reward?.message ?? s.reward.message },
+      }
+    }),
+  }
 }
 
 // ── CANACCÉDER À LA QUÊTE ─────────────────────────────────────────────────────
@@ -119,7 +142,7 @@ function getMajorQuestsList(): MajorQuest[] {
       stage('hv1', mq('heritageVelkor.hv1.title'), mq('heritageVelkor.hv1.description'), mq('heritageVelkor.hv1.objective'), { type: 'winCombatAt', station: 'Les Abysses de Velkor' }, { credits: 600, message: mq('heritageVelkor.hv1.rewardMsg') }),
       stage('hv2', mq('heritageVelkor.hv2.title'), mq('heritageVelkor.hv2.description'), mq('heritageVelkor.hv2.objective'), { type: 'meetNpc', npcName: 'Archiviste Zal' }, { credits: 1200, message: mq('heritageVelkor.hv2.rewardMsg') }),
       stage('hv3', mq('heritageVelkor.hv3.title'), mq('heritageVelkor.hv3.description'), mq('heritageVelkor.hv3.objective'), { type: 'meetNpc', npcName: 'Lira' }, { message: mq('heritageVelkor.hv3.rewardMsg') }),
-      stage('hv4', mq('heritageVelkor.hv4.title'), mq('heritageVelkor.hv4.description'), mq('heritageVelkor.hv4.objective'), { type: 'winCombatAt', station: 'Nexus Aldara' }, { rep: 20, credits: 2000, message: mq('heritageVelkor.hv4.rewardMsg') }),
+      stage('hv4', mq('heritageVelkor.hv4.title'), mq('heritageVelkor.hv4.description'), mq('heritageVelkor.hv4.objective'), { type: 'winCombatAt', station: 'Le Berceau' }, { rep: 20, credits: 2000, message: mq('heritageVelkor.hv4.rewardMsg') }),
       stage('hv5', mq('heritageVelkor.hv5.title'), mq('heritageVelkor.hv5.description'), mq('heritageVelkor.hv5.objective'), { type: 'visitStation', station: 'Les Abysses de Velkor' }),
       stage('hv6', mq('heritageVelkor.hv6.title'), mq('heritageVelkor.hv6.description'), mq('heritageVelkor.hv6.objective'), { type: 'winCombatAt', station: 'Les Abysses de Velkor' }, { credits: 12000, rep: 50, message: mq('heritageVelkor.hv6.rewardMsg') }),
     ],

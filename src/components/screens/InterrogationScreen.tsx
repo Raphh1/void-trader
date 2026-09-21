@@ -4,7 +4,8 @@ import { useGameStore } from '../../store/gameStore'
 import { addDecision, shiftPillar } from '../../engine/memoryEvents'
 import { addJournal } from '../../engine/journal'
 import { drawInterrogation, interrogatorKind, type InterrogatorKind, INTERROGATION_PASS_SCORE, INTERROGATION_TOTAL, type InterrogationQuestion } from '../../data/interrogationQuestions'
-import { translateStationName } from '../../engine/goodsI18n'
+import { translateStationName, translateFactionName } from '../../engine/goodsI18n'
+import { announceCoinFlip } from '../../engine/coinFlip'
 
 type Phase = 'intro' | 'choices' | 'quiz' | 'result'
 
@@ -127,7 +128,7 @@ export function InterrogationScreen() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span className="t-xs t-dim">{t('faction')}</span>
-              <span className="t-xs" style={{ color: profile.tone }}>{info.faction}</span>
+              <span className="t-xs" style={{ color: profile.tone }}>{translateFactionName(info.faction)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span className="t-xs t-dim">{t('currentHp')}</span>
@@ -178,9 +179,13 @@ export function InterrogationScreen() {
       if (atout === 'reveal') { setRevele(question.answer); return }
       if (atout === 'skip') { setPicked(question.answer); setScore(n => n + 1); return }
       // Rayane : pile, la réponse ratée devient bonne ; face, tant pis.
-      if (atout === 'flip' && picked !== null && picked !== question.answer && Math.random() < 0.5) {
-        setScore(n => n + 1)
-        setRevele(question.answer)
+      if (atout === 'flip' && picked !== null && picked !== question.answer) {
+        const pile = Math.random() < 0.5
+        announceCoinFlip(pile, 'interrogation')
+        if (pile) {
+          setScore(n => n + 1)
+          setRevele(question.answer)
+        }
       }
     }
 
@@ -191,13 +196,13 @@ export function InterrogationScreen() {
         if (passed) {
           free(
             t('quiz.passMessage', { score: finalScore, total: INTERROGATION_TOTAL }),
-            { journal: addJournal(gs, t('quiz.passJournal', { faction: info.faction, score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
+            { journal: addJournal(gs, t('quiz.passJournal', { faction: translateFactionName(info.faction), score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
           )
         } else {
           prison(
             t('quiz.failMessage', { score: finalScore, total: INTERROGATION_TOTAL }),
             rng(3, 6),
-            { journal: addJournal(gs, t('quiz.failJournal', { faction: info.faction, score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
+            { journal: addJournal(gs, t('quiz.failJournal', { faction: translateFactionName(info.faction), score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
           )
         }
         return
@@ -329,7 +334,7 @@ export function InterrogationScreen() {
             : gs.pillarStanding
           free(
             t('choices.talkResult', { amount: confiscated }),
-            { credits: gs.credits - confiscated, reputation: gs.reputation - 10, pastDecisions: addDecision(gs, 'cooperated-interrogation'), pillarStanding: pillarDelta, journal: addJournal(gs, t('choices.talkJournal', { faction: info.faction }), 'decision') }
+            { credits: gs.credits - confiscated, reputation: gs.reputation - 10, pastDecisions: addDecision(gs, 'cooperated-interrogation'), pillarStanding: pillarDelta, journal: addJournal(gs, t('choices.talkJournal', { faction: translateFactionName(info.faction) }), 'decision') }
           )
         }}>
           {t('choices.talkFreely')}

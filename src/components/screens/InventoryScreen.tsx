@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { playEquip } from '../../engine/sfx'
 import { translateGood, translateWeaponName, translateArmorName } from '../../engine/goodsI18n'
+import { getArmors } from '../../data/armors'
 
 export function InventoryScreen() {
   const { t } = useTranslation('inventoryScreen')
@@ -95,7 +96,7 @@ export function InventoryScreen() {
                     {a.effect === 'staminaBoost' && t('armorEffect.staminaBoost', { value: a.effectValue })}
                   </div>
                 )}
-                <div className="t-xs t-dim">{a.description}</div>
+                <div className="t-xs t-dim">{getArmors().find(x => x.name === a.name)?.description ?? a.description}</div>
                 <button
                   className={`px-btn px-btn--sm ${equipped ? 'px-btn--danger' : 'px-btn--primary'}`}
                   onClick={() => { if (!equipped) playEquip(); equipped ? unequipArmor() : equipArmor(i) }}

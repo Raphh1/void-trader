@@ -9,19 +9,19 @@
   },
   "endette": {
     "description": "Someone wants their money back. Every. Day. You owe 50cr a day to someone you don't want to meet.",
-    "bonusDesc": "⚠ Daily debt taken automatically · Can borrow 5,000 cr (3×) where nobody else would lend · Standard combat"
+    "bonusDesc": "⚠ Daily debt collected automatically · Can borrow 5,000 cr (3×) · IOU: weakens the enemy, increases the debt · ⚠ Debt collectors if the debt goes unpaid"
   },
   "accro": {
     "description": "You have expensive habits. Non-negotiable. Every trip costs you an extra 100cr for your needs.",
-    "bonusDesc": "⚠ -100cr per trip · High max stamina · Erratic attacks"
+    "bonusDesc": "⚠ −100 cr per trip · High max stamina · Erratic attacks (×0.55 to ×1.55) · Dose: 3 attacks at +40%, madness +20"
   },
   "rayane": {
     "description": "His stats are catastrophic. His only strength: when all seems lost, he always offers to bet it all on a coin flip. It's up to you to judge if the risk is worth it.",
     "bonusDesc": "⚠ Worst stats in the game · 🪙 Coin flip AVAILABLE (never forced) in combat, while fleeing, refueling, on quest rewards, and once when facing death per run"
   },
   "maudit": {
-    "description": "The universe simply doesn't like you. Positive events have a 50% chance of turning against you.",
-    "bonusDesc": "⚠ Positive events 50% chance to fizzle · The curse refuses your death: 1×/run, survive at 1 HP"
+    "description": "The universe simply doesn't like you. Half of your good fortune turns against you: the gain becomes a loss.",
+    "bonusDesc": "⚠ Event gains (travel, exploration, wandering): 1 in 2 chance to become losses · Passes on the curse: enemy misses 1 attack in 2 · Survives at 1 HP 1×/run"
   },
   "marchand": {
     "description": "Nothing special. Honest work in a dishonest universe. You buy, you sell, you survive.",
@@ -45,7 +45,7 @@
   },
   "veteran": {
     "description": "Thirty years of wars for forgotten causes. You're still standing. That's enough.",
-    "bonusDesc": "+30% attack · -20% damage taken · Starts with 1 momentum · Accomplished warrior"
+    "bonusDesc": "+30% attack · −20% damage taken · Starts with 1 momentum · Riposte order: parry and return the next attack · Combat contracts +25%"
   },
   "heritier": {
     "description": "Old money. Pacifist upbringing. You don't know how to fight but your wallet makes up for it.",

@@ -56,7 +56,7 @@ export interface PlayerClass {
   cargoDegrades?: boolean       // Ferrailleur: 30% chance de perdre cargo en voyage
   dailyDebt?: number            // Endetté: crédits perdus par jour
   travelCreditCost?: number     // Accro: crédits perdus par voyage
-  cursedEvents?: boolean        // Maudit: événements positifs 50% chance de fizzle
+  cursedEvents?: boolean        // Maudit: 1 gain d’événement sur 2 devient une perte (engine/curse.ts)
   buyDiscountPercent?: number   // Contrebandier: réduction achats
   piratesDoubled?: boolean      // Contrebandier: pirates 2x plus souvent
   cannotBuyWeapons?: boolean    // Héritier: impossible d'acheter des armes
@@ -144,6 +144,7 @@ export interface Enemy {
   // (esquive, invisibilité, absorption) ont besoin d'un plafond plus haut :
   // sinon leur mitigation se cumule au plafond et les rend imbattables.
   damageCapPct?: number
+  competitorId?: string   // duel contre un concurrent (engine/competitors.ts)
 }
 
 export type SubBossResolution = 'kill' | 'manipulate' | 'betray' | 'ally' | 'sabotage' | 'bribe' | 'service'
@@ -218,6 +219,9 @@ export interface CombatState {
   subBossDefenseStacks: number
   fleeAttempts: number
   escortHits: number           // Héritier — coups encaissés à sa place par l'escorte payée
+  riposteReady?: boolean       // Vétéran — la prochaine attaque ennemie est parée et renvoyée
+  doseTurns?: number           // Accro — attaques dopées restantes
+  enemyHexTurns?: number       // Maudit — malédiction transmise : l'ennemi rate une attaque sur deux
   log: CombatLogEntry[]
 }
 
@@ -256,11 +260,15 @@ export interface Quest {
   // de stations, marchandises, ennemis), retraduits à l'affichage.
   titleI18n?: QuestText
   descI18n?: QuestText
+  // Donneur générique (« Expéditeur inconnu », « Officier Faucon »…) : même
+  // problème que le titre. Les noms propres (Marek, Cael) s'en passent.
+  giverI18n?: QuestText
 }
 
 export interface QuestText {
   key: string
   params: Record<string, string>
+  ns?: string   // namespace i18n, 'quests' par défaut
 }
 
 // ── FACTIONS ─────────────────────────────────────────────────────────────────
@@ -492,6 +500,7 @@ export interface GameState {
   addictionLevel: number        // Accro
   debtDailyAmount: number       // Endetté, emprunts et modificateurs de run cumulés
   loansTaken?: number           // Endetté: emprunts contractés (max 3)
+  debtArrears?: number          // jours de dette impayée d'affilée — au-delà de 2, les recouvreurs viennent
   lastIncomeDay: number         // Héritier
   // Combat session solo
   combatEnemy: Enemy | null
@@ -626,6 +635,58 @@ export interface GameState {
   // Grand Bazar — compteur d'achats (reset tous les 15j)
   bazarPurchases: Record<string, number>
   bazarLastResetDay: number
+  // Reliques (data/relics.ts) : ids possédés, et choix en attente (1 parmi 3)
+  relics: string[]
+  pendingRelicChoice: { options: string[]; source: RelicSource } | null
+  // Concurrents (engine/competitors.ts)
+  competitors: Competitor[]
+  marketPressure: MarketPressure[]
+  competitorNews: CompetitorNews[]
+  pendingCompetitorId: string | null   // rencontre à résoudre dans le briefing
+  // Équipage (engine/crew.ts)
+  crew: CrewMember[]
+  crewHired: string[]   // ids des candidats déjà embauchés (un candidat renvoyé ne revient pas)
+}
+
+export type CrewRole = 'mecano' | 'pilote' | 'tireur' | 'medecin' | 'negociateur' | 'eclaireur'
+export type CrewTrait = 'veteran' | 'novice' | 'cupide' | 'fidele'
+
+export interface CrewMember {
+  id: string
+  name: string
+  role: CrewRole
+  trait: CrewTrait
+  salary: number    // crédits par jour
+  loyalty: number   // 0-100 ; sous 25, risque de désertion
+}
+
+export type RelicSource = 'start' | 'boss' | 'lieutenant' | 'explore'
+
+export type CompetitorStyle = 'marchand' | 'pillard' | 'chasseur'
+
+export interface Competitor {
+  id: string
+  name: string
+  style: CompetitorStyle
+  station: string
+  credits: number
+  mood: number          // -100 (ennemi juré) à 100 (allié)
+  outUntilDay: number   // hors-jeu après un duel perdu
+}
+
+// Effet d'un concurrent sur un marché : item '*' = tous les biens de la station.
+export interface MarketPressure {
+  station: string
+  item: string
+  mult: number
+  untilDay: number
+  by: string
+}
+
+// Nouvelle stockée comme recette i18n (clé + paramètres bruts), retraduite à l'affichage.
+export interface CompetitorNews {
+  key: string
+  params: Record<string, string | number>
 }
 
 export type StationSpecialService =

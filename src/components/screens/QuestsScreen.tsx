@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { questTitle, questDescription } from '../../engine/questI18n'
+import { questTitle, questDescription, questGiver } from '../../engine/questI18n'
 import type { TFunction } from 'i18next'
 import { useGameStore } from '../../store/gameStore'
 import { getNamedNpcs } from '../../engine/npcTracker'
+import { localizeMajorQuest } from '../../engine/majorQuests'
 import { getStationsSellingItem, getStation } from '../../data/stations'
 import { BOSS_TRIGGER_TYPES, CRAFTED_DELIVERY_ITEMS } from '../../engine/quests'
 import { getRecipeForItem } from '../../data/recipes'
@@ -97,7 +98,7 @@ export function QuestsScreen() {
         <div className="t-xs t-dim">{t('completedCount', { count: gs.completedQuestIds.length })}</div>
       </div>
 
-      {gs.activeQuests.length === 0 && (
+      {gs.activeQuests.length === 0 && !gs.majorQuests.some(q => !q.completed && !q.failed) && (
         <div className="px-box t-dim t-xs">
           {t('noActiveQuest')}
         </div>
@@ -107,7 +108,7 @@ export function QuestsScreen() {
       {gs.majorQuests.length > 0 && (
         <div className="col gap4">
           <div className="t-xs t-dim" style={{ letterSpacing: '0.1em' }}>{t('majorMissionsHeader', { count: gs.majorQuests.filter(q => !q.completed && !q.failed).length })}</div>
-          {gs.majorQuests.map(mq => {
+          {gs.majorQuests.map(localizeMajorQuest).map(mq => {
             const stage = mq.stages[mq.currentStage]
             const pct = Math.round((mq.currentStage / mq.stages.length) * 100)
             return (
@@ -213,7 +214,7 @@ export function QuestsScreen() {
 
               <div className="t-xs t-dim" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div>
-                  {t('givenByPrefix')} <span className="t-bright">{q.giver}</span> {t('givenByMiddle')} <span className="t-cyan">{translateStationName(q.giverStation)}</span>
+                  {t('givenByPrefix')} <span className="t-bright">{questGiver(q)}</span> {t('givenByMiddle')} <span className="t-cyan">{translateStationName(q.giverStation)}</span>
                 </div>
                 <div style={{ color: statusColor }}>{statusText}</div>
                 <div className="t-dim" style={{ fontStyle: 'italic', fontSize: '7px' }}>

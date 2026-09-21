@@ -2,7 +2,10 @@
   "asteroidDodge": {
     "header": "— ASTEROID FIELD —",
     "controls": "← → dodge · SPACE fire",
-    "warning": "⚠ Firing on an enemy ship = pirate combat"
+    "warning": "⚠ Firing on an enemy ship = pirate combat",
+    "hudHits": "Hits:",
+    "hudKills": "Destroyed:",
+    "hudTime": "Time:"
   },
   "cardGame": {
     "header": "— CARD GAME —",

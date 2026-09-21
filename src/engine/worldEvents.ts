@@ -195,8 +195,15 @@ export function tickWorldEvents(gs: GameState): { gs: GameState; newWorldEvent: 
   return { gs: { ...gs, activeWorldEvents: newActive, stationAlerts }, newWorldEvent }
 }
 
+// Les événements actifs sont stockés avec leurs textes rendus au déclenchement :
+// on les relit dans la langue courante, sinon un événement survenu en français
+// reste en français après un changement de langue.
 export function getActiveEvents(gs: GameState): WorldEvent[] {
-  return (gs.activeWorldEvents ?? []).filter(e => e.startDay + e.duration > gs.day)
+  return (gs.activeWorldEvents ?? [])
+    .filter(e => e.startDay + e.duration > gs.day)
+    .map(e => i18n.exists(`${e.id}.title`, { ns: 'worldEvents' })
+      ? { ...e, title: we(e.id, 'title'), description: we(e.id, 'description'), shortDesc: we(e.id, 'shortDesc') }
+      : e)
 }
 
 export function tickWorldEventsMultipleDays(gs: GameState, days: number): GameState {

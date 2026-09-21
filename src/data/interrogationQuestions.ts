@@ -47,7 +47,11 @@ function melangerChoix(q: QuestionBrute, impossible: boolean): InterrogationQues
   return { q: q.q, choices, answer: choices.indexOf(bonne), impossible }
 }
 
-// Composition d'un interrogatoire : 6 faciles + 4 thématiques + 2 absurdes.
+// Composition d'un interrogatoire : 6 de culture générale + 4 thématiques
+// + 2 absurdes. Les « faciles » (7 × 8, couleur du ciel…) restent dans les
+// données mais ne sont plus tirées : elles rendaient l'épreuve ridicule.
+// Le pool de culture (histoire, géo, sciences, arts, sport, cinéma…) propose
+// trois choix par question, les autres pools quatre.
 // Seuil mesuré sur des profils de joueurs simulés plutôt que choisi au jugé.
 // La tension vient d'abord du chrono de 20 s par question (cf.
 // InterrogationScreen). Avec lui, à 8 : joueur attentif 99 %, moyen 81 %,
@@ -55,15 +59,15 @@ function melangerChoix(q: QuestionBrute, impossible: boolean): InterrogationQues
 // un joueur moyen n'y passait plus qu'une fois sur deux (57 %). Échouer n'est
 // de toute façon pas fatal : la cellule reste un état jouable.
 const NB_THEMATIQUES = 4
-const NB_FACILES = 6
+const NB_CULTURE = 6
 const NB_ABSURDES = 2
 
 export const INTERROGATION_PASS_SCORE = 8
-export const INTERROGATION_TOTAL = NB_THEMATIQUES + NB_FACILES + NB_ABSURDES
+export const INTERROGATION_TOTAL = NB_THEMATIQUES + NB_CULTURE + NB_ABSURDES
 
 export function drawInterrogation(kind: InterrogatorKind = 'local'): InterrogationQuestion[] {
   const thematiques = shuffle(lire(`${kind}.themed`)).slice(0, NB_THEMATIQUES)
-  const faciles = shuffle(lire('common.easy')).slice(0, NB_FACILES)
+  const culture = shuffle(lire('common.culture')).slice(0, NB_CULTURE)
   // Les absurdes propres à l'interrogateur passent avant les génériques : c'est
   // là que sa personnalité s'entend le mieux.
   const absurdes = shuffle([...lire(`${kind}.impossible`), ...lire('common.impossible')]).slice(0, NB_ABSURDES)
@@ -75,7 +79,7 @@ export function drawInterrogation(kind: InterrogatorKind = 'local'): Interrogati
 
   return shuffle(unique([
     ...thematiques.map(q => melangerChoix(q, false)),
-    ...faciles.map(q => melangerChoix(q, false)),
+    ...culture.map(q => melangerChoix(q, false)),
     ...absurdes.map(q => melangerChoix(q, true)),
   ]))
 }

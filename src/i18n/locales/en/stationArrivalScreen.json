@@ -1,8 +1,15 @@
 {
-  "dangerLabels": ["◆ SECURE", "◆ RISKY", "◆ DANGEROUS", "◆ WAR ZONE"],
+  "dangerLabels": [
+    "◆ SECURE",
+    "◆ RISKY",
+    "◆ DANGEROUS",
+    "◆ WAR ZONE"
+  ],
   "arrivalHeader": "— ARRIVAL —",
   "dayLabel": "Day {{day}} ·",
   "fuelCritical": "· ⚠ Critical fuel",
   "skip": "Skip →",
-  "enterStation": "Enter {{name}} →"
+  "enterStation": "Enter {{name}} →",
+  "enRoute": "◈ EN ROUTE TO",
+  "skipFlight": "(click to arrive)"
 }

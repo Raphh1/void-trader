@@ -60,5 +60,10 @@
     "label": "Langue",
     "fr": "FR",
     "en": "EN"
+  },
+  "typewriterSkip": "Clic pour passer",
+  "curse": {
+    "message": "☠ La malédiction frappe — la bonne fortune se retourne contre toi.",
+    "hint": "☠ 1 chance sur 2 de se retourner contre toi"
   }
 }

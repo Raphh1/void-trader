@@ -1,0 +1,41 @@
+{
+  "allOrNothing": "◆ ALL OR NOTHING ◆",
+  "heads": "HEADS",
+  "tails": "TAILS",
+  "edge": "… it wavers …",
+  "verdictHeads": "HEADS!",
+  "verdictTails": "TAILS…",
+  "skip": "(click to skip)",
+  "stake": {
+    "combat": {
+      "title": "Twist of fate",
+      "heads": "×4 hit, armor ignored",
+      "tails": "−30% HP and stunned"
+    },
+    "flee": {
+      "title": "Flee on a coin toss",
+      "heads": "you escape, no fuel spent",
+      "tails": "it hits you in the back"
+    },
+    "death": {
+      "title": "Your life is on the line",
+      "heads": "you get back up",
+      "tails": "this is the end"
+    },
+    "fuel": {
+      "title": "Refuelling by chance",
+      "heads": "+2 fuel",
+      "tails": "−5 HP, nothing found"
+    },
+    "gamble": {
+      "title": "Double the reward?",
+      "heads": "+{{amount}} cr",
+      "tails": "−{{amount}} cr"
+    },
+    "interrogation": {
+      "title": "Replay the wrong answer",
+      "heads": "it becomes right",
+      "tails": "the mistake stands"
+    }
+  }
+}

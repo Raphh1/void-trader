@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { initI18n, setLanguage } from '../i18n/config'
+import cultureFr from '../i18n/locales/fr/interrogationQuestions.json'
+import cultureEn from '../i18n/locales/en/interrogationQuestions.json'
 import { drawInterrogation, interrogatorKind, INTERROGATION_PASS_SCORE, INTERROGATION_TOTAL,
   type InterrogatorKind } from '../data/interrogationQuestions'
 
@@ -27,7 +29,7 @@ describe('interrogatoire', () => {
       const quiz = drawInterrogation(kind)
       expect(quiz.length, kind).toBe(INTERROGATION_TOTAL)
       for (const q of quiz) {
-        expect(q.choices.length, kind + ' : ' + q.q).toBe(4)
+        expect([3, 4], kind + ' : ' + q.q).toContain(q.choices.length)
         expect(q.answer, kind + ' : réponse hors bornes').toBeGreaterThanOrEqual(0)
         expect(q.answer, kind + ' : réponse hors bornes').toBeLessThan(q.choices.length)
         expect(q.q.length, kind + ' : question vide').toBeGreaterThan(0)
@@ -87,13 +89,27 @@ describe('interrogatoire', () => {
     expect(taux, 'le quiz se passe au hasard').toBeLessThan(2)
   })
 
+  it('a un pool de culture générale complet dans les deux langues', () => {
+    // 200 questions saisies à la main, trois choix chacune, bonne réponse en
+    // premier. Un choix dupliqué rendrait la question insoluble.
+    for (const [lang, json] of [['fr', cultureFr], ['en', cultureEn]] as const) {
+      const pool = json.common.culture as { q: string; choices: string[] }[]
+      expect(pool.length, lang).toBe(200)
+      for (const q of pool) {
+        expect(q.choices.length, lang + ' : ' + q.q).toBe(3)
+        expect(new Set(q.choices).size, lang + ' : choix dupliqué : ' + q.q).toBe(3)
+      }
+      expect(new Set(pool.map(q => q.q)).size, lang + ' : question dupliquée').toBe(200)
+    }
+  })
+
   it('garde les deux langues alignées', async () => {
     for (const lang of ['fr', 'en'] as const) {
       await setLanguage(lang)
       for (const kind of KINDS) {
         const quiz = drawInterrogation(kind)
         expect(quiz.length, lang + '/' + kind).toBe(INTERROGATION_TOTAL)
-        for (const q of quiz) expect(q.choices.length, lang + '/' + kind).toBe(4)
+        for (const q of quiz) expect([3, 4], lang + '/' + kind).toContain(q.choices.length)
       }
     }
     await setLanguage('fr')

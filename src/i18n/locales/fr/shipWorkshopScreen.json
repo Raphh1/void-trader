@@ -24,36 +24,96 @@
   "max": "MAX",
   "missingCargo": "Manque : {{list}}",
   "modules": {
-    "moteur": { "name": "Moteur" },
-    "soute": { "name": "Soute" },
-    "tourelle": { "name": "Tourelle" },
-    "scanner": { "name": "Scanner" }
+    "moteur": {
+      "name": "Moteur"
+    },
+    "soute": {
+      "name": "Soute"
+    },
+    "tourelle": {
+      "name": "Tourelle"
+    },
+    "scanner": {
+      "name": "Scanner"
+    }
   },
   "moteurUpgrades": [
-    { "label": "Mk I — Réservoir étendu", "desc": "+2 carburant max" },
-    { "label": "Mk II — Chambre de poussée", "desc": "+2 carburant max supplémentaires" },
-    { "label": "Mk III — Overdrive", "desc": "+2 carburant max · −1 coût tous les voyages" }
+    {
+      "label": "Mk I — Réservoir étendu",
+      "desc": "+2 carburant max"
+    },
+    {
+      "label": "Mk II — Chambre de poussée",
+      "desc": "+2 carburant max supplémentaires"
+    },
+    {
+      "label": "Mk III — Overdrive",
+      "desc": "+2 carburant max · −1 coût tous les voyages"
+    }
   ],
   "souteUpgrades": [
-    { "label": "Mk I — Rangements optimisés", "desc": "Vente cargo +10%" },
-    { "label": "Mk II — Isolation thermique", "desc": "Vente cargo +20%" },
-    { "label": "Mk III — Soute pressurisée", "desc": "Vente cargo +30%" }
+    {
+      "label": "Mk I — Rangements optimisés",
+      "desc": "Vente cargo +10%"
+    },
+    {
+      "label": "Mk II — Isolation thermique",
+      "desc": "Vente cargo +20%"
+    },
+    {
+      "label": "Mk III — Soute pressurisée",
+      "desc": "Vente cargo +30%"
+    }
   ],
   "tourelleUpgrades": [
-    { "label": "Mk I — Viseur laser", "desc": "+12% dégâts combat" },
-    { "label": "Mk II — Canon secondaire", "desc": "+15% dégâts combat supplémentaires" },
-    { "label": "Mk III — Surcharge", "desc": "+18% dégâts · +5% crit" }
+    {
+      "label": "Mk I — Viseur laser",
+      "desc": "+12% dégâts combat"
+    },
+    {
+      "label": "Mk II — Canon secondaire",
+      "desc": "+15% dégâts combat supplémentaires"
+    },
+    {
+      "label": "Mk III — Surcharge",
+      "desc": "+18% dégâts · +5% crit"
+    }
   ],
   "scannerUpgrades": [
-    { "label": "Mk I — Capteurs passifs", "desc": "Voit les prix aux destinations" },
-    { "label": "Mk II — Analyse tactique", "desc": "−10% risque combat en exploration" },
-    { "label": "Mk III — Réseau neural", "desc": "−20% risque combat (cumul)" }
+    {
+      "label": "Mk I — Capteurs passifs",
+      "desc": "Voit les prix aux destinations"
+    },
+    {
+      "label": "Mk II — Analyse tactique",
+      "desc": "−10% risque combat en exploration"
+    },
+    {
+      "label": "Mk III — Réseau neural",
+      "desc": "−20% risque combat (cumul)"
+    }
   ],
   "shipUpgrades": {
-    "hullBasic": { "label": "Blindage renforcé", "desc": "+20 PV coque max" },
-    "hullAdvanced": { "label": "Alliage de guerre", "desc": "+30 PV coque max" },
-    "tankBasic": { "label": "Réservoir étendu", "desc": "+2 carburant max" },
-    "tankAdvanced": { "label": "Moteur suralimenté", "desc": "+3 carburant max" },
-    "implant": { "label": "Implant médical", "desc": "+25 PV joueur max" }
-  }
+    "hullBasic": {
+      "label": "Blindage renforcé",
+      "desc": "+20 PV coque max"
+    },
+    "hullAdvanced": {
+      "label": "Alliage de guerre",
+      "desc": "+30 PV coque max"
+    },
+    "tankBasic": {
+      "label": "Réservoir étendu",
+      "desc": "+2 carburant max"
+    },
+    "tankAdvanced": {
+      "label": "Moteur suralimenté",
+      "desc": "+3 carburant max"
+    },
+    "implant": {
+      "label": "Implant médical",
+      "desc": "+25 PV joueur max"
+    }
+  },
+  "hullHp": "{{hp}} / {{max}} PV"
 }

@@ -430,9 +430,9 @@ export function AsteroidDodge({ dangerLevel = 1, onResult }: Props) {
 
       <div className="px-box" style={{ width: W, maxWidth: '100%', padding: '6px 12px' }}>
         <div className="row" style={{ justifyContent: 'space-between' }}>
-          <span className="t-xs t-dim">Impacts : <span style={{ color: hits > 0 ? 'var(--red)' : 'var(--green)' }}>{hits}</span></span>
-          <span className="t-xs t-dim">Abattus : <span style={{ color: kills > 0 ? 'var(--gold)' : 'var(--dim)' }}>{kills}</span></span>
-          <span className="t-xs t-dim">Temps : <span className="t-cyan">{timeLeft}s</span></span>
+          <span className="t-xs t-dim">{t('asteroidDodge.hudHits')} <span style={{ color: hits > 0 ? 'var(--red)' : 'var(--green)' }}>{hits}</span></span>
+          <span className="t-xs t-dim">{t('asteroidDodge.hudKills')} <span style={{ color: kills > 0 ? 'var(--gold)' : 'var(--dim)' }}>{kills}</span></span>
+          <span className="t-xs t-dim">{t('asteroidDodge.hudTime')} <span className="t-cyan">{timeLeft}s</span></span>
         </div>
       </div>
     </div>

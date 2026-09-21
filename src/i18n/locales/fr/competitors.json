@@ -1,0 +1,39 @@
+{
+  "newsHeader": "◆ CONCURRENTS",
+  "news": {
+    "bought": "{{name}} a raflé le stock de {{item}} à {{station}} — prix en hausse.",
+    "dumped": "{{name}} a inondé {{station}} de {{item}} — prix en baisse.",
+    "raided": "{{name}} a rançonné {{station}} — tout y coûte plus cher pendant quelques jours.",
+    "bounty": "{{name}} a touché une prime de {{amount}} cr à {{station}}."
+  },
+  "tip": "{{name}} te glisse un tuyau : à {{station}}, on paie cher en ce moment pour {{item}} (+35 % pendant 4 jours).",
+  "style": {
+    "marchand": "marchand",
+    "pillard": "pillard",
+    "chasseur": "chasseur de primes"
+  },
+  "mood": {
+    "friendly": "bien disposé",
+    "neutral": "méfiant",
+    "cold": "hostile",
+    "hostile": "ennemi juré"
+  },
+  "encounter": {
+    "header": "◆ UN CONCURRENT EST À QUAI",
+    "intro": {
+      "marchand": "Il compte sa marchandise sans te quitter des yeux. Un marchand sait toujours où ça se vend cher.",
+      "pillard": "Elle a garé son vaisseau en travers du quai. Ses hommes surveillent le tien.",
+      "chasseur": "Il nettoie son arme au comptoir. Il sait exactement combien vaut ta tête."
+    },
+    "tip": "▶ Échanger des tuyaux (il t'indique un bon marché)",
+    "duel": "⚔ Le défier — le vaincre te rapporte {{share}} % de sa fortune",
+    "ignore": "Passer ton chemin (il n'aime pas qu'on l'ignore)",
+    "ok": "OK"
+  },
+  "board": {
+    "title": "◆ CONCURRENTS",
+    "rank": "Rang {{rank}} sur {{total}}",
+    "you": "Toi",
+    "out": "hors-jeu"
+  }
+}

@@ -33,7 +33,7 @@
     "combatMechanic": "Switches stance every 2 turns: offensive (×1.5 damage) or defensive (÷2 damage taken). You have to adapt.",
     "specialAbility": "Command — gains +5% cumulative damage each turn.",
     "enemyDesc": "Chief of the Black Falcons. Calculating. Relentless.",
-    "serviceDemand": "The Ghost is closer to her than I am, and he has no ambition — what a waste. Take him off the board, and make yourself a real name among the Hawks while you're at it. The day I'm her right hand, I'll remember who helped me get there."
+    "serviceDemand": "The Ghost is closer to her than I am, and he has no ambition — what a waste. Take him off the board, and make yourself a real name among the Falcons while you're at it. The day I'm her right hand, I'll remember who helped me get there."
   },
   "ces1": {
     "personality": "Smiling, poisonous, dangerous. She sells with a smile. What she sells always kills.",
@@ -149,5 +149,43 @@
     "Someone recognizes your badge and pulls you aside. \"You're hunting a lieutenant, aren't you? I might have something for you.\"",
     "An old contact resurfaces, as if out of nowhere. \"Still after that lieutenant? Listen closely, I won't repeat this.\""
   ],
-  "clueLocationText": "{{name}} can be found at {{station}}."
+  "clueLocationText": "{{name}} can be found at {{station}}.",
+  "rewards": {
+    "label": {
+      "credits": "Loot if defeated in combat: {{amount}} cr",
+      "rep": "Loot if defeated in combat: +{{amount}} rep",
+      "weapon": "Loot if defeated in combat: unique weapon — {{name}}",
+      "armor": "Loot if defeated in combat: unique armor — {{name}}",
+      "item": "Loot if defeated in combat: {{name}} ({{qty}} × {{good}})"
+    },
+    "granted": {
+      "credits": "★ Lieutenant's loot: +{{amount}} cr.",
+      "rep": "★ Lieutenant's loot: +{{amount}} rep.",
+      "weapon": "★ Lieutenant's loot: {{name}} joins your arsenal.",
+      "armor": "★ Lieutenant's loot: {{name}} joins your inventory.",
+      "armorSold": "★ Lieutenant's loot: you already own {{name}} — sold for {{amount}} cr.",
+      "item": "★ Lieutenant's loot: {{name}} — {{qty}} × {{good}} added to cargo."
+    },
+    "weapons": {
+      "lunetteVigie": "Vigil's aim — silences the enemy for 2 turns",
+      "dagueMorte": "The Merchant's poison — poisons 5-10 damage/turn ×4",
+      "dagueNuit": "Strike in the dark — blinds the enemy (-40% accuracy)",
+      "lameFaucon": "Two strikes in one breath — hits twice (×0.85 each)",
+      "lameFantome7e": "Cuts through plating — +30% damage (armor pierce)",
+      "poingMarechal": "Command strike — stuns the enemy for 1 turn",
+      "scalpelVelkor": "Surgical precision — steals 35% of damage dealt as HP"
+    },
+    "armors": {
+      "armureVeuve": "Bristling with blades. Whoever strikes it bleeds.",
+      "capeOmbres": "You never see it coming. Now neither do they.",
+      "uniformeDiplo": "Medical weave under the braid. Regenerates when negotiations go wrong.",
+      "armurePredictive": "Computes the blow before it lands. Grants immunity to effects."
+    },
+    "items": {
+      "carteFaucon": "Falcon route map",
+      "dossierCesarion": "Cesarion dossier",
+      "plaque3eBataillon": "3rd Battalion dog tag",
+      "carnetChantage": "Blackmail notebook"
+    }
+  }
 }

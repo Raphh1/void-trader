@@ -9,7 +9,9 @@ import { getCulteArtefactMult, getFactionSurchargeAtStation, getStationFactionNa
 import { getRunBuyMult } from '../../data/runModifiers'
 import { getFullBuyMult, getFullSellMult, getMarketContext, getPillarDiscount } from '../../engine/marketPricing'
 import { getBlackMarketOffers, isBlackMarketAvailable, buyBlackMarketOffer } from '../../engine/blackMarket'
-import { translateGood, translateWeaponName, translateArmorName, translateStationName } from '../../engine/goodsI18n'
+import { translateGood, translateWeaponName, translateArmorName, translateStationName, translateFactionName } from '../../engine/goodsI18n'
+import { getPassiveMods } from '../../data/relics'
+import { getCompetitorPriceMult, getPressuresAt } from '../../engine/competitors'
 
 const BASE_PRICES: Record<string, number> = {
   'Médicaments': 250, 'Médicaments premium': 580, 'Métaux bruts': 130,
@@ -98,6 +100,10 @@ export function MarketScreen() {
   const pillarDisc   = getPillarDiscount(gs)
   const stationSeed  = gs.stationPriceSeeds?.[gs.currentStation] ?? 1.0
   const factionSurcharge = getFactionSurchargeAtStation(gs, gs.currentStation)
+  const relicMods = getPassiveMods(gs)
+  // Passage des concurrents : stock raflé, marché inondé, station rançonnée.
+  const pressures = getPressuresAt(gs, gs.currentStation)
+  const compMult = (item: string) => getCompetitorPriceMult(gs, gs.currentStation, item)
 
   // Prix de base figés par station — évite le re-roll à chaque render
   const frozenBasePrices = useMemo(() => {
@@ -132,13 +138,25 @@ export function MarketScreen() {
         </div>
         {isBazar && <div className="t-xs t-dim" style={{ fontSize: '9px', letterSpacing: '1px' }}>{t('stockReset', { days: bazarDaysUntilReset })}</div>}
         {priceTag && <div className="t-xs" style={{ color: priceTag.color, fontWeight: 'bold', fontSize: '9px', letterSpacing: '1px' }}>{priceTag.label}</div>}
-        {factionSurcharge > 0 && <div className="t-xs" style={{ color: 'var(--red)', fontWeight: 'bold', fontSize: '9px', letterSpacing: '1px' }}>{t('factionSurcharge', { pct: factionSurcharge, faction: controllingFactionName?.toUpperCase() })}</div>}
+        {factionSurcharge > 0 && <div className="t-xs" style={{ color: 'var(--red)', fontWeight: 'bold', fontSize: '9px', letterSpacing: '1px' }}>{t('factionSurcharge', { pct: factionSurcharge, faction: controllingFactionName ? translateFactionName(controllingFactionName).toUpperCase() : undefined })}</div>}
         {discount > 0 && <div className="tag tag--green t-xs">{t('factionDiscount', { pct: discount })}</div>}
         <button className="px-btn px-btn--sm" style={{ width: 'auto', color: 'var(--cyan)', borderColor: 'var(--cyan)' }}
           onClick={() => goTo('inventory')}>
           {t('inventory')}
         </button>
       </div>
+
+      {pressures.length > 0 && (
+        <div className="px-box col gap4" style={{ borderColor: 'var(--orange)', padding: '6px 10px' }}>
+          {pressures.map((p, i) => (
+            <div key={i} className="t-xs" style={{ color: p.mult > 1 ? 'var(--red)' : 'var(--green)' }}>
+              {p.item === '*'
+                ? t('competitorPressureAll', { name: p.by, pct: Math.round((p.mult - 1) * 100), days: p.untilDay - gs.day + 1 })
+                : t(p.mult > 1 ? 'competitorPressureUp' : 'competitorPressureDown', { name: p.by, item: translateGood(p.item), pct: Math.abs(Math.round((p.mult - 1) * 100)), days: p.untilDay - gs.day + 1 })}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Contexte marché — profil de la station */}
       {marketCtx.length > 0 && (
@@ -210,7 +228,7 @@ export function MarketScreen() {
             {station.goods
               .filter(item => !LOOT_ONLY_ITEMS.has(item))
               .map(item => {
-              const rawPrice = Math.floor((frozenBasePrices[item] ?? 200) * stationSeed * getWorldEventPriceMultiplier(item, events) * runBuyMult * getFullBuyMult(gs, station.type, item))
+              const rawPrice = Math.floor((frozenBasePrices[item] ?? 200) * stationSeed * getWorldEventPriceMultiplier(item, events) * runBuyMult * getFullBuyMult(gs, station.type, item) * relicMods.buyMult * compMult(item))
               const price = Math.floor(rawPrice * (1 - discount / 100) * (1 + factionSurcharge / 100) * (1 - (gs.class.tradeBonusPercent ?? 0) / 100))
               const canBuy = gs.credits >= price
               const banned = gs.class.cannotBuyWeapons && (item.toLowerCase().includes('arme') || item.toLowerCase().includes('munitions'))
@@ -293,7 +311,7 @@ export function MarketScreen() {
             )}
             {Object.entries(gs.cargo).filter(([item]) => item !== 'Passager').map(([item, qty]) => {
               const culteMult = ARTEFACT_ITEMS.has(item) ? culteArtefact : 1
-              const sellPrice = Math.floor(getBasePrice(item) * stationSeed * getFullSellMult(gs, station.type, item) * getWorldEventPriceMultiplier(item, events) * (1 + soutePct / 100) * culteMult * (factionSurcharge > 0 ? 0.75 : 1))
+              const sellPrice = Math.floor(getBasePrice(item) * stationSeed * getFullSellMult(gs, station.type, item) * getWorldEventPriceMultiplier(item, events) * (1 + soutePct / 100) * culteMult * (factionSurcharge > 0 ? 0.75 : 1) * relicMods.sellMult * compMult(item))
               const medBonus  = gs.class.medicBonus && item === 'Médicaments'
                 ? Math.floor(sellPrice * 0.5) : 0
               const tradeBonus = Math.floor(sellPrice * (gs.class.tradeBonusPercent ?? 0) / 100)

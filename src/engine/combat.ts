@@ -2,6 +2,8 @@ import type { CombatState, CombatLogEntry, Enemy, GameState, WeaponData, CombatO
 import { rollWeaponForTier } from '../data/weapons'
 import { rollArmorForTier, grantArmor } from '../data/armors'
 import i18n from '../i18n/config'
+import { getPassiveMods } from '../data/relics'
+import { announceCoinFlip } from './coinFlip'
 import { translateEnemyName } from './goodsI18n'
 
 const ct = (key: string, params?: Record<string, unknown>) => i18n.t(key, { ns: 'combat', ...params })
@@ -21,6 +23,7 @@ function tryDeathFlip(gs: GameState, addLog: (t: string, type: CombatLogEntry['t
   // Rayane joue sa vie à pile ou face, une fois par run.
   if (gs.class.name === 'Rayane' && !gs.rayaneDeathFlipUsed) {
     const heads = roll(50)
+    announceCoinFlip(heads, 'death')
     addLog(heads ? ct('deathFlipHeads') : ct('deathFlipTails'), heads ? 'crit' : 'warning')
     // Le pile ou face est dépensé qu'il réussisse ou non.
     return { survived: heads, flag: 'rayaneDeathFlipUsed' }
@@ -64,6 +67,9 @@ export function initCombat(enemy: Enemy): CombatState {
     subBossDefenseStacks: 0,
     fleeAttempts: 0,
     escortHits: 0,
+    riposteReady: false,
+    doseTurns: 0,
+    enemyHexTurns: 0,
     log: [],
   }
 }
@@ -309,8 +315,10 @@ export function processCombatAction(
   // Coup ciblé sous-boss : le mini-jeu module les dégâts du coup (1 = neutre).
   const precisionMult = (action as { precisionMult?: number }).precisionMult ?? 1
 
+  const relics = getPassiveMods(gs)
+
   function dealPlayerDamage(mult = 1.0, useSpecial = false, ignoreArmor = false, stance: CombatStance = 'normal') {
-    const critBonus = gs.class.combatCritBonus ?? 0
+    const critBonus = (gs.class.combatCritBonus ?? 0) + relics.critBonus
     const attackMult = gs.class.combatAttackMult ?? 1.0
     let result: { dmg: number; crit: boolean }
     if (weapon) {
@@ -325,7 +333,12 @@ export function processCombatAction(
     const coupDeGrace = (gs.class.coupDeGraceBonus ?? 0) > 0 && newCs.enemyHp < enemy.maxHp * 0.25
       ? 1 + (gs.class.coupDeGraceBonus ?? 0) / 100
       : 1.0
-    let dmg = Math.floor(result.dmg * mult * attackMult * folieMult * weakenMult * coupDeGrace * precisionMult)
+    // Accro : des attaques vraiment erratiques (de ×0,55 à ×1,55), dopées
+    // de +40 % pendant une « dose ».
+    const erratique = gs.class.name === 'Accro' ? 0.55 + Math.random() : 1
+    const dose = (newCs.doseTurns ?? 0) > 0 ? 1.4 : 1
+    if (dose > 1) newCs.doseTurns = (newCs.doseTurns ?? 0) - 1
+    let dmg = Math.floor(result.dmg * mult * attackMult * folieMult * weakenMult * coupDeGrace * precisionMult * relics.dmgMult * erratique * dose)
     // Plafond anti-farm des sous-boss, appliqué AVANT de retirer les PV.
     // Auparavant on retirait les dégâts bruts (clampés à 0 par Math.max) puis on
     // « remboursait » le surplus : quand un gros coup dépassait les PV restants,
@@ -341,6 +354,12 @@ export function processCombatAction(
     newCs.lastPlayerDmg = dmg
     newCs.playerStance = stance
     addLog(ct('dealDamage', { dmg, enemy: translateEnemyName(enemy.name), hp: newCs.enemyHp, max: enemy.maxHp }), 'player')
+    // Relique « Puce prédatrice » : une part des dégâts revient en PV.
+    if (relics.lifestealPct > 0 && dmg > 0) {
+      const soin = Math.max(1, Math.floor(dmg * relics.lifestealPct))
+      playerHp = Math.min(gs.playerMaxHp, playerHp + soin)
+      addLog(ct('relicLifesteal', { amount: soin }), 'player')
+    }
 
     // Self damage
     if (weapon && weapon.selfDmgChance > 0 && roll(weapon.selfDmgChance)) {
@@ -586,8 +605,40 @@ export function processCombatAction(
           } else addLog(ct('heirNoFunds', { cost: cout }), 'warning')
           break
         }
+        // ── Identités ajoutées : ces quatre classes n'avaient aucune action ──
+        case 'Vétéran': {
+          // Ordre de riposte : il lit l'attaque qui vient et la renvoie.
+          stamina -= 15
+          newCs.riposteReady = true
+          addLog(ct('veteranRiposteReady'), 'player')
+          break
+        }
+        case 'Endetté': {
+          // Reconnaissance de dette : il achète la prudence de l'adversaire à
+          // crédit. L'ennemi frappe moins fort, mais la dette quotidienne grossit.
+          newCs.enemyWeakenedTurns = 3
+          newGs.debtDailyAmount = (gs.debtDailyAmount ?? gs.class.dailyDebt ?? 0) + 25
+          addLog(ct('debtorIou', { enemy: translateEnemyName(enemy.name), debt: newGs.debtDailyAmount }), 'player')
+          break
+        }
+        case 'Accro': {
+          // Dose : trois attaques à +40 %, au prix de la folie.
+          newCs.doseTurns = 3
+          newGs.folieLevel = Math.min(100, (newGs.folieLevel ?? gs.folieLevel ?? 0) + 20)
+          addLog(ct('addictDose', { folie: newGs.folieLevel }), 'crit')
+          break
+        }
+        case 'Maudit': {
+          // Il transmet sa malédiction : l'ennemi rate une attaque sur deux, 3 tours.
+          stamina -= 15
+          newCs.enemyHexTurns = 3
+          addLog(ct('cursedHex', { enemy: translateEnemyName(enemy.name) }), 'player')
+          break
+        }
         case 'Rayane': {
-          if (roll(50)) {
+          const pile = roll(50)
+          announceCoinFlip(pile, 'combat')
+          if (pile) {
             const critDmg = weapon
               ? Math.floor(rng(weapon.damageMin, weapon.damageMax) * 4)
               : Math.floor(rng(5, 18) * 4)
@@ -613,7 +664,9 @@ export function processCombatAction(
       }
       const isRayane = gs.class.name === 'Rayane'
       const chance = isRayane ? 50 : 50 + (gs.fuel > 2 ? 15 : 0) + (gs.class.name === 'Contrebandier' ? 20 : 0)
-      if (roll(chance)) {
+      const reussite = roll(chance)
+      if (isRayane) announceCoinFlip(reussite, 'flee')
+      if (reussite) {
         if (!isRayane) newGs.fuel = Math.max(0, gs.fuel - 1)
         newCs.playerFled = true
         addLog(isRayane ? ct('rayaneFleeHeads') : ct('normalFlee'), 'info')
@@ -1107,6 +1160,22 @@ export function processCombatAction(
       }
     }
 
+    if (!skipped && enemyDmg > 0 && (newCs.enemyHexTurns ?? 0) > 0) {
+      newCs.enemyHexTurns = (newCs.enemyHexTurns ?? 0) - 1
+      if (roll(50)) {
+        enemyDmg = 0
+        addLog(ct('cursedHexMiss', { enemy: translateEnemyName(enemy.name) }), 'player')
+      }
+    }
+
+    if (!skipped && enemyDmg > 0 && newCs.riposteReady) {
+      // Riposte du Vétéran : le coup est paré, et renvoyé à l'expéditeur.
+      newCs.riposteReady = false
+      newCs.enemyHp = Math.max(0, newCs.enemyHp - enemyDmg)
+      addLog(ct('veteranRiposte', { dmg: enemyDmg, enemy: translateEnemyName(enemy.name), hp: newCs.enemyHp, max: enemy.maxHp }), 'crit')
+      enemyDmg = 0
+    }
+
     if (!skipped && enemyDmg > 0 && newCs.playerExposedTurns > 0) {
       const stance = newCs.playerStance as import('../types').CombatStance
       const exposedMult = stance === 'defensive' ? 1.10 : stance === 'dodge' ? 1.20 : 1.50
@@ -1126,7 +1195,7 @@ export function processCombatAction(
     }
 
     if (!skipped && enemyDmg > 0) {
-      enemyDmg = Math.floor(enemyDmg * (gs.class.combatDefenseMult ?? 1.0))
+      enemyDmg = Math.floor(enemyDmg * (gs.class.combatDefenseMult ?? 1.0) * relics.dmgTakenMult)
       const armor = gs.equippedArmor
       if (armor) {
         const reduced = Math.floor(enemyDmg * armor.defense / 100)
@@ -1319,7 +1388,7 @@ function resolveVictory(gs: GameState, enemy: Enemy): { loot: number; extra: Par
   const fauconsRep = gs.factionReputation?.faucons ?? 0
   const lootMult = fauconsRep >= 80 ? 1.30 : fauconsRep >= 50 ? 1.20 : fauconsRep >= 20 ? 1.10 : 1.0
   // Économie dure : butin de combat réduit (cf. ECONOMY dans quests.ts).
-  let loot = Math.floor(rng(enemy.lootMin, enemy.lootMax) * lootMult * 0.65)
+  let loot = Math.floor(rng(enemy.lootMin, enemy.lootMax) * lootMult * 0.65 * getPassiveMods(gs).combatLootMult)
   const extra: Partial<GameState> = {}
   const bossNames = ['Alanossa', 'La Faucon', 'Directeur Pale', 'Garde du Corps d\'Eliotis',
     'Le Boucher de Velkor', 'Oracle de la Singularité', 'Amiral Voss-Kheran', 'La Curatrice',

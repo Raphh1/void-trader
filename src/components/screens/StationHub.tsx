@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { questTitle, questDescription } from '../../engine/questI18n'
+import { questTitle, questDescription, questGiver } from '../../engine/questI18n'
 import { TypewriterText } from '../ui/TypewriterText'
 import type { GameState, WeaponData } from '../../types'
 import { useGameStore } from '../../store/gameStore'
@@ -9,6 +9,9 @@ import { getEnemyForStation, scaleEnemy, getTierBoss } from '../../data/enemies'
 import { rollExplorationEvent, rollWanderEvent, type WanderEvent } from '../../engine/exploration'
 import type { ExploreResult } from '../../engine/exploration'
 import { generateQuest } from '../../engine/quests'
+import { localizeMajorQuest } from '../../engine/majorQuests'
+import { describeLieutenantReward } from '../../data/lieutenantRewards'
+import { RelicBar, CrewPanel, CompetitorsBoard, CompetitorNewsLines, CompetitorEncounter } from '../ui/RunExtras'
 import { getStationEvents, type StationEvent } from '../../engine/stationEvents'
 import { getNamedNpcs, getNpcService } from '../../engine/npcTracker'
 import { getAmbiance } from '../../engine/jsonEventLoader'
@@ -19,7 +22,7 @@ import { StopTheBar, type StopResult } from '../minigames/StopTheBar'
 import { CardGame } from '../minigames/CardGame'
 import { ScenarioGame } from '../minigames/ScenarioGame'
 import { CustomsGame } from '../minigames/CustomsGame'
-import { translateGood, translateWeaponName, translateArmorName, translateEnemyName, translateClassName, translateStationName, translateNpcRole } from '../../engine/goodsI18n'
+import { translateGood, translateWeaponName, translateArmorName, translateEnemyName, translateClassName, translateStationName, translateNpcRole, translateFactionName } from '../../engine/goodsI18n'
 import { stalkerToEnemy, getStalkerAmbushChance, getStalkerPresenceText } from '../../engine/stalker'
 import { isFactionBlockedAtStation, getStationFactionName, STATION_FACTION_CONTROL } from '../../engine/factionRep'
 import { getArrivalSituation, type ArrivalSituation } from '../../engine/arrivalSituations'
@@ -66,6 +69,11 @@ export function StationHub() {
       .find(sb => sb.id === id))
     .filter((sb): sb is NonNullable<typeof sb> => !!sb)
     .map(sb => ({ sb, progress: pactProgress(gs, sb) }))
+
+  // Missions majeures en cours : elles comptent comme des quêtes, sinon le
+  // bouton Quêtes restait grisé (et la barre latérale vide) sans contrat actif.
+  const activeMajors = gs.majorQuests.filter(q => !q.completed && !q.failed).map(localizeMajorQuest)
+  const trackedCount = gs.activeQuests.length + activePacts.length + activeMajors.length
 
   function tickPatrolProgress() {
     const q = gs.activeQuests.find(aq => aq.type === 'patrol' && aq.targetStation === gs.currentStation)
@@ -394,10 +402,10 @@ export function StationHub() {
     const q = pendingDeliveryQuest
 
     const DELIVERY_SCENES = (t('delivery.scenes', { returnObjects: true }) as unknown as { desc: string; outcome: string }[])
-      .map(s => ({ desc: s.desc.replace('{{giver}}', q.giver), outcome: s.outcome as 'smooth' | 'tense' | 'detour' | 'ambush' | 'negotiation' }))
+      .map(s => ({ desc: s.desc.replace('{{giver}}', questGiver(q)), outcome: s.outcome as 'smooth' | 'tense' | 'detour' | 'ambush' | 'negotiation' }))
 
     const HEIST_SCENES = (t('delivery.heistScenes', { returnObjects: true }) as unknown as { desc: string; outcome: string }[])
-      .map(s => ({ desc: s.desc.replace(/\{\{giver\}\}/g, q.giver), outcome: s.outcome as 'smooth' | 'tense' | 'detour' | 'ambush' | 'negotiation' }))
+      .map(s => ({ desc: s.desc.replace(/\{\{giver\}\}/g, questGiver(q)), outcome: s.outcome as 'smooth' | 'tense' | 'detour' | 'ambush' | 'negotiation' }))
 
     const scenes = q.type === 'heist' ? HEIST_SCENES : DELIVERY_SCENES
     const scene = scenes[Math.floor(Math.random() * scenes.length)]
@@ -867,6 +875,9 @@ export function StationHub() {
     <div className="hub-layout" style={{ maxWidth: '1300px', margin: '0 auto', padding: '20px' }}>
     <div className="scanlines" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <StatusBar gs={gs} />
+      <RelicBar gs={gs} />
+      <CrewPanel gs={gs} />
+      <CompetitorsBoard gs={gs} />
 
       {/* ── MODE CONQUÊTE (post-victoire) ──────────────────────────────────── */}
       {gs.conquestMode && (
@@ -960,13 +971,13 @@ export function StationHub() {
       )}
 
       {/* ── BRIEFING UNIFIÉ — toutes les notifications d'arrivée en un bloc ── */}
-      {!arrivalSit && !arrivalResult && !bossVisit && (gs.pendingDaySummary || worldEventPopup || chainEvent || travelMsg || questPopup || objPopup || gs.rayaneGambleOffer) ? (
+      {!arrivalSit && !arrivalResult && !bossVisit && (gs.pendingDaySummary || worldEventPopup || chainEvent || travelMsg || questPopup || objPopup || gs.rayaneGambleOffer || (gs.competitorNews ?? []).length > 0) ? (
         <div className="px-box" style={{ borderColor: 'var(--cyan)', background: 'rgba(0,0,0,0.5)' }}>
-          <div className="t-xs mb8" style={{ color: 'var(--cyan)', letterSpacing: '2px' }}>◆ BRIEFING — JOUR {gs.day}</div>
+          <div className="t-xs mb8" style={{ color: 'var(--cyan)', letterSpacing: '2px' }}>{t('briefingHeader', { day: gs.day })}</div>
 
           {gs.pendingDaySummary && (
             <div style={{ marginBottom: '10px', paddingBottom: '8px', borderBottom: '1px solid var(--border-dim)' }}>
-              <div className="t-xs t-dim" style={{ letterSpacing: '1px' }}>JOUR {gs.pendingDaySummary.prevDay} TERMINÉ</div>
+              <div className="t-xs t-dim" style={{ letterSpacing: '1px' }}>{t('dayEnded', { day: gs.pendingDaySummary.prevDay })}</div>
               <div className="t-xs t-bright mt2">
                 {gs.pendingDaySummary.actionsUsed >= 3
                   ? t('daySummary.fullDay')
@@ -984,6 +995,8 @@ export function StationHub() {
               <div className="t-xs t-dim mt2">{t('worldEventDuration', { duration: worldEventPopup.duration, start: worldEventPopup.startDay, end: worldEventPopup.startDay + worldEventPopup.duration })}</div>
             </div>
           )}
+
+          <CompetitorNewsLines news={gs.competitorNews ?? []} />
 
           {chainEvent && (
             <div style={{ marginBottom: '10px', paddingBottom: '8px', borderBottom: '1px solid var(--border-dim)' }}>
@@ -1041,6 +1054,7 @@ export function StationHub() {
           <button className="px-btn px-btn--sm" style={{ width: 'auto', borderColor: 'var(--cyan)', color: 'var(--cyan)' }}
             onClick={() => {
               if (gs.pendingDaySummary) patch({ pendingDaySummary: null })
+              if ((gs.competitorNews ?? []).length > 0) patch({ competitorNews: [] })
               if (worldEventPopup) dismissWorldEvent()
               if (chainEvent) dismissChain()
               if (travelMsg) dismissTravel()
@@ -1058,6 +1072,8 @@ export function StationHub() {
             onClick={() => goTo('narrative-arcs')}>{t('viewArcs')}</button>
         </div>
       ) : null}
+
+      {!arrivalSit && !arrivalResult && gs.pendingCompetitorId && <CompetitorEncounter gs={gs} />}
 
       {/* Outcomes combat */}
       {!arrivalSit && outcome === 'victory'  && <div className="px-box t-gold t-sm t-center">{t('outcomeVictory')}</div>}
@@ -1078,8 +1094,8 @@ export function StationHub() {
           {getActiveEvents(gs).map(evt => (
             <div key={evt.id} className="px-box" style={{ borderColor: evt.color, padding: '6px 12px', background: 'rgba(0,0,0,0.35)' }}>
               <div className="row" style={{ alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: evt.color, fontSize: '9px', letterSpacing: '1px' }}>⚠ ÉVÉNEMENT MONDIAL — {evt.title}</span>
-                <span className="t-xs t-dim" style={{ marginLeft: 'auto' }}>J{evt.startDay}–J{evt.startDay + evt.duration}</span>
+                <span style={{ color: evt.color, fontSize: '9px', letterSpacing: '1px' }}>{t('worldEventBanner', { title: evt.title })}</span>
+                <span className="t-xs t-dim" style={{ marginLeft: 'auto' }}>{t('worldEventSpan', { from: evt.startDay, to: evt.startDay + evt.duration })}</span>
               </div>
               <div className="t-xs t-dim" style={{ marginTop: '2px' }}>{evt.shortDesc}</div>
             </div>
@@ -1206,7 +1222,7 @@ export function StationHub() {
       {factionBlocked && (
         <div className="px-box" style={{ borderColor: 'var(--red)', background: 'rgba(180,0,0,0.12)' }}>
           <div className="t-xs" style={{ color: 'var(--red)', letterSpacing: '1px' }}>
-            {t('hostileTerritory', { faction: blockedFactionName?.toUpperCase() })}
+            {t('hostileTerritory', { faction: blockedFactionName ? translateFactionName(blockedFactionName).toUpperCase() : undefined })}
           </div>
           <div className="t-xs t-dim" style={{ marginTop: '4px' }}>
             {t('hostileTerritoryDesc')}
@@ -1377,6 +1393,7 @@ export function StationHub() {
             <div className="t-xs t-dim mb4" style={{ lineHeight: 1.6 }}>{subBoss.personality}</div>
             <div className="t-xs mb4" style={{ color: 'var(--cyan)', lineHeight: 1.6 }}>« {subBoss.backstory.slice(0, 150)}... »</div>
             <div className="t-xs t-dim mb8">{t('lieutenant.mechanic', { mechanic: subBoss.combatMechanic })}</div>
+            <div className="t-xs mb8" style={{ color: 'var(--gold)' }}>{describeLieutenantReward(subBoss, { weapon: translateWeaponName, armor: translateArmorName, good: translateGood })}</div>
             {alreadyDone ? (
               <div className="t-xs t-green">{t('lieutenant.defeated')}</div>
             ) : !prevDone ? (
@@ -1964,8 +1981,8 @@ export function StationHub() {
 
         <div className="col">
           <div className="section-header">{t('progressionHeader')}</div>
-          <button className="px-btn" onClick={() => goTo('quests')} disabled={gs.activeQuests.length === 0}>
-            {t('questsButton', { count: gs.activeQuests.length })}
+          <button className="px-btn" onClick={() => goTo('quests')} disabled={trackedCount === 0}>
+            {t('questsButton', { count: trackedCount })}
           </button>
           <button className="px-btn" onClick={() => goTo('objectives')}>
             {t('objectivesButton', { done: gs.completedObjectives.length, total: getObjectives().length })}
@@ -2009,14 +2026,14 @@ export function StationHub() {
       {/* Recommencer */}
       {confirmRestart ? (
         <div className="px-box" style={{ borderColor: 'var(--red)', background: 'rgba(40,0,0,0.3)' }}>
-          <div className="t-xs t-red mb8">Abandonner cette run ? Toute progression sera perdue.</div>
+          <div className="t-xs t-red mb8">{t('abandonConfirm')}</div>
           <div className="row gap4">
             <button className="px-btn px-btn--danger" style={{ flex: 1 }}
               onClick={() => useGameStore.getState().newGame()}>
-              Confirmer — Nouvelle run
+              {t('abandonConfirmYes')}
             </button>
             <button className="px-btn" style={{ flex: 1 }} onClick={() => setConfirmRestart(false)}>
-              Annuler
+              {t('abandonConfirmNo')}
             </button>
           </div>
         </div>
@@ -2032,14 +2049,32 @@ export function StationHub() {
     <div className="hub-sidebar">
       <div style={{ fontSize: '9px', letterSpacing: '2px', color: 'var(--dim)', borderBottom: '1px solid var(--border)', paddingBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>{t('questSidebar.header')}</span>
-        <span style={{ color: 'var(--cyan)' }}>{gs.activeQuests.length + activePacts.length}</span>
+        <span style={{ color: 'var(--cyan)' }}>{trackedCount}</span>
       </div>
-      {gs.activeQuests.length === 0 && activePacts.length === 0 && (
+      {trackedCount === 0 && (
         <div style={{ fontSize: '9px', color: 'var(--dim)', fontStyle: 'italic', padding: '8px 0' }}>{t('questSidebar.noneActive')}</div>
       )}
 
       {/* Marchés passés avec des lieutenants : suivis comme des quêtes, avec le
           détail de ce qui manque encore et un rappel quand on est sur place. */}
+      {activeMajors.map(mq => {
+        const stage = mq.stages[mq.currentStage]
+        return (
+          <div key={mq.id}
+            style={{ background: 'var(--bg-panel)', border: '2px solid var(--purple)', padding: '8px 10px', cursor: 'pointer' }}
+            onClick={() => goTo('quests')}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+              <span style={{ fontSize: '8px', letterSpacing: '1px', color: 'var(--purple)' }}>{t('questSidebar.majorType', { current: mq.currentStage + 1, total: mq.stages.length })}</span>
+            </div>
+            <div style={{ fontSize: '9px', color: 'var(--text)', lineHeight: '1.6', marginBottom: '2px' }}>{mq.title}</div>
+            {stage && (
+              <div style={{ marginTop: '4px', borderLeft: '2px solid var(--purple)', paddingLeft: '6px', fontSize: '8px', color: 'var(--dim)', lineHeight: 1.6 }}>
+                {stage.objective}
+              </div>
+            )}
+          </div>
+        )
+      })}
       {activePacts.map(({ sb, progress }) => {
         const isHere = getSubBossStation(gs, sb) === gs.currentStation
         const borderCol = progress.done ? 'var(--green)' : isHere ? 'var(--gold)' : 'var(--purple)'
@@ -2108,7 +2143,7 @@ export function StationHub() {
               <div style={{ position: 'absolute', right: '104%', top: 0, width: '210px', background: 'var(--bg-panel2)', border: '2px solid var(--border-hi)', padding: '10px 12px', zIndex: 50, fontSize: '9px', lineHeight: '1.8', boxShadow: '2px 2px 0 var(--border-hi)' }}>
                 <div style={{ color: 'var(--gold)', marginBottom: '6px' }}>{questTitle(q)}</div>
                 <div style={{ color: 'var(--dim)', marginBottom: '6px', lineHeight: '1.6', fontSize: '8px' }}>{questDescription(q)}</div>
-                <div style={{ color: 'var(--text)' }}>{t('questSidebar.giver')} <span style={{ color: 'var(--cyan)' }}>{q.giver}</span></div>
+                <div style={{ color: 'var(--text)' }}>{t('questSidebar.giver')} <span style={{ color: 'var(--cyan)' }}>{questGiver(q)}</span></div>
                 <div style={{ color: 'var(--text)' }}>→ {translateStationName(q.targetStation)}</div>
                 {q.targetItem && <div style={{ color: 'var(--cyan)' }}>{t('questSidebar.item', { item: translateGood(q.targetItem) })}</div>}
                 <div style={{ color: 'var(--gold)', marginTop: '4px' }}>{t('questSidebar.reward', { credits: q.creditReward, rep: q.repReward })}</div>

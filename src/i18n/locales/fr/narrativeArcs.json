@@ -145,5 +145,6 @@
         "c2msg": "Tu prends les rênes. +80 rép, +3000 cr. Tu diriges maintenant."
       }
     }
-  }
+  },
+  "stepBlockedFallback": "Prérequis non remplis."
 }

@@ -24,36 +24,96 @@
   "max": "MAX",
   "missingCargo": "Missing: {{list}}",
   "modules": {
-    "moteur": { "name": "Engine" },
-    "soute": { "name": "Cargo Hold" },
-    "tourelle": { "name": "Turret" },
-    "scanner": { "name": "Scanner" }
+    "moteur": {
+      "name": "Engine"
+    },
+    "soute": {
+      "name": "Cargo Hold"
+    },
+    "tourelle": {
+      "name": "Turret"
+    },
+    "scanner": {
+      "name": "Scanner"
+    }
   },
   "moteurUpgrades": [
-    { "label": "Mk I — Extended Tank", "desc": "+2 max fuel" },
-    { "label": "Mk II — Thrust Chamber", "desc": "+2 additional max fuel" },
-    { "label": "Mk III — Overdrive", "desc": "+2 max fuel · −1 cost on every trip" }
+    {
+      "label": "Mk I — Extended Tank",
+      "desc": "+2 max fuel"
+    },
+    {
+      "label": "Mk II — Thrust Chamber",
+      "desc": "+2 additional max fuel"
+    },
+    {
+      "label": "Mk III — Overdrive",
+      "desc": "+2 max fuel · −1 cost on every trip"
+    }
   ],
   "souteUpgrades": [
-    { "label": "Mk I — Optimized Storage", "desc": "+10% cargo sale price" },
-    { "label": "Mk II — Thermal Insulation", "desc": "+20% cargo sale price" },
-    { "label": "Mk III — Pressurized Hold", "desc": "+30% cargo sale price" }
+    {
+      "label": "Mk I — Optimized Storage",
+      "desc": "+10% cargo sale price"
+    },
+    {
+      "label": "Mk II — Thermal Insulation",
+      "desc": "+20% cargo sale price"
+    },
+    {
+      "label": "Mk III — Pressurized Hold",
+      "desc": "+30% cargo sale price"
+    }
   ],
   "tourelleUpgrades": [
-    { "label": "Mk I — Laser Sight", "desc": "+12% combat damage" },
-    { "label": "Mk II — Secondary Cannon", "desc": "+15% additional combat damage" },
-    { "label": "Mk III — Overcharge", "desc": "+18% damage · +5% crit" }
+    {
+      "label": "Mk I — Laser Sight",
+      "desc": "+12% combat damage"
+    },
+    {
+      "label": "Mk II — Secondary Cannon",
+      "desc": "+15% additional combat damage"
+    },
+    {
+      "label": "Mk III — Overcharge",
+      "desc": "+18% damage · +5% crit"
+    }
   ],
   "scannerUpgrades": [
-    { "label": "Mk I — Passive Sensors", "desc": "See prices at destinations" },
-    { "label": "Mk II — Tactical Analysis", "desc": "−10% combat risk while exploring" },
-    { "label": "Mk III — Neural Network", "desc": "−20% combat risk (stacking)" }
+    {
+      "label": "Mk I — Passive Sensors",
+      "desc": "See prices at destinations"
+    },
+    {
+      "label": "Mk II — Tactical Analysis",
+      "desc": "−10% combat risk while exploring"
+    },
+    {
+      "label": "Mk III — Neural Network",
+      "desc": "−20% combat risk (stacking)"
+    }
   ],
   "shipUpgrades": {
-    "hullBasic": { "label": "Reinforced Plating", "desc": "+20 max hull HP" },
-    "hullAdvanced": { "label": "War Alloy", "desc": "+30 max hull HP" },
-    "tankBasic": { "label": "Extended Tank", "desc": "+2 max fuel" },
-    "tankAdvanced": { "label": "Supercharged Engine", "desc": "+3 max fuel" },
-    "implant": { "label": "Medical Implant", "desc": "+25 max player HP" }
-  }
+    "hullBasic": {
+      "label": "Reinforced Plating",
+      "desc": "+20 max hull HP"
+    },
+    "hullAdvanced": {
+      "label": "War Alloy",
+      "desc": "+30 max hull HP"
+    },
+    "tankBasic": {
+      "label": "Extended Tank",
+      "desc": "+2 max fuel"
+    },
+    "tankAdvanced": {
+      "label": "Supercharged Engine",
+      "desc": "+3 max fuel"
+    },
+    "implant": {
+      "label": "Medical Implant",
+      "desc": "+25 max player HP"
+    }
+  },
+  "hullHp": "{{hp}} / {{max}} HP"
 }

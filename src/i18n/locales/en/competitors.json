@@ -1,0 +1,39 @@
+{
+  "newsHeader": "◆ COMPETITORS",
+  "news": {
+    "bought": "{{name}} bought out the {{item}} stock at {{station}} — prices up.",
+    "dumped": "{{name}} flooded {{station}} with {{item}} — prices down.",
+    "raided": "{{name}} shook down {{station}} — everything costs more there for a few days.",
+    "bounty": "{{name}} collected a {{amount}} cr bounty at {{station}}."
+  },
+  "tip": "{{name}} slips you a tip: {{station}} pays well for {{item}} right now (+35% for 4 days).",
+  "style": {
+    "marchand": "trader",
+    "pillard": "raider",
+    "chasseur": "bounty hunter"
+  },
+  "mood": {
+    "friendly": "friendly",
+    "neutral": "wary",
+    "cold": "hostile",
+    "hostile": "sworn enemy"
+  },
+  "encounter": {
+    "header": "◆ A COMPETITOR IS DOCKED",
+    "intro": {
+      "marchand": "He counts his cargo without taking his eyes off you. A trader always knows where things sell high.",
+      "pillard": "She parked her ship across the dock. Her crew is watching yours.",
+      "chasseur": "He cleans his weapon at the counter. He knows exactly what your head is worth."
+    },
+    "tip": "▶ Trade tips (he points you to a good market)",
+    "duel": "⚔ Challenge them — winning takes {{share}}% of their fortune",
+    "ignore": "Walk on by (they don't like being ignored)",
+    "ok": "OK"
+  },
+  "board": {
+    "title": "◆ COMPETITORS",
+    "rank": "Rank {{rank}} of {{total}}",
+    "you": "You",
+    "out": "out of action"
+  }
+}

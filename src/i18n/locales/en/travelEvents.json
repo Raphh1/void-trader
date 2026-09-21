@@ -1,22 +1,77 @@
 {
   "positive": {
-    "wreck":     { "title": "Abandoned wreck", "description": "You come across a drifting wreck. A few recoverable credits.", "message": "Wreck looted. +{{amount}} cr." },
-    "stowaway":  { "title": "Stowaway", "description": "Someone snuck into your cargo hold. They pay their fare without a fuss.", "message": "Stowaway — pays up. +{{amount}} cr." },
-    "distress":  { "title": "Distress signal", "description": "You answer a distress call. The stranded ship is grateful.", "message": "+credits, +10 rep." },
-    "shortcut":  { "title": "Secret route", "description": "You know a shortcut. -1 fuel on this trip.", "message": "Shortcut found. +1 fuel recovered." },
-    "smugglerFriend": { "title": "Smuggler friend", "description": "A smuggler friend crosses your path and leaves you some supplies.", "message": "+2 Medicine gifted." },
-    "tradeData": { "title": "Trade data", "description": "You intercept market price data. Useful.", "message": "Data sold off. +credits." }
+    "wreck": {
+      "title": "Abandoned wreck",
+      "description": "You come across a drifting wreck. A few recoverable credits.",
+      "message": "Wreck looted. +{{amount}} cr."
+    },
+    "stowaway": {
+      "title": "Stowaway",
+      "description": "Someone snuck into your cargo hold. They pay their fare without a fuss.",
+      "message": "Stowaway — pays up. +{{amount}} cr."
+    },
+    "distress": {
+      "title": "Distress signal",
+      "description": "You answer a distress call. The stranded ship is grateful.",
+      "message": "+credits, +10 rep."
+    },
+    "shortcut": {
+      "title": "Secret route",
+      "description": "You know a shortcut. -1 fuel on this trip.",
+      "message": "Shortcut found. +1 fuel recovered."
+    },
+    "smugglerFriend": {
+      "title": "Smuggler friend",
+      "description": "A smuggler friend crosses your path and leaves you some supplies.",
+      "message": "+2 Medicine gifted."
+    },
+    "tradeData": {
+      "title": "Trade data",
+      "description": "You intercept market price data. Useful.",
+      "message": "Data sold off. +credits."
+    }
   },
   "negative": {
-    "engineFailure": { "title": "Engine failure", "description": "Your engine sputters. Emergency repair. -fuel and -ship HP.", "message": "Breakdown. -1 fuel, -ship HP." },
-    "ionStorm":      { "title": "Ion storm", "description": "An ion storm damages the systems.", "message": "Ion storm. -ship HP." },
-    "fuelTheft":      { "title": "Fuel theft", "description": "Thieving drones siphoned your reserve.", "message": "Thieving drones. -1 fuel." },
-    "wrongTurn":     { "title": "Wrong turn", "description": "You got lost in an asteroid field. Lost time.", "message": "+1 day lost in the asteroid field." },
-    "cargoHit":      { "title": "Cargo damaged", "description": "A meteorite impact damages the cargo hold.", "messageEmpty": "Harmless impact — cargo hold empty.", "messageLost": "Impact — 1x {{item}} destroyed." }
+    "engineFailure": {
+      "title": "Engine failure",
+      "description": "Your engine sputters. Emergency repair. -fuel and -ship HP.",
+      "message": "Breakdown. -1 fuel, -ship HP."
+    },
+    "ionStorm": {
+      "title": "Ion storm",
+      "description": "An ion storm damages the systems.",
+      "message": "Ion storm. -ship HP."
+    },
+    "fuelTheft": {
+      "title": "Fuel theft",
+      "description": "Thieving drones siphoned your reserve.",
+      "message": "Thieving drones. -1 fuel."
+    },
+    "wrongTurn": {
+      "title": "Wrong turn",
+      "description": "You got lost in an asteroid field. Lost time.",
+      "message": "+1 day lost in the asteroid field."
+    },
+    "cargoHit": {
+      "title": "Cargo damaged",
+      "description": "A meteorite impact damages the cargo hold.",
+      "messageEmpty": "Harmless impact — cargo hold empty.",
+      "messageLost": "Impact — 1x {{item}} destroyed."
+    }
   },
-  "pirateAttack": { "title": "Pirate attack", "description": "A pirate ship emerges from the asteroid field. It's aiming for your engines." },
-  "bountyHunter": { "title": "Bounty hunter", "description": "Your negative reputation attracts a bounty hunter." },
-  "pirateIntimidated": { "title": "Pirates intimidated", "description": "Pirates approach... and recognize your ship. They turn back.", "message": "Pirates flee. +5 rep." },
-  "cursedSuffix": " But bad luck strikes.",
-  "cursedMessage": "Cursed — the positive event turns sour."
+  "pirateAttack": {
+    "title": "Pirate attack",
+    "description": "A pirate ship emerges from the asteroid field. It's aiming for your engines."
+  },
+  "bountyHunter": {
+    "title": "Bounty hunter",
+    "description": "Your negative reputation attracts a bounty hunter."
+  },
+  "pirateIntimidated": {
+    "title": "Pirates intimidated",
+    "description": "Pirates approach... and recognize your ship. They turn back.",
+    "message": "Pirates flee. +5 rep."
+  },
+  "cursedSuffix": " But the curse turns it around.",
+  "cursedMessage": "☠ Cursed — your good fortune turns against you."
 }

@@ -249,6 +249,7 @@
     "item": "Item : {{item}}",
     "reward": "+{{credits}} cr · +{{rep}} rép",
     "timeLimit": "⏱ Limite de temps",
+    "majorType": "MISSION MAJEURE · {{current}}/{{total}}",
     "pactType": "MARCHÉ",
     "pactWith": "Marché — {{name}}",
     "pactReady": "▶ HONORER"
@@ -369,5 +370,12 @@
     "giveIntelWhyNot": "Il te voit pas comme quelqu'un qui sait des choses utiles",
     "fuelSuffix": "+{{amount}} carburant"
   },
-  "debtorLoan": "💰 Emprunter 5 000 cr — dette portée à {{debt}}/jour ({{n}} restants)"
+  "debtorLoan": "💰 Emprunter 5 000 cr — dette portée à {{debt}}/jour ({{n}} restants)",
+  "abandonConfirm": "Abandonner cette run ? Toute progression sera perdue.",
+  "abandonConfirmYes": "Confirmer — Nouvelle run",
+  "abandonConfirmNo": "Annuler",
+  "briefingHeader": "◆ BRIEFING — JOUR {{day}}",
+  "dayEnded": "JOUR {{day}} TERMINÉ",
+  "worldEventBanner": "⚠ ÉVÉNEMENT MONDIAL — {{title}}",
+  "worldEventSpan": "J{{from}}–J{{to}}"
 }

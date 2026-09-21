@@ -120,3 +120,52 @@ export function playFinisher() {
   tone(800, 0.12, 'square', 0.22, 0.1)
   tone(1200, 0.15, 'sine', 0.16, 0.18)
 }
+
+// ── Pile ou face ─────────────────────────────────────────────────────────────
+/** Cliquetis de la pièce qui tourne (un par demi-tour : il ralentit avec elle). */
+export function playCoinTick() {
+  tone(1500, 0.025, 'square', 0.05)
+}
+
+/** Battement de cœur pendant que la pièce hésite sur la tranche. */
+export function playHeartbeat() {
+  tone(55, 0.12, 'sine', 0.35)
+  tone(48, 0.14, 'sine', 0.28, 0.16)
+}
+
+export function playCoinWin() {
+  tone(523, 0.1, 'triangle', 0.16)
+  tone(659, 0.1, 'triangle', 0.16, 0.08)
+  tone(784, 0.1, 'triangle', 0.16, 0.16)
+  tone(1047, 0.35, 'triangle', 0.18, 0.24)
+}
+
+export function playCoinLose() {
+  tone(110, 0.35, 'sawtooth', 0.2)
+  tone(73, 0.6, 'sine', 0.3, 0.05)
+}
+
+// ── Voyage ───────────────────────────────────────────────────────────────────
+/** Ronronnement de croisière, puis montée en fréquence au moment du saut. */
+export function playWarp(cruiseMs: number, boostMs: number) {
+  const c = ctx()
+  if (!c) return
+  const t0 = c.currentTime
+  const cruise = cruiseMs / 1000
+  const boost = boostMs / 1000
+  const osc = c.createOscillator()
+  const vol = c.createGain()
+  osc.type = 'sawtooth'
+  osc.frequency.setValueAtTime(70, t0)
+  osc.frequency.setValueAtTime(70, t0 + cruise)
+  osc.frequency.exponentialRampToValueAtTime(900, t0 + cruise + boost)
+  vol.gain.setValueAtTime(0.0001, t0)
+  vol.gain.exponentialRampToValueAtTime(0.05, t0 + 0.3)
+  vol.gain.setValueAtTime(0.05, t0 + cruise)
+  vol.gain.exponentialRampToValueAtTime(0.12, t0 + cruise + boost * 0.8)
+  vol.gain.exponentialRampToValueAtTime(0.0001, t0 + cruise + boost + 0.35)
+  osc.connect(vol)
+  vol.connect(c.destination)
+  osc.start(t0)
+  osc.stop(t0 + cruise + boost + 0.4)
+}

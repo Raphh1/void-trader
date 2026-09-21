@@ -1,0 +1,46 @@
+{
+  "title": "◆ ÉQUIPAGE ({{count}}/{{max}})",
+  "dailyCost": "−{{amount}} cr/jour",
+  "recruitsHere_one": "{{count}} recrue au bar",
+  "recruitsHere_other": "{{count}} recrues au bar",
+  "empty": "Personne à bord. Tu voles seul.",
+  "salary": "{{amount}} cr/j",
+  "loyalty": "Loyauté {{value}}",
+  "desertionRisk": "risque de désertion",
+  "fire": "Renvoyer",
+  "fireConfirm": "Confirmer le renvoi",
+  "barHeader": "◆ AU BAR DU QUAI",
+  "noRecruits": "Personne ne cherche d'embarquement ici aujourd'hui.",
+  "hire": "Embaucher — prime {{fee}} cr",
+  "full": "Équipage complet",
+  "effectStrong": "(très efficace)",
+  "effectWeak": "(peu efficace)",
+  "role": {
+    "mecano": "mécano",
+    "pilote": "pilote",
+    "tireur": "tireur",
+    "medecin": "médecin",
+    "negociateur": "négociateur",
+    "eclaireur": "éclaireur"
+  },
+  "trait": {
+    "veteran": "vétéran",
+    "novice": "novice",
+    "cupide": "cupide",
+    "fidele": "fidèle"
+  },
+  "effect": {
+    "mecano": "Répare la coque chaque jour.",
+    "pilote": "Économise parfois tout le carburant d'un trajet.",
+    "tireur": "Augmente tes dégâts en combat.",
+    "medecin": "Soigne à chaque voyage et après chaque victoire.",
+    "negociateur": "Achats moins chers, ventes plus chères.",
+    "eclaireur": "Plus de crédits trouvés en exploration."
+  },
+  "lines": {
+    "unpaid": "⚠ Salaires impayés ({{amount}} cr) — l'équipage gronde.",
+    "grumbling": "⚠ {{name}} parle de partir. Sa loyauté est au plus bas.",
+    "deserted": "☠ {{name}} a déserté pendant la nuit, en emportant {{amount}} cr.",
+    "killed": "☠ {{name}} n'a pas survécu au combat."
+  }
+}

@@ -255,13 +255,15 @@
     "Représentant": "Representative",
     "Résidente": "Resident",
     "Sentinelle": "Sentinel",
-    "Sergent Faucon": "Hawk sergeant",
+    "Sergent Faucon": "Falcon sergeant",
     "Survivant": "Survivor",
     "Survivante": "Survivor",
     "Technicienne": "Technician",
     "Tenancier": "Innkeeper",
     "Vieux pirate": "Old pirate",
     "Vétéran": "Veteran",
-    "normal": "normal"
+    "normal": "normal",
+    "Maître d'armes": "Weapons master",
+    "Maître d'hôtel": "Maître d’hôtel"
   }
 }

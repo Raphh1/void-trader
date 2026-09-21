@@ -5,6 +5,7 @@ import { getStation } from '../../data/stations'
 import { getAmbiance } from '../../engine/jsonEventLoader'
 import { TypewriterText } from '../ui/TypewriterText'
 import { translateClassName, translateStationName } from '../../engine/goodsI18n'
+import { WarpTransit } from '../ui/WarpTransit'
 
 const DANGER_COLOR = ['var(--green)', 'var(--yellow)', 'var(--orange)', 'var(--red)']
 
@@ -19,13 +20,16 @@ export function StationArrivalScreen() {
   const [done, setDone]     = useState(false)
   const [skipped, setSkipped] = useState(false)
   const showFull = done || skipped
+  // Le vol ouvre l'écran ; un clic l'abrège. Le nom et la description de la
+  // destination restent visibles pendant toute la traversée.
+  const [flying, setFlying] = useState(true)
 
   const dangerColor = DANGER_COLOR[station.danger]
 
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'var(--bg)',
+      background: '#04060e',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -36,7 +40,23 @@ export function StationArrivalScreen() {
       {/* Scanlines */}
       <div className="scanlines" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9999 }} />
 
-      <div style={{ maxWidth: '680px', width: '100%' }}>
+      <WarpTransit mode={flying ? 'flight' : 'idle'} onDone={() => setFlying(false)} />
+
+      {flying && (
+        <div onClick={() => setFlying(false)} style={{ position: 'fixed', inset: 0, zIndex: 2, cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '40px 20px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div className="t-xs t-dim" style={{ letterSpacing: '4px', marginBottom: '10px' }}>{t('enRoute')}</div>
+            <div style={{ fontSize: '18px', color: 'var(--text-bright)', letterSpacing: '3px' }}>{translateStationName(station.name)}</div>
+            <div className="t-xs mt4" style={{ color: dangerColor, letterSpacing: '2px' }}>{DANGER_LABEL[station.danger]}</div>
+          </div>
+          <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto' }}>
+            <div className="t-xs" style={{ color: 'var(--text-dim)', lineHeight: 2 }}>{station.description}</div>
+            <div className="t-xs t-dim mt8" style={{ opacity: 0.6 }}>{t('skipFlight')}</div>
+          </div>
+        </div>
+      )}
+
+      {!flying && <div className="arrival-fade" style={{ maxWidth: '680px', width: '100%', position: 'relative', zIndex: 1 }}>
 
         {/* En-tête station */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
@@ -95,7 +115,7 @@ export function StationArrivalScreen() {
           )}
         </div>
 
-      </div>
+      </div>}
     </div>
   )
 }

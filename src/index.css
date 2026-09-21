@@ -303,3 +303,67 @@ html, body, #root {
   .hub-layout { flex-direction: column; padding: 12px !important; gap: 14px; }
   .hub-sidebar { width: 100%; position: static; }
 }
+
+/* ── Pile ou face (CoinFlipOverlay) ───────────────────────────────────────── */
+.coinflip-backdrop {
+  position: fixed; inset: 0; z-index: 600;
+  background: radial-gradient(circle at center, rgba(20,14,0,0.92) 0%, rgba(0,0,0,0.97) 70%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 16px; cursor: pointer; user-select: none;
+}
+.coinflip-stage { perspective: 700px; margin: 28px 0; }
+.coinflip-coin {
+  width: 150px; height: 150px; position: relative;
+  transform-style: preserve-3d;
+}
+.coinflip-face {
+  position: absolute; inset: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: bold; letter-spacing: 3px;
+  backface-visibility: hidden;
+}
+.coinflip-heads {
+  background: radial-gradient(circle at 35% 30%, #ffe680, #d4a017 55%, #7a5a00);
+  color: #3a2800; border: 5px solid #f5c542;
+  box-shadow: 0 0 30px rgba(245,197,66,0.45), inset 0 0 18px rgba(0,0,0,0.35);
+}
+.coinflip-tails {
+  background: radial-gradient(circle at 35% 30%, #ff9a8a, #b0302a 55%, #4a0c08);
+  color: #2a0404; border: 5px solid #e0584e;
+  box-shadow: 0 0 30px rgba(224,88,78,0.45), inset 0 0 18px rgba(0,0,0,0.35);
+  transform: rotateY(180deg);
+}
+/* Battement de cœur pendant l'hésitation sur la tranche */
+.coinflip-pulse { animation: coinflipPulse 0.45s ease-in-out infinite; }
+@keyframes coinflipPulse {
+  0%, 100% { box-shadow: inset 0 0 80px rgba(255,40,40,0.10); }
+  50%      { box-shadow: inset 0 0 160px rgba(255,40,40,0.35); }
+}
+.coinflip-flash { animation: coinflipFlash 0.6s ease-out; }
+@keyframes coinflipFlash {
+  0%   { box-shadow: inset 0 0 0 2000px rgba(245,197,66,0.45); }
+  100% { box-shadow: inset 0 0 0 2000px rgba(245,197,66,0); }
+}
+.coinflip-shake { animation: coinflipShake 0.45s ease-in-out; }
+@keyframes coinflipShake {
+  0%, 100% { transform: translate(0, 0); box-shadow: inset 0 0 200px rgba(200,0,0,0.5); }
+  20% { transform: translate(-10px, 4px); }
+  40% { transform: translate(9px, -5px); }
+  60% { transform: translate(-6px, 3px); }
+  80% { transform: translate(4px, -2px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coinflip-pulse, .coinflip-shake, .coinflip-flash { animation: none; }
+}
+
+/* ── Voyage (WarpTransit) ─────────────────────────────────────────────────── */
+.warp-ship { will-change: transform; filter: drop-shadow(0 0 6px rgba(143,180,255,0.6)); }
+.warp-flame {
+  position: absolute; right: 100%; top: 50%; margin-top: -6px;
+  width: 34px; height: 12px; transform-origin: right center;
+  background: linear-gradient(to left, #ffffff, #ffd27a 30%, #ff7a2a 60%, rgba(255,60,0,0));
+  border-radius: 50% 0 0 50%;
+  filter: blur(1px);
+}
+.arrival-fade { animation: arrivalFade 0.7s ease-out both; }
+@keyframes arrivalFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

@@ -30,5 +30,8 @@
   "allianceDiscount": "{{pillar}} alliance: -{{pct}}% on all purchases",
   "hostileSurcharge": "⚠ Hostile {{pillar}}: +{{pct}}% on all purchases",
   "abundantHere": "Abundant here: {{list}}",
-  "rareHere": "Rare here: {{list}}"
+  "rareHere": "Rare here: {{list}}",
+  "competitorPressureUp": "▲ {{name}} bought out {{item}}: +{{pct}}% ({{days}}d)",
+  "competitorPressureDown": "▼ {{name}} flooded the market with {{item}}: −{{pct}}% ({{days}}d)",
+  "competitorPressureAll": "▲ {{name}} shook down the station: everything +{{pct}}% ({{days}}d)"
 }

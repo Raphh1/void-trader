@@ -249,6 +249,7 @@
     "item": "Item: {{item}}",
     "reward": "+{{credits}} cr · +{{rep}} rep",
     "timeLimit": "⏱ Time limit",
+    "majorType": "MAJOR MISSION · {{current}}/{{total}}",
     "pactType": "BARGAIN",
     "pactWith": "Bargain — {{name}}",
     "pactReady": "▶ HONOR"
@@ -369,5 +370,12 @@
     "giveIntelWhyNot": "They don't see you as someone who knows anything useful",
     "fuelSuffix": "+{{amount}} fuel"
   },
-  "debtorLoan": "💰 Borrow 5,000 cr — debt rises to {{debt}}/day ({{n}} left)"
+  "debtorLoan": "💰 Borrow 5,000 cr — debt rises to {{debt}}/day ({{n}} left)",
+  "abandonConfirm": "Abandon this run? All progress will be lost.",
+  "abandonConfirmYes": "Confirm — New run",
+  "abandonConfirmNo": "Cancel",
+  "briefingHeader": "◆ BRIEFING — DAY {{day}}",
+  "dayEnded": "DAY {{day}} OVER",
+  "worldEventBanner": "⚠ WORLD EVENT — {{title}}",
+  "worldEventSpan": "D{{from}}–D{{to}}"
 }

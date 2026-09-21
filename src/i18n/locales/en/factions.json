@@ -1,6 +1,32 @@
 {
-  "faucons": { "name": "The Black Falcons", "description": "Organized pirates. Military discipline. Alanossa at their head. Joining means choosing the shadow side.", "bonus": "Access to pirate zones without combat · +20% credits on loot · Discounted weapons" },
-  "emporium": { "name": "The Emporium", "description": "An alliance of merchants. Currency is their law. Legal on the surface. Everything else is negotiable.", "bonus": "-15% on all purchases · Exclusive prices · Extended trade network" },
-  "gardiens": { "name": "The Scarlet Guardians", "description": "An order of warrior-paladins. Draconian justice. No nuance, no mercy.", "bonus": "+50% rep on heroic acts · Access to military zones · Elite equipment" },
-  "culte": { "name": "The Cult of the Void", "description": "Mystics of deep space. Their rituals work — no one knows why.", "bonus": "Amplified WTF events · Access to artifacts · Visions of the future (free info)" }
+  "faucons": {
+    "name": "The Black Falcons",
+    "description": "Organized pirates. Military discipline. Alanossa at their head. Joining means choosing the shadow side.",
+    "bonus": "Access to pirate zones without combat · +20% credits on loot · Discounted weapons"
+  },
+  "emporium": {
+    "name": "The Emporium",
+    "description": "An alliance of merchants. Currency is their law. Legal on the surface. Everything else is negotiable.",
+    "bonus": "-15% on all purchases · Exclusive prices · Extended trade network"
+  },
+  "gardiens": {
+    "name": "The Scarlet Guardians",
+    "description": "An order of warrior-paladins. Draconian justice. No nuance, no mercy.",
+    "bonus": "+50% rep on heroic acts · Access to military zones · Elite equipment"
+  },
+  "culte": {
+    "name": "The Cult of the Void",
+    "description": "Mystics of deep space. Their rituals work — no one knows why.",
+    "bonus": "Amplified WTF events · Access to artifacts · Visions of the future (free info)"
+  },
+  "authorities": {
+    "faucons": "Black Falcons",
+    "gardiens": "Scarlet Guardians",
+    "emporium": "Emporium",
+    "culte": "Cult of the Void",
+    "miliceLocale": "Local militia",
+    "agentsInconnus": "Agents of an unknown faction",
+    "soldatsRaphazarus": "Raphazarus's soldiers",
+    "autoritesLocales": "Local authorities"
+  }
 }

@@ -135,5 +135,12 @@
   "heirEscort": "You pay {{cost}} credits. Three armed silhouettes step in front of you.",
   "heirEscortBlock": "Your escort takes the hit for you. ({{n}} left)",
   "heirNoFunds": "An escort costs {{cost}} credits. Your pockets are empty.",
-  "cursedSurvival": "You should have died. The curse would not allow it — you rise again at 1 HP."
+  "cursedSurvival": "You should have died. The curse would not allow it — you rise again at 1 HP.",
+  "relicLifesteal": "🩸 Predator chip: +{{amount}} HP",
+  "veteranRiposteReady": "⚔ Riposte order — you read their next attack.",
+  "veteranRiposte": "⚔ RIPOSTE — you parry and send the blow back: {{dmg}} damage. {{enemy}}: {{hp}}/{{max}} HP",
+  "debtorIou": "✍ You sign an IOU. {{enemy}} lowers their guard for 3 turns — your debt rises to {{debt}} cr/day.",
+  "addictDose": "💉 DOSE — three attacks at +40%. Madness: {{folie}}.",
+  "cursedHex": "☠ You pass your curse on to {{enemy}}: one attack in two will miss, 3 turns.",
+  "cursedHexMiss": "☠ The curse strikes {{enemy}} — their attack misses."
 }

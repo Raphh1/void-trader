@@ -227,7 +227,7 @@ export function ShipWorkshopScreen() {
           <div className="bar__fill" style={{ width: `${shipPct}%` }} />
         </div>
         <div className="t-sm" style={{ color: shipPct < 30 ? 'var(--red)' : 'var(--blue)' }}>
-          {gs.shipHp} / {gs.shipMaxHp} PV
+          {t('hullHp', { hp: gs.shipHp, max: gs.shipMaxHp })}
         </div>
         <div className="t-xs t-dim mt4">
           {t('fuel')} <span className="t-cyan">{gs.fuel}/{gs.maxFuel}</span>

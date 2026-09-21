@@ -2,7 +2,10 @@
   "asteroidDodge": {
     "header": "— CHAMP D'ASTÉROÏDES —",
     "controls": "← → esquiver · ESPACE tirer",
-    "warning": "⚠ Tirer sur un vaisseau ennemi = combat de pirates"
+    "warning": "⚠ Tirer sur un vaisseau ennemi = combat de pirates",
+    "hudHits": "Impacts :",
+    "hudKills": "Abattus :",
+    "hudTime": "Temps :"
   },
   "cardGame": {
     "header": "— JEU DE CARTES —",

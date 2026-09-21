@@ -108,6 +108,14 @@ export function translateGood(name: string): string {
 }
 
 const WEAPON_KEY_MAP: Record<string, string> = {
+  // Butin unique des lieutenants (data/lieutenantRewards.ts)
+  'Lunette du Vigie': 'lunetteVigie',
+  'Dague empoisonnée de Morte': 'dagueMorte',
+  'Dague de la Nuit': 'dagueNuit',
+  'Lame de la Faucon': 'lameFaucon',
+  'Lame Fantôme du 7e': 'lameFantome7e',
+  'Le Poing du Maréchal': 'poingMarechal',
+  'Scalpel de Velkor': 'scalpelVelkor',
   'Couteau de rue': 'couteauDeRue',
   'Matraque de garde': 'matraqueDeGarde',
   'Pistolet rouillé': 'pistoletRouille',
@@ -173,6 +181,11 @@ export function translateWeaponName(name: string): string {
 }
 
 const ARMOR_KEY_MAP: Record<string, string> = {
+  // Butin unique des lieutenants (data/lieutenantRewards.ts)
+  'Armure de la Veuve': 'armureVeuve',
+  'Cape des Ombres': 'capeOmbres',
+  'Uniforme Diplomatique': 'uniformeDiplo',
+  'Armure Prédictive': 'armurePredictive',
   'Veste en cuir renforcé': 'vesteRenforcee',
   'Plastron de récupération': 'plastronRecuperation',
   'Exo-combinaison trouée': 'exoTrouee',
@@ -493,6 +506,26 @@ export function translateStationName(name: string): string {
 // SERVICES dans npcTracker.ts, talkLines.*) — on ne traduit donc qu'à l'affichage.
 // Les NOMS de PNJ (Marek, Sela, Torvak...) sont des noms propres inventés et
 // restent identiques dans les deux langues, comme Alanossa ou Raphazarus.
+// Noms d'autorité portés par une capture ou un territoire. Le nom français sert
+// aussi de donnée (interrogatorKind() le lit pour choisir le registre de
+// questions) : on le garde tel quel dans l'état et on ne traduit qu'à l'affichage.
+const FACTION_NAME_KEY_MAP: Record<string, string> = {
+  'Faucons Noirs': 'faucons',
+  'Gardiens Écarlates': 'gardiens',
+  'Emporium': 'emporium',
+  'Culte du Vide': 'culte',
+  'Milice locale': 'miliceLocale',
+  'Agents de faction inconnue': 'agentsInconnus',
+  'Soldats de Raphazarus': 'soldatsRaphazarus',
+  'Autorités locales': 'autoritesLocales',
+}
+
+export function translateFactionName(name: string): string {
+  const key = FACTION_NAME_KEY_MAP[name]
+  if (!key) return name
+  return i18n.t(`authorities.${key}`, { ns: 'factions', defaultValue: name })
+}
+
 export function translateNpcRole(role: string): string {
   return i18n.t(`roles.${role}`, { ns: 'npcTracker', defaultValue: role })
 }

@@ -135,5 +135,12 @@
   "heirEscort": "Vous payez {{cost}} crédits. Trois silhouettes armées se placent devant vous.",
   "heirEscortBlock": "Votre escorte encaisse le coup à votre place. ({{n}} restant(s))",
   "heirNoFunds": "Une escorte coûte {{cost}} crédits. Vos poches sont vides.",
-  "cursedSurvival": "Vous auriez dû mourir. La malédiction ne l'a pas permis — vous vous relevez à 1 PV."
+  "cursedSurvival": "Vous auriez dû mourir. La malédiction ne l'a pas permis — vous vous relevez à 1 PV.",
+  "relicLifesteal": "🩸 Puce prédatrice : +{{amount}} PV",
+  "veteranRiposteReady": "⚔ Ordre de riposte — tu lis sa prochaine attaque.",
+  "veteranRiposte": "⚔ RIPOSTE — tu pares et renvoies le coup : {{dmg}} dégâts. {{enemy}} : {{hp}}/{{max}} PV",
+  "debtorIou": "✍ Tu signes une reconnaissance de dette. {{enemy}} baisse sa garde 3 tours — ta dette passe à {{debt}} cr/jour.",
+  "addictDose": "💉 DOSE — trois attaques à +40 %. Folie : {{folie}}.",
+  "cursedHex": "☠ Tu transmets ta malédiction à {{enemy}} : une attaque sur deux va rater, 3 tours.",
+  "cursedHexMiss": "☠ La malédiction frappe {{enemy}} — son attaque rate."
 }

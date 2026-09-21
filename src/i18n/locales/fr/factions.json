@@ -1,6 +1,32 @@
 {
-  "faucons": { "name": "Les Faucons Noirs", "description": "Pirates organisés. Discipline militaire. Alanossa à leur tête. Rejoindre c'est choisir le bord de l'ombre.", "bonus": "Accès aux zones pirates sans combat · +20% crédits sur butin · Armes à prix réduit" },
-  "emporium": { "name": "L'Emporium", "description": "Alliance de marchands. La monnaie est leur loi. Légal en façade. Tout le reste se discute.", "bonus": "-15% sur tous les achats · Prix exclusifs · Réseau commercial étendu" },
-  "gardiens": { "name": "Les Gardiens Écarlates", "description": "Ordre de guerriers-paladins. Justice draconienne. Pas de nuances, pas de pitié.", "bonus": "+50% rép sur actes héroïques · Accès zones militaires · Équipement d'élite" },
-  "culte": { "name": "Le Culte du Vide", "description": "Mystiques de l'espace profond. Leurs rituels fonctionnent — personne ne sait pourquoi.", "bonus": "Événements WTF amplifiés · Artefacts accessibles · Visions de l'avenir (infos gratuites)" }
+  "faucons": {
+    "name": "Les Faucons Noirs",
+    "description": "Pirates organisés. Discipline militaire. Alanossa à leur tête. Rejoindre c'est choisir le bord de l'ombre.",
+    "bonus": "Accès aux zones pirates sans combat · +20% crédits sur butin · Armes à prix réduit"
+  },
+  "emporium": {
+    "name": "L'Emporium",
+    "description": "Alliance de marchands. La monnaie est leur loi. Légal en façade. Tout le reste se discute.",
+    "bonus": "-15% sur tous les achats · Prix exclusifs · Réseau commercial étendu"
+  },
+  "gardiens": {
+    "name": "Les Gardiens Écarlates",
+    "description": "Ordre de guerriers-paladins. Justice draconienne. Pas de nuances, pas de pitié.",
+    "bonus": "+50% rép sur actes héroïques · Accès zones militaires · Équipement d'élite"
+  },
+  "culte": {
+    "name": "Le Culte du Vide",
+    "description": "Mystiques de l'espace profond. Leurs rituels fonctionnent — personne ne sait pourquoi.",
+    "bonus": "Événements WTF amplifiés · Artefacts accessibles · Visions de l'avenir (infos gratuites)"
+  },
+  "authorities": {
+    "faucons": "Faucons Noirs",
+    "gardiens": "Gardiens Écarlates",
+    "emporium": "Emporium",
+    "culte": "Culte du Vide",
+    "miliceLocale": "Milice locale",
+    "agentsInconnus": "Agents de faction inconnue",
+    "soldatsRaphazarus": "Soldats de Raphazarus",
+    "autoritesLocales": "Autorités locales"
+  }
 }

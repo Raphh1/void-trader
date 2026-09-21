@@ -435,6 +435,1608 @@
           "\"Why\""
         ]
       }
+    ],
+    "culture": [
+      {
+        "q": "In what year did humans first walk on the Moon?",
+        "choices": [
+          "1969",
+          "1965",
+          "1972"
+        ]
+      },
+      {
+        "q": "Which Roman emperor began building the Colosseum?",
+        "choices": [
+          "Vespasian",
+          "Nero",
+          "Augustus"
+        ]
+      },
+      {
+        "q": "Who was the first president of the United States?",
+        "choices": [
+          "George Washington",
+          "Thomas Jefferson",
+          "Abraham Lincoln"
+        ]
+      },
+      {
+        "q": "In which century did the French Revolution take place?",
+        "choices": [
+          "18th century",
+          "17th century",
+          "19th century"
+        ]
+      },
+      {
+        "q": "What was the Great Wall of China originally called?",
+        "choices": [
+          "Wanli Changcheng (the Ten-Thousand-Li Long Wall)",
+          "The Dragon Rampart",
+          "The Qin Line"
+        ]
+      },
+      {
+        "q": "Who discovered America in 1492?",
+        "choices": [
+          "Christopher Columbus",
+          "Vasco da Gama",
+          "Magellan"
+        ]
+      },
+      {
+        "q": "In what year was the Bastille stormed?",
+        "choices": [
+          "1789",
+          "1792",
+          "1799"
+        ]
+      },
+      {
+        "q": "Which civilization built the Great Pyramid of Giza?",
+        "choices": [
+          "Ancient Egypt",
+          "The Persian Empire",
+          "Mesopotamia"
+        ]
+      },
+      {
+        "q": "Who was Napoleon Bonaparte?",
+        "choices": [
+          "An Emperor of the French",
+          "A King of Spain",
+          "A Tsar of Russia"
+        ]
+      },
+      {
+        "q": "In what year was the Berlin Wall built?",
+        "choices": [
+          "1961",
+          "1945",
+          "1955"
+        ]
+      },
+      {
+        "q": "Which French king is nicknamed the \"Sun King\"?",
+        "choices": [
+          "Louis XIV",
+          "Louis XVI",
+          "Francis I"
+        ]
+      },
+      {
+        "q": "Who perfected the steam engine in the 18th century?",
+        "choices": [
+          "James Watt",
+          "Thomas Edison",
+          "Nikola Tesla"
+        ]
+      },
+      {
+        "q": "In what year did World War I begin?",
+        "choices": [
+          "1914",
+          "1918",
+          "1912"
+        ]
+      },
+      {
+        "q": "Which US president abolished slavery?",
+        "choices": [
+          "Abraham Lincoln",
+          "George Washington",
+          "Theodore Roosevelt"
+        ]
+      },
+      {
+        "q": "Which wife of Henry VIII gave birth to Elizabeth I?",
+        "choices": [
+          "Anne Boleyn",
+          "Catherine of Aragon",
+          "Jane Seymour"
+        ]
+      },
+      {
+        "q": "In which century did Joan of Arc live?",
+        "choices": [
+          "15th century",
+          "13th century",
+          "17th century"
+        ]
+      },
+      {
+        "q": "In which Italian city was the Renaissance born?",
+        "choices": [
+          "Florence",
+          "Venice",
+          "Naples"
+        ]
+      },
+      {
+        "q": "Who founded the Ottoman Empire?",
+        "choices": [
+          "Osman I",
+          "Suleiman the Magnificent",
+          "Mehmed II"
+        ]
+      },
+      {
+        "q": "In what year was the American Declaration of Independence signed?",
+        "choices": [
+          "1776",
+          "1783",
+          "1789"
+        ]
+      },
+      {
+        "q": "Which regime ruled Germany from 1933 to 1945?",
+        "choices": [
+          "The Third Reich (Nazi regime)",
+          "The Weimar Republic",
+          "The German Empire"
+        ]
+      },
+      {
+        "q": "Who painted the ceiling of the Sistine Chapel?",
+        "choices": [
+          "Michelangelo",
+          "Leonardo da Vinci",
+          "Raphael"
+        ]
+      },
+      {
+        "q": "In which century was the Spanish Inquisition established?",
+        "choices": [
+          "15th century",
+          "13th century",
+          "17th century"
+        ]
+      },
+      {
+        "q": "Which treaty ended World War I?",
+        "choices": [
+          "The Treaty of Versailles",
+          "The Treaty of Vienna",
+          "The Treaty of Paris"
+        ]
+      },
+      {
+        "q": "Who was the British Prime Minister during World War II?",
+        "choices": [
+          "Winston Churchill",
+          "Neville Chamberlain",
+          "Clement Attlee"
+        ]
+      },
+      {
+        "q": "In what year did the Russian Revolution take place?",
+        "choices": [
+          "1917",
+          "1905",
+          "1922"
+        ]
+      },
+      {
+        "q": "Which Egyptian pharaoh is famous for his intact tomb?",
+        "choices": [
+          "Tutankhamun",
+          "Ramesses II",
+          "Khufu"
+        ]
+      },
+      {
+        "q": "Which king signed the Magna Carta in 1215?",
+        "choices": [
+          "John Lackland",
+          "Richard the Lionheart",
+          "Henry II"
+        ]
+      },
+      {
+        "q": "In what year did the Berlin Wall fall?",
+        "choices": [
+          "1989",
+          "1991",
+          "1985"
+        ]
+      },
+      {
+        "q": "Which Chinese dynasty opened the Silk Road?",
+        "choices": [
+          "The Han",
+          "The Ming",
+          "The Tang"
+        ]
+      },
+      {
+        "q": "Who founded the Song dynasty in China?",
+        "choices": [
+          "Zhao Kuangyin",
+          "Kublai Khan",
+          "Qin Shi Huang"
+        ]
+      },
+      {
+        "q": "What is the largest ocean in the world?",
+        "choices": [
+          "The Pacific Ocean",
+          "The Atlantic Ocean",
+          "The Indian Ocean"
+        ]
+      },
+      {
+        "q": "What is the capital of Australia?",
+        "choices": [
+          "Canberra",
+          "Sydney",
+          "Melbourne"
+        ]
+      },
+      {
+        "q": "How many continents are usually counted?",
+        "choices": [
+          "7",
+          "5",
+          "6"
+        ]
+      },
+      {
+        "q": "What is the highest mountain in the world?",
+        "choices": [
+          "Everest",
+          "K2",
+          "Kilimanjaro"
+        ]
+      },
+      {
+        "q": "What is the longest river in Europe?",
+        "choices": [
+          "The Volga",
+          "The Danube",
+          "The Rhine"
+        ]
+      },
+      {
+        "q": "Which organization has 27 member states?",
+        "choices": [
+          "The European Union",
+          "NATO",
+          "The G20"
+        ]
+      },
+      {
+        "q": "What is the capital of Japan?",
+        "choices": [
+          "Tokyo",
+          "Kyoto",
+          "Osaka"
+        ]
+      },
+      {
+        "q": "What is the largest hot desert in the world?",
+        "choices": [
+          "The Sahara",
+          "The Gobi",
+          "The Kalahari"
+        ]
+      },
+      {
+        "q": "What is the approximate population of Earth?",
+        "choices": [
+          "About 8 billion",
+          "About 5 billion",
+          "About 12 billion"
+        ]
+      },
+      {
+        "q": "Which ocean holds the deepest point on Earth?",
+        "choices": [
+          "The Pacific Ocean",
+          "The Atlantic Ocean",
+          "The Indian Ocean"
+        ]
+      },
+      {
+        "q": "What is the capital of Switzerland?",
+        "choices": [
+          "Bern",
+          "Zurich",
+          "Geneva"
+        ]
+      },
+      {
+        "q": "How many countries are there in Africa?",
+        "choices": [
+          "54",
+          "38",
+          "67"
+        ]
+      },
+      {
+        "q": "What is the largest country in the world by area?",
+        "choices": [
+          "Russia",
+          "Canada",
+          "China"
+        ]
+      },
+      {
+        "q": "What is the capital of Canada?",
+        "choices": [
+          "Ottawa",
+          "Toronto",
+          "Montreal"
+        ]
+      },
+      {
+        "q": "Which continent is also a country?",
+        "choices": [
+          "Australia",
+          "Antarctica",
+          "America"
+        ]
+      },
+      {
+        "q": "What is the capital of New Zealand?",
+        "choices": [
+          "Wellington",
+          "Auckland",
+          "Christchurch"
+        ]
+      },
+      {
+        "q": "Which river flows through Cairo?",
+        "choices": [
+          "The Nile",
+          "The Tigris",
+          "The Euphrates"
+        ]
+      },
+      {
+        "q": "What is the smallest country in the world?",
+        "choices": [
+          "Vatican City",
+          "Monaco",
+          "San Marino"
+        ]
+      },
+      {
+        "q": "What is the capital of Thailand?",
+        "choices": [
+          "Bangkok",
+          "Phuket",
+          "Chiang Mai"
+        ]
+      },
+      {
+        "q": "Roughly how many countries make up the Middle East?",
+        "choices": [
+          "About 17",
+          "About 8",
+          "About 30"
+        ]
+      },
+      {
+        "q": "Which strait separates Spain from Morocco?",
+        "choices": [
+          "The Strait of Gibraltar",
+          "The Bosphorus",
+          "The Strait of Messina"
+        ]
+      },
+      {
+        "q": "What is the capital of Sweden?",
+        "choices": [
+          "Stockholm",
+          "Gothenburg",
+          "Oslo"
+        ]
+      },
+      {
+        "q": "Which ocean borders Africa to the east?",
+        "choices": [
+          "The Indian Ocean",
+          "The Atlantic Ocean",
+          "The Pacific Ocean"
+        ]
+      },
+      {
+        "q": "Which country has the largest population in Africa?",
+        "choices": [
+          "Nigeria",
+          "Egypt",
+          "Ethiopia"
+        ]
+      },
+      {
+        "q": "What is the capital of Egypt?",
+        "choices": [
+          "Cairo",
+          "Alexandria",
+          "Luxor"
+        ]
+      },
+      {
+        "q": "How many regions does metropolitan France have?",
+        "choices": [
+          "13",
+          "22",
+          "18"
+        ]
+      },
+      {
+        "q": "What is the largest lake in Europe?",
+        "choices": [
+          "Lake Ladoga",
+          "Lake Geneva",
+          "Lake Balaton"
+        ]
+      },
+      {
+        "q": "What is the capital of Argentina?",
+        "choices": [
+          "Buenos Aires",
+          "Córdoba",
+          "Montevideo"
+        ]
+      },
+      {
+        "q": "Which country was formerly known as Rhodesia?",
+        "choices": [
+          "Zimbabwe",
+          "Zambia",
+          "Mozambique"
+        ]
+      },
+      {
+        "q": "What is the capital of Turkey?",
+        "choices": [
+          "Ankara",
+          "Istanbul",
+          "Izmir"
+        ]
+      },
+      {
+        "q": "Which chemical element has atomic number 1?",
+        "choices": [
+          "Hydrogen",
+          "Helium",
+          "Oxygen"
+        ]
+      },
+      {
+        "q": "Who discovered penicillin?",
+        "choices": [
+          "Alexander Fleming",
+          "Louis Pasteur",
+          "Robert Koch"
+        ]
+      },
+      {
+        "q": "What is the approximate speed of light?",
+        "choices": [
+          "300,000 km/s",
+          "30,000 km/s",
+          "3,000,000 km/s"
+        ]
+      },
+      {
+        "q": "Which scientist developed the theory of relativity?",
+        "choices": [
+          "Albert Einstein",
+          "Isaac Newton",
+          "Niels Bohr"
+        ]
+      },
+      {
+        "q": "How many main human blood groups are there?",
+        "choices": [
+          "4 (A, B, AB, O)",
+          "2",
+          "6"
+        ]
+      },
+      {
+        "q": "Which gas do we breathe to live?",
+        "choices": [
+          "Oxygen",
+          "Nitrogen",
+          "Carbon dioxide"
+        ]
+      },
+      {
+        "q": "Who discovered the double-helix structure of DNA?",
+        "choices": [
+          "Watson and Crick",
+          "Pasteur and Koch",
+          "Curie and Becquerel"
+        ]
+      },
+      {
+        "q": "What is the normal human body temperature?",
+        "choices": [
+          "37 °C",
+          "35 °C",
+          "39 °C"
+        ]
+      },
+      {
+        "q": "What is the largest organ of the human body?",
+        "choices": [
+          "The skin",
+          "The liver",
+          "The intestine"
+        ]
+      },
+      {
+        "q": "How many chambers does the human heart have?",
+        "choices": [
+          "4",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "q": "What is the central organ of the nervous system?",
+        "choices": [
+          "The brain",
+          "The heart",
+          "The liver"
+        ]
+      },
+      {
+        "q": "Who formulated the laws of universal gravitation?",
+        "choices": [
+          "Isaac Newton",
+          "Galileo",
+          "Kepler"
+        ]
+      },
+      {
+        "q": "What is the most abundant element in the Earth's crust?",
+        "choices": [
+          "Oxygen",
+          "Iron",
+          "Silicon"
+        ]
+      },
+      {
+        "q": "How many bones does the adult human skeleton contain?",
+        "choices": [
+          "206",
+          "150",
+          "300"
+        ]
+      },
+      {
+        "q": "What is the most abundant gas in Earth's atmosphere?",
+        "choices": [
+          "Nitrogen",
+          "Oxygen",
+          "Carbon dioxide"
+        ]
+      },
+      {
+        "q": "What is the main function of mitochondria?",
+        "choices": [
+          "Producing the cell's energy",
+          "Storing DNA",
+          "Digesting waste"
+        ]
+      },
+      {
+        "q": "Who developed the smallpox vaccine?",
+        "choices": [
+          "Edward Jenner",
+          "Louis Pasteur",
+          "Robert Koch"
+        ]
+      },
+      {
+        "q": "What is the smallest bone in the human body?",
+        "choices": [
+          "The stapes (in the ear)",
+          "The scaphoid",
+          "The kneecap"
+        ]
+      },
+      {
+        "q": "Which scientist won two Nobel Prizes?",
+        "choices": [
+          "Marie Curie",
+          "Rosalind Franklin",
+          "Lise Meitner"
+        ]
+      },
+      {
+        "q": "Which type of radiation is used in nuclear medicine?",
+        "choices": [
+          "Gamma rays",
+          "Microwaves",
+          "Ultraviolet"
+        ]
+      },
+      {
+        "q": "Roughly how many major tectonic plates does Earth have?",
+        "choices": [
+          "About 7",
+          "About 2",
+          "About 40"
+        ]
+      },
+      {
+        "q": "What is the freezing point of water?",
+        "choices": [
+          "0 °C",
+          "10 °C",
+          "-10 °C"
+        ]
+      },
+      {
+        "q": "Who developed the theory of evolution by natural selection?",
+        "choices": [
+          "Charles Darwin",
+          "Gregor Mendel",
+          "Lamarck"
+        ]
+      },
+      {
+        "q": "What is the largest bone in the human body?",
+        "choices": [
+          "The femur",
+          "The tibia",
+          "The humerus"
+        ]
+      },
+      {
+        "q": "How many vertebrae does the human spine have?",
+        "choices": [
+          "33",
+          "24",
+          "40"
+        ]
+      },
+      {
+        "q": "What is the approximate speed of sound in air?",
+        "choices": [
+          "340 m/s",
+          "1,000 m/s",
+          "100 m/s"
+        ]
+      },
+      {
+        "q": "Who is credited with inventing the light bulb?",
+        "choices": [
+          "Thomas Edison",
+          "Nikola Tesla",
+          "Benjamin Franklin"
+        ]
+      },
+      {
+        "q": "What is the pH of pure water?",
+        "choices": [
+          "7",
+          "0",
+          "14"
+        ]
+      },
+      {
+        "q": "Which organ produces insulin?",
+        "choices": [
+          "The pancreas",
+          "The liver",
+          "The kidneys"
+        ]
+      },
+      {
+        "q": "Who discovered nuclear fission?",
+        "choices": [
+          "Otto Hahn (with Lise Meitner)",
+          "Albert Einstein",
+          "Ernest Rutherford"
+        ]
+      },
+      {
+        "q": "Who painted the Mona Lisa?",
+        "choices": [
+          "Leonardo da Vinci",
+          "Michelangelo",
+          "Botticelli"
+        ]
+      },
+      {
+        "q": "Which artist cut off part of his own ear?",
+        "choices": [
+          "Vincent van Gogh",
+          "Paul Gauguin",
+          "Claude Monet"
+        ]
+      },
+      {
+        "q": "Who wrote \"The Lord of the Rings\"?",
+        "choices": [
+          "J. R. R. Tolkien",
+          "C. S. Lewis",
+          "George R. R. Martin"
+        ]
+      },
+      {
+        "q": "What was Jules Verne's first published novel?",
+        "choices": [
+          "Five Weeks in a Balloon",
+          "Twenty Thousand Leagues Under the Sea",
+          "Around the World in Eighty Days"
+        ]
+      },
+      {
+        "q": "Who composed \"The Four Seasons\"?",
+        "choices": [
+          "Antonio Vivaldi",
+          "Johann Sebastian Bach",
+          "Mozart"
+        ]
+      },
+      {
+        "q": "Which surrealist painter is known for his melting clocks?",
+        "choices": [
+          "Salvador Dalí",
+          "René Magritte",
+          "Joan Miró"
+        ]
+      },
+      {
+        "q": "Who wrote \"1984\"?",
+        "choices": [
+          "George Orwell",
+          "Aldous Huxley",
+          "Ray Bradbury"
+        ]
+      },
+      {
+        "q": "Which great composer went deaf?",
+        "choices": [
+          "Beethoven",
+          "Mozart",
+          "Chopin"
+        ]
+      },
+      {
+        "q": "Who wrote \"Les Misérables\"?",
+        "choices": [
+          "Victor Hugo",
+          "Émile Zola",
+          "Gustave Flaubert"
+        ]
+      },
+      {
+        "q": "Which impressionist painter painted water lilies?",
+        "choices": [
+          "Claude Monet",
+          "Édouard Manet",
+          "Renoir"
+        ]
+      },
+      {
+        "q": "Who wrote \"Pride and Prejudice\"?",
+        "choices": [
+          "Jane Austen",
+          "Charlotte Brontë",
+          "Virginia Woolf"
+        ]
+      },
+      {
+        "q": "Which composer wrote the \"Toreador March\" (Carmen)?",
+        "choices": [
+          "Georges Bizet",
+          "Jacques Offenbach",
+          "Claude Debussy"
+        ]
+      },
+      {
+        "q": "Who wrote \"The Count of Monte Cristo\"?",
+        "choices": [
+          "Alexandre Dumas",
+          "Victor Hugo",
+          "Jules Verne"
+        ]
+      },
+      {
+        "q": "Which art movement did Picasso co-found?",
+        "choices": [
+          "Cubism",
+          "Surrealism",
+          "Impressionism"
+        ]
+      },
+      {
+        "q": "Who wrote \"Alice's Adventures in Wonderland\"?",
+        "choices": [
+          "Lewis Carroll",
+          "Charles Dickens",
+          "Roald Dahl"
+        ]
+      },
+      {
+        "q": "Which French museum is the most visited in the world?",
+        "choices": [
+          "The Louvre",
+          "The Musée d'Orsay",
+          "The Centre Pompidou"
+        ]
+      },
+      {
+        "q": "Who wrote \"Jane Eyre\"?",
+        "choices": [
+          "Charlotte Brontë",
+          "Emily Brontë",
+          "Jane Austen"
+        ]
+      },
+      {
+        "q": "Which Dutch painter painted \"The Starry Night\"?",
+        "choices": [
+          "Vincent van Gogh",
+          "Rembrandt",
+          "Vermeer"
+        ]
+      },
+      {
+        "q": "Who wrote \"The Hunchback of Notre-Dame\"?",
+        "choices": [
+          "Victor Hugo",
+          "Honoré de Balzac",
+          "Stendhal"
+        ]
+      },
+      {
+        "q": "Who composed \"Boléro\"?",
+        "choices": [
+          "Maurice Ravel",
+          "Claude Debussy",
+          "Erik Satie"
+        ]
+      },
+      {
+        "q": "Who wrote \"Frankenstein\"?",
+        "choices": [
+          "Mary Shelley",
+          "Bram Stoker",
+          "Edgar Allan Poe"
+        ]
+      },
+      {
+        "q": "Which painter painted \"Les Demoiselles d'Avignon\"?",
+        "choices": [
+          "Pablo Picasso",
+          "Henri Matisse",
+          "Georges Braque"
+        ]
+      },
+      {
+        "q": "Who wrote \"The Little Prince\"?",
+        "choices": [
+          "Antoine de Saint-Exupéry",
+          "Albert Camus",
+          "Marcel Pagnol"
+        ]
+      },
+      {
+        "q": "Which movement, led by Matisse, caused a scandal at the 1905 Salon d'Automne?",
+        "choices": [
+          "Fauvism",
+          "Dadaism",
+          "Pointillism"
+        ]
+      },
+      {
+        "q": "Who wrote \"One Hundred Years of Solitude\"?",
+        "choices": [
+          "Gabriel García Márquez",
+          "Jorge Luis Borges",
+          "Pablo Neruda"
+        ]
+      },
+      {
+        "q": "Which composer wrote \"The Magic Flute\"?",
+        "choices": [
+          "Mozart",
+          "Beethoven",
+          "Rossini"
+        ]
+      },
+      {
+        "q": "Who painted \"The Scream\"?",
+        "choices": [
+          "Edvard Munch",
+          "Gustav Klimt",
+          "Egon Schiele"
+        ]
+      },
+      {
+        "q": "Which Mexican painter is known for her self-portraits?",
+        "choices": [
+          "Frida Kahlo",
+          "Georgia O'Keeffe",
+          "Tamara de Lempicka"
+        ]
+      },
+      {
+        "q": "Who is credited with \"The Odyssey\"?",
+        "choices": [
+          "Homer",
+          "Sophocles",
+          "Virgil"
+        ]
+      },
+      {
+        "q": "Which musical style emerged in New Orleans?",
+        "choices": [
+          "Jazz",
+          "Rock",
+          "Reggae"
+        ]
+      },
+      {
+        "q": "How many strings does a classical guitar have?",
+        "choices": [
+          "6",
+          "4",
+          "8"
+        ]
+      },
+      {
+        "q": "On which instrument was the young Mozart a virtuoso?",
+        "choices": [
+          "The harpsichord",
+          "The trumpet",
+          "The harp"
+        ]
+      },
+      {
+        "q": "Which singer wrote and sang \"Imagine\"?",
+        "choices": [
+          "John Lennon",
+          "Paul McCartney",
+          "David Bowie"
+        ]
+      },
+      {
+        "q": "How many notes are in a major scale?",
+        "choices": [
+          "7",
+          "5",
+          "12"
+        ]
+      },
+      {
+        "q": "Which band wrote \"Bohemian Rhapsody\"?",
+        "choices": [
+          "Queen",
+          "The Beatles",
+          "Led Zeppelin"
+        ]
+      },
+      {
+        "q": "Which Nobel-winning physicist played the violin?",
+        "choices": [
+          "Albert Einstein",
+          "Niels Bohr",
+          "Max Planck"
+        ]
+      },
+      {
+        "q": "Who invented the modular synthesizer that bears his name?",
+        "choices": [
+          "Robert Moog",
+          "Les Paul",
+          "Leo Fender"
+        ]
+      },
+      {
+        "q": "Which protocol connects digital keyboards to computers?",
+        "choices": [
+          "MIDI",
+          "USB-Audio",
+          "HDMI"
+        ]
+      },
+      {
+        "q": "Which musical genre originated in Jamaica?",
+        "choices": [
+          "Reggae",
+          "Salsa",
+          "Blues"
+        ]
+      },
+      {
+        "q": "Which singer made \"Like a Virgin\" famous?",
+        "choices": [
+          "Madonna",
+          "Whitney Houston",
+          "Cyndi Lauper"
+        ]
+      },
+      {
+        "q": "How many strings does a double bass usually have?",
+        "choices": [
+          "4",
+          "6",
+          "3"
+        ]
+      },
+      {
+        "q": "Which band wrote \"Let It Be\"?",
+        "choices": [
+          "The Beatles",
+          "The Rolling Stones",
+          "Pink Floyd"
+        ]
+      },
+      {
+        "q": "Which singer recorded \"Thriller\"?",
+        "choices": [
+          "Michael Jackson",
+          "Prince",
+          "Stevie Wonder"
+        ]
+      },
+      {
+        "q": "Which composer wrote the \"New World Symphony\"?",
+        "choices": [
+          "Antonín Dvořák",
+          "Gustav Mahler",
+          "Johannes Brahms"
+        ]
+      },
+      {
+        "q": "Which band wrote \"Smells Like Teen Spirit\"?",
+        "choices": [
+          "Nirvana",
+          "Pearl Jam",
+          "Metallica"
+        ]
+      },
+      {
+        "q": "Which American musical genre has its roots in West Africa?",
+        "choices": [
+          "Blues",
+          "Country",
+          "Punk"
+        ]
+      },
+      {
+        "q": "Who composed \"Clair de lune\"?",
+        "choices": [
+          "Claude Debussy",
+          "Frédéric Chopin",
+          "Erik Satie"
+        ]
+      },
+      {
+        "q": "How many keys does a standard piano have?",
+        "choices": [
+          "88",
+          "76",
+          "100"
+        ]
+      },
+      {
+        "q": "Which Belgian singer wrote \"Ne me quitte pas\"?",
+        "choices": [
+          "Jacques Brel",
+          "Georges Brassens",
+          "Serge Gainsbourg"
+        ]
+      },
+      {
+        "q": "Which musical genre originated in Cuba?",
+        "choices": [
+          "Salsa",
+          "Tango",
+          "Bossa nova"
+        ]
+      },
+      {
+        "q": "What is the highest judicial body in the United States?",
+        "choices": [
+          "The Supreme Court",
+          "The Senate",
+          "The FBI"
+        ]
+      },
+      {
+        "q": "How many articles does the Universal Declaration of Human Rights (1948) contain?",
+        "choices": [
+          "30",
+          "10",
+          "50"
+        ]
+      },
+      {
+        "q": "What is the political system with three branches (executive, legislative, judicial) called?",
+        "choices": [
+          "Separation of powers",
+          "Federalism",
+          "Constitutional monarchy"
+        ]
+      },
+      {
+        "q": "What is the seat of the French government (Prime Minister)?",
+        "choices": [
+          "The Hôtel de Matignon",
+          "The Élysée Palace",
+          "The Palais Bourbon"
+        ]
+      },
+      {
+        "q": "How many senators does the United States have?",
+        "choices": [
+          "100",
+          "50",
+          "435"
+        ]
+      },
+      {
+        "q": "Which French political party was founded by Emmanuel Macron in 2016?",
+        "choices": [
+          "La République en marche",
+          "Les Républicains",
+          "La France insoumise"
+        ]
+      },
+      {
+        "q": "How many chambers does the British Parliament have?",
+        "choices": [
+          "2",
+          "1",
+          "3"
+        ]
+      },
+      {
+        "q": "What are the two chambers of the French Parliament called?",
+        "choices": [
+          "The National Assembly and the Senate",
+          "The Chamber of Deputies and the Council",
+          "The Congress and the Court"
+        ]
+      },
+      {
+        "q": "What is the smallest member state of the European Union?",
+        "choices": [
+          "Malta",
+          "Luxembourg",
+          "Cyprus"
+        ]
+      },
+      {
+        "q": "How many justices sit on the US Supreme Court?",
+        "choices": [
+          "9",
+          "7",
+          "12"
+        ]
+      },
+      {
+        "q": "In which country is the president both head of state and head of government?",
+        "choices": [
+          "The United States",
+          "France",
+          "Germany"
+        ]
+      },
+      {
+        "q": "Which founding document of the United Nations was signed in 1945?",
+        "choices": [
+          "The UN Charter",
+          "The Treaty of Rome",
+          "The Bretton Woods Agreement"
+        ]
+      },
+      {
+        "q": "How many member countries does the European Union have?",
+        "choices": [
+          "27",
+          "25",
+          "30"
+        ]
+      },
+      {
+        "q": "Which group has been the largest in the European Parliament since 1999?",
+        "choices": [
+          "The European People's Party (EPP)",
+          "The Greens",
+          "The Socialists and Democrats"
+        ]
+      },
+      {
+        "q": "Where is the International Court of Justice seated?",
+        "choices": [
+          "In The Hague",
+          "In Geneva",
+          "In Brussels"
+        ]
+      },
+      {
+        "q": "Which article of the Universal Declaration of Human Rights covers the right to life?",
+        "choices": [
+          "Article 3",
+          "Article 1",
+          "Article 10"
+        ]
+      },
+      {
+        "q": "How many chambers does the Canadian Parliament have?",
+        "choices": [
+          "2",
+          "1",
+          "3"
+        ]
+      },
+      {
+        "q": "What is the title of the head of the British government?",
+        "choices": [
+          "Prime Minister",
+          "Chancellor",
+          "President"
+        ]
+      },
+      {
+        "q": "What is Switzerland's political system?",
+        "choices": [
+          "A federal direct democracy",
+          "A constitutional monarchy",
+          "A presidential regime"
+        ]
+      },
+      {
+        "q": "Where is the main headquarters of the UN?",
+        "choices": [
+          "In New York",
+          "In Geneva",
+          "In Paris"
+        ]
+      },
+      {
+        "q": "How many sports were on the programme of the Paris 2024 Summer Olympics?",
+        "choices": [
+          "32",
+          "20",
+          "45"
+        ]
+      },
+      {
+        "q": "Where were the first modern Olympic Games held?",
+        "choices": [
+          "In Athens (1896)",
+          "In Paris (1900)",
+          "In London (1908)"
+        ]
+      },
+      {
+        "q": "What is the largest stadium in the world by capacity?",
+        "choices": [
+          "Rungrado Stadium (Pyongyang)",
+          "Camp Nou (Barcelona)",
+          "Maracanã (Rio)"
+        ]
+      },
+      {
+        "q": "How many players does a football team have on the pitch?",
+        "choices": [
+          "11",
+          "10",
+          "12"
+        ]
+      },
+      {
+        "q": "Which tennis player has won the most Grand Slam titles?",
+        "choices": [
+          "Novak Djokovic",
+          "Roger Federer",
+          "Rafael Nadal"
+        ]
+      },
+      {
+        "q": "How many holes does a standard golf course have?",
+        "choices": [
+          "18",
+          "9",
+          "24"
+        ]
+      },
+      {
+        "q": "Which Grand Slam tournament is played on hard courts in New York?",
+        "choices": [
+          "The US Open",
+          "Wimbledon",
+          "The Australian Open"
+        ]
+      },
+      {
+        "q": "What is the maximum number of rounds in a professional boxing match?",
+        "choices": [
+          "12",
+          "15",
+          "10"
+        ]
+      },
+      {
+        "q": "Which country won the 2018 FIFA World Cup?",
+        "choices": [
+          "France",
+          "Croatia",
+          "Germany"
+        ]
+      },
+      {
+        "q": "How many players does a basketball team have on the court?",
+        "choices": [
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      {
+        "q": "Which sport is played at the Super Bowl?",
+        "choices": [
+          "American football",
+          "Baseball",
+          "Ice hockey"
+        ]
+      },
+      {
+        "q": "How many metres is one lap of an Olympic athletics track?",
+        "choices": [
+          "400 m",
+          "200 m",
+          "500 m"
+        ]
+      },
+      {
+        "q": "Which tennis tournament is played on clay in Paris?",
+        "choices": [
+          "Roland-Garros",
+          "Wimbledon",
+          "The US Open"
+        ]
+      },
+      {
+        "q": "How many points is a basket from behind the three-point line worth?",
+        "choices": [
+          "3",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "q": "Which country has won the most FIFA World Cups?",
+        "choices": [
+          "Brazil",
+          "Germany",
+          "Italy"
+        ]
+      },
+      {
+        "q": "Roughly how many Grands Prix are in a Formula 1 season?",
+        "choices": [
+          "About 24",
+          "About 12",
+          "About 40"
+        ]
+      },
+      {
+        "q": "What is the oldest tennis tournament in the world?",
+        "choices": [
+          "Wimbledon",
+          "Roland-Garros",
+          "The US Open"
+        ]
+      },
+      {
+        "q": "How many miles is a marathon?",
+        "choices": [
+          "26.2 miles",
+          "20 miles",
+          "30 miles"
+        ]
+      },
+      {
+        "q": "Which country topped the medal table at the Tokyo 2020 Olympics?",
+        "choices": [
+          "The United States",
+          "China",
+          "Japan"
+        ]
+      },
+      {
+        "q": "How many players does a rugby union team have on the pitch?",
+        "choices": [
+          "15",
+          "13",
+          "11"
+        ]
+      },
+      {
+        "q": "Who created the series \"Game of Thrones\"?",
+        "choices": [
+          "David Benioff and D. B. Weiss",
+          "J. J. Abrams",
+          "Vince Gilligan"
+        ]
+      },
+      {
+        "q": "Which actor played Han Solo in Star Wars?",
+        "choices": [
+          "Harrison Ford",
+          "Mark Hamill",
+          "Carrie Fisher"
+        ]
+      },
+      {
+        "q": "Which films hold the record of 11 Oscars?",
+        "choices": [
+          "Ben-Hur, Titanic and The Return of the King",
+          "The Godfather, Avatar and Gladiator",
+          "La La Land, Forrest Gump and Amadeus"
+        ]
+      },
+      {
+        "q": "Which series was the biggest launch in Netflix history?",
+        "choices": [
+          "Squid Game",
+          "Stranger Things",
+          "Money Heist"
+        ]
+      },
+      {
+        "q": "Which director made \"Inception\"?",
+        "choices": [
+          "Christopher Nolan",
+          "Steven Spielberg",
+          "Ridley Scott"
+        ]
+      },
+      {
+        "q": "Which actor played James Bond in the most official films?",
+        "choices": [
+          "Roger Moore",
+          "Sean Connery",
+          "Daniel Craig"
+        ]
+      },
+      {
+        "q": "Which French filmmaker directed \"Breathless\", a landmark of the New Wave?",
+        "choices": [
+          "Jean-Luc Godard",
+          "François Truffaut",
+          "Claude Chabrol"
+        ]
+      },
+      {
+        "q": "What is the oldest Hollywood studio still in operation?",
+        "choices": [
+          "Universal (1912)",
+          "Warner Bros.",
+          "Disney"
+        ]
+      },
+      {
+        "q": "Which American animated series is the longest-running ever produced?",
+        "choices": [
+          "The Simpsons",
+          "South Park",
+          "Family Guy"
+        ]
+      },
+      {
+        "q": "Who directed \"Avengers: Endgame\"?",
+        "choices": [
+          "The Russo brothers",
+          "Joss Whedon",
+          "James Cameron"
+        ]
+      },
+      {
+        "q": "Which actor has won the most Best Actor Oscars?",
+        "choices": [
+          "Daniel Day-Lewis",
+          "Jack Nicholson",
+          "Tom Hanks"
+        ]
+      },
+      {
+        "q": "Which 2011 film is often cited as the most expensive ever made?",
+        "choices": [
+          "Pirates of the Caribbean: On Stranger Tides",
+          "Avatar",
+          "Titanic"
+        ]
+      },
+      {
+        "q": "What is the biggest film awards ceremony?",
+        "choices": [
+          "The Oscars",
+          "The Golden Globes",
+          "The Césars"
+        ]
+      },
+      {
+        "q": "Who directed \"Life Is Beautiful\" (1997)?",
+        "choices": [
+          "Roberto Benigni",
+          "Federico Fellini",
+          "Nanni Moretti"
+        ]
+      },
+      {
+        "q": "What is the longest film ever made?",
+        "choices": [
+          "Logistics (857 hours)",
+          "Gone with the Wind",
+          "The Lord of the Rings"
+        ]
+      },
+      {
+        "q": "Which show has won the most Emmy Awards?",
+        "choices": [
+          "Saturday Night Live",
+          "Game of Thrones",
+          "Friends"
+        ]
+      },
+      {
+        "q": "Which director made \"Pulp Fiction\"?",
+        "choices": [
+          "Quentin Tarantino",
+          "Martin Scorsese",
+          "Guy Ritchie"
+        ]
+      },
+      {
+        "q": "Which actor played Batman in Christopher Nolan's films?",
+        "choices": [
+          "Christian Bale",
+          "Ben Affleck",
+          "Michael Keaton"
+        ]
+      },
+      {
+        "q": "What is the box office of the highest-grossing film of all time (Avatar)?",
+        "choices": [
+          "About 2.9 billion dollars",
+          "About 1 billion dollars",
+          "About 10 billion dollars"
+        ]
+      },
+      {
+        "q": "Who directed \"Parasite\", winner of the 2019 Palme d'Or?",
+        "choices": [
+          "Bong Joon-ho",
+          "Park Chan-wook",
+          "Hirokazu Kore-eda"
+        ]
+      }
     ]
   },
   "local": {

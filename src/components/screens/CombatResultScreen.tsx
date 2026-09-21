@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { translateEnemyName, translateWeaponName, translateArmorName, translateGood } from '../../engine/goodsI18n'
+import { localizedEnemyDescription } from '../../data/enemies'
 
 export function CombatResultScreen() {
   const { t } = useTranslation('combatResultScreen')
@@ -81,7 +82,7 @@ export function CombatResultScreen() {
               {reward?.isBossKill ? t('bossKilled') : t('enemyDefeated')}
             </div>
             <div className="t-xs t-bright">{translateEnemyName(enemy.name)}</div>
-            <div className="t-xs t-dim mt4" style={{ lineHeight: '1.8' }}>{enemy.description}</div>
+            <div className="t-xs t-dim mt4" style={{ lineHeight: '1.8' }}>{localizedEnemyDescription(enemy)}</div>
           </div>
         )}
 

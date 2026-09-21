@@ -1,8 +1,12 @@
 /// <reference types="vite/client" />
 import { describe, it, expect, beforeAll } from 'vitest'
 import i18n, { initI18n, setLanguage } from '../i18n/config'
-import { buildTutorialQuest } from '../engine/quests'
-import { questTitle, questDescription } from '../engine/questI18n'
+import { buildTutorialQuest, generateFactionMission, generateNpcQuest } from '../engine/quests'
+import { questTitle, questDescription, questGiver } from '../engine/questI18n'
+import { localizeMajorQuest, getMajorQuestForNpc } from '../engine/majorQuests'
+import { getActiveEvents } from '../engine/worldEvents'
+import { translateFactionName } from '../engine/goodsI18n'
+import type { GameState, WorldEvent } from '../types'
 
 // Deux fuites de traduction observées en jeu, sur une capture d'écran :
 //  1. une quête générée en français restait en français après un passage en
@@ -77,5 +81,53 @@ describe('fuites de traduction', () => {
     await setLanguage('fr')
     expect(fuites, 'nom(s) de station français dans le contenu anglais :\n' + fuites.join('\n'))
       .toEqual([])
+  })
+
+  // Même défaut que le tutoriel, sur les autres familles de quêtes : texte rendu
+  // à la génération et persisté. Chaque famille doit changer de langue à l'affichage.
+  it('retraduit les missions de faction, quêtes de PNJ et donneurs génériques', async () => {
+    const gs = { currentStation: 'Port Méridien', activeQuests: [], day: 5, majorQuests: [], npcsMet: [], reputation: 100, faction: null } as unknown as GameState
+    await setLanguage('fr')
+    const mission = generateFactionMission(gs, 'emporium')!
+    const pnj = generateNpcQuest(gs, 'Marek', 'Ferrailleur', 'La Carcasse')!
+    expect(mission && pnj, 'génération impossible').toBeTruthy()
+    const fr = [questTitle(mission), questDescription(mission), questGiver(mission), questDescription(pnj)]
+
+    await setLanguage('en')
+    const en = [questTitle(mission), questDescription(mission), questGiver(mission), questDescription(pnj)]
+    fr.forEach((texte, i) => expect(en[i], 'resté figé : ' + texte).not.toBe(texte))
+    expect(questGiver(mission)).toBe('Emporium Agent')
+    await setLanguage('fr')
+  })
+
+  it("met le vrai boss de la station dans les contrats d'élimination", async () => {
+    await setLanguage('en')
+    const gs = { currentStation: 'Arc Ouest Apocalypse', activeQuests: [], day: 5 } as unknown as GameState
+    // Les Faucons ciblent notamment La Citadelle Écarlate, dont le boss est Commandante Zara Sable.
+    for (let i = 0; i < 200; i++) {
+      const q = generateFactionMission(gs, 'faucons')
+      if (q?.type === 'kill' && q.targetStation === 'La Citadelle Écarlate') {
+        expect(questTitle(q)).toContain('Commander Zara Sable')
+        await setLanguage('fr')
+        return
+      }
+    }
+    await setLanguage('fr')
+    throw new Error("aucun contrat d'élimination sur La Citadelle Écarlate en 200 tirages")
+  })
+
+  it('retraduit les missions majeures, événements mondiaux et autorités', async () => {
+    await setLanguage('fr')
+    const gsQuete = { majorQuests: [], npcsMet: [], reputation: 999, faction: null } as unknown as GameState
+    const majeure = getMajorQuestForNpc(gsQuete, 'Murn')!
+    const evt = { id: 'epidemic', title: 'Épidémie (figé)', description: 'x', shortDesc: 'x', startDay: 1, duration: 5, color: '', effects: {} } as WorldEvent
+    const gs = { activeWorldEvents: [evt], day: 2 } as unknown as GameState
+
+    await setLanguage('en')
+    expect(localizeMajorQuest(majeure).title).toBe('The Ash Road')
+    expect(getActiveEvents(gs)[0].title).not.toBe('Épidémie (figé)')
+    expect(translateFactionName('Soldats de Raphazarus')).toBe("Raphazarus's soldiers")
+    expect(translateFactionName('Autorités locales')).toBe('Local authorities')
+    await setLanguage('fr')
   })
 })

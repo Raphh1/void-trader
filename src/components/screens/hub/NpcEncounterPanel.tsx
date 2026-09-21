@@ -4,6 +4,7 @@ import type { GameState } from '../../../types'
 import type { NamedNpcDef as NamedNpc } from '../../../engine/npcTracker'
 import { getNpcReaction, getNpcGreeting, recordMeeting, getNpcService } from '../../../engine/npcTracker'
 import { getMajorQuestForNpc } from '../../../engine/majorQuests'
+import { useGameStore } from '../../../store/gameStore'
 import { getPillarRumor } from '../../../engine/npcLore'
 import { translateNpcRole } from '../../../engine/goodsI18n'
 
@@ -191,7 +192,9 @@ export function NpcEncounterPanel({ gs, localNpc, npcDialogResult, onDialogResul
             return (
               <button className="px-btn" style={{ color: 'var(--purple)', borderColor: 'var(--purple)' }} onClick={() => {
                 openNpc()
-                patch({ majorQuests: [...gs.majorQuests, { ...mq }] })
+                // openNpc() vient peut-être de faire avancer une quête : on repart de l'état
+                // courant du store, pas du `gs` capturé au rendu, sinon on écraserait cet avancement.
+                patch({ majorQuests: [...(useGameStore.getState().gs?.majorQuests ?? gs.majorQuests), { ...mq }] })
                 onDialogResult(t('majorMissionResult', { title: mq.title, lore: mq.lore, objective: mq.stages[0].objective }))
               }}>
                 {t('majorMission', { title: mq.title })}

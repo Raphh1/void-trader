@@ -419,3 +419,11 @@ export const getTierBoss = memoByLang(buildTierBoss)
 export const getArenaFighters = memoByLang(buildArenaFighters)
 
 const stationPoolMap = memoByLang(buildStationPoolMap)
+
+// L'ennemi en cours de combat est stocké dans la sauvegarde avec sa description
+// rendue au moment de la rencontre : on la relit dans la langue courante quand
+// l'ennemi figure dans les tables (les ennemis générés à la volée gardent la leur).
+export function localizedEnemyDescription(enemy: Enemy): string {
+  const all = [...getTierLow(), ...getTierMid(), ...getTierHigh(), ...getTierBoss(), ...getArenaFighters()]
+  return all.find(e => e.name === enemy.name)?.description ?? enemy.description
+}

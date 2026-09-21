@@ -127,7 +127,7 @@
       "Vétéran": "has scores to settle",
       "Hackeuse": "needs access to systems",
       "Dealer": "has delicate deliveries",
-      "Lieutenant": "has a mission for the Black Hawks",
+      "Lieutenant": "has a mission for the Black Falcons",
       "Survivante": "needs to know what's happening elsewhere",
       "Courtier": "has business to circulate",
       "Organisateur": "has interests to keep an eye on",
@@ -136,7 +136,7 @@
       "Pilote retraité": "knows routes nobody else knows",
       "Forgeron": "needs materials to forge",
       "Fermier": "has a delivery to make",
-      "Recruteur": "recruits for the Black Hawks",
+      "Recruteur": "recruits for the Black Falcons",
       "Officière": "has an unresolved case",
       "Gardien": "handles things that belong to no one",
       "Conseiller": "needs information on important targets"
@@ -145,7 +145,7 @@
   "gossip": {
     "La Carcasse": [
       "A stash of credits from the old regime is supposedly hidden somewhere in the north holds.",
-      "A Black Hawk ship was prowling around the station last night. No one knows why.",
+      "A Black Falcon ship was prowling around the station last night. No one knows why.",
       "Fuel prices are climbing again. Someone's controlling the supply — and it's not us.",
       "A mechanic disappeared yesterday. He was working on something he shouldn't have touched.",
       "There's talk of a new trade route bypassing Port Meridian. The merchants are on edge."
@@ -154,7 +154,7 @@
       "Alanossa is looking for someone for a job. No details. Extreme pay.",
       "Three ships didn't come back last week. Alanossa's territory.",
       "Word is Alanossa has a bounty on someone new. Maybe you.",
-      "The Black Hawks are recruiting. Vague criteria. Surviving the interview isn't guaranteed.",
+      "The Black Falcons are recruiting. Vague criteria. Surviving the interview isn't guaranteed.",
       "A defector from the Emporium took refuge here. He has information. And enemies."
     ],
     "Port Méridien": [
@@ -209,5 +209,34 @@
       "There's a rumor about a Nexus fragment hidden in an abandoned station.",
       "Survivors of a battle describe an unknown weapon. No one quite believes them."
     ]
+  },
+  "givers": {
+    "expediteurInconnu": "Unknown sender",
+    "vieuxDrela": "Old Drela",
+    "vieuxDoss": "Old Doss",
+    "marchande": "Merchant",
+    "marchandReconnaissant": "Grateful merchant",
+    "mecanicienLocal": "Local mechanic",
+    "sourceAnonyme": "Anonymous source",
+    "sourceAnonymeFaucons": "Anonymous source (Falcons)",
+    "chasseurBesh": "Hunter Besh",
+    "contactAnonyme": "Anonymous contact",
+    "caidOrva": "Boss Orva",
+    "transfuge": "Defector",
+    "informateurFen": "Informant Fen",
+    "sourceAssassinCapture": "Source: captured assassin",
+    "factionLocale": "Local faction",
+    "doubleAgent": "Double agent",
+    "mercenaireCador": "Mercenary Cador",
+    "sourceProcheAlanossa": "Source close to Alanossa",
+    "piloteRencontre": "Pilot you met",
+    "ancienPrisonnier": "Former prisoner",
+    "recrueDesertrice": "Deserting recruit",
+    "hackerEnFuite": "Hacker on the run",
+    "officierFaucon": "Falcon Officer",
+    "commandanteGarde": "Guard Commander",
+    "agentEmporium": "Emporium Agent",
+    "discipleDuVide": "Void Disciple",
+    "officier": "Officer"
   }
 }

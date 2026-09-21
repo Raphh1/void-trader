@@ -38,7 +38,7 @@
     "exoSquelette": "Combat exoskeleton",
     "armureFluxPlasma": "Plasma flux armor",
     "combinaisonSurvieX": "Survival suit X",
-    "armureFauconNoir": "Black Hawk armor",
+    "armureFauconNoir": "Black Falcon armor",
     "armureAbysses": "Abyssal armor",
     "exoCombatNoctis": "Noctis combat exo",
     "carapaceEpineuseAvancee": "Advanced thorned carapace",
@@ -51,6 +51,10 @@
     "giletGardeDechu": "Fallen Guard's Vest",
     "armureCristallineMira": "Mira Crystal Armor",
     "armureLegendaireEcarlate": "Legendary Scarlet Armor",
-    "armureSingulariteMkII": "Singularity Armor Mk.II"
+    "armureSingulariteMkII": "Singularity Armor Mk.II",
+    "armureVeuve": "The Widow's Armor",
+    "capeOmbres": "Cloak of Shadows",
+    "uniformeDiplo": "Diplomatic Uniform",
+    "armurePredictive": "Predictive Armor"
   }
 }

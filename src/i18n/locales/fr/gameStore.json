@@ -61,5 +61,15 @@
   "unknownEnemy": "un ennemi",
   "fragmentRetaken": "{{name}} m'a rattrapé et a repris le fragment de {{boss}}. Il ne me traque plus — il a eu ce qu'il voulait.",
   "shipTowed": "💥 Ton vaisseau lâche complètement. Un remorqueur clandestin te repêche — {{fee}} cr de \"frais de sauvetage\", -8 rép.",
-  "localAuthorities": "Autorités locales"
+  "localAuthorities": "Autorités locales",
+  "relicFreeFuel": "🧭 La boussole trouve un courant : carburant épargné.",
+  "relicTravelCreditsGain": "🪙 +{{amount}} cr",
+  "relicTravelCreditsLoss": "💸 −{{amount}} cr",
+  "competitorAmbush": "{{name}} t'attendait à quai. Il n'a pas oublié.",
+  "competitorDuelWon": "◆ {{name}} est à terre. Tu lui prends {{amount}} cr — il est hors-jeu pour quelques jours.",
+  "debtCollector": {
+    "name": "Recouvreur de dettes",
+    "description": "Il a ta photo, ton solde et une matraque. Il ne négocie plus.",
+    "ambush": "⚠ Les recouvreurs t'attendaient à quai : ta dette est impayée depuis trop longtemps."
+  }
 }

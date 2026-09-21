@@ -149,5 +149,43 @@
     "Quelqu'un reconnaît ton insigne et t'attire dans un coin. \"Tu traques un lieutenant, pas vrai ? J'ai peut-être quelque chose pour toi.\"",
     "Un ancien contact refait surface, comme sorti de nulle part. \"Toujours après ce lieutenant ? Écoute bien, je ne le répéterai pas.\""
   ],
-  "clueLocationText": "{{name}} se trouve à {{station}}."
+  "clueLocationText": "{{name}} se trouve à {{station}}.",
+  "rewards": {
+    "label": {
+      "credits": "Butin si vaincu au combat : {{amount}} cr",
+      "rep": "Butin si vaincu au combat : +{{amount}} rép",
+      "weapon": "Butin si vaincu au combat : arme unique — {{name}}",
+      "armor": "Butin si vaincu au combat : armure unique — {{name}}",
+      "item": "Butin si vaincu au combat : {{name}} ({{qty}} × {{good}})"
+    },
+    "granted": {
+      "credits": "★ Butin du lieutenant : +{{amount}} cr.",
+      "rep": "★ Butin du lieutenant : +{{amount}} rép.",
+      "weapon": "★ Butin du lieutenant : {{name}} rejoint ton arsenal.",
+      "armor": "★ Butin du lieutenant : {{name}} rejoint ton inventaire.",
+      "armorSold": "★ Butin du lieutenant : tu possèdes déjà {{name}} — revendue {{amount}} cr.",
+      "item": "★ Butin du lieutenant : {{name}} — {{qty}} × {{good}} ajoutés au cargo."
+    },
+    "weapons": {
+      "lunetteVigie": "Visée du Vigie — réduit l'ennemi au silence ×2 tours",
+      "dagueMorte": "Poison de la Marchande — empoisonne 5-10 dégâts/tour ×4",
+      "dagueNuit": "Coup dans le noir — aveugle l'ennemi (-40% précision)",
+      "lameFaucon": "Deux frappes dans le même souffle — frappe deux fois (×0.85 chacune)",
+      "lameFantome7e": "Traverse les blindages — +30% dégâts (perce l'armure)",
+      "poingMarechal": "Coup de commandement — étourdit l'ennemi 1 tour",
+      "scalpelVelkor": "Précision chirurgicale — vole 35% des dégâts infligés en PV"
+    },
+    "armors": {
+      "armureVeuve": "Hérissée de lames. Qui la frappe saigne.",
+      "capeOmbres": "On ne la voit pas venir. Toi non plus, désormais.",
+      "uniformeDiplo": "Tissu médical sous les galons. Régénère pendant les négociations qui tournent mal.",
+      "armurePredictive": "Calcule le coup avant qu'il parte. Immunise contre les effets."
+    },
+    "items": {
+      "carteFaucon": "Carte des routes Faucon",
+      "dossierCesarion": "Dossier Cesarion",
+      "plaque3eBataillon": "Plaque d'identification du 3e Bataillon",
+      "carnetChantage": "Carnet de chantage"
+    }
+  }
 }

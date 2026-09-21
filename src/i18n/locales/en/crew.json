@@ -1,0 +1,46 @@
+{
+  "title": "◆ CREW ({{count}}/{{max}})",
+  "dailyCost": "−{{amount}} cr/day",
+  "recruitsHere_one": "{{count}} recruit at the bar",
+  "recruitsHere_other": "{{count}} recruits at the bar",
+  "empty": "Nobody aboard. You fly alone.",
+  "salary": "{{amount}} cr/d",
+  "loyalty": "Loyalty {{value}}",
+  "desertionRisk": "may desert",
+  "fire": "Dismiss",
+  "fireConfirm": "Confirm dismissal",
+  "barHeader": "◆ AT THE DOCK BAR",
+  "noRecruits": "Nobody is looking for a berth here today.",
+  "hire": "Hire — {{fee}} cr signing fee",
+  "full": "Crew full",
+  "effectStrong": "(very effective)",
+  "effectWeak": "(not very effective)",
+  "role": {
+    "mecano": "mechanic",
+    "pilote": "pilot",
+    "tireur": "gunner",
+    "medecin": "medic",
+    "negociateur": "negotiator",
+    "eclaireur": "scout"
+  },
+  "trait": {
+    "veteran": "veteran",
+    "novice": "rookie",
+    "cupide": "greedy",
+    "fidele": "loyal"
+  },
+  "effect": {
+    "mecano": "Repairs the hull every day.",
+    "pilote": "Sometimes saves all the fuel of a trip.",
+    "tireur": "Increases your combat damage.",
+    "medecin": "Heals on every trip and after every victory.",
+    "negociateur": "Cheaper purchases, higher sales.",
+    "eclaireur": "More credits found while exploring."
+  },
+  "lines": {
+    "unpaid": "⚠ Unpaid wages ({{amount}} cr) — the crew is grumbling.",
+    "grumbling": "⚠ {{name}} is talking about leaving. Their loyalty is at rock bottom.",
+    "deserted": "☠ {{name}} deserted overnight, taking {{amount}} cr.",
+    "killed": "☠ {{name}} did not survive the fight."
+  }
+}

@@ -31,7 +31,23 @@ import { getSubBossAtStation, generateLieutenantStationAssignment } from '../dat
 import { getDailyExpenses } from '../engine/expenses'
 import { checkBossHomeVisit, getBossHomeVisit } from '../engine/bossHomeVisits'
 import { resolveShipDown } from '../engine/shipDamage'
-import { translateEnemyName, translateWeaponName, translateStationName } from '../engine/goodsI18n'
+import { translateEnemyName, translateWeaponName, translateStationName, translateArmorName, translateGood } from '../engine/goodsI18n'
+import { grantLieutenantReward } from '../data/lieutenantRewards'
+import { getPassiveMods, drawRelicChoices } from '../data/relics'
+import { tickCrewDay, crewCasualty, type CrewLine } from '../engine/crew'
+import { announceCoinFlip } from '../engine/coinFlip'
+
+const crewText = (l: CrewLine) => i18n.t(`lines.${l.key}`, { ns: 'crew', ...l.params })
+
+/** Un jour passe pour l'équipage : salaires, loyauté, désertions, réparations. */
+function crewDay(gs: GameState): { gs: GameState; lines: string[] } {
+  const { patch, lines } = tickCrewDay(gs)
+  let out = { ...gs, ...patch }
+  const repair = getPassiveMods(gs).shipRepairPerDay
+  if (repair > 0 && out.shipHp < out.shipMaxHp) out = { ...out, shipHp: Math.min(out.shipMaxHp, out.shipHp + repair) }
+  return { gs: out, lines: lines.map(crewText) }
+}
+import { createCompetitors, tickCompetitors, competitorHere, shouldCompetitorAmbush, competitorToEnemy, settleCompetitorDuel } from '../engine/competitors'
 import i18n from '../i18n/config'
 
 const rng = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -150,6 +166,14 @@ function buildInitialState(playerClass: PlayerClass): GameState {
     arcPerduClues: [],
     bazarPurchases: {},
     bazarLastResetDay: 1,
+    relics: [],
+    pendingRelicChoice: null,
+    competitors: createCompetitors(playerClass.startStation),
+    marketPressure: [],
+    competitorNews: [],
+    pendingCompetitorId: null,
+    crew: [],
+    crewHired: [],
   }
 }
 
@@ -251,6 +275,8 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     // Tirage de l'objectif secret
     const obj = drawRunObjective()
     gs = { ...gs, runObjectiveId: obj.id }
+    // Relique de départ : la run a un « build » dès la première minute.
+    gs = { ...gs, pendingRelicChoice: { options: drawRelicChoices(gs), source: 'start' } }
     set({ gs: { ...gs, screen: 'intro' as Screen } })
   },
 
@@ -296,6 +322,32 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     if (extraFuel > 0) {
       newGs = { ...newGs, fuel: Math.max(0, newGs.fuel - extraFuel) }
     }
+
+    // Reliques — effets à chaque voyage
+    const relicMods = getPassiveMods(newGs)
+    const relicLines: string[] = []
+    if (relicMods.freeFuelChance > 0 && fuelCost > 0 && Math.random() < relicMods.freeFuelChance) {
+      newGs = { ...newGs, fuel: Math.min(newGs.maxFuel, newGs.fuel + fuelCost) }
+      relicLines.push(gt('relicFreeFuel'))
+    }
+    if (relicMods.travelCredits !== 0) {
+      newGs = { ...newGs, credits: Math.max(0, newGs.credits + relicMods.travelCredits) }
+      relicLines.push(gt(relicMods.travelCredits > 0 ? 'relicTravelCreditsGain' : 'relicTravelCreditsLoss', { amount: Math.abs(relicMods.travelCredits) }))
+    }
+    if (relicMods.travelHp !== 0) {
+      newGs = { ...newGs, playerHp: Math.max(1, Math.min(newGs.playerMaxHp, newGs.playerHp + relicMods.travelHp)) }
+    }
+    if (relicMods.travelRep !== 0) {
+      newGs = { ...newGs, reputation: newGs.reputation + relicMods.travelRep }
+    }
+
+    // Concurrents — un jour passe pour eux aussi
+    newGs = { ...newGs, ...tickCompetitors(newGs), pendingCompetitorId: null }
+
+    // Équipage — salaires, loyauté, réparations du mécano
+    const equipage = crewDay(newGs)
+    newGs = equipage.gs
+    relicLines.push(...equipage.lines)
 
     // Événements mondiaux — expirer + déclencher
     const { gs: eventGs, newWorldEvent } = tickWorldEvents(newGs)
@@ -383,6 +435,31 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     if (newArcs.length > 0) {
       newGs = { ...newGs, activeArcs: [...newGs.activeArcs, ...newArcs] }
     }
+
+    // Dette impayée depuis plus de deux jours : les recouvreurs t'attendent à quai.
+    if ((newGs.debtArrears ?? 0) >= 2 && newGs.screen === 'station-arrival' && Math.random() < 0.5) {
+      const recouvreur: Enemy = {
+        name: gt('debtCollector.name'), isBoss: false, role: 'tank',
+        maxHp: 60 + newGs.day * 2, damageMin: 12, damageMax: 24,
+        lootMin: 100, lootMax: 400, captureChance: 20, killChance: 5,
+        description: gt('debtCollector.description'),
+      }
+      newGs = { ...newGs, debtArrears: 0, combatEnemy: recouvreur, combatState: initCombat(recouvreur), screen: 'combat', stamina: newGs.maxStamina }
+      travelMsg = (travelMsg ? travelMsg + ' | ' : '') + gt('debtCollector.ambush')
+    }
+
+    // Concurrent présent à l'arrivée : rencontre dans le briefing, ou embuscade s'il te déteste
+    const concurrent = competitorHere(newGs)
+    if (concurrent && newGs.screen === 'station-arrival') {
+      if (shouldCompetitorAmbush(concurrent)) {
+        const duel = competitorToEnemy(concurrent, newGs.day)
+        newGs = { ...newGs, combatEnemy: duel, combatState: initCombat(duel), screen: 'combat', stamina: newGs.maxStamina }
+        travelMsg = (travelMsg ? travelMsg + ' | ' : '') + gt('competitorAmbush', { name: concurrent.name })
+      } else {
+        newGs = { ...newGs, pendingCompetitorId: concurrent.id }
+      }
+    }
+    if (relicLines.length > 0) travelMsg = (travelMsg ? travelMsg + ' | ' : '') + relicLines.join(' · ')
 
     // Rival encounter — trigger combat si rencontre (skip si escort en cours)
     const rival = maybeRivalEncounter(newGs)
@@ -615,11 +692,13 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     if (!s.gs) return s
     const cs = initCombat(enemy)
     const momentumStart = s.gs.class.combatMomentumStart ?? 0
+    // Relique « Mauvais Œil » : l'ennemi commence entamé.
+    const enemyHp = Math.max(1, Math.floor(cs.enemyHp * getPassiveMods(s.gs).enemyHpMult))
     return {
       gs: {
         ...s.gs,
         combatEnemy: enemy,
-        combatState: { ...cs, momentum: momentumStart },
+        combatState: { ...cs, enemyHp, momentum: momentumStart },
         stamina: s.gs.maxStamina,
         pendingCombatOutcome: null,
         combatRewardData: null,
@@ -661,6 +740,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     // Rayane — même le ravitaillement se joue à pile ou face.
     if (gs.class.name === 'Rayane') {
       const heads = Math.random() < 0.5
+      announceCoinFlip(heads, 'fuel')
       return {
         gs: {
           ...gs,
@@ -882,6 +962,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
       return { gs: { ...gs, rayaneGambleOffer: undefined } }
     }
     const heads = Math.random() < 0.5
+    announceCoinFlip(heads, 'gamble', { amount: amount.toLocaleString() })
     return {
       gs: {
         ...gs,
@@ -920,7 +1001,8 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
   rest: () => set(s => {
     if (!s.gs) return s
     const debt = s.gs.debtDailyAmount ?? s.gs.class.dailyDebt ?? 0
-    const dailyCost = getDailyExpenses(s.gs)
+    const debtArrears = debt > 0 ? (s.gs.credits < debt + getDailyExpenses(s.gs) ? (s.gs.debtArrears ?? 0) + 1 : 0) : (s.gs.debtArrears ?? 0)
+    const dailyCost = getPassiveMods(s.gs).freeRest > 0 ? 0 : getDailyExpenses(s.gs)
     const dayGs = {
       ...s.gs,
       playerHp: s.gs.playerMaxHp,
@@ -928,9 +1010,11 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
       day: s.gs.day + 1,
       actionsToday: 0,
       credits: Math.max(0, s.gs.credits - debt - dailyCost),
+      debtArrears,
     }
     const { gs: tickedGs } = tickWorldEvents(dayGs)
-    return { gs: tickedGs }
+    const equipage = crewDay({ ...tickedGs, ...tickCompetitors(tickedGs) })
+    return { gs: equipage.gs, ...(equipage.lines.length > 0 ? { objectivePopup: equipage.lines.join('\n') } : {}) }
   }),
 
   resolveVictory: () => {
@@ -968,7 +1052,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
   }
 }, {
   name: 'snipeweb-save',
-  version: 3,
+  version: 5,
   partialize: (state) => ({ gs: state.gs }),
   migrate: (persisted: unknown, version: number) => {
     const state = persisted as { gs: GameState | null }
@@ -985,6 +1069,20 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
       // Marchés avec les lieutenants : aucune save existante n'en a
       state.gs.lieutenantPacts = state.gs.lieutenantPacts ?? []
       state.gs.brokenPacts = state.gs.brokenPacts ?? []
+    }
+    if (version < 4 && state.gs) {
+      // Reliques et concurrents : les parties en cours les reçoivent aussi,
+      // avec un premier choix de relique pour ne pas partir de rien.
+      state.gs.relics = state.gs.relics ?? []
+      state.gs.pendingRelicChoice = state.gs.pendingRelicChoice ?? { options: drawRelicChoices(state.gs), source: 'start' }
+      state.gs.competitors = state.gs.competitors ?? createCompetitors(state.gs.currentStation)
+      state.gs.marketPressure = state.gs.marketPressure ?? []
+      state.gs.competitorNews = state.gs.competitorNews ?? []
+      state.gs.pendingCompetitorId = state.gs.pendingCompetitorId ?? null
+    }
+    if (version < 5 && state.gs) {
+      state.gs.crew = state.gs.crew ?? []
+      state.gs.crewHired = state.gs.crewHired ?? []
     }
     return state
   },
@@ -1075,6 +1173,19 @@ function handleCombatOutcome(
       combatRewardData: reward ?? null,
       screen: 'combat-result' as Screen,
     }
+    // Reliques — soin à la victoire, et nouveau choix après un boss
+    const killHeal = getPassiveMods(gs).killHeal
+    if (killHeal > 0) newGs = { ...newGs, playerHp: Math.min(newGs.playerMaxHp, newGs.playerHp + killHeal) }
+    if (reward?.isBossKill && !newGs.pendingRelicChoice) {
+      newGs = { ...newGs, pendingRelicChoice: { options: drawRelicChoices(newGs), source: 'boss' } }
+    }
+    // Duel gagné contre un concurrent : on lui prend une part de sa fortune
+    let competitorMsg: string | null = null
+    if (gs.combatEnemy?.competitorId) {
+      const duel = settleCompetitorDuel(newGs, gs.combatEnemy.competitorId)
+      newGs = { ...newGs, ...duel.patch, pendingCompetitorId: null }
+      competitorMsg = gt('competitorDuelWon', { name: gs.combatEnemy.name, amount: duel.amount.toLocaleString() })
+    }
     // Modificateurs de run au combat
     const runCreditBonus = getRunCombatCreditBonus(gs)
     const lootBonus = Math.floor((reward?.loot ?? 0) * (getRunLootMult(gs) - 1))
@@ -1137,11 +1248,9 @@ function handleCombatOutcome(
         const defeated = { ...(newGs.subBossesDefeated ?? {}) }
         defeated[sb.pillar] = [...(defeated[sb.pillar] ?? []), sb.id]
         newGs = { ...newGs, subBossesDefeated: defeated }
-        if (sb.reward.type === 'credits') {
-          newGs = { ...newGs, credits: newGs.credits + (sb.reward.value as number) }
-        } else if (sb.reward.type === 'rep') {
-          newGs = { ...newGs, reputation: newGs.reputation + (sb.reward.value as number) }
-        }
+        const butin = grantLieutenantReward(newGs, sb, { weapon: translateWeaponName, armor: translateArmorName, good: translateGood })
+        newGs = { ...newGs, ...butin.patch }
+        if (!newGs.pendingRelicChoice) newGs = { ...newGs, pendingRelicChoice: { options: drawRelicChoices(newGs), source: 'lieutenant' } }
         // Conséquences : on attire l'attention du boss du pilier (ralliements/discussions)
         const fullyCleared = arePillarSubBossesCleared(defeated, sb.pillar)
         const cons = getSubBossKillConsequence(newGs, sb.pillar, fullyCleared)
@@ -1150,7 +1259,7 @@ function handleCombatOutcome(
           pillarStanding: cons.patch.pillarStanding ?? newGs.pillarStanding,
           pastDecisions: cons.patch.pastDecisions ?? newGs.pastDecisions,
         }
-        subBossMsg = cons.message
+        subBossMsg = [butin.message, cons.message].filter(Boolean).join('\n') || null
       }
     }
     // Arc narratif en attente de victoire au combat
@@ -1194,7 +1303,7 @@ function handleCombatOutcome(
     }
     // Montrer d'abord l'ennemi à 0 PV, puis transition différée vers combat-result
     const dyingGs = { ...gs, combatState: { ...cs, enemyHp: 0 }, pendingCombatOutcome: null }
-    const finalObjMsg = [objMsg, subBossMsg].filter(Boolean).join('\n') || null
+    const finalObjMsg = [objMsg, subBossMsg, competitorMsg].filter(Boolean).join('\n') || null
     set({ gs: dyingGs, combatVictoryPending: true, pendingVictoryData: { gs: newGs, objMsg: finalObjMsg } })
   } else if (outcome === 'fled') {
     const fledGs = {
@@ -1229,9 +1338,11 @@ function handleCombatOutcome(
     // jouer sa liberté au lieu de subir la cellule sans un mot. L'autre
     // moitié du temps on est simplement jeté en cellule — sans quoi la scène
     // perdrait sa surprise à force de se répéter.
-    const autorite = getStationFactionName(gs.currentStation) ?? gt('localAuthorities')
+    const autorite = getStationFactionName(gs.currentStation) ?? 'Autorités locales'
     const interroge = Math.random() < 0.5
-    set({ gs: { ...newGs, isImprisoned: !interroge, prisonDaysLeft: interroge ? 0 : 3, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
+    const perte = crewCasualty(newGs)
+    newGs = { ...newGs, ...perte.patch }
+    set({ ...(perte.line ? { objectivePopup: crewText(perte.line) } : {}), gs: { ...newGs, isImprisoned: !interroge, prisonDaysLeft: interroge ? 0 : 3, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
       pendingInterrogation: interroge ? { faction: autorite, captureStation: gs.currentStation } : null,
       credits: Math.max(0, gs.credits - creditsFine),
       cargo: newCargo,
@@ -1241,7 +1352,10 @@ function handleCombatOutcome(
     }})
   } else if (outcome === 'stunned') {
     const creditsLost = Math.floor(Math.random() * 400 + 200)
+    const perte = crewCasualty(newGs)
+    newGs = { ...newGs, ...perte.patch }
     set({
+      ...(perte.line ? { objectivePopup: crewText(perte.line) } : {}),
       gs: {
         ...newGs,
         playerHp: Math.max(1, Math.floor(gs.playerMaxHp / 4)),

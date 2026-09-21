@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const SPEED_KEY = 'voidtrader-text-speed'
 const SPEEDS = { normal: 22, fast: 5 } as const
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export function TypewriterText({ text, speed, onDone, className, style }: Props) {
+  const { t } = useTranslation('common')
   const [pos, setPos] = useState(0)
   const [mode, setMode] = useState<SpeedMode>(getSavedSpeed)
 
@@ -51,7 +53,7 @@ export function TypewriterText({ text, speed, onDone, className, style }: Props)
       className={className}
       style={{ ...style, cursor: pos < text.length ? 'pointer' : undefined }}
       onClick={skip}
-      title={pos < text.length ? 'Clic pour passer' : undefined}
+      title={pos < text.length ? t('typewriterSkip') : undefined}
     >
       {text.slice(0, pos)}
       {pos < text.length && (

@@ -9,19 +9,19 @@
   },
   "endette": {
     "description": "Quelqu'un veut récupérer son argent. Chaque. Jour. Tu dois 50cr par jour à quelqu'un que tu ne veux pas rencontrer.",
-    "bonusDesc": "⚠ Dette quotidienne prélevée automatiquement · Peut emprunter 5 000 cr (3×) là où personne ne lui prêterait · Combat standard"
+    "bonusDesc": "⚠ Dette quotidienne prélevée automatiquement · Peut emprunter 5 000 cr (3×) · Reconnaissance de dette : affaiblit l'ennemi, alourdit la dette · ⚠ Recouvreurs si la dette reste impayée"
   },
   "accro": {
     "description": "T'as des habitudes coûteuses. C'est pas négociable. Chaque voyage te coûte 100cr en plus pour tes besoins.",
-    "bonusDesc": "⚠ -100cr par voyage · Stamina max élevée · Attaques erratiques"
+    "bonusDesc": "⚠ −100 cr par voyage · Stamina max élevée · Attaques erratiques (×0,55 à ×1,55) · Dose : 3 attaques à +40 %, folie +20"
   },
   "rayane": {
     "description": "Ses stats sont catastrophiques. Sa seule force : quand tout semble perdu, il propose toujours de tout jouer à pile ou face. À toi de juger si le risque vaut le coup.",
     "bonusDesc": "⚠ Pires stats du jeu · 🪙 Pile ou face DISPONIBLE (jamais imposé) en combat, en fuite, en ravitaillement, sur les récompenses de quête, et une fois face à la mort par run"
   },
   "maudit": {
-    "description": "L'univers ne t'aime tout simplement pas. Les événements positifs ont 50% de chance de se retourner contre toi.",
-    "bonusDesc": "⚠ Événements positifs 50% chance de fizzle · La malédiction refuse votre mort : 1×/run, survie à 1 PV"
+    "description": "L'univers ne t'aime tout simplement pas. Une bonne fortune sur deux se retourne contre toi : le gain devient une perte.",
+    "bonusDesc": "⚠ Gains d'événements (voyage, exploration, balade) : 1 chance sur 2 de devenir des pertes · Transmet sa malédiction : l'ennemi rate 1 attaque sur 2 · Survie à 1 PV 1×/run"
   },
   "marchand": {
     "description": "Rien de spécial. Un travail honnête dans un univers malhonnête. Tu achètes, tu vends, tu survies.",
@@ -45,7 +45,7 @@
   },
   "veteran": {
     "description": "Trente ans de guerres pour des causes oubliées. Tu es encore debout. Ça suffit.",
-    "bonusDesc": "+30% attaque · -20% dégâts reçus · Commence avec 1 momentum · Guerrier accompli"
+    "bonusDesc": "+30 % attaque · −20 % dégâts reçus · 1 momentum au départ · Ordre de riposte : pare et renvoie la prochaine attaque · Contrats de combat +25 %"
   },
   "heritier": {
     "description": "Vieux argent. Éducation pacifiste. Tu ne sais pas te battre mais ton portefeuille compense.",

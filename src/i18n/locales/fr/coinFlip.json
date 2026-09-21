@@ -1,0 +1,41 @@
+{
+  "allOrNothing": "◆ TOUT OU RIEN ◆",
+  "heads": "PILE",
+  "tails": "FACE",
+  "edge": "… elle hésite …",
+  "verdictHeads": "PILE !",
+  "verdictTails": "FACE…",
+  "skip": "(clic pour abréger)",
+  "stake": {
+    "combat": {
+      "title": "Coup du sort",
+      "heads": "coup ×4, armure ignorée",
+      "tails": "−30 % PV et étourdi"
+    },
+    "flee": {
+      "title": "Fuite à pile ou face",
+      "heads": "tu t'échappes, sans carburant",
+      "tails": "il te frappe dans le dos"
+    },
+    "death": {
+      "title": "Ta vie se joue maintenant",
+      "heads": "tu te relèves",
+      "tails": "c'est la fin"
+    },
+    "fuel": {
+      "title": "Ravitaillement au hasard",
+      "heads": "+2 carburant",
+      "tails": "−5 PV, rien trouvé"
+    },
+    "gamble": {
+      "title": "Doubler la récompense ?",
+      "heads": "+{{amount}} cr",
+      "tails": "−{{amount}} cr"
+    },
+    "interrogation": {
+      "title": "Rejouer la mauvaise réponse",
+      "heads": "elle devient bonne",
+      "tails": "l'erreur reste"
+    }
+  }
+}

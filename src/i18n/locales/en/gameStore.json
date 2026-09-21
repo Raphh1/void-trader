@@ -61,5 +61,15 @@
   "unknownEnemy": "an enemy",
   "fragmentRetaken": "{{name}} caught up with me and took back {{boss}}'s fragment. They're not hunting me anymore — they got what they wanted.",
   "shipTowed": "💥 Your ship completely gives out. A shady tow crew fishes you out — {{fee}} cr in \"rescue fees\", -8 rep.",
-  "localAuthorities": "Local authorities"
+  "localAuthorities": "Local authorities",
+  "relicFreeFuel": "🧭 The compass finds a current: fuel saved.",
+  "relicTravelCreditsGain": "🪙 +{{amount}} cr",
+  "relicTravelCreditsLoss": "💸 −{{amount}} cr",
+  "competitorAmbush": "{{name}} was waiting on the dock. They haven't forgotten.",
+  "competitorDuelWon": "◆ {{name}} is down. You take {{amount}} cr — they are out of action for a few days.",
+  "debtCollector": {
+    "name": "Debt collector",
+    "description": "He has your photo, your balance and a baton. He no longer negotiates.",
+    "ambush": "⚠ Debt collectors were waiting at the dock: your debt has gone unpaid for too long."
+  }
 }

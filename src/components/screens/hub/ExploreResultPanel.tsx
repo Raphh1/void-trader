@@ -6,6 +6,8 @@ import type { ExploreResult, ExploreChoice } from '../../../engine/exploration'
 import { getFragment, getFragmentTypeLabels, FRAGMENT_TYPE_COLORS, LORE_TOTAL } from '../../../data/loreFragments'
 import { playCollectClue } from '../../../engine/sfx'
 import { translateGood } from '../../../engine/goodsI18n'
+import { applyCurse, curseMessage, curseHint, isCursed, isPurelyPositive } from '../../../engine/curse'
+import { getPassiveMods, drawRelicChoices } from '../../../data/relics'
 
 interface Props {
   gs: GameState
@@ -20,6 +22,15 @@ interface Props {
 export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onContinue, onReturn, onStartLockpick, patch }: Props) {
   const { t } = useTranslation('exploreResultPanel')
   const [resultMsg, setResultMsg] = useState<string | null>(initialResultMsg ?? null)
+  const [cursed, setCursed] = useState(false)
+
+  // Maudit : applique la malédiction à un gain, et affiche le message adapté.
+  function gagner(update: Partial<GameState>, messageReussite: string) {
+    const r = applyCurse(gs, update)
+    patch(r.patch)
+    setCursed(r.cursed)
+    setResultMsg(r.cursed ? curseMessage() + computeDeltas(r.patch) : messageReussite)
+  }
 
   function computeDeltas(update: Partial<GameState>): string {
     const parts: string[] = []
@@ -59,6 +70,7 @@ export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onCont
       if (u.fuel !== undefined) { const d = u.fuel - gs.fuel; if (d !== 0) parts.push(`${d > 0 ? '+' : ''}${d} ${t('fuelUnitShort')}`) }
       if (u.isImprisoned) parts.push(t('prison'))
       if ((u as Record<string, unknown>).screen === 'interrogation') parts.push(t('interrogation'))
+      if (parts.length > 0 && isCursed(gs) && isPurelyPositive(gs, u)) parts.push(curseHint())
       return parts.length > 0 ? parts.join(', ') : null
     } catch {
       return null
@@ -71,8 +83,10 @@ export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onCont
       onStartLockpick(result.minigameReward ?? {})
       return
     }
-    patch(result.gs)
-    setResultMsg(result.message + computeDeltas(result.gs))
+    const r = applyCurse(gs, result.gs)
+    patch(r.patch)
+    setCursed(r.cursed)
+    setResultMsg((r.cursed ? curseMessage() : result.message) + computeDeltas(r.patch))
   }
 
   return (
@@ -91,10 +105,13 @@ export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onCont
           {exploreResult.type === 'loot' && !resultMsg && (
             <button className="px-btn px-btn--primary" onClick={() => {
               const e = exploreResult as Extract<ExploreResult, { type: 'loot' }>
-              const mult = gs.pillageBonusActive ? 1.5 : 1
+              const mult = (gs.pillageBonusActive ? 1.5 : 1) * getPassiveMods(gs).exploreLootMult
               const gained = Math.floor(e.credits * mult)
-              patch({ credits: gs.credits + gained, pillageBonusActive: false })
-              setResultMsg(t('lootGained', { amount: gained, pillage: gs.pillageBonusActive ? t('pillageBonus') : '' }))
+              // Exploration profonde : une fois sur cinq, le butin cache une relique.
+              const cache = gs.zoneDepth >= 5 && !gs.pendingRelicChoice && Math.random() < 0.2
+                ? { pendingRelicChoice: { options: drawRelicChoices(gs), source: 'explore' as const } }
+                : {}
+              gagner({ credits: gs.credits + gained, pillageBonusActive: false, ...cache }, t('lootGained', { amount: gained, pillage: gs.pillageBonusActive ? t('pillageBonus') : '' }))
             }}>
               {t('pickUp', { amount: (exploreResult as Extract<ExploreResult, { type: 'loot' }>).credits, mult: gs.pillageBonusActive ? t('pickUpMult') : '' })}
             </button>
@@ -103,8 +120,7 @@ export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onCont
           {exploreResult.type === 'item' && !resultMsg && (
             <button className="px-btn px-btn--primary" onClick={() => {
               const e = exploreResult as Extract<ExploreResult, { type: 'item' }>
-              patch({ cargo: { ...gs.cargo, [e.item]: (gs.cargo[e.item] ?? 0) + e.qty } })
-              setResultMsg(t('itemGained', { qty: e.qty, item: translateGood(e.item) }))
+              gagner({ cargo: { ...gs.cargo, [e.item]: (gs.cargo[e.item] ?? 0) + e.qty } }, t('itemGained', { qty: e.qty, item: translateGood(e.item) }))
             }}>
               {t('take', { item: translateGood((exploreResult as Extract<ExploreResult, { type: 'item' }>).item) })}
             </button>
@@ -113,8 +129,7 @@ export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onCont
           {exploreResult.type === 'fuel' && !resultMsg && (
             <button className="px-btn px-btn--primary" onClick={() => {
               const e = exploreResult as Extract<ExploreResult, { type: 'fuel' }>
-              patch({ fuel: Math.min(gs.maxFuel, gs.fuel + e.amount) })
-              setResultMsg(t('fuelGained', { amount: e.amount }))
+              gagner({ fuel: Math.min(gs.maxFuel, gs.fuel + e.amount) }, t('fuelGained', { amount: e.amount }))
             }}>
               {t('takeFuel')}
             </button>
@@ -137,7 +152,7 @@ export function ExploreResultPanel({ gs, exploreResult, initialResultMsg, onCont
             </div>
           )}
 
-          {resultMsg && <div className="t-green t-sm mt8">{resultMsg}</div>}
+          {resultMsg && <div className={`${cursed ? 't-red' : 't-green'} t-sm mt8`}>{resultMsg}</div>}
 
           {'loreFragmentId' in exploreResult && exploreResult.loreFragmentId && (() => {
             const frag = getFragment(exploreResult.loreFragmentId!)

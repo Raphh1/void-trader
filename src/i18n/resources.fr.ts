@@ -34,6 +34,11 @@ import factionsFr from './locales/fr/factions.json'
 import deliveryEventsFr from './locales/fr/deliveryEvents.json'
 import npcLoreFr from './locales/fr/npcLore.json'
 import majorQuestsFr from './locales/fr/majorQuests.json'
+import journalScreenFr from './locales/fr/journalScreen.json'
+import relicsFr from './locales/fr/relics.json'
+import competitorsFr from './locales/fr/competitors.json'
+import crewFr from './locales/fr/crew.json'
+import coinFlipFr from './locales/fr/coinFlip.json'
 import recipesFr from './locales/fr/recipes.json'
 import subBossesFr from './locales/fr/subBosses.json'
 import loreFragmentsFr from './locales/fr/loreFragments.json'
@@ -108,6 +113,11 @@ export default {
   deliveryEvents: deliveryEventsFr,
   npcLore: npcLoreFr,
   majorQuests: majorQuestsFr,
+  journalScreen: journalScreenFr,
+  relics: relicsFr,
+  competitors: competitorsFr,
+  crew: crewFr,
+  coinFlip: coinFlipFr,
   recipes: recipesFr,
   subBosses: subBossesFr,
   loreFragments: loreFragmentsFr,

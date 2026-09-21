@@ -1,0 +1,17 @@
+{
+  "back": "← BACK",
+  "title": "CAPTAIN'S LOG",
+  "entries_one": "{{count}} entry",
+  "entries_other": "{{count}} entries",
+  "emptyLine1": "No entries yet.",
+  "emptyLine2": "Important decisions will be recorded here as the run unfolds.",
+  "day": "Day {{day}}",
+  "categories": {
+    "combat": "COMBAT",
+    "decision": "DECISION",
+    "travel": "TRAVEL",
+    "nexus": "NEXUS",
+    "prison": "PRISON",
+    "event": "EVENT"
+  }
+}

@@ -100,6 +100,10 @@
     "mechanic": "⚙ Field rig",
     "explorer": "🗺 Read the terrain",
     "scrapper": "🔧 Scrap bomb",
-    "heir": "👑 Hire an escort (1500 cr)"
+    "heir": "👑 Hire an escort (1500 cr)",
+    "veteran": "⚔ Riposte order (parry and return the next attack)",
+    "debtor": "✍ IOU (enemy weakened, debt +25 cr/d)",
+    "addict": "💉 Dose (3 attacks +40%, madness +20)",
+    "cursed": "☠ Pass on the curse (enemy misses 1 attack in 2)"
   }
 }

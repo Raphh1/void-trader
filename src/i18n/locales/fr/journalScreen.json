@@ -1,0 +1,17 @@
+{
+  "back": "← RETOUR",
+  "title": "JOURNAL DE BORD",
+  "entries_one": "{{count}} entrée",
+  "entries_other": "{{count}} entrées",
+  "emptyLine1": "Aucune entrée pour l'instant.",
+  "emptyLine2": "Les décisions importantes s'inscriront ici au fil de la run.",
+  "day": "Jour {{day}}",
+  "categories": {
+    "combat": "COMBAT",
+    "decision": "DÉCISION",
+    "travel": "VOYAGE",
+    "nexus": "NEXUS",
+    "prison": "PRISON",
+    "event": "ÉVÉNEMENT"
+  }
+}

@@ -100,6 +100,10 @@
     "mechanic": "⚙ Bricolage de fortune",
     "explorer": "🗺 Lecture du terrain",
     "scrapper": "🔧 Bombe de ferraille",
-    "heir": "👑 Payer une escorte (1500 cr)"
+    "heir": "👑 Payer une escorte (1500 cr)",
+    "veteran": "⚔ Ordre de riposte (pare et renvoie la prochaine attaque)",
+    "debtor": "✍ Reconnaissance de dette (ennemi affaibli, dette +25 cr/j)",
+    "addict": "💉 Dose (3 attaques +40 %, folie +20)",
+    "cursed": "☠ Transmettre la malédiction (l'ennemi rate 1 attaque sur 2)"
   }
 }

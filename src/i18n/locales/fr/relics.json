@@ -1,0 +1,98 @@
+{
+  "choice": {
+    "title": {
+      "start": "◈ RELIQUE DE DÉPART",
+      "boss": "◈ BUTIN DU BOSS — CHOISIS UNE RELIQUE",
+      "lieutenant": "◈ BUTIN DU LIEUTENANT — CHOISIS UNE RELIQUE",
+      "explore": "◈ CACHE ENFOUIE — CHOISIS UNE RELIQUE"
+    },
+    "subtitle": "Une seule. Elle change les règles jusqu'à la fin de la run — les maudites rapportent gros et coûtent cher.",
+    "skip": "Ne rien prendre"
+  },
+  "rarity": {
+    "common": "commune",
+    "rare": "rare",
+    "cursed": "maudite"
+  },
+  "bar": {
+    "title": "◈ RELIQUES ({{count}})"
+  },
+  "relics": {
+    "boussoleFelee": {
+      "name": "Boussole fêlée",
+      "description": "30 % des voyages ne consomment pas de carburant."
+    },
+    "tirelirePasseur": {
+      "name": "Tirelire du passeur",
+      "description": "+70 cr à chaque voyage."
+    },
+    "medailleNotoriete": {
+      "name": "Médaille de notoriété",
+      "description": "+2 réputation à chaque voyage."
+    },
+    "reservoirAux": {
+      "name": "Réservoir auxiliaire",
+      "description": "+2 carburant maximum."
+    },
+    "bourseTrouee": {
+      "name": "Bourse trouée",
+      "description": "+35 % de crédits en combat et en exploration, mais −60 cr à chaque voyage."
+    },
+    "sangFroid": {
+      "name": "Sang-froid",
+      "description": "+10 % de chance de coup critique."
+    },
+    "plaqueBlindee": {
+      "name": "Plaque blindée",
+      "description": "−15 % de dégâts reçus."
+    },
+    "crocsCharognard": {
+      "name": "Crocs de charognard",
+      "description": "+14 PV après chaque victoire."
+    },
+    "mauvaisOeil": {
+      "name": "Mauvais œil",
+      "description": "Les ennemis commencent le combat avec 15 % de PV en moins."
+    },
+    "pucePredatrice": {
+      "name": "Puce prédatrice",
+      "description": "15 % des dégâts infligés te reviennent en PV."
+    },
+    "coeurInstable": {
+      "name": "Cœur de réacteur instable",
+      "description": "+30 % de dégâts, mais −4 PV à chaque voyage."
+    },
+    "contratSang": {
+      "name": "Contrat de sang",
+      "description": "+50 % de crédits en combat, mais +15 % de dégâts reçus."
+    },
+    "poingFerraille": {
+      "name": "Poing de ferraille",
+      "description": "+15 % de dégâts, −4 % de chance de critique."
+    },
+    "carcasseVivante": {
+      "name": "Carcasse vivante",
+      "description": "+25 PV maximum, −8 % de dégâts."
+    },
+    "carnetMarchand": {
+      "name": "Carnet du marchand",
+      "description": "Achats 10 % moins chers."
+    },
+    "langueArgent": {
+      "name": "Langue d'argent",
+      "description": "Ventes 12 % plus chères."
+    },
+    "pieceTruquee": {
+      "name": "Pièce truquée",
+      "description": "Ventes +25 %, mais achats +12 %."
+    },
+    "detecteurEpaves": {
+      "name": "Détecteur d'épaves",
+      "description": "+50 % de crédits trouvés en exploration."
+    },
+    "sablierBrise": {
+      "name": "Sablier brisé",
+      "description": "+6 PV à chaque voyage, et le repos ne coûte plus les frais du jour."
+    }
+  }
+}

@@ -34,6 +34,8 @@ import { getObjectives }        from './engine/objectives'
 import { getMetaUnlocks }         from './data/metaUnlocks'
 import { useTranslation }       from 'react-i18next'
 import { LanguageToggle }       from './components/ui/LanguageToggle'
+import { RelicChoiceModal }     from './components/ui/RunExtras'
+import { CoinFlipOverlay }      from './components/ui/CoinFlipOverlay'
 
 function Toast({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   useEffect(() => {
@@ -105,6 +107,8 @@ export default function App() {
           {renderScreen(gs.screen)}
         </Suspense>
       </div>
+      <RelicChoiceModal />
+      <CoinFlipOverlay />
       {gs.pendingMessage && (
         <Toast message={gs.pendingMessage} onDismiss={() => patch({ pendingMessage: null })} />
       )}

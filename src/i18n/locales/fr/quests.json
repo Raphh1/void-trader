@@ -209,5 +209,34 @@
       "Une rumeur court sur un fragment Nexus caché dans une station abandonnée.",
       "Des survivants d'une bataille évoquent une arme inconnue. Personne ne les croit vraiment."
     ]
+  },
+  "givers": {
+    "expediteurInconnu": "Expéditeur inconnu",
+    "vieuxDrela": "Vieux Drela",
+    "vieuxDoss": "Vieux Doss",
+    "marchande": "Marchande",
+    "marchandReconnaissant": "Marchand reconnaissant",
+    "mecanicienLocal": "Mécanicien local",
+    "sourceAnonyme": "Source anonyme",
+    "sourceAnonymeFaucons": "Source anonyme (Faucons)",
+    "chasseurBesh": "Chasseur Besh",
+    "contactAnonyme": "Contact anonyme",
+    "caidOrva": "Caïd Orva",
+    "transfuge": "Transfuge",
+    "informateurFen": "Informateur Fen",
+    "sourceAssassinCapture": "Source : assassin capturé",
+    "factionLocale": "Faction locale",
+    "doubleAgent": "Double agent",
+    "mercenaireCador": "Mercenaire Cador",
+    "sourceProcheAlanossa": "Source proche d'Alanossa",
+    "piloteRencontre": "Pilote rencontré",
+    "ancienPrisonnier": "Ancien prisonnier",
+    "recrueDesertrice": "Recrue désertrice",
+    "hackerEnFuite": "Hacker en fuite",
+    "officierFaucon": "Officier Faucon",
+    "commandanteGarde": "Commandante Garde",
+    "agentEmporium": "Agent Emporium",
+    "discipleDuVide": "Disciple du Vide",
+    "officier": "Officier"
   }
 }

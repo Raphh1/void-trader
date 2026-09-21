@@ -1,0 +1,98 @@
+{
+  "choice": {
+    "title": {
+      "start": "◈ STARTING RELIC",
+      "boss": "◈ BOSS LOOT — CHOOSE A RELIC",
+      "lieutenant": "◈ LIEUTENANT'S LOOT — CHOOSE A RELIC",
+      "explore": "◈ BURIED CACHE — CHOOSE A RELIC"
+    },
+    "subtitle": "Only one. It changes the rules until the end of the run — cursed ones pay big and cost dearly.",
+    "skip": "Take nothing"
+  },
+  "rarity": {
+    "common": "common",
+    "rare": "rare",
+    "cursed": "cursed"
+  },
+  "bar": {
+    "title": "◈ RELICS ({{count}})"
+  },
+  "relics": {
+    "boussoleFelee": {
+      "name": "Cracked compass",
+      "description": "30% of trips use no fuel."
+    },
+    "tirelirePasseur": {
+      "name": "Smuggler's piggy bank",
+      "description": "+70 cr on every trip."
+    },
+    "medailleNotoriete": {
+      "name": "Medal of notoriety",
+      "description": "+2 reputation on every trip."
+    },
+    "reservoirAux": {
+      "name": "Auxiliary tank",
+      "description": "+2 maximum fuel."
+    },
+    "bourseTrouee": {
+      "name": "Leaky purse",
+      "description": "+35% credits from combat and exploration, but −60 cr on every trip."
+    },
+    "sangFroid": {
+      "name": "Cold blood",
+      "description": "+10% critical hit chance."
+    },
+    "plaqueBlindee": {
+      "name": "Armored plate",
+      "description": "−15% damage taken."
+    },
+    "crocsCharognard": {
+      "name": "Scavenger's fangs",
+      "description": "+14 HP after every victory."
+    },
+    "mauvaisOeil": {
+      "name": "Evil eye",
+      "description": "Enemies start combat with 15% less HP."
+    },
+    "pucePredatrice": {
+      "name": "Predator chip",
+      "description": "15% of damage dealt comes back to you as HP."
+    },
+    "coeurInstable": {
+      "name": "Unstable reactor core",
+      "description": "+30% damage, but −4 HP on every trip."
+    },
+    "contratSang": {
+      "name": "Blood contract",
+      "description": "+50% combat credits, but +15% damage taken."
+    },
+    "poingFerraille": {
+      "name": "Scrap fist",
+      "description": "+15% damage, −4% critical chance."
+    },
+    "carcasseVivante": {
+      "name": "Living carcass",
+      "description": "+25 max HP, −8% damage."
+    },
+    "carnetMarchand": {
+      "name": "Merchant's ledger",
+      "description": "Purchases 10% cheaper."
+    },
+    "langueArgent": {
+      "name": "Silver tongue",
+      "description": "Sales 12% higher."
+    },
+    "pieceTruquee": {
+      "name": "Loaded coin",
+      "description": "Sales +25%, but purchases +12%."
+    },
+    "detecteurEpaves": {
+      "name": "Wreck detector",
+      "description": "+50% credits found while exploring."
+    },
+    "sablierBrise": {
+      "name": "Broken hourglass",
+      "description": "+6 HP on every trip, and resting no longer costs the daily fees."
+    }
+  }
+}

@@ -514,7 +514,7 @@ export function getCurrentStepBlocked(arc: NarrativeArc, gs: GameState): string 
   const def = getArcDefinitions().find(d => d.id === arc.id)
   if (!def || arc.step >= def.steps.length) return null
   const step = def.steps[arc.step]
-  if (step.condition && !step.condition(gs)) return step.conditionHint ?? 'Prérequis non remplis.'
+  if (step.condition && !step.condition(gs)) return step.conditionHint ?? i18n.t('stepBlockedFallback', { ns: 'narrativeArcs' })
   return null
 }
 

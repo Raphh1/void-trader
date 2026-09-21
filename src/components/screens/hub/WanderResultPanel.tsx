@@ -4,6 +4,7 @@ import { TypewriterText } from '../../ui/TypewriterText'
 import type { GameState, Quest, Enemy } from '../../../types'
 import type { WanderEvent } from '../../../engine/exploration'
 import { rollWanderEvent } from '../../../engine/exploration'
+import { applyCurse, curseMessage, curseHint, isCursed, isPurelyPositive } from '../../../engine/curse'
 import { getEnemyByTier } from '../../../data/enemies'
 
 interface Props {
@@ -23,8 +24,9 @@ interface Props {
 export function WanderResultPanel({ gs, wanderEvent, dangerLevel, onReturn, startCombat, patch, addQuest, spendAction, onWanderAgain, onNegotiation, onNavigation }: Props) {
   const { t } = useTranslation('wanderResultPanel')
   const [resultMsg, setResultMsg] = useState<string | null>(null)
+  const [cursed, setCursed] = useState(false)
 
-  useEffect(() => { setResultMsg(null) }, [wanderEvent])
+  useEffect(() => { setResultMsg(null); setCursed(false) }, [wanderEvent])
 
   function computeDeltas(update: Partial<GameState>): string {
     const parts: string[] = []
@@ -63,6 +65,7 @@ export function WanderResultPanel({ gs, wanderEvent, dangerLevel, onReturn, star
       if (u.playerHp !== undefined) { const d = u.playerHp - gs.playerHp; if (d !== 0) parts.push(`${d > 0 ? '+' : ''}${d} ${t('hpUnit')}`) }
       if (u.fuel !== undefined) { const d = u.fuel - gs.fuel; if (d !== 0) parts.push(`${d > 0 ? '+' : ''}${d} ${t('fuelUnitShort')}`) }
       if (u.isImprisoned) parts.push(t('prison'))
+      if (parts.length > 0 && isCursed(gs) && isPurelyPositive(gs, u)) parts.push(curseHint())
       return parts.length > 0 ? parts.join(', ') : null
     } catch {
       return null
@@ -84,11 +87,14 @@ export function WanderResultPanel({ gs, wanderEvent, dangerLevel, onReturn, star
       onNavigation?.()
       return
     }
-    const update = res.gs as Partial<GameState> | undefined
+    const brut = res.gs as Partial<GameState> | undefined
+    const r = brut ? applyCurse(gs, brut) : { patch: undefined, cursed: false }
+    const update = r.patch
     if (update) patch(update)
     if (res.quest && gs.activeQuests.length < 5) addQuest(res.quest)
     const deltas = update ? computeDeltas(update) : ''
-    setResultMsg(res.message + deltas + (res.quest ? t('questAdded', { title: res.quest.title }) : ''))
+    setCursed(r.cursed)
+    setResultMsg((r.cursed ? curseMessage() : res.message) + deltas + (res.quest ? t('questAdded', { title: res.quest.title }) : ''))
   }
 
   function handleWanderAgain() {
@@ -106,7 +112,7 @@ export function WanderResultPanel({ gs, wanderEvent, dangerLevel, onReturn, star
           <TypewriterText text={wanderEvent.description} speed={16} />
         </div>
         {resultMsg
-          ? <div className="t-xs mt4" style={{ color: 'var(--green)', lineHeight: '2' }}>{resultMsg}</div>
+          ? <div className="t-xs mt4" style={{ color: cursed ? 'var(--red)' : 'var(--green)', lineHeight: '2' }}>{resultMsg}</div>
           : <div className="col gap4">
               {wanderEvent.choices
                 .filter(c => !c.available || c.available(gs))

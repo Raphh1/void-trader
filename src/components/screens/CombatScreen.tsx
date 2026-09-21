@@ -8,6 +8,7 @@ import { StopTheBar } from '../minigames/StopTheBar'
 import { QuickDraw } from '../minigames/QuickDraw'
 import { ReactFlash } from '../minigames/ReactFlash'
 import { getSubBossMinigame } from '../../data/subBosses'
+import { localizedEnemyDescription } from '../../data/enemies'
 import type { SubBossMinigameKind } from '../../data/subBosses'
 import { useFloatingNumbers, FloatingNumbersLayer } from '../ui/FloatingNumber'
 import { playHit, playCrit, playHeal, playFlee, playClick, playVictory, playDeath, playFinisher } from '../../engine/sfx'
@@ -413,7 +414,7 @@ export function CombatScreen() {
         <div className="px-box px-box--hi" ref={enemyRef} style={{ position: 'relative', overflow: 'visible' }}>
           <FloatingNumbersLayer entries={enemyFloats} />
           <div className="t-sm t-red mb4">{translateEnemyName(enemy.name)}</div>
-          <div className="t-xs t-dim mb8">{enemy.description}</div>
+          <div className="t-xs t-dim mb8">{localizedEnemyDescription(enemy)}</div>
 
           <div className="t-xs t-dim mb4">{t('enemyHp')}</div>
           <div className={`bar bar--hp ${hpPct < 30 ? 'low' : hpPct < 60 ? 'medium' : ''} ${enemyDamaged ? 'hp-damaged' : ''}`}>
@@ -654,6 +655,22 @@ function ClassAction({ gs, onAct, disabled }: { gs: ReturnType<typeof useGameSto
     case 'Héritier':
       return gs.credits >= 1500 ? <button className="px-btn" style={{ color: 'var(--gold)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
         {t('class.heir')}
+      </button> : null
+    case 'Vétéran':
+      return gs.stamina >= 15 ? <button className="px-btn" style={{ color: 'var(--cyan)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.veteran')}
+      </button> : null
+    case 'Endetté':
+      return <button className="px-btn" style={{ color: 'var(--orange)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.debtor')}
+      </button>
+    case 'Accro':
+      return <button className="px-btn" style={{ color: 'var(--purple)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.addict')}
+      </button>
+    case 'Maudit':
+      return gs.stamina >= 15 ? <button className="px-btn" style={{ color: 'var(--purple)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>
+        {t('class.cursed')}
       </button> : null
     case 'Rayane':
       return <button className="px-btn" style={{ color: 'var(--gold)' }} disabled={disabled} onClick={() => onAct({ type: 'class' })}>

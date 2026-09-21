@@ -111,14 +111,14 @@
   },
   "factionwar": {
     "title": "The Faction War",
-    "intro": "The Black Hawks and the Scarlet Guardians have declared war on each other. The whole sector will feel the consequences.",
+    "intro": "The Black Falcons and the Scarlet Guardians have declared war on each other. The whole sector will feel the consequences.",
     "completionMessage": "The faction war is over. Your role in it will remain in the archives.",
     "steps": {
       "0": {
         "title": "The Spark",
-        "desc": "An incident at Fort Kharos: a Scarlet Guardian was assassinated. The Black Hawks are accused. Both factions mobilize. Trade routes are cut off.",
-        "c0": "Side with the Black Hawks",
-        "c0msg": "You join the Black Hawks. The arc progresses on their side.",
+        "desc": "An incident at Fort Kharos: a Scarlet Guardian was assassinated. The Black Falcons are accused. Both factions mobilize. Trade routes are cut off.",
+        "c0": "Side with the Black Falcons",
+        "c0msg": "You join the Black Falcons. The arc progresses on their side.",
         "c1": "Side with the Scarlet Guardians",
         "c1msg": "You join the Guardians. The arc progresses on their side.",
         "c2": "Stay neutral and profit",
@@ -145,5 +145,6 @@
         "c2msg": "You take the reins. +80 rep, +3000 cr. You're in charge now."
       }
     }
-  }
+  },
+  "stepBlockedFallback": "Requirements not met."
 }

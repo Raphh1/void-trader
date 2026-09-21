@@ -1,5 +1,6 @@
 import type { GameState } from '../types'
 import i18n from '../i18n/config'
+import { applyCurse } from './curse'
 
 const rng = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min
 const roll = (chance: number) => Math.random() * 100 < chance
@@ -93,9 +94,16 @@ export function rollTravelEvent(gs: GameState): TravelEvent | null {
   if (Math.random() < 0.25) {
     const positiveEvents = getPositiveEvents()
     const ev = positiveEvents[Math.floor(Math.random() * positiveEvents.length)]
-    // Classe Maudit : 50% chance que l'événement positif fizzle
+    // Classe Maudit : une fois sur deux, la bonne fortune se retourne contre lui
+    // (cf. engine/curse.ts) — les gains deviennent des pertes.
     if (gs.class.cursedEvents && Math.random() < 0.5) {
-      return { title: ev.title, description: ev.description + te('cursedSuffix'), effect: gs => ({ message: te('cursedMessage') }) }
+      return {
+        title: ev.title, description: ev.description + te('cursedSuffix'),
+        effect: gs => {
+          const { message: _ignore, ...gains } = ev.effect(gs)
+          return { ...applyCurse(gs, gains, 0).patch, message: te('cursedMessage') }
+        },
+      }
     }
     return ev
   }
@@ -163,6 +171,8 @@ export function spendAction(gs: GameState): Partial<GameState> {
     const dette = gs.debtDailyAmount ?? gs.class.dailyDebt ?? 0
     if (dette > 0) {
       dayChanges.credits = Math.max(0, gs.credits - dette)
+      // Jour impayé : les recouvreurs tiennent les comptes (cf. travel dans le store).
+      dayChanges.debtArrears = gs.credits < dette ? (gs.debtArrears ?? 0) + 1 : 0
     }
     return dayChanges
   }

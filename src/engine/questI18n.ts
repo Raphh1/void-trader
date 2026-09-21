@@ -22,6 +22,12 @@ const TRADUCTEURS: Record<string, (v: string) => string> = {
 
 function rendre(recette: QuestText | undefined, repli: string): string {
   if (!recette) return repli
+  const ns = recette.ns ?? 'quests'
+  // Titre de suite : la recette du contrat d'origine est imbriquée sous `titleKey`.
+  if (recette.params.titleKey) {
+    const { titleKey, ...inner } = recette.params
+    return i18n.t(recette.key, { ns, title: rendre({ key: titleKey, params: inner, ns: recette.ns }, repli), defaultValue: repli })
+  }
   const params: Record<string, string> = {}
   for (const [nom, valeur] of Object.entries(recette.params)) {
     const traduire = TRADUCTEURS[nom]
@@ -30,11 +36,20 @@ function rendre(recette: QuestText | undefined, repli: string): string {
   // Certains chefs de station n'ont pas de nom propre : leur libellé est une
   // tournure à composer (« le chef de X »), dont la clé est transportée dans
   // les paramètres plutôt que le texte déjà rendu.
+  // Le repli ne sert que si le chef n'a pas de nom : sinon on écrasait le vrai
+  // nom du boss par « le chef de X » à chaque affichage.
   if (params.bossKey) {
-    params.boss = i18n.t(params.bossKey, { ns: 'quests', target: params.target })
+    if (!params.boss) params.boss = i18n.t(params.bossKey, { ns: 'quests', target: params.target })
     delete params.bossKey
   }
-  return i18n.t(recette.key, { ns: 'quests', ...params, defaultValue: repli })
+  // Autres fragments déjà rédigés (saveur d'un rôle, « un colis »…) : la clé
+  // est transportée sous `<nom>Key` et rendue ici dans la langue courante.
+  for (const nom of Object.keys(params)) {
+    if (!nom.endsWith('Key') || nom === 'titleKey') continue
+    params[nom.slice(0, -3)] = i18n.t(params[nom], { ns })
+    delete params[nom]
+  }
+  return i18n.t(recette.key, { ns, ...params, defaultValue: repli })
 }
 
 export function questTitle(q: Quest): string {
@@ -43,4 +58,43 @@ export function questTitle(q: Quest): string {
 
 export function questDescription(q: Quest): string {
   return rendre(q.descI18n, q.description)
+}
+
+// Donneurs génériques écrits en dur dans le code (quêtes de rencontre, de
+// faction) : le nom français sert d'identifiant, traduit à l'affichage. Les
+// noms propres ne sont pas dans la table et passent tels quels.
+const DONNEURS: Record<string, string> = {
+  'Expéditeur inconnu': 'expediteurInconnu',
+  'Vieux Drela': 'vieuxDrela',
+  'Vieux Doss': 'vieuxDoss',
+  'Marchande': 'marchande',
+  'Marchand reconnaissant': 'marchandReconnaissant',
+  'Mécanicien local': 'mecanicienLocal',
+  'Source anonyme': 'sourceAnonyme',
+  'Source anonyme (Faucons)': 'sourceAnonymeFaucons',
+  'Chasseur Besh': 'chasseurBesh',
+  'Contact anonyme': 'contactAnonyme',
+  'Caïd Orva': 'caidOrva',
+  'Transfuge': 'transfuge',
+  'Informateur Fen': 'informateurFen',
+  'Source : assassin capturé': 'sourceAssassinCapture',
+  'Faction locale': 'factionLocale',
+  'Double agent': 'doubleAgent',
+  'Mercenaire Cador': 'mercenaireCador',
+  "Source proche d'Alanossa": 'sourceProcheAlanossa',
+  'Pilote rencontré': 'piloteRencontre',
+  'Ancien prisonnier': 'ancienPrisonnier',
+  'Recrue désertrice': 'recrueDesertrice',
+  'Hacker en fuite': 'hackerEnFuite',
+  'Officier Faucon': 'officierFaucon',
+  'Commandante Garde': 'commandanteGarde',
+  'Agent Emporium': 'agentEmporium',
+  'Disciple du Vide': 'discipleDuVide',
+  'Officier': 'officier',
+}
+
+export function questGiver(q: Pick<Quest, 'giver' | 'giverI18n'>): string {
+  if (q.giverI18n) return rendre(q.giverI18n, q.giver)
+  const cle = DONNEURS[q.giver]
+  return cle ? i18n.t(`givers.${cle}`, { ns: 'quests', defaultValue: q.giver }) : q.giver
 }

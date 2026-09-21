@@ -60,5 +60,10 @@
     "label": "Language",
     "fr": "FR",
     "en": "EN"
+  },
+  "typewriterSkip": "Click to skip",
+  "curse": {
+    "message": "☠ The curse strikes — your good fortune turns against you.",
+    "hint": "☠ 1 in 2 chance to turn against you"
   }
 }

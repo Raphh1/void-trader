@@ -1,22 +1,77 @@
 {
   "positive": {
-    "wreck":     { "title": "Épave abandonnée", "description": "Tu croises une épave à la dérive. Quelques crédits récupérables.", "message": "Épave pillée. +{{amount}} cr." },
-    "stowaway":  { "title": "Passager clandestin", "description": "Quelqu'un s'est glissé dans tes soutes. Il paie son passage sans broncher.", "message": "Passager clandestin — il paie. +{{amount}} cr." },
-    "distress":  { "title": "Signal d'urgence", "description": "Tu réponds à un signal. Le vaisseau en détresse t'est reconnaissant.", "message": "+crédits, +10 rép." },
-    "shortcut":  { "title": "Route secrète", "description": "Tu connais un raccourci. -1 carburant sur ce voyage.", "message": "Raccourci trouvé. +1 carburant récupéré." },
-    "smugglerFriend": { "title": "Contrebandier ami", "description": "Un ami contrebandier croise ta route et te laisse du matériel.", "message": "+2 Médicaments offerts." },
-    "tradeData": { "title": "Données commerciales", "description": "Tu interceptes des données sur les prix du marché. Utile.", "message": "Données monnayées. +crédits." }
+    "wreck": {
+      "title": "Épave abandonnée",
+      "description": "Tu croises une épave à la dérive. Quelques crédits récupérables.",
+      "message": "Épave pillée. +{{amount}} cr."
+    },
+    "stowaway": {
+      "title": "Passager clandestin",
+      "description": "Quelqu'un s'est glissé dans tes soutes. Il paie son passage sans broncher.",
+      "message": "Passager clandestin — il paie. +{{amount}} cr."
+    },
+    "distress": {
+      "title": "Signal d'urgence",
+      "description": "Tu réponds à un signal. Le vaisseau en détresse t'est reconnaissant.",
+      "message": "+crédits, +10 rép."
+    },
+    "shortcut": {
+      "title": "Route secrète",
+      "description": "Tu connais un raccourci. -1 carburant sur ce voyage.",
+      "message": "Raccourci trouvé. +1 carburant récupéré."
+    },
+    "smugglerFriend": {
+      "title": "Contrebandier ami",
+      "description": "Un ami contrebandier croise ta route et te laisse du matériel.",
+      "message": "+2 Médicaments offerts."
+    },
+    "tradeData": {
+      "title": "Données commerciales",
+      "description": "Tu interceptes des données sur les prix du marché. Utile.",
+      "message": "Données monnayées. +crédits."
+    }
   },
   "negative": {
-    "engineFailure": { "title": "Panne moteur", "description": "Ton moteur tousse. Réparation d'urgence. -carburant et -PV vaisseau.", "message": "Panne. -1 carburant, -PV vaisseau." },
-    "ionStorm":      { "title": "Tempête ionique", "description": "Une tempête ionique endomage les systèmes.", "message": "Tempête ionique. -PV vaisseau." },
-    "fuelTheft":     { "title": "Vol de carburant", "description": "Des drones voleurs ont sifonné ta réserve.", "message": "Drones voleurs. -1 carburant." },
-    "wrongTurn":     { "title": "Fausse route", "description": "Tu t'es perdu dans un champ d'astéroïdes. Du temps perdu.", "message": "+1 jour perdu dans le champ d'astéroïdes." },
-    "cargoHit":      { "title": "Cargo endommagé", "description": "Un impact de météorite endomage la soute.", "messageEmpty": "Impact inoffensif — soute vide.", "messageLost": "Impact — 1x {{item}} détruit." }
+    "engineFailure": {
+      "title": "Panne moteur",
+      "description": "Ton moteur tousse. Réparation d'urgence. -carburant et -PV vaisseau.",
+      "message": "Panne. -1 carburant, -PV vaisseau."
+    },
+    "ionStorm": {
+      "title": "Tempête ionique",
+      "description": "Une tempête ionique endomage les systèmes.",
+      "message": "Tempête ionique. -PV vaisseau."
+    },
+    "fuelTheft": {
+      "title": "Vol de carburant",
+      "description": "Des drones voleurs ont sifonné ta réserve.",
+      "message": "Drones voleurs. -1 carburant."
+    },
+    "wrongTurn": {
+      "title": "Fausse route",
+      "description": "Tu t'es perdu dans un champ d'astéroïdes. Du temps perdu.",
+      "message": "+1 jour perdu dans le champ d'astéroïdes."
+    },
+    "cargoHit": {
+      "title": "Cargo endommagé",
+      "description": "Un impact de météorite endomage la soute.",
+      "messageEmpty": "Impact inoffensif — soute vide.",
+      "messageLost": "Impact — 1x {{item}} détruit."
+    }
   },
-  "pirateAttack": { "title": "Attaque de pirates", "description": "Un vaisseau pirate sort du champ d'astéroïdes. Il vise tes réacteurs." },
-  "bountyHunter": { "title": "Chasseur de primes", "description": "Ta réputation négative attire un chasseur de primes." },
-  "pirateIntimidated": { "title": "Pirates intimidés", "description": "Des pirates s'approchent... et reconnaissent ton vaisseau. Ils font demi-tour.", "message": "Pirates en fuite. +5 rép." },
-  "cursedSuffix": " Mais la malchance frappe.",
-  "cursedMessage": "Maudit — l'événement positif tourne mal."
+  "pirateAttack": {
+    "title": "Attaque de pirates",
+    "description": "Un vaisseau pirate sort du champ d'astéroïdes. Il vise tes réacteurs."
+  },
+  "bountyHunter": {
+    "title": "Chasseur de primes",
+    "description": "Ta réputation négative attire un chasseur de primes."
+  },
+  "pirateIntimidated": {
+    "title": "Pirates intimidés",
+    "description": "Des pirates s'approchent... et reconnaissent ton vaisseau. Ils font demi-tour.",
+    "message": "Pirates en fuite. +5 rép."
+  },
+  "cursedSuffix": " Mais la malédiction retourne la situation.",
+  "cursedMessage": "☠ Maudit — la bonne fortune se retourne contre toi."
 }

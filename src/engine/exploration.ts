@@ -467,8 +467,16 @@ export function rollExplorationEvent(gs: GameState): ExploreResult {
 }
 
 // ── HELPER GÉNÉRATION DE QUÊTE INLINE ────────────────────────────────────────
-function quickQuest(gs: GameState, type: QuestType, giver: string, title: string, desc: string, targetStation: string, item?: string, credits = 1200, rep = 12): Quest {
-  return { id: Math.random().toString(36).slice(2, 8), title, giver, giverStation: gs.currentStation, type, description: desc, targetStation, targetItem: item, creditReward: credits, repReward: rep }
+// Titre et description passent par leur CLÉ : la quête garde sa recette et se
+// retraduit à l'affichage (cf. questI18n), au lieu de rester figée dans la
+// langue du moment où elle a été proposée.
+function quickQuest(gs: GameState, type: QuestType, giver: string, titleKey: string, descKey: string, targetStation: string, item?: string, credits = 1200, rep = 12): Quest {
+  const recette = (key: string) => ({ key, params: { target: targetStation }, ns: 'explorationScenes' })
+  const texte = (key: string) => st(key, { target: translateStationName(targetStation) })
+  return {
+    id: Math.random().toString(36).slice(2, 8), title: texte(titleKey), titleI18n: recette(titleKey), giver, giverStation: gs.currentStation, type,
+    description: texte(descKey), descI18n: recette(descKey), targetStation, targetItem: item, creditReward: credits, repReward: rep,
+  }
 }
 function pickTarget(gs: GameState) {
   const list = getAccessibleStations(gs.currentStation).filter(s => s.name !== gs.currentStation)
@@ -485,7 +493,7 @@ export const WANDER_EVENTS_LOW: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderLow.0.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: {}, message: st('wanderLow.0.c0empty') }
-        const q = quickQuest(gs!, 'extraction', 'Expéditeur inconnu', st('wanderLow.0.c0qTitle', { target: translateStationName(t.name) }), st('wanderLow.0.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Pièces techniques', 1800, 15)
+        const q = quickQuest(gs!, 'extraction', 'Expéditeur inconnu', 'wanderLow.0.c0qTitle', 'wanderLow.0.c0qDesc', t.name, 'Pièces techniques', 1800, 15)
         return { gs: {}, message: st('wanderLow.0.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderLow.0.c1'), result: () => ({ gs: {}, message: st('wanderLow.0.c1msg') }) }
@@ -499,7 +507,7 @@ export const WANDER_EVENTS_LOW: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderLow.1.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: { reputation: gs!.reputation + 5 }, message: st('wanderLow.1.c0noTargetMsg') }
-        const q = quickQuest(gs!, 'patrol', 'Vieux Drela', st('wanderLow.1.c0qTitle', { target: translateStationName(t.name) }), st('wanderLow.1.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 800, 10)
+        const q = quickQuest(gs!, 'patrol', 'Vieux Drela', 'wanderLow.1.c0qTitle', 'wanderLow.1.c0qDesc', t.name, undefined, 800, 10)
         return { gs: { reputation: gs!.reputation + 5 }, message: st('wanderLow.1.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderLow.1.c1'), result: () => ({ gs: {}, message: st('wanderLow.1.c1msg') }) }
@@ -517,7 +525,7 @@ export const WANDER_EVENTS_LOW: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderLow.2.c1'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: { reputation: gs!.reputation + 8 }, message: st('wanderLow.2.c1noTargetMsg') }
-        const q = quickQuest(gs!, 'delivery', 'Marchande', st('wanderLow.2.c1qTitle'), st('wanderLow.2.c1qDesc', { target: translateStationName(t.name) }), t.name, 'Médicaments', 1400, 18)
+        const q = quickQuest(gs!, 'delivery', 'Marchande', 'wanderLow.2.c1qTitle', 'wanderLow.2.c1qDesc', t.name, 'Médicaments', 1400, 18)
         return { gs: { reputation: gs!.reputation + 8 }, message: st('wanderLow.2.c1msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderLow.2.c2'), result: () => ({ gs: {}, message: st('wanderLow.2.c2msg') }) }
@@ -532,7 +540,7 @@ export const WANDER_EVENTS_LOW: Array<(gs: GameState) => WanderEvent> = [
         const ok = Math.random() < 0.45 + (gs ? gs.reputation / 300 : 0)
         if (ok) {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'delivery', 'Marchand reconnaissant', st('wanderLow.3.c0qTitle'), st('wanderLow.3.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Pièces techniques', 1600, 15) : undefined
+          const q = t ? quickQuest(gs!, 'delivery', 'Marchand reconnaissant', 'wanderLow.3.c0qTitle', 'wanderLow.3.c0qDesc', t.name, 'Pièces techniques', 1600, 15) : undefined
           return { gs: { reputation: (gs?.reputation ?? 0) + 12 }, message: st('wanderLow.3.c0msgWin') + (q ? st('wanderLow.3.c0msgWinQuestSuffix') : ''), quest: q ?? undefined }
         }
         return { gs: { reputation: (gs?.reputation ?? 0) - 5 }, message: st('wanderLow.3.c0msgLose') }
@@ -549,7 +557,7 @@ export const WANDER_EVENTS_LOW: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderLow.4.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: {}, message: st('wanderLow.4.c0noTargetMsg') }
-        const q = quickQuest(gs!, 'delivery', 'Mécanicien local', st('wanderLow.4.c0qTitle'), st('wanderLow.4.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Composants électroniques', 1300, 10)
+        const q = quickQuest(gs!, 'delivery', 'Mécanicien local', 'wanderLow.4.c0qTitle', 'wanderLow.4.c0qDesc', t.name, 'Composants électroniques', 1300, 10)
         return { gs: {}, message: st('wanderLow.4.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderLow.4.c1'), result: () => ({ gs: {}, message: st('wanderLow.4.c1msg') }) }
@@ -564,7 +572,7 @@ export const WANDER_EVENTS_LOW: Array<(gs: GameState) => WanderEvent> = [
         if (!gs || gs.credits < 40) return { gs: {}, message: st('wanderLow.5.c0failMsg') }
         const t = pickTarget(gs)
         if (!t) return { gs: { credits: gs.credits - 40 }, message: st('wanderLow.5.c0noTargetMsg') }
-        const q = quickQuest(gs, 'patrol', 'Source anonyme', st('wanderLow.5.c0qTitle', { target: translateStationName(t.name) }), st('wanderLow.5.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 900, 8)
+        const q = quickQuest(gs, 'patrol', 'Source anonyme', 'wanderLow.5.c0qTitle', 'wanderLow.5.c0qDesc', t.name, undefined, 900, 8)
         return { gs: { credits: gs.credits - 40 }, message: st('wanderLow.5.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderLow.5.c1'), result: () => ({ gs: {}, message: st('wanderLow.5.c1msg') }) },
@@ -609,7 +617,7 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
         if (!t) return { gs: { credits: (gs?.credits ?? 0) - 300 }, message: st('wanderMid.0.c2noTargetMsg') }
         const chance = Math.random() < 0.5 + (gs ? gs.reputation / 300 : 0)
         if (chance) {
-          const q = quickQuest(gs!, 'bounty', 'Chasseur Besh', st('wanderMid.0.c2qTitle', { target: translateStationName(t.name) }), st('wanderMid.0.c2qDesc', { target: translateStationName(t.name) }), t.name, undefined, 3500, 25)
+          const q = quickQuest(gs!, 'bounty', 'Chasseur Besh', 'wanderMid.0.c2qTitle', 'wanderMid.0.c2qDesc', t.name, undefined, 3500, 25)
           return { gs: { reputation: gs!.reputation + 5 }, message: st('wanderMid.0.c2msgWin', { target: translateStationName(t.name) }), quest: q }
         }
         return { gs: { credits: gs!.credits - 300 }, message: st('wanderMid.0.c2msgLose') }
@@ -628,7 +636,7 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderMid.1.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: {}, message: st('wanderMid.1.c0noTargetMsg') }
-        const q = quickQuest(gs!, 'delivery', 'Contact anonyme', st('wanderMid.1.c0qTitle'), st('wanderMid.1.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Pièces de contrebande', 2800, 5)
+        const q = quickQuest(gs!, 'delivery', 'Contact anonyme', 'wanderMid.1.c0qTitle', 'wanderMid.1.c0qDesc', t.name, 'Pièces de contrebande', 2800, 5)
         return { gs: { cargo: { ...(gs?.cargo ?? {}), 'Pièces de contrebande': ((gs?.cargo ?? {})['Pièces de contrebande'] ?? 0) + 1 } }, message: st('wanderMid.1.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderMid.1.c1'), result: () => ({ gs: {}, message: st('wanderMid.1.c1msg') }) },
@@ -643,7 +651,7 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderMid.2.c0'), result: (gs) => {
         if (!gs || gs.credits < 200) return { gs: {}, message: st('wanderMid.2.c0fail') }
         const t = pickTarget(gs)
-        const q = t ? quickQuest(gs, 'sabotage', 'Caïd Orva', st('wanderMid.2.c0qTitle'), st('wanderMid.2.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 2200, -5) : undefined
+        const q = t ? quickQuest(gs, 'sabotage', 'Caïd Orva', 'wanderMid.2.c0qTitle', 'wanderMid.2.c0qDesc', t.name, undefined, 2200, -5) : undefined
         return { gs: { credits: gs.credits - 200 }, message: st('wanderMid.2.c0msg') + (q ? st('wanderMid.2.c0msgQuestSuffix') : ''), quest: q ?? undefined }
       }},
       { label: st('wanderMid.2.c1'), result: (gs) => Math.random() < 0.35 + (gs ? gs.reputation / 250 : 0)
@@ -653,7 +661,7 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderMid.2.c2'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t || Math.random() < 0.4) return { gs: {}, message: st('wanderMid.2.c2msgNo') }
-        const q = quickQuest(gs!, 'revenge', 'Caïd Orva', st('wanderMid.2.c2qTitle'), st('wanderMid.2.c2qDesc', { target: translateStationName(t.name) }), t.name, undefined, 1800, 12)
+        const q = quickQuest(gs!, 'revenge', 'Caïd Orva', 'wanderMid.2.c2qTitle', 'wanderMid.2.c2qDesc', t.name, undefined, 1800, 12)
         return { gs: {}, message: st('wanderMid.2.c2msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderMid.2.c3'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 25 }, message: st('wanderMid.2.c3msg') }), available: (gs) => gs.class.name === 'Seigneur de guerre' }
@@ -667,7 +675,7 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderMid.3.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: { reputation: gs!.reputation + 10 }, message: st('wanderMid.3.c0noTargetMsg') }
-        const q = quickQuest(gs!, 'bounty', 'Transfuge', st('wanderMid.3.c0qTitle'), st('wanderMid.3.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 4500, 30)
+        const q = quickQuest(gs!, 'bounty', 'Transfuge', 'wanderMid.3.c0qTitle', 'wanderMid.3.c0qDesc', t.name, undefined, 4500, 30)
         return { gs: { reputation: gs!.reputation + 10 }, message: st('wanderMid.3.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderMid.3.c1'), result: (gs) => ({ gs: { credits: (gs?.credits ?? 0) + rng(400, 900), reputation: (gs?.reputation ?? 0) - 20, moralTags: [...(gs?.moralTags ?? []), 'délateur'], pastDecisions: addDecision(gs!, 'betrayed-transfuge'), journal: addJournal(gs!, st('wanderMid.3.c1journal'), 'decision') }, message: st('wanderMid.3.c1msg') }) },
@@ -682,14 +690,14 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderMid.4.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: {}, message: st('wanderMid.4.c0noTargetMsg') }
-        const q = quickQuest(gs!, 'bounty', 'Informateur Fen', st('wanderMid.4.c0qTitle', { target: translateStationName(t.name) }), st('wanderMid.4.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 3800, 22)
+        const q = quickQuest(gs!, 'bounty', 'Informateur Fen', 'wanderMid.4.c0qTitle', 'wanderMid.4.c0qDesc', t.name, undefined, 3800, 22)
         return { gs: {}, message: st('wanderMid.4.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderMid.4.c1'), result: (gs) => {
         if (Math.random() < 0.5) {
           const t = gs && pickTarget(gs)
           if (t) {
-            const q = quickQuest(gs!, 'patrol', 'Informateur Fen', st('wanderMid.4.c1qTitle', { target: translateStationName(t.name) }), st('wanderMid.4.c1qDesc', { target: translateStationName(t.name) }), t.name, undefined, 1200, 8)
+            const q = quickQuest(gs!, 'patrol', 'Informateur Fen', 'wanderMid.4.c1qTitle', 'wanderMid.4.c1qDesc', t.name, undefined, 1200, 8)
             return { gs: {}, message: st('wanderMid.4.c1msgQuest', { target: translateStationName(t.name) }), quest: q }
           }
         }
@@ -734,7 +742,7 @@ export const WANDER_EVENTS_HIGH: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderHigh.0.c2'), result: (gs) => {
         if (Math.random() < 0.6) {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'bounty', 'Source : assassin capturé', st('wanderHigh.0.c2qTitle', { target: translateStationName(t.name) }), st('wanderHigh.0.c2qDesc', { target: translateStationName(t.name) }), t.name, undefined, 5000, 35) : undefined
+          const q = t ? quickQuest(gs!, 'bounty', 'Source : assassin capturé', 'wanderHigh.0.c2qTitle', 'wanderHigh.0.c2qDesc', t.name, undefined, 5000, 35) : undefined
           return { gs: { playerHp: Math.max(1, gs!.playerHp - rng(8, 18)), reputation: gs!.reputation + 15 }, message: st('wanderHigh.0.c2msgWin', { target: translateStationName(t?.name ?? st('wanderHigh.0.c2fallbackTarget')) }), quest: q ?? undefined }
         }
         return { gs: { playerHp: Math.max(1, gs!.playerHp - rng(15, 30)) }, message: st('wanderHigh.0.c2msgLose') }
@@ -749,13 +757,13 @@ export const WANDER_EVENTS_HIGH: Array<(gs: GameState) => WanderEvent> = [
       { label: st('wanderHigh.1.c0'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t) return { gs: { credits: (gs?.credits ?? 0) + 400 }, message: st('wanderHigh.1.c0noTargetMsg') }
-        const q = quickQuest(gs!, 'sabotage', 'Faction locale', st('wanderHigh.1.c0qTitle', { target: translateStationName(t.name) }), st('wanderHigh.1.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 3000, -8)
+        const q = quickQuest(gs!, 'sabotage', 'Faction locale', 'wanderHigh.1.c0qTitle', 'wanderHigh.1.c0qDesc', t.name, undefined, 3000, -8)
         return { gs: { credits: gs!.credits + 400 }, message: st('wanderHigh.1.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderHigh.1.c1'), result: (gs) => {
         const t = gs && pickTarget(gs)
         if (!t || Math.random() < 0.4) return { gs: { playerHp: Math.max(1, (gs?.playerHp ?? 50) - rng(15, 35)) }, message: st('wanderHigh.1.c1msgFail') }
-        const q = quickQuest(gs!, 'extraction', 'Faction locale', st('wanderHigh.1.c1qTitle'), st('wanderHigh.1.c1qDesc', { target: translateStationName(t.name) }), t.name, 'Données classifiées', 4200, 10)
+        const q = quickQuest(gs!, 'extraction', 'Faction locale', 'wanderHigh.1.c1qTitle', 'wanderHigh.1.c1qDesc', t.name, 'Données classifiées', 4200, 10)
         return { gs: {}, message: st('wanderHigh.1.c1msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderHigh.1.c2'), result: () => Math.random() < 0.45
@@ -773,7 +781,7 @@ export const WANDER_EVENTS_HIGH: Array<(gs: GameState) => WanderEvent> = [
         if (!gs || gs.credits < 600) return { gs: {}, message: st('wanderHigh.2.c0fail') }
         const t = pickTarget(gs)
         if (!t) return { gs: { credits: gs.credits - 600, reputation: gs.reputation + 20 }, message: st('wanderHigh.2.c0noTargetMsg') }
-        const q = quickQuest(gs, 'bounty', 'Double agent', st('wanderHigh.2.c0qTitle', { target: translateStationName(t.name) }), st('wanderHigh.2.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 6000, 40)
+        const q = quickQuest(gs, 'bounty', 'Double agent', 'wanderHigh.2.c0qTitle', 'wanderHigh.2.c0qDesc', t.name, undefined, 6000, 40)
         return { gs: { credits: gs.credits - 600, reputation: gs.reputation + 20 }, message: st('wanderHigh.2.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
       { label: st('wanderHigh.2.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 8 }, message: st('wanderHigh.2.c1msg') }) },
@@ -793,7 +801,7 @@ export const WANDER_EVENTS_HIGH: Array<(gs: GameState) => WanderEvent> = [
         const t = pickTarget(gs)
         const newCargo: typeof gs.cargo = { ...gs.cargo, 'Médicaments': (gs.cargo['Médicaments'] ?? 1) - 1 }
         if ((newCargo['Médicaments'] ?? 0) <= 0) delete (newCargo as Record<string, number>)['Médicaments']
-        const q = t ? quickQuest(gs, 'revenge', 'Mercenaire Cador', st('wanderHigh.3.c0qTitle', { target: translateStationName(t.name) }), st('wanderHigh.3.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 2500, 20) : undefined
+        const q = t ? quickQuest(gs, 'revenge', 'Mercenaire Cador', 'wanderHigh.3.c0qTitle', 'wanderHigh.3.c0qDesc', t.name, undefined, 2500, 20) : undefined
         return { gs: { reputation: gs.reputation + 18, cargo: newCargo, pastDecisions: addDecision(gs, 'saved-mercenary'), journal: addJournal(gs, st('wanderHigh.3.c0journal'), 'decision') }, message: st('wanderHigh.3.c0msg', { target: translateStationName(t?.name ?? st('wanderHigh.3.c0fallbackTarget')) }), quest: q ?? undefined }
       }},
       { label: st('wanderHigh.3.c1'), result: () => ({ gs: {}, message: st('wanderHigh.3.c1msg') }) },
@@ -807,7 +815,7 @@ export const WANDER_EVENTS_HIGH: Array<(gs: GameState) => WanderEvent> = [
     choices: [
       { label: st('wanderHigh.4.c0'), result: (gs) => {
         if (!gs || gs.credits < 700) return { gs: {}, message: st('wanderHigh.4.c0fail') }
-        const q = quickQuest(gs, 'bounty', 'Source proche d\'Alanossa', st('wanderHigh.4.c0qTitle'), st('wanderHigh.4.c0qDesc'), 'Arc Ouest Apocalypse', undefined, 8000, 50)
+        const q = quickQuest(gs, 'bounty', 'Source proche d\'Alanossa', 'wanderHigh.4.c0qTitle', 'wanderHigh.4.c0qDesc', 'Arc Ouest Apocalypse', undefined, 8000, 50)
         return { gs: { credits: gs.credits - 700, reputation: gs.reputation + 30 }, message: st('wanderHigh.4.c0msg'), quest: q }
       }},
       { label: st('wanderHigh.4.c1'), result: (gs) => Math.random() < 0.4
@@ -1081,7 +1089,7 @@ function rollContextAwareEvent(gs: GameState): WanderEvent | null {
         { label: st('contextAware.reputationPreceded.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t) return { gs: { reputation: (gs?.reputation ?? 0) + 8 }, message: st('contextAware.reputationPreceded.c0noTargetMsg') }
-          const q = quickQuest(gs!, 'delivery', 'Pilote rencontré', st('contextAware.reputationPreceded.c0qTitle'), st('contextAware.reputationPreceded.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Données', 1600, 12)
+          const q = quickQuest(gs!, 'delivery', 'Pilote rencontré', 'contextAware.reputationPreceded.c0qTitle', 'contextAware.reputationPreceded.c0qDesc', t.name, 'Données', 1600, 12)
           return { gs: { reputation: gs!.reputation + 8 }, message: st('contextAware.reputationPreceded.c0msg'), quest: q }
         }},
         { label: st('contextAware.reputationPreceded.c1'), result: (gs) => ({
@@ -1119,7 +1127,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.laCarcasse.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t) return { gs: { reputation: (gs?.reputation ?? 0) + 5 }, message: st('stationWander.laCarcasse.0.c0noTargetMsg') }
-          const q = quickQuest(gs!, 'delivery', 'Marek', st('stationWander.laCarcasse.0.c0qTitle'), st('stationWander.laCarcasse.0.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Pièces techniques', 1400, 12)
+          const q = quickQuest(gs!, 'delivery', 'Marek', 'stationWander.laCarcasse.0.c0qTitle', 'stationWander.laCarcasse.0.c0qDesc', t.name, 'Pièces techniques', 1400, 12)
           return { gs: { reputation: gs!.reputation + 5 }, message: st('stationWander.laCarcasse.0.c0msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.laCarcasse.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 8, credits: (gs?.credits ?? 0) + rng(80, 200) }, message: st('stationWander.laCarcasse.0.c1msg') }) },
@@ -1159,7 +1167,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.lesBasFondsDeVega.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t) return { gs: { credits: (gs?.credits ?? 0) - 200, cargo: { ...(gs?.cargo ?? {}), 'Drogues de synthèse': ((gs?.cargo ?? {})['Drogues de synthèse'] ?? 0) + 1 } }, message: st('stationWander.lesBasFondsDeVega.0.c0noTargetMsg') }
-          const q = quickQuest(gs!, 'delivery', 'Boro', st('stationWander.lesBasFondsDeVega.0.c0qTitle'), st('stationWander.lesBasFondsDeVega.0.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Pièces de contrebande', 2200, 5)
+          const q = quickQuest(gs!, 'delivery', 'Boro', 'stationWander.lesBasFondsDeVega.0.c0qTitle', 'stationWander.lesBasFondsDeVega.0.c0qDesc', t.name, 'Pièces de contrebande', 2200, 5)
           return { gs: { credits: (gs?.credits ?? 0) - 100 }, message: st('stationWander.lesBasFondsDeVega.0.c0msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.lesBasFondsDeVega.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 6, credits: (gs?.credits ?? 0) + rng(100, 300) }, message: st('stationWander.lesBasFondsDeVega.0.c1msg') }) },
@@ -1202,7 +1210,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.arcOuestApocalypse.0.c1'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t || Math.random() < 0.35) return { gs: { reputation: (gs?.reputation ?? 0) + 5 }, message: st('stationWander.arcOuestApocalypse.0.c1noTargetMsg') }
-          const q = quickQuest(gs!, 'sabotage', 'Cael', st('stationWander.arcOuestApocalypse.0.c1qTitle'), st('stationWander.arcOuestApocalypse.0.c1qDesc', { target: translateStationName(t.name) }), t.name, undefined, 3500, -5)
+          const q = quickQuest(gs!, 'sabotage', 'Cael', 'stationWander.arcOuestApocalypse.0.c1qTitle', 'stationWander.arcOuestApocalypse.0.c1qDesc', t.name, undefined, 3500, -5)
           return { gs: { reputation: gs!.reputation + 8 }, message: st('stationWander.arcOuestApocalypse.0.c1msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.arcOuestApocalypse.0.c2'), result: () => ({ gs: {}, message: st('stationWander.arcOuestApocalypse.0.c2msg') }) }
@@ -1215,7 +1223,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.arcOuestApocalypse.1.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t) return { gs: { credits: (gs?.credits ?? 0) + 500 }, message: st('stationWander.arcOuestApocalypse.1.c0noTargetMsg') }
-          const q = quickQuest(gs!, 'bounty', 'Source anonyme (Faucons)', st('stationWander.arcOuestApocalypse.1.c0qTitle'), st('stationWander.arcOuestApocalypse.1.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 5500, 15)
+          const q = quickQuest(gs!, 'bounty', 'Source anonyme (Faucons)', 'stationWander.arcOuestApocalypse.1.c0qTitle', 'stationWander.arcOuestApocalypse.1.c0qDesc', t.name, undefined, 5500, 15)
           return { gs: {}, message: st('stationWander.arcOuestApocalypse.1.c0msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.arcOuestApocalypse.1.c1'), result: () => ({ gs: {}, message: st('stationWander.arcOuestApocalypse.1.c1msg') }) }
@@ -1227,7 +1235,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.arcOuestApocalypse.2.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'sabotage', 'Cael', st('stationWander.arcOuestApocalypse.2.c0qTitle', { target: translateStationName(t.name) }), st('stationWander.arcOuestApocalypse.2.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 4000, -8) : undefined
+          const q = t ? quickQuest(gs!, 'sabotage', 'Cael', 'stationWander.arcOuestApocalypse.2.c0qTitle', 'stationWander.arcOuestApocalypse.2.c0qDesc', t.name, undefined, 4000, -8) : undefined
           return { gs: { reputation: gs!.reputation + 5, pastDecisions: addDecision(gs!, 'cael-contact') }, message: st('stationWander.arcOuestApocalypse.2.c0msg', { target: translateStationName(t?.name ?? st('stationWander.arcOuestApocalypse.2.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.arcOuestApocalypse.2.c1'), result: () => ({ gs: {}, message: st('stationWander.arcOuestApocalypse.2.c1msg') }) }
@@ -1242,7 +1250,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.lePurgatoire.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'patrol', 'Neva', st('stationWander.lePurgatoire.0.c0qTitle'), st('stationWander.lePurgatoire.0.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 1100, 15) : undefined
+          const q = t ? quickQuest(gs!, 'patrol', 'Neva', 'stationWander.lePurgatoire.0.c0qTitle', 'stationWander.lePurgatoire.0.c0qDesc', t.name, undefined, 1100, 15) : undefined
           return { gs: { reputation: gs!.reputation + 6 }, message: st('stationWander.lePurgatoire.0.c0msg', { target: translateStationName(t?.name ?? st('stationWander.lePurgatoire.0.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.lePurgatoire.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 4 }, message: st('stationWander.lePurgatoire.0.c1msg') }) }
@@ -1254,7 +1262,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.lePurgatoire.1.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'extraction', 'Ancien prisonnier', st('stationWander.lePurgatoire.1.c0qTitle', { target: translateStationName(t.name) }), st('stationWander.lePurgatoire.1.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Artefacts', 1600, 18) : undefined
+          const q = t ? quickQuest(gs!, 'extraction', 'Ancien prisonnier', 'stationWander.lePurgatoire.1.c0qTitle', 'stationWander.lePurgatoire.1.c0qDesc', t.name, 'Artefacts', 1600, 18) : undefined
           return { gs: { reputation: gs!.reputation + 8 }, message: st('stationWander.lePurgatoire.1.c0msg', { target: translateStationName(t?.name ?? st('stationWander.lePurgatoire.1.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.lePurgatoire.1.c1'), result: () => ({ gs: {}, message: st('stationWander.lePurgatoire.1.c1msg') }) }
@@ -1283,7 +1291,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.fortKharos.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'revenge', 'Torvak', st('stationWander.fortKharos.0.c0qTitle'), st('stationWander.fortKharos.0.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 2800, 25) : undefined
+          const q = t ? quickQuest(gs!, 'revenge', 'Torvak', 'stationWander.fortKharos.0.c0qTitle', 'stationWander.fortKharos.0.c0qDesc', t.name, undefined, 2800, 25) : undefined
           return { gs: { reputation: gs!.reputation + 10 }, message: st('stationWander.fortKharos.0.c0msg', { target: translateStationName(t?.name ?? st('stationWander.fortKharos.0.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.fortKharos.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 5 }, message: st('stationWander.fortKharos.0.c1msg') }) }
@@ -1295,7 +1303,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.fortKharos.1.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'escort', 'Recrue désertrice', st('stationWander.fortKharos.1.c0qTitle'), st('stationWander.fortKharos.1.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 2000, -10) : undefined
+          const q = t ? quickQuest(gs!, 'escort', 'Recrue désertrice', 'stationWander.fortKharos.1.c0qTitle', 'stationWander.fortKharos.1.c0qDesc', t.name, undefined, 2000, -10) : undefined
           return { gs: { cargo: { ...(gs?.cargo ?? {}), 'Passager': ((gs?.cargo ?? {})['Passager'] ?? 0) + 1 }, pastDecisions: addDecision(gs!, 'helped-defector'), journal: addJournal(gs!, st('stationWander.fortKharos.1.c0journal'), 'decision') }, message: st('stationWander.fortKharos.1.c0msg', { target: translateStationName(t?.name ?? st('stationWander.fortKharos.1.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.fortKharos.1.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 6 }, message: st('stationWander.fortKharos.1.c1msg') }) },
@@ -1311,7 +1319,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.nexusAldara.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'heist', 'Lira', st('stationWander.nexusAldara.0.c0qTitle', { target: translateStationName(t.name) }), st('stationWander.nexusAldara.0.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Données classifiées', 3200, 12) : undefined
+          const q = t ? quickQuest(gs!, 'heist', 'Lira', 'stationWander.nexusAldara.0.c0qTitle', 'stationWander.nexusAldara.0.c0qDesc', t.name, 'Données classifiées', 3200, 12) : undefined
           return { gs: { reputation: gs!.reputation + 8 }, message: st('stationWander.nexusAldara.0.c0msg', { target: translateStationName(t?.name ?? st('stationWander.nexusAldara.0.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.nexusAldara.0.c1'), result: (gs) => ({ gs: { credits: (gs?.credits ?? 0) + rng(500, 1200), reputation: (gs?.reputation ?? 0) - 25 }, message: st('stationWander.nexusAldara.0.c1msg') }) }
@@ -1323,7 +1331,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.nexusAldara.1.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'escort', 'Hacker en fuite', st('stationWander.nexusAldara.1.c0qTitle', { target: translateStationName(t.name) }), st('stationWander.nexusAldara.1.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 2800, 10) : undefined
+          const q = t ? quickQuest(gs!, 'escort', 'Hacker en fuite', 'stationWander.nexusAldara.1.c0qTitle', 'stationWander.nexusAldara.1.c0qDesc', t.name, undefined, 2800, 10) : undefined
           return { gs: {}, message: st('stationWander.nexusAldara.1.c0msg', { target: translateStationName(t?.name ?? st('stationWander.nexusAldara.1.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.nexusAldara.1.c1'), result: () => ({ gs: {}, message: st('stationWander.nexusAldara.1.c1msg') }) }
@@ -1339,7 +1347,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.emporiumRequiem.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t) return { gs: { credits: (gs?.credits ?? 0) + 400, reputation: (gs?.reputation ?? 0) + 8, pastDecisions: addDecision(gs!, 'pistis-ally'), pillarStanding: shiftPillar(gs!, 'cesarion', +8), journal: addJournal(gs!, st('stationWander.emporiumRequiem.0.c0noTargetJournal'), 'event') }, message: st('stationWander.emporiumRequiem.0.c0noTargetMsg') }
-          const q = quickQuest(gs!, 'delivery', 'Pistis', st('stationWander.emporiumRequiem.0.c0qTitle'), st('stationWander.emporiumRequiem.0.c0qDesc', { target: translateStationName(t.name) }), t.name, 'Renseignements', 3000, 8)
+          const q = quickQuest(gs!, 'delivery', 'Pistis', 'stationWander.emporiumRequiem.0.c0qTitle', 'stationWander.emporiumRequiem.0.c0qDesc', t.name, 'Renseignements', 3000, 8)
           return { gs: { reputation: gs!.reputation + 8, pastDecisions: addDecision(gs!, 'pistis-ally'), pillarStanding: shiftPillar(gs!, 'cesarion', +8), journal: addJournal(gs!, st('stationWander.emporiumRequiem.0.c0journal'), 'event') }, message: st('stationWander.emporiumRequiem.0.c0msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.emporiumRequiem.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 3 }, message: st('stationWander.emporiumRequiem.0.c1msg') }) }
@@ -1372,7 +1380,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         }},
         { label: st('stationWander.laForgeNoire.0.c1'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          const q = t ? quickQuest(gs!, 'extraction', 'Rook', st('stationWander.laForgeNoire.0.c1qTitle'), st('stationWander.laForgeNoire.0.c1qDesc', { target: translateStationName(t.name) }), t.name, 'Métaux rares', 800, 10) : undefined
+          const q = t ? quickQuest(gs!, 'extraction', 'Rook', 'stationWander.laForgeNoire.0.c1qTitle', 'stationWander.laForgeNoire.0.c1qDesc', t.name, 'Métaux rares', 800, 10) : undefined
           return { gs: {}, message: st('stationWander.laForgeNoire.0.c1msg', { target: translateStationName(t?.name ?? st('stationWander.laForgeNoire.0.c1fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.laForgeNoire.0.c2'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 8 }, message: st('stationWander.laForgeNoire.0.c2msg') }) }
@@ -1457,7 +1465,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.starQuest.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           if (!t) return { gs: { reputation: gs!.reputation + 5 }, message: st('stationWander.starQuest.0.c0noTargetMsg') }
-          const q = quickQuest(gs!, 'patrol', 'Ganz', st('stationWander.starQuest.0.c0qTitle'), st('stationWander.starQuest.0.c0qDesc', { target: translateStationName(t.name) }), t.name, undefined, 1800, 10)
+          const q = quickQuest(gs!, 'patrol', 'Ganz', 'stationWander.starQuest.0.c0qTitle', 'stationWander.starQuest.0.c0qDesc', t.name, undefined, 1800, 10)
           return { gs: { reputation: gs!.reputation + 5 }, message: st('stationWander.starQuest.0.c0msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.starQuest.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 2 }, message: st('stationWander.starQuest.0.c1msg') }) }

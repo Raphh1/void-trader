@@ -9,7 +9,7 @@
     "dailyDebt": "⚠ -{{amount}} cr par jour",
     "travelCreditCost": "⚠ -{{amount}} cr par voyage",
     "cargoDegrades": "⚠ 30% chance de perdre un cargo en voyage",
-    "cursedEvents": "⚠ Événements positifs 50% de chance de fizzle",
+    "cursedEvents": "⚠ 1 gain d'événement sur 2 se retourne en perte",
     "piratesDoubled": "⚠ Pirates deux fois plus fréquents",
     "cannotBuyWeapons": "⚠ Ne peut pas acheter d'armes",
     "peacefulBan": "⚠ Banné des stations paisibles"
@@ -24,9 +24,18 @@
   "runConditionsHeader": "◆ CONDITIONS DE RUN",
   "rerollCount": "Relancer ({{count}})",
   "difficulty": {
-    "easy": { "label": "Facile", "desc": "Sans modificateurs" },
-    "normal": { "label": "Normal", "desc": "2 modificateurs" },
-    "hard": { "label": "Difficile", "desc": "3 malus uniquement" }
+    "easy": {
+      "label": "Facile",
+      "desc": "Sans modificateurs"
+    },
+    "normal": {
+      "label": "Normal",
+      "desc": "2 modificateurs"
+    },
+    "hard": {
+      "label": "Difficile",
+      "desc": "3 malus uniquement"
+    }
   },
   "noModifiers": "Aucun modificateur — partie sans contraintes supplémentaires.",
   "tag": {

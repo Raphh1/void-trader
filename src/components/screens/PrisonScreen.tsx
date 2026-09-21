@@ -681,7 +681,7 @@ export function PrisonScreen() {
           </button>
           <button className="px-btn" style={{ color: 'var(--cyan)', borderColor: 'var(--cyan)' }}
             onClick={() => {
-              patch({ pendingInterrogation: { faction: getStationFactionName(gs.currentStation) ?? t('menu.pleadFaction'), captureStation: gs.currentStation, fromPrison: true } })
+              patch({ pendingInterrogation: { faction: getStationFactionName(gs.currentStation) ?? 'Autorités locales', captureStation: gs.currentStation, fromPrison: true } })
               goTo('interrogation')
             }}>
             {t('menu.pleadButton')}
