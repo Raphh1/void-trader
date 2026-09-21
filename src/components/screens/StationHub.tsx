@@ -3,7 +3,7 @@ import { questTitle, questDescription, questGiver } from '../../engine/questI18n
 import { TypewriterText } from '../ui/TypewriterText'
 import type { GameState, WeaponData } from '../../types'
 import { useGameStore } from '../../store/gameStore'
-import { StatusBar } from '../ui/StatusBar'
+import { StatusBarWithDeltas } from '../ui/StatusBar'
 import { getStation, BOSS_STATIONS, FUEL_STATIONS, getAccessibleStations, getFuelCost } from '../../data/stations'
 import { getEnemyForStation, scaleEnemy, getTierBoss } from '../../data/enemies'
 import { rollExplorationEvent, rollWanderEvent, type WanderEvent } from '../../engine/exploration'
@@ -11,7 +11,7 @@ import type { ExploreResult } from '../../engine/exploration'
 import { generateQuest } from '../../engine/quests'
 import { localizeMajorQuest } from '../../engine/majorQuests'
 import { describeLieutenantReward } from '../../data/lieutenantRewards'
-import { RelicBar, CrewPanel, CompetitorsBoard, CompetitorNewsLines, CompetitorEncounter } from '../ui/RunExtras'
+import { RunDock, CompetitorNewsLines, CompetitorEncounter } from '../ui/RunExtras'
 import { getStationEvents, type StationEvent } from '../../engine/stationEvents'
 import { getNamedNpcs, getNpcService } from '../../engine/npcTracker'
 import { getAmbiance } from '../../engine/jsonEventLoader'
@@ -874,10 +874,8 @@ export function StationHub() {
   return (
     <div className="hub-layout" style={{ maxWidth: '1300px', margin: '0 auto', padding: '20px' }}>
     <div className="scanlines" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <StatusBar gs={gs} />
-      <RelicBar gs={gs} />
-      <CrewPanel gs={gs} />
-      <CompetitorsBoard gs={gs} />
+      <StatusBarWithDeltas gs={gs} />
+      <RunDock gs={gs} />
 
       {/* ── MODE CONQUÊTE (post-victoire) ──────────────────────────────────── */}
       {gs.conquestMode && (
@@ -1260,12 +1258,12 @@ export function StationHub() {
                 <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{t('navigationHeader')}</span>
                   <button className="px-btn px-btn--sm" style={{ width: 'auto', fontSize: '8px', padding: '3px 8px', color: 'var(--cyan)', borderColor: 'var(--cyan)' }}
-                    onClick={() => goTo('map')}>
+                    data-hotkey="c" onClick={() => goTo('map')}>
                     {t('map')}
                   </button>
                 </div>
                 {tutPhase >= 1 && (
-                  <button className="px-btn" onClick={() => goTo('travel')} disabled={gs.fuel <= 0}>
+                  <button className="px-btn" data-hotkey="v" onClick={() => goTo('travel')} disabled={gs.fuel <= 0}>
                     {gs.fuel <= 0 ? t('travelNoFuel') : t('travel', { fuel: gs.fuel })}
                   </button>
                 )}
@@ -1283,7 +1281,7 @@ export function StationHub() {
                         : t('scavengeCritical')}
                   </button>
                 )}
-                <button className="px-btn" onClick={() => goTo('market')}>
+                <button className="px-btn" data-hotkey="m" onClick={() => goTo('market')}>
                   {t('market')}
                 </button>
                 {/* Endetté : sa dette est son outil. Il lève des fonds quand
@@ -1780,7 +1778,7 @@ export function StationHub() {
               )
             })()}
           </div>
-          <button className="px-btn" onClick={() => goTo('inventory')} disabled={gs.weapons.length === 0 && gs.armors.length === 0}>
+          <button className="px-btn" data-hotkey="i" onClick={() => goTo('inventory')} disabled={gs.weapons.length === 0 && gs.armors.length === 0}>
             {t('weaponsArmors', { weapons: gs.weapons.length, armors: gs.armors.length })}
           </button>
           {(gs.cargo['Médicaments'] ?? 0) > 0 && gs.playerHp < gs.playerMaxHp && (
@@ -1981,7 +1979,7 @@ export function StationHub() {
 
         <div className="col">
           <div className="section-header">{t('progressionHeader')}</div>
-          <button className="px-btn" onClick={() => goTo('quests')} disabled={trackedCount === 0}>
+          <button className="px-btn" data-hotkey="q" onClick={() => goTo('quests')} disabled={trackedCount === 0}>
             {t('questsButton', { count: trackedCount })}
           </button>
           <button className="px-btn" onClick={() => goTo('objectives')}>
@@ -1997,7 +1995,7 @@ export function StationHub() {
             {t('loreTitle')} {(gs.discoveredLore ?? []).length > 0 ? t('loreFragments', { count: gs.discoveredLore.length }) : t('loreEmpty')}
           </button>
           <button className="px-btn" style={{ borderColor: 'var(--text-dim)', color: (gs.journal ?? []).length > 0 ? 'var(--orange)' : 'var(--text-dim)' }}
-            onClick={() => goTo('journal')}>
+            data-hotkey="j" onClick={() => goTo('journal')}>
             {t('journalTitle')} {(gs.journal ?? []).length > 0 ? t('journalEntries', { count: gs.journal.length }) : t('journalEmpty')}
           </button>
           <button className="px-btn" onClick={() => goTo('factions')}>

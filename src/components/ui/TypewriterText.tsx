@@ -53,6 +53,7 @@ export function TypewriterText({ text, speed, onDone, className, style }: Props)
       className={className}
       style={{ ...style, cursor: pos < text.length ? 'pointer' : undefined }}
       onClick={skip}
+      data-skip={pos < text.length ? 'true' : undefined}
       title={pos < text.length ? t('typewriterSkip') : undefined}
     >
       {text.slice(0, pos)}

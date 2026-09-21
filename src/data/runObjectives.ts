@@ -87,9 +87,9 @@ function getRunObjectivesList(): RunObjective[] {
   ]
 }
 
-export function drawRunObjective(): RunObjective {
+export function drawRunObjective(rng: () => number = Math.random): RunObjective {
   const list = getRunObjectivesList()
-  return list[Math.floor(Math.random() * list.length)]
+  return list[Math.floor(rng() * list.length)]
 }
 
 export function getRunObjective(id: string): RunObjective | undefined {

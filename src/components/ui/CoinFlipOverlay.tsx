@@ -89,7 +89,7 @@ export function CoinFlipOverlay() {
   const couleur = !reveal ? 'var(--gold)' : current.heads ? 'var(--gold)' : 'var(--red)'
   return (
     <div className={`coinflip-backdrop ${phase === 'edge' ? 'coinflip-pulse' : ''} ${reveal && !current.heads ? 'coinflip-shake' : ''} ${reveal && current.heads ? 'coinflip-flash' : ''}`}
-      onClick={abreger}>
+      data-skip="true" onClick={abreger}>
       <div className="t-xs" style={{ letterSpacing: '4px', color: 'var(--dim)' }}>{t('allOrNothing')}</div>
       <div className="t-sm t-bright mt4" style={{ textAlign: 'center' }}>{t(`stake.${current.stake}.title`, current.params)}</div>
       <div className="coinflip-stage">

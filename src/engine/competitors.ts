@@ -27,15 +27,16 @@ const NOMS: Record<CompetitorStyle, string[]> = {
 const HUMEUR_INITIALE: Record<CompetitorStyle, number> = { marchand: 10, pillard: -15, chasseur: 0 }
 
 /** Les trois concurrents d'une nouvelle run, dispersés loin du joueur. */
-export function createCompetitors(startStation: string): Competitor[] {
+export function createCompetitors(startStation: string, rand: () => number = Math.random): Competitor[] {
+  const choix = <T,>(arr: T[]): T => arr[Math.floor(rand() * arr.length)]
   const loin = getStations().filter(s => s.name !== startStation && !getAccessibleStations(startStation).some(a => a.name === s.name))
   const styles: CompetitorStyle[] = ['marchand', 'pillard', 'chasseur']
   return styles.map((style, i) => ({
     id: `${style}-${i}`,
-    name: pick(NOMS[style]),
+    name: choix(NOMS[style]),
     style,
-    station: pick(loin).name,
-    credits: rng(700, 1300),
+    station: choix(loin).name,
+    credits: 700 + Math.floor(rand() * 601),
     mood: HUMEUR_INITIALE[style],
     outUntilDay: 0,
   }))

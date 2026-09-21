@@ -48,34 +48,6 @@ export function RelicChoiceModal() {
   )
 }
 
-/** Reliques possédées : icônes, détail au clic. */
-export function RelicBar({ gs }: { gs: GameState }) {
-  const { t } = useTranslation('relics')
-  const [open, setOpen] = useState(false)
-  const relics = (gs.relics ?? []).map(getRelic).filter(r => !!r)
-  if (relics.length === 0) return null
-  return (
-    <div className="px-box" style={{ padding: '6px 10px', cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
-      <div className="row" style={{ alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-        <span className="t-xs t-dim" style={{ letterSpacing: '1px' }}>{t('bar.title', { count: relics.length })}</span>
-        {relics.map(r => (
-          <span key={r!.id} title={`${r!.name} — ${r!.description}`} style={{ fontSize: '14px', filter: r!.rarity === 'cursed' ? 'hue-rotate(-30deg)' : undefined }}>{r!.icon}</span>
-        ))}
-        <span className="t-xs t-dim" style={{ marginLeft: 'auto' }}>{open ? '▲' : '▼'}</span>
-      </div>
-      {open && (
-        <div className="col gap4 mt8">
-          {relics.map(r => (
-            <div key={r!.id} className="t-xs" style={{ lineHeight: 1.7 }}>
-              <span style={{ color: RARITY_COLOR[r!.rarity] }}>{r!.icon} {r!.name}</span> — {r!.description}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
-
 /** Rend une nouvelle de concurrent dans la langue courante. */
 export function useNewsText() {
   const { t } = useTranslation('competitors')
@@ -142,49 +114,35 @@ export function CompetitorEncounter({ gs }: { gs: GameState }) {
   )
 }
 
-/** Classement par fortune, repliable. */
-export function CompetitorsBoard({ gs }: { gs: GameState }) {
+/** Classement par fortune. */
+function StandingsList({ gs }: { gs: GameState }) {
   const { t } = useTranslation('competitors')
-  const [open, setOpen] = useState(false)
-  if ((gs.competitors ?? []).length === 0) return null
-  const rang = getPlayerRank(gs)
   return (
-    <div className="px-box" style={{ padding: '6px 10px', cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
-      <div className="row" style={{ alignItems: 'center', gap: '8px' }}>
-        <span className="t-xs t-dim" style={{ letterSpacing: '1px' }}>{t('board.title')}</span>
-        <span className="t-xs" style={{ color: rang === 1 ? 'var(--gold)' : 'var(--text)' }}>{t('board.rank', { rank: rang, total: (gs.competitors ?? []).length + 1 })}</span>
-        <span className="t-xs t-dim" style={{ marginLeft: 'auto' }}>{open ? '▲' : '▼'}</span>
-      </div>
-      {open && (
-        <div className="col gap4 mt8">
-          {getStandings(gs).map((s, i) => {
-            const c = s.isPlayer ? null : (gs.competitors ?? []).find(x => x.name === s.name)
-            return (
-              <div key={i} className="t-xs row" style={{ gap: '8px', color: s.isPlayer ? 'var(--cyan)' : 'var(--text)' }}>
-                <span style={{ width: '18px' }}>{i + 1}.</span>
-                <span style={{ flex: 1 }}>
-                  {s.isPlayer ? t('board.you') : s.name}
-                  {c && <span className="t-dim"> · {t(`style.${c.style}`)} · {(c.outUntilDay ?? 0) > gs.day ? t('board.out') : translateStationName(c.station)}</span>}
-                </span>
-                <span className="t-gold">{s.credits.toLocaleString()} cr</span>
-              </div>
-            )
-          })}
-        </div>
-      )}
+    <div className="col gap4">
+      {getStandings(gs).map((s, i) => {
+        const c = s.isPlayer ? null : (gs.competitors ?? []).find(x => x.name === s.name)
+        return (
+          <div key={i} className="t-xs row" style={{ gap: '8px', color: s.isPlayer ? 'var(--cyan)' : 'var(--text)' }}>
+            <span style={{ width: '18px' }}>{i + 1}.</span>
+            <span style={{ flex: 1 }}>
+              {s.isPlayer ? t('board.you') : s.name}
+              {c && <span className="t-dim"> · {t(`style.${c.style}`)} · {(c.outUntilDay ?? 0) > gs.day ? t('board.out') : translateStationName(c.station)}</span>}
+            </span>
+            <span className="t-gold">{s.credits.toLocaleString()} cr</span>
+          </div>
+        )
+      })}
     </div>
   )
 }
 
 /** Équipage : membres actuels et recrues du bar de la station. */
-export function CrewPanel({ gs }: { gs: GameState }) {
+function CrewBody({ gs }: { gs: GameState }) {
   const { t } = useTranslation('crew')
   const patch = useGameStore(s => s.patch)
-  const [open, setOpen] = useState(false)
   const [renvoi, setRenvoi] = useState<string | null>(null)
   const crew = gs.crew ?? []
   const recrues = getRecruits(gs.currentStation, gs.day, crew).filter(m => !(gs.crewHired ?? []).includes(m.id))
-  const salaires = crew.reduce((n, m) => n + m.salary, 0)
 
   const ligne = (m: CrewMember) => (
     <>
@@ -195,42 +153,93 @@ export function CrewPanel({ gs }: { gs: GameState }) {
   )
 
   return (
-    <div className="px-box" style={{ padding: '6px 10px' }}>
-      <div className="row" style={{ alignItems: 'center', gap: '8px', cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
-        <span className="t-xs t-dim" style={{ letterSpacing: '1px' }}>{t('title', { count: crew.length, max: MAX_CREW })}</span>
-        {crew.length > 0 && <span className="t-xs t-gold">{t('dailyCost', { amount: salaires })}</span>}
-        {recrues.length > 0 && <span className="t-xs" style={{ color: 'var(--green)' }}>{t('recruitsHere', { count: recrues.length })}</span>}
-        <span className="t-xs t-dim" style={{ marginLeft: 'auto' }}>{open ? '▲' : '▼'}</span>
+    <div className="col gap4">
+      {crew.length === 0 && <div className="t-xs t-dim">{t('empty')}</div>}
+      {crew.map(m => (
+        <div key={m.id} className="t-xs" style={{ lineHeight: 1.7, borderLeft: `2px solid ${m.loyalty < 25 ? 'var(--red)' : m.loyalty < 50 ? 'var(--orange)' : 'var(--green)'}`, paddingLeft: '8px' }}>
+          {ligne(m)}
+          <div className="row" style={{ gap: '8px', alignItems: 'center' }}>
+            <span style={{ color: m.loyalty < 25 ? 'var(--red)' : 'var(--dim)' }}>{t('loyalty', { value: m.loyalty })}{m.loyalty < 25 ? ` — ${t('desertionRisk')}` : ''}</span>
+            <button className="px-btn px-btn--sm" style={{ width: 'auto', marginLeft: 'auto', color: 'var(--red)' }}
+              onClick={() => { if (renvoi === m.id) { patch(fireCrew(gs, m.id)); setRenvoi(null) } else setRenvoi(m.id) }}>
+              {renvoi === m.id ? t('fireConfirm') : t('fire')}
+            </button>
+          </div>
+        </div>
+      ))}
+      <div className="t-xs mt4" style={{ color: 'var(--orange)', letterSpacing: '1px' }}>{t('barHeader')}</div>
+      {recrues.length === 0 && <div className="t-xs t-dim">{t('noRecruits')}</div>}
+      {recrues.map(m => {
+        const embauche = hireCrew(gs, m)
+        return (
+          <div key={m.id} className="t-xs" style={{ lineHeight: 1.7, paddingLeft: '8px', borderLeft: '2px solid var(--border)' }}>
+            {ligne(m)}
+            <button className="px-btn px-btn--sm mt4" style={{ width: 'auto' }} disabled={!embauche}
+              onClick={() => embauche && patch(embauche)}>
+              {crew.length >= MAX_CREW ? t('full') : t('hire', { fee: hiringFee(m) })}
+            </button>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+type DockTab = 'relics' | 'crew' | 'rivals'
+
+/**
+ * Barre de run : reliques, équipage et concurrents réunis en une ligne de
+ * pastilles, détail au clic. Ils s'empilaient en trois blocs sous la barre
+ * d'état et repoussaient le contenu de la station hors de l'écran.
+ */
+export function RunDock({ gs }: { gs: GameState }) {
+  const { t: tr } = useTranslation('relics')
+  const { t: tc } = useTranslation('crew')
+  const { t: tk } = useTranslation('competitors')
+  const [tab, setTab] = useState<DockTab | null>(null)
+  const relics = (gs.relics ?? []).map(getRelic).filter((r): r is NonNullable<typeof r> => !!r)
+  const crew = gs.crew ?? []
+  const recrues = getRecruits(gs.currentStation, gs.day, crew).filter(m => !(gs.crewHired ?? []).includes(m.id))
+  const salaires = crew.reduce((n, m) => n + m.salary, 0)
+  const loyauteBasse = crew.some(m => m.loyalty < 25)
+  const rang = getPlayerRank(gs)
+  const total = (gs.competitors ?? []).length + 1
+
+  const chip = (id: DockTab, contenu: React.ReactNode, accent?: string) => (
+    <button className="px-btn px-btn--sm" onClick={() => setTab(x => x === id ? null : id)}
+      style={{ width: 'auto', padding: '4px 10px', borderColor: tab === id ? 'var(--gold)' : accent ?? 'var(--border)', color: 'var(--text)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+      {contenu}
+    </button>
+  )
+
+  return (
+    <div className="px-box" style={{ padding: '6px 8px' }}>
+      <div className="row" style={{ gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+        {chip('relics', <>
+          <span className="t-xs t-dim">◈ {relics.length}</span>
+          {relics.length === 0
+            ? <span className="t-xs t-dim">{tr('bar.none')}</span>
+            : relics.map(r => <span key={r.id} title={`${r.name} — ${r.description}`} style={{ fontSize: '13px' }}>{r.icon}</span>)}
+        </>)}
+        {chip('crew', <>
+          <span className="t-xs">{tc('chip', { count: crew.length, max: MAX_CREW })}</span>
+          {crew.length > 0 && <span className="t-xs t-gold">−{salaires}/j</span>}
+          {loyauteBasse && <span className="t-xs t-red">⚠</span>}
+          {recrues.length > 0 && <span className="t-xs" style={{ color: 'var(--green)' }}>+{recrues.length}</span>}
+        </>, loyauteBasse ? 'var(--red)' : recrues.length > 0 ? 'var(--green)' : undefined)}
+        {(gs.competitors ?? []).length > 0 && chip('rivals', <span className="t-xs" style={{ color: rang === 1 ? 'var(--gold)' : 'var(--text)' }}>{tk('board.rank', { rank: rang, total })}</span>)}
       </div>
-      {open && (
-        <div className="col gap4 mt8">
-          {crew.length === 0 && <div className="t-xs t-dim">{t('empty')}</div>}
-          {crew.map(m => (
-            <div key={m.id} className="t-xs" style={{ lineHeight: 1.7, borderLeft: `2px solid ${m.loyalty < 25 ? 'var(--red)' : m.loyalty < 50 ? 'var(--orange)' : 'var(--green)'}`, paddingLeft: '8px' }}>
-              {ligne(m)}
-              <div className="row" style={{ gap: '8px', alignItems: 'center' }}>
-                <span style={{ color: m.loyalty < 25 ? 'var(--red)' : 'var(--dim)' }}>{t('loyalty', { value: m.loyalty })}{m.loyalty < 25 ? ` — ${t('desertionRisk')}` : ''}</span>
-                <button className="px-btn px-btn--sm" style={{ width: 'auto', marginLeft: 'auto', color: 'var(--red)' }}
-                  onClick={() => { if (renvoi === m.id) { patch(fireCrew(gs, m.id)); setRenvoi(null) } else setRenvoi(m.id) }}>
-                  {renvoi === m.id ? t('fireConfirm') : t('fire')}
-                </button>
-              </div>
-            </div>
-          ))}
-          <div className="t-xs mt4" style={{ color: 'var(--orange)', letterSpacing: '1px' }}>{t('barHeader')}</div>
-          {recrues.length === 0 && <div className="t-xs t-dim">{t('noRecruits')}</div>}
-          {recrues.map(m => {
-            const embauche = hireCrew(gs, m)
-            return (
-              <div key={m.id} className="t-xs" style={{ lineHeight: 1.7, paddingLeft: '8px', borderLeft: '2px solid var(--border)' }}>
-                {ligne(m)}
-                <button className="px-btn px-btn--sm mt4" style={{ width: 'auto' }} disabled={!embauche}
-                  onClick={() => embauche && patch(embauche)}>
-                  {crew.length >= MAX_CREW ? t('full') : t('hire', { fee: hiringFee(m) })}
-                </button>
-              </div>
-            )
-          })}
+      {tab && (
+        <div className="mt8" style={{ borderTop: '1px solid var(--border-dim)', paddingTop: '8px' }}>
+          {tab === 'relics' && (relics.length === 0
+            ? <div className="t-xs t-dim">{tr('bar.empty')}</div>
+            : <div className="col gap4">{relics.map(r => (
+                <div key={r.id} className="t-xs" style={{ lineHeight: 1.7 }}>
+                  <span style={{ color: RARITY_COLOR[r.rarity] }}>{r.icon} {r.name}</span> — {r.description}
+                </div>
+              ))}</div>)}
+          {tab === 'crew' && <CrewBody gs={gs} />}
+          {tab === 'rivals' && <StandingsList gs={gs} />}
         </div>
       )}
     </div>

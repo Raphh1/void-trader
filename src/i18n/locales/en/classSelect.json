@@ -53,5 +53,12 @@
   "ptsToSpend": "· {{pts}} pts to spend",
   "activeCount_one": "({{count}} active)",
   "activeCount_other": "({{count}} active)",
-  "footer": "THE VOID AWAITS YOU"
+  "footer": "THE VOID AWAITS YOU",
+  "daily": {
+    "title": "◆ DAILY CHALLENGE — {{date}}",
+    "best": "record: {{score}} cr",
+    "noBest": "not played yet",
+    "rules": "Same class, modifiers, objective, starting relics and competitors for everyone today. No legacy bonuses. Score: credits earned over the run.",
+    "start": "▶ Take today's challenge"
+  }
 }

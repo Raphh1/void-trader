@@ -39,6 +39,7 @@ import relicsFr from './locales/fr/relics.json'
 import competitorsFr from './locales/fr/competitors.json'
 import crewFr from './locales/fr/crew.json'
 import coinFlipFr from './locales/fr/coinFlip.json'
+import runStoryFr from './locales/fr/runStory.json'
 import recipesFr from './locales/fr/recipes.json'
 import subBossesFr from './locales/fr/subBosses.json'
 import loreFragmentsFr from './locales/fr/loreFragments.json'
@@ -118,6 +119,7 @@ export default {
   competitors: competitorsFr,
   crew: crewFr,
   coinFlip: coinFlipFr,
+  runStory: runStoryFr,
   recipes: recipesFr,
   subBosses: subBossesFr,
   loreFragments: loreFragmentsFr,

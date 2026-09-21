@@ -15,7 +15,9 @@
     "cursed": "maudite"
   },
   "bar": {
-    "title": "◈ RELIQUES ({{count}})"
+    "title": "◈ RELIQUES ({{count}})",
+    "none": "aucune relique",
+    "empty": "Aucune relique pour l'instant. Tu en choisis une après chaque boss ou lieutenant vaincu."
   },
   "relics": {
     "boussoleFelee": {

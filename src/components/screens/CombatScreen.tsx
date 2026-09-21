@@ -459,7 +459,7 @@ export function CombatScreen() {
             {t('subBossHint')}
           </div>
         )}
-        <div className="col gap4">
+        <div className="col gap4" data-hotkeys="numbered">
           {cs.momentum >= 3 && (
             <button className="px-btn px-btn--primary momentum-pulse" disabled={isAnimating} onClick={() => { playFinisher(); act({ type: 'finisher' }) }}>
               {t('actions.finisher')}<span className="t-gold">{dmgRange(3)}{t('actions.finisherSuffix')}</span>

@@ -1,0 +1,19 @@
+{
+  "title": "◆ YOUR RUN IN SHORT",
+  "daily": "Daily challenge",
+  "dailyScore": "{{score}} cr earned",
+  "dailyBest": "today's record: {{best}} cr",
+  "dailyNewBest": "★ new record for today",
+  "build": "Build",
+  "noRelics": "no relics",
+  "crew": "Crew",
+  "soloFlight": "you flew alone",
+  "lost": "lost: {{names}}",
+  "ranking": "Competitors",
+  "rankFirst": "★ #1 of {{total}} — the richest in the sector",
+  "rankOther": "#{{rank}} of {{total}}",
+  "leader": "(leader: {{name}}, {{credits}} cr)",
+  "bestMove": "Best move",
+  "worstMove": "Worst loss",
+  "moment": "{{amount}} cr — day {{day}}, {{station}}"
+}

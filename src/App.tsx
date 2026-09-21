@@ -36,6 +36,8 @@ import { useTranslation }       from 'react-i18next'
 import { LanguageToggle }       from './components/ui/LanguageToggle'
 import { RelicChoiceModal }     from './components/ui/RunExtras'
 import { CoinFlipOverlay }      from './components/ui/CoinFlipOverlay'
+import { useHotkeys }           from './components/ui/useHotkeys'
+import { RunStory }             from './components/ui/RunStory'
 
 function Toast({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   useEffect(() => {
@@ -74,6 +76,7 @@ function renderScreen(screen: string) {
 }
 
 export default function App() {
+  useHotkeys()
   const gs    = useGameStore(s => s.gs)
   const patch = useGameStore(s => s.patch)
   const [showMeta, setShowMeta]       = useState(false)
@@ -218,6 +221,7 @@ function GameOver({ onMeta, showMeta, onBackFromMeta }: { onMeta: () => void; sh
         </div>
         <PointsBadge />
         <NextUnlockBar />
+        <RunStory gs={gs} />
         <RunStats gs={gs} />
         <div className="row gap4">
           <button className="px-btn" style={{ flex: 1, borderColor: 'var(--purple)', color: 'var(--purple)' }} onClick={onMeta}>
@@ -263,6 +267,7 @@ function Victory({ onMeta, showMeta, onBackFromMeta }: { onMeta: () => void; sho
 
         <PointsBadge />
         <NextUnlockBar />
+        <RunStory gs={gs} />
         <RunStats gs={gs} />
         <button className="px-btn px-btn--primary mb8" onClick={continueConquest}
           style={{ width: '100%', borderColor: 'var(--cyan)', color: 'var(--cyan)' }}>

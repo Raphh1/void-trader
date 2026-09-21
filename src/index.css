@@ -367,3 +367,19 @@ html, body, #root {
 }
 .arrival-fade { animation: arrivalFade 0.7s ease-out both; }
 @keyframes arrivalFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ── Raccourcis clavier ───────────────────────────────────────────────────── */
+/* Actions de combat numérotées (1 à 9) dans l'ordre d'affichage. */
+[data-hotkeys="numbered"] { counter-reset: hk; }
+[data-hotkeys="numbered"] button:not([disabled]) { counter-increment: hk; position: relative; }
+[data-hotkeys="numbered"] button:not([disabled])::after {
+  content: counter(hk); position: absolute; right: 6px; top: 4px;
+  font-size: 8px; color: var(--dim); opacity: 0.7;
+}
+@media (hover: none) { [data-hotkeys="numbered"] button::after { display: none; } }
+[data-hotkey] { position: relative; }
+[data-hotkey]::after {
+  content: attr(data-hotkey); position: absolute; right: 6px; top: 4px;
+  font-size: 8px; color: var(--dim); opacity: 0.6; text-transform: uppercase;
+}
+@media (hover: none) { [data-hotkey]::after { display: none; } }

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { playBuy, playSell } from '../../engine/sfx'
@@ -12,6 +12,7 @@ import { getBlackMarketOffers, isBlackMarketAvailable, buyBlackMarketOffer } fro
 import { translateGood, translateWeaponName, translateArmorName, translateStationName, translateFactionName } from '../../engine/goodsI18n'
 import { getPassiveMods } from '../../data/relics'
 import { getCompetitorPriceMult, getPressuresAt } from '../../engine/competitors'
+import { priceTrend, bestSeenElsewhere } from '../../engine/priceMemory'
 
 const BASE_PRICES: Record<string, number> = {
   'Médicaments': 250, 'Médicaments premium': 580, 'Métaux bruts': 130,
@@ -116,6 +117,47 @@ export function MarketScreen() {
   const controllingFactionName = getStationFactionName(gs.currentStation)
   const factionRepLevel = controllingFaction ? getRepLevel(getFactionRep(gs, controllingFaction)) : null
 
+  function buyPriceOf(item: string): number {
+    const rawPrice = Math.floor((frozenBasePrices[item] ?? getBasePrice(item)) * stationSeed * getWorldEventPriceMultiplier(item, events) * runBuyMult * getFullBuyMult(gs, station.type, item) * relicMods.buyMult * compMult(item))
+    return Math.floor(rawPrice * (1 - discount / 100) * (1 + factionSurcharge / 100) * (1 - (gs.class.tradeBonusPercent ?? 0) / 100))
+  }
+  function sellOf(item: string) {
+    const culteMult = ARTEFACT_ITEMS.has(item) ? culteArtefact : 1
+    const sellPrice = Math.floor(getBasePrice(item) * stationSeed * getFullSellMult(gs, station.type, item) * getWorldEventPriceMultiplier(item, events) * (1 + soutePct / 100) * culteMult * (factionSurcharge > 0 ? 0.75 : 1) * relicMods.sellMult * compMult(item))
+    const medBonus  = gs.class.medicBonus && item === 'Médicaments' ? Math.floor(sellPrice * 0.5) : 0
+    const tradeBonus = Math.floor(sellPrice * (gs.class.tradeBonusPercent ?? 0) / 100)
+    return { sellPrice, medBonus, total: sellPrice + medBonus + tradeBonus }
+  }
+
+  // Mémoire des prix : l'ancien relevé de cette station est figé à l'ouverture
+  // (pour afficher la tendance), puis remplacé par celui d'aujourd'hui.
+  const [releveAvant] = useState(() => gs.priceMemory?.[gs.currentStation])
+  const biensVendables = station.goods.filter(item => !LOOT_ONLY_ITEMS.has(item))
+  useEffect(() => {
+    const buy: Record<string, number> = {}
+    const sell: Record<string, number> = {}
+    for (const item of biensVendables) { buy[item] = buyPriceOf(item); sell[item] = sellOf(item).total }
+    for (const item of Object.keys(gs.cargo)) if (item !== 'Passager') sell[item] = sellOf(item).total
+    patch({ priceMemory: { ...(gs.priceMemory ?? {}), [gs.currentStation]: { day: gs.day, buy, sell } } })
+  }, [gs.currentStation]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function tendance(side: 'buy' | 'sell', item: string, prix: number) {
+    const tr = priceTrend(releveAvant, side, item, prix)
+    if (!tr) return null
+    // À l'achat, une hausse est mauvaise ; à la vente, elle est bonne.
+    const bon = side === 'buy' ? tr.pct < 0 : tr.pct > 0
+    return <span style={{ color: bon ? 'var(--green)' : 'var(--red)', marginLeft: '6px', fontSize: '9px' }}>{tr.pct > 0 ? '▲' : '▼'}{Math.abs(tr.pct)}%</span>
+  }
+  function ailleurs(side: 'buy' | 'sell', item: string, prix: number) {
+    const b = bestSeenElsewhere(gs.priceMemory, gs.currentStation, side, item)
+    if (!b) return null
+    const mieux = side === 'buy' ? b.price < prix : b.price > prix
+    if (!mieux) return <div style={{ fontSize: '8px', color: 'var(--gold)', marginTop: '2px' }}>{t(side === 'buy' ? 'memoryBestBuyHere' : 'memoryBestSellHere')}</div>
+    return <div style={{ fontSize: '8px', color: 'var(--dim)', marginTop: '2px' }}>
+      {t(side === 'buy' ? 'memoryCheaperAt' : 'memoryBetterAt', { price: b.price, station: translateStationName(b.station), day: b.day })}
+    </div>
+  }
+
   const priceTag = stationSeed <= 0.88
     ? { label: t('priceTagCheap'), color: 'var(--green)' }
     : stationSeed >= 1.12
@@ -160,7 +202,7 @@ export function MarketScreen() {
 
       {/* Contexte marché — profil de la station */}
       {marketCtx.length > 0 && (
-        <div className="col gap4">
+        <div className="col gap4" style={{ flex: '0 0 auto' }}>
           {marketCtx.map((line, i) => {
             const isHostile = line.startsWith('⚠')
             const isAlliance = line.includes('Alliance')
@@ -225,11 +267,8 @@ export function MarketScreen() {
             opacity: soutePleine ? 0.45 : 1,
             pointerEvents: soutePleine ? 'none' : 'auto',
           }}>
-            {station.goods
-              .filter(item => !LOOT_ONLY_ITEMS.has(item))
-              .map(item => {
-              const rawPrice = Math.floor((frozenBasePrices[item] ?? 200) * stationSeed * getWorldEventPriceMultiplier(item, events) * runBuyMult * getFullBuyMult(gs, station.type, item) * relicMods.buyMult * compMult(item))
-              const price = Math.floor(rawPrice * (1 - discount / 100) * (1 + factionSurcharge / 100) * (1 - (gs.class.tradeBonusPercent ?? 0) / 100))
+            {biensVendables.map(item => {
+              const price = buyPriceOf(item)
               const canBuy = gs.credits >= price
               const banned = gs.class.cannotBuyWeapons && (item.toLowerCase().includes('arme') || item.toLowerCase().includes('munitions'))
               const itemMax = ITEM_CARGO_MAX[item]
@@ -252,14 +291,16 @@ export function MarketScreen() {
                       })
                     }
                   }}>
-                  <div className="row" style={{ justifyContent: 'space-between' }}>
-                    <span className="t-xs">
+                  <div className="row" style={{ justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'flex-start' }}>
+                    <span className="t-xs" style={{ flex: 1, textAlign: 'left' }}>
                       {station.exclusiveGoods?.includes(item) && <span style={{ color: 'var(--gold)', marginRight: '5px', fontSize: '9px' }}>★</span>}
                       {translateGood(item)}
                       {isBazar && <span className="t-dim" style={{ marginLeft: '6px', fontSize: '9px' }}>({bazarCount}/{BAZAR_BUY_LIMIT})</span>}
                       {!isBazar && itemMax !== undefined && <span className="t-dim" style={{ marginLeft: '6px', fontSize: '9px' }}>({gs.cargo[item] ?? 0}/{itemMax})</span>}
+                      {tendance('buy', item, price)}
+                      {ailleurs('buy', item, price)}
                     </span>
-                    <span className="t-gold t-xs">
+                    <span className="t-gold t-xs" style={{ flexShrink: 0 }}>
                       {banned ? <span className="t-red">{t('forbidden')}</span>
                         : (atMax || bazarMax) ? <span style={{ color: 'var(--dim)' }}>{t('max')}</span>
                         : `${price} cr`}
@@ -310,18 +351,17 @@ export function MarketScreen() {
               </div>
             )}
             {Object.entries(gs.cargo).filter(([item]) => item !== 'Passager').map(([item, qty]) => {
-              const culteMult = ARTEFACT_ITEMS.has(item) ? culteArtefact : 1
-              const sellPrice = Math.floor(getBasePrice(item) * stationSeed * getFullSellMult(gs, station.type, item) * getWorldEventPriceMultiplier(item, events) * (1 + soutePct / 100) * culteMult * (factionSurcharge > 0 ? 0.75 : 1) * relicMods.sellMult * compMult(item))
-              const medBonus  = gs.class.medicBonus && item === 'Médicaments'
-                ? Math.floor(sellPrice * 0.5) : 0
-              const tradeBonus = Math.floor(sellPrice * (gs.class.tradeBonusPercent ?? 0) / 100)
-              const total = sellPrice + medBonus + tradeBonus
+              const { sellPrice, medBonus, total } = sellOf(item)
               return (
                 <button key={item} className="px-btn" style={{ borderColor: '#206040', color: 'var(--green)' }}
                   onClick={() => { playSell(); sellCargo(item, sellPrice) }}>
-                  <div className="row" style={{ justifyContent: 'space-between' }}>
-                    <span className="t-xs">{t('itemQty', { item: translateGood(item), qty })}</span>
-                    <span className="t-green t-xs">
+                  <div className="row" style={{ justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'flex-start' }}>
+                    <span className="t-xs" style={{ flex: 1, textAlign: 'left' }}>
+                      {t('itemQty', { item: translateGood(item), qty })}
+                      {tendance('sell', item, total)}
+                      {ailleurs('sell', item, total)}
+                    </span>
+                    <span className="t-green t-xs" style={{ flexShrink: 0 }}>
                       {t('sellTotal', { total })}{medBonus > 0 ? t('sellMedicBonus', { bonus: medBonus }) : ''}
                     </span>
                   </div>

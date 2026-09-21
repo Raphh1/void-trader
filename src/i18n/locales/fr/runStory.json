@@ -1,0 +1,19 @@
+{
+  "title": "◆ TA RUN EN BREF",
+  "daily": "Défi du jour",
+  "dailyScore": "{{score}} cr gagnés",
+  "dailyBest": "record du jour : {{best}} cr",
+  "dailyNewBest": "★ nouveau record du jour",
+  "build": "Build",
+  "noRelics": "aucune relique",
+  "crew": "Équipage",
+  "soloFlight": "tu as volé seul",
+  "lost": "perdus : {{names}}",
+  "ranking": "Concurrents",
+  "rankFirst": "★ 1er sur {{total}} — le plus riche du secteur",
+  "rankOther": "{{rank}}e sur {{total}}",
+  "leader": "(en tête : {{name}}, {{credits}} cr)",
+  "bestMove": "Meilleur coup",
+  "worstMove": "Pire perte",
+  "moment": "{{amount}} cr — jour {{day}}, {{station}}"
+}

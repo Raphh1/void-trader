@@ -15,7 +15,9 @@
     "cursed": "cursed"
   },
   "bar": {
-    "title": "◈ RELICS ({{count}})"
+    "title": "◈ RELICS ({{count}})",
+    "none": "no relics",
+    "empty": "No relics yet. You choose one after every boss or lieutenant you defeat."
   },
   "relics": {
     "boussoleFelee": {

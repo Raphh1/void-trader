@@ -36,6 +36,7 @@ import { grantLieutenantReward } from '../data/lieutenantRewards'
 import { getPassiveMods, drawRelicChoices } from '../data/relics'
 import { tickCrewDay, crewCasualty, type CrewLine } from '../engine/crew'
 import { announceCoinFlip } from '../engine/coinFlip'
+import { seededRng } from '../engine/seed'
 
 const crewText = (l: CrewLine) => i18n.t(`lines.${l.key}`, { ns: 'crew', ...l.params })
 
@@ -43,6 +44,8 @@ const crewText = (l: CrewLine) => i18n.t(`lines.${l.key}`, { ns: 'crew', ...l.pa
 function crewDay(gs: GameState): { gs: GameState; lines: string[] } {
   const { patch, lines } = tickCrewDay(gs)
   let out = { ...gs, ...patch }
+  const perdus = lines.filter(l => l.key === 'deserted').map(l => String(l.params.name))
+  if (perdus.length > 0) out = { ...out, runHighlights: { ...(out.runHighlights ?? { crewLost: [] }), crewLost: [...(out.runHighlights?.crewLost ?? []), ...perdus] } }
   const repair = getPassiveMods(gs).shipRepairPerDay
   if (repair > 0 && out.shipHp < out.shipMaxHp) out = { ...out, shipHp: Math.min(out.shipMaxHp, out.shipHp + repair) }
   return { gs: out, lines: lines.map(crewText) }
@@ -174,6 +177,9 @@ function buildInitialState(playerClass: PlayerClass): GameState {
     pendingCompetitorId: null,
     crew: [],
     crewHired: [],
+    priceMemory: {},
+    runHighlights: { crewLost: [] },
+    dailyChallenge: null,
   }
 }
 
@@ -187,7 +193,7 @@ interface Store {
   playerDeathPending: boolean
   pendingDeathCause: string | null
   resolveDeath: () => void
-  selectClass: (c: PlayerClass, mods?: import('../data/runModifiers').RunModifier[], activeMetaIds?: string[]) => void
+  selectClass: (c: PlayerClass, mods?: import('../data/runModifiers').RunModifier[], activeMetaIds?: string[], daily?: string) => void
   goTo: (screen: Screen) => void
   travel: (station: string, fuelCost: number) => void
   startCombat: (enemy: Enemy) => void
@@ -237,8 +243,16 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
       : updater) as Partial<Store>
     if (partial?.gs && state.gs) {
       const gagne = partial.gs.credits - state.gs.credits
-      if (gagne > 0) {
-        return { ...partial, gs: { ...partial.gs, totalCreditsEarned: (state.gs.totalCreditsEarned ?? 0) + gagne } }
+      if (gagne !== 0) {
+        // Plus gros gain et plus grosse perte d'un seul coup : l'écran de fin
+        // de run les raconte (cf. RunStory dans App.tsx).
+        const h = partial.gs.runHighlights ?? state.gs.runHighlights ?? { crewLost: [] }
+        const moment = { amount: Math.abs(gagne), day: partial.gs.day, station: partial.gs.currentStation }
+        const runHighlights = gagne > 0
+          ? (gagne > (h.bestGain?.amount ?? 0) ? { ...h, bestGain: moment } : h)
+          : (-gagne > (h.worstLoss?.amount ?? 0) ? { ...h, worstLoss: moment } : h)
+        const totalCreditsEarned = (state.gs.totalCreditsEarned ?? 0) + Math.max(0, gagne)
+        return { ...partial, gs: { ...partial.gs, totalCreditsEarned, runHighlights } }
       }
     }
     return partial
@@ -263,7 +277,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     set({ gs: { ...gs, isDead: true, deathCause: pendingDeathCause ?? '', screen: 'game-over' }, playerDeathPending: false, pendingDeathCause: null })
   },
 
-  selectClass: (c, mods_arg, activeMetaIds) => {
+  selectClass: (c, mods_arg, activeMetaIds, daily) => {
     const base = buildInitialState(c)
     const { meta } = useMetaStore.getState()
     const effectiveIds = activeMetaIds ?? meta.unlockedIds
@@ -273,10 +287,13 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     gs = { ...gs, runModifiers: mods.map(m => m.id) }
     for (const mod of mods) gs = { ...gs, ...mod.apply(gs) }
     // Tirage de l'objectif secret
-    const obj = drawRunObjective()
+    // Défi du jour : mêmes tirages de départ pour tout le monde ce jour-là.
+    const rand = daily ? seededRng(`daily:${daily}:start`) : Math.random
+    const obj = drawRunObjective(rand)
     gs = { ...gs, runObjectiveId: obj.id }
+    if (daily) gs = { ...gs, dailyChallenge: daily, competitors: createCompetitors(gs.currentStation, rand) }
     // Relique de départ : la run a un « build » dès la première minute.
-    gs = { ...gs, pendingRelicChoice: { options: drawRelicChoices(gs), source: 'start' } }
+    gs = { ...gs, pendingRelicChoice: { options: drawRelicChoices(gs, 3, rand), source: 'start' } }
     set({ gs: { ...gs, screen: 'intro' as Screen } })
   },
 
@@ -1052,7 +1069,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
   }
 }, {
   name: 'snipeweb-save',
-  version: 5,
+  version: 6,
   partialize: (state) => ({ gs: state.gs }),
   migrate: (persisted: unknown, version: number) => {
     const state = persisted as { gs: GameState | null }
@@ -1083,6 +1100,11 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     if (version < 5 && state.gs) {
       state.gs.crew = state.gs.crew ?? []
       state.gs.crewHired = state.gs.crewHired ?? []
+    }
+    if (version < 6 && state.gs) {
+      state.gs.priceMemory = state.gs.priceMemory ?? {}
+      state.gs.runHighlights = state.gs.runHighlights ?? { crewLost: [] }
+      state.gs.dailyChallenge = state.gs.dailyChallenge ?? null
     }
     return state
   },
@@ -1342,6 +1364,7 @@ function handleCombatOutcome(
     const interroge = Math.random() < 0.5
     const perte = crewCasualty(newGs)
     newGs = { ...newGs, ...perte.patch }
+    if (perte.line) newGs = { ...newGs, runHighlights: { ...(newGs.runHighlights ?? { crewLost: [] }), crewLost: [...(newGs.runHighlights?.crewLost ?? []), String(perte.line.params.name)] } }
     set({ ...(perte.line ? { objectivePopup: crewText(perte.line) } : {}), gs: { ...newGs, isImprisoned: !interroge, prisonDaysLeft: interroge ? 0 : 3, pendingCombatOutcome: 'captured', screen: 'combat-outcome' as Screen,
       pendingInterrogation: interroge ? { faction: autorite, captureStation: gs.currentStation } : null,
       credits: Math.max(0, gs.credits - creditsFine),
@@ -1354,6 +1377,7 @@ function handleCombatOutcome(
     const creditsLost = Math.floor(Math.random() * 400 + 200)
     const perte = crewCasualty(newGs)
     newGs = { ...newGs, ...perte.patch }
+    if (perte.line) newGs = { ...newGs, runHighlights: { ...(newGs.runHighlights ?? { crewLost: [] }), crewLost: [...(newGs.runHighlights?.crewLost ?? []), String(perte.line.params.name)] } }
     set({
       ...(perte.line ? { objectivePopup: crewText(perte.line) } : {}),
       gs: {

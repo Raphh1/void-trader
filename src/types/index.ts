@@ -646,6 +646,26 @@ export interface GameState {
   // Équipage (engine/crew.ts)
   crew: CrewMember[]
   crewHired: string[]   // ids des candidats déjà embauchés (un candidat renvoyé ne revient pas)
+  // Mémoire des prix vus au marché, par station (MarketScreen)
+  priceMemory: Record<string, PriceSnapshot>
+  // Faits marquants de la run, pour l'écran de fin
+  runHighlights: RunHighlights
+  // Défi du jour : date (AAAA-MM-JJ) si la run en est un
+  dailyChallenge: string | null
+}
+
+export interface PriceSnapshot {
+  day: number
+  buy: Record<string, number>
+  sell: Record<string, number>
+}
+
+export interface CreditMoment { amount: number; day: number; station: string }
+
+export interface RunHighlights {
+  bestGain?: CreditMoment
+  worstLoss?: CreditMoment
+  crewLost: string[]
 }
 
 export type CrewRole = 'mecano' | 'pilote' | 'tireur' | 'medecin' | 'negociateur' | 'eclaireur'

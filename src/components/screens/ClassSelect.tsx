@@ -7,6 +7,7 @@ import { getRunModifiers, getRunModifierById } from '../../data/runModifiers'
 import { drawRunObjective, getRunObjective } from '../../data/runObjectives'
 import { MetaScreen } from './MetaScreen'
 import { translateClassName, translateStationName } from '../../engine/goodsI18n'
+import { getDailySetup, getDailyBest } from '../../engine/daily'
 
 // Toutes ces fonctions de tirage ne renvoient que des identifiants stables
 // (nom de classe / id de modificateur / id d'objectif), jamais les objets
@@ -206,6 +207,31 @@ export function ClassSelect() {
             </div>
           </div>
         </div>
+
+        {/* Défi du jour : mêmes tirages de départ pour tout le monde aujourd'hui */}
+        {(() => {
+          const defi = getDailySetup()
+          const cls = getClasses().find(c => c.name === defi.className)!
+          const mods = defi.modIds.map(id => getRunModifierById(id)).filter((m): m is NonNullable<typeof m> => !!m)
+          const record = getDailyBest(defi.date)
+          return (
+            <div className="px-box mt12" style={{ borderColor: 'var(--gold)', background: 'rgba(255,200,0,0.04)' }}>
+              <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <div className="t-xs" style={{ color: 'var(--gold)', letterSpacing: '2px' }}>{t('daily.title', { date: defi.date })}</div>
+                <div className="t-xs t-dim">{record !== null ? t('daily.best', { score: record.toLocaleString() }) : t('daily.noBest')}</div>
+              </div>
+              <div className="t-xs" style={{ lineHeight: 1.9 }}>
+                <span style={{ color: cls.color }}>{cls.icon} {translateClassName(cls.name)}</span>
+                <span className="t-dim"> · {mods.map(m => m.name).join(' · ')}</span>
+              </div>
+              <div className="t-xs t-dim mb8" style={{ lineHeight: 1.8 }}>{t('daily.rules')}</div>
+              <button className="px-btn" style={{ borderColor: 'var(--gold)', color: 'var(--gold)' }}
+                onClick={() => selectClass(cls, mods, [], defi.date)}>
+                {t('daily.start')}
+              </button>
+            </div>
+          )
+        })()}
 
         {/* Boutons */}
         <div className="col gap4 mt12">

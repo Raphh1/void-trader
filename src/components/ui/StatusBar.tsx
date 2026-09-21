@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react'
 import type { GameState } from '../../types'
+import { useFloatingNumbers, FloatingNumbersLayer } from './FloatingNumber'
 import { getFactionMap } from '../../engine/factions'
 import { useTranslation } from 'react-i18next'
 import { translateWeaponName, translateArmorName } from '../../engine/goodsI18n'
@@ -96,6 +98,36 @@ export function StatusBar({ gs }: Props) {
           )}
         </div>
       )}
+    </div>
+  )
+}
+
+/**
+ * Barre d'état qui fait flotter les variations (+70 cr, −12 PV…) au moment où
+ * elles arrivent. Sans ça, un gain de quête ou une perte d'équipage passait
+ * inaperçu : le chiffre changeait en silence.
+ */
+export function StatusBarWithDeltas({ gs }: Props) {
+  const { containerRef, entries, fire } = useFloatingNumbers()
+  const prev = useRef({ credits: gs.credits, hp: gs.playerHp, rep: gs.reputation, fuel: gs.fuel })
+
+  useEffect(() => {
+    const p = prev.current
+    const w = containerRef.current?.getBoundingClientRect().width ?? 600
+    const signe = (n: number) => (n > 0 ? '+' : '−') + Math.abs(n).toLocaleString()
+    if (gs.playerHp !== p.hp) fire(`${signe(gs.playerHp - p.hp)} PV`, gs.playerHp > p.hp ? 'var(--green)' : 'var(--red)', w * 0.12, 30)
+    if (gs.credits !== p.credits) fire(`${signe(gs.credits - p.credits)} cr`, gs.credits > p.credits ? 'var(--gold)' : 'var(--red)', w * 0.62, 30)
+    if (gs.fuel !== p.fuel) fire(`${signe(gs.fuel - p.fuel)} ⛽`, gs.fuel > p.fuel ? 'var(--cyan)' : 'var(--red)', w * 0.62, 60)
+    if (gs.reputation !== p.rep) fire(`${signe(gs.reputation - p.rep)} rép`, gs.reputation > p.rep ? 'var(--green)' : 'var(--red)', w * 0.85, 30)
+    prev.current = { credits: gs.credits, hp: gs.playerHp, rep: gs.reputation, fuel: gs.fuel }
+  }, [gs.credits, gs.playerHp, gs.reputation, gs.fuel, fire, containerRef])
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative' }}>
+      <StatusBar gs={gs} />
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'visible' }}>
+        <FloatingNumbersLayer entries={entries} />
+      </div>
     </div>
   )
 }

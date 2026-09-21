@@ -43,7 +43,7 @@ export function StationArrivalScreen() {
       <WarpTransit mode={flying ? 'flight' : 'idle'} onDone={() => setFlying(false)} />
 
       {flying && (
-        <div onClick={() => setFlying(false)} style={{ position: 'fixed', inset: 0, zIndex: 2, cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '40px 20px' }}>
+        <div data-skip="true" onClick={() => setFlying(false)} style={{ position: 'fixed', inset: 0, zIndex: 2, cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '40px 20px' }}>
           <div style={{ textAlign: 'center' }}>
             <div className="t-xs t-dim" style={{ letterSpacing: '4px', marginBottom: '10px' }}>{t('enRoute')}</div>
             <div style={{ fontSize: '18px', color: 'var(--text-bright)', letterSpacing: '3px' }}>{translateStationName(station.name)}</div>

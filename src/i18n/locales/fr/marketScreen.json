@@ -33,5 +33,9 @@
   "rareHere": "Rare ici : {{list}}",
   "competitorPressureUp": "▲ {{name}} a raflé le stock ({{item}}) : +{{pct}} % ({{days}} j)",
   "competitorPressureDown": "▼ {{name}} a inondé le marché ({{item}}) : −{{pct}} % ({{days}} j)",
-  "competitorPressureAll": "▲ {{name}} a rançonné la station : tout +{{pct}} % ({{days}} j)"
+  "competitorPressureAll": "▲ {{name}} a rançonné la station : tout +{{pct}} % ({{days}} j)",
+  "memoryCheaperAt": "moins cher vu : {{price}} cr à {{station}} (J{{day}})",
+  "memoryBetterAt": "mieux payé vu : {{price}} cr à {{station}} (J{{day}})",
+  "memoryBestBuyHere": "★ le moins cher que tu aies vu",
+  "memoryBestSellHere": "★ le mieux payé que tu aies vu"
 }

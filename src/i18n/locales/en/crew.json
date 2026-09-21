@@ -42,5 +42,6 @@
     "grumbling": "⚠ {{name}} is talking about leaving. Their loyalty is at rock bottom.",
     "deserted": "☠ {{name}} deserted overnight, taking {{amount}} cr.",
     "killed": "☠ {{name}} did not survive the fight."
-  }
+  },
+  "chip": "◆ Crew {{count}}/{{max}}"
 }

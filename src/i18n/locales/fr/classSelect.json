@@ -53,5 +53,12 @@
   "ptsToSpend": "· {{pts}} pts à dépenser",
   "activeCount_one": "({{count}} actif)",
   "activeCount_other": "({{count}} actifs)",
-  "footer": "LE VIDE VOUS ATTEND"
+  "footer": "LE VIDE VOUS ATTEND",
+  "daily": {
+    "title": "◆ DÉFI DU JOUR — {{date}}",
+    "best": "record : {{score}} cr",
+    "noBest": "pas encore joué",
+    "rules": "Mêmes classe, modificateurs, objectif, reliques de départ et concurrents pour tout le monde aujourd'hui. Sans bonus d'héritage. Score : crédits gagnés sur la run.",
+    "start": "▶ Relever le défi du jour"
+  }
 }
