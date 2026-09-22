@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { initI18n } from '../i18n/config'
-import { getStations, BOSS_STATIONS, FUEL_STATIONS, PILLAR_SEAT_STATIONS, LOOT_ONLY_ITEMS } from '../data/stations'
+import { getStations, BOSS_STATIONS, FUEL_DEPOTS, PILLAR_SEAT_STATIONS, LOOT_ONLY_ITEMS } from '../data/stations'
 import { getSubBossesForPillar } from '../data/subBosses'
 import { getEquipmentQuests } from '../data/equipmentQuests'
 import { getTierLow, getTierMid, getTierHigh, getTierBoss } from '../data/enemies'
@@ -24,7 +24,7 @@ describe('intégrité des données', () => {
     }
 
     for (const n of Object.keys(BOSS_STATIONS)) verifier(n, 'BOSS_STATIONS')
-    for (const n of FUEL_STATIONS) verifier(n, 'FUEL_STATIONS')
+    for (const n of FUEL_DEPOTS) verifier(n, 'FUEL_DEPOTS')
     for (const n of PILLAR_SEAT_STATIONS) verifier(n, 'PILLAR_SEAT_STATIONS')
 
     for (const p of PILIERS) {

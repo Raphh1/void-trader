@@ -1,7 +1,8 @@
 import type { GameState, SubBossData, SubBossResolution, SubBossRequirement } from '../types'
 import { shiftPillar } from './memoryEvents'
 import { translateGood, translateStationName, translateEnemyName } from './goodsI18n'
-import { addJournal } from './journal'
+import { addJournal, jt, jStation, jEnemy } from './journal'
+import { getSubBossesForPillar } from '../data/subBosses'
 import i18n from '../i18n/config'
 
 const sr = (key: string, params?: Record<string, unknown>) => i18n.t(key, { ns: 'subBossResolutions', ...params })
@@ -188,13 +189,30 @@ export function pactProgress(gs: GameState, sb: SubBossData): { done: boolean; m
   return { done: missing.length === 0, missing }
 }
 
+/** Chaque condition du marché, avec son libellé et si elle est déjà remplie. */
+export function pactRequirements(gs: GameState, sb: SubBossData): { label: string; met: boolean }[] {
+  return (sb.service?.requirements ?? []).map(req => ({
+    label: describeRequirements([req]),
+    met: missingServiceRequirements(gs, [req]).length === 0,
+  }))
+}
+
+/** Marchés en cours, recalculés depuis l'état réel (cargo, réputation, voyages...). */
+export function getActivePacts(gs: GameState): { sb: SubBossData; progress: { done: boolean; missing: string[] } }[] {
+  const all = ['alanossa', 'cesarion', 'raphazarus', 'scotty'].flatMap(p => getSubBossesForPillar(p, gs))
+  return (gs.lieutenantPacts ?? [])
+    .map(id => all.find(sb => sb.id === id))
+    .filter((sb): sb is SubBossData => !!sb)
+    .map(sb => ({ sb, progress: pactProgress(gs, sb) }))
+}
+
 export function acceptPact(gs: GameState, sb: SubBossData): SubBossResolutionResult {
   return {
     success: true,
     message: sr('pact.accepted', { name: sb.name, list: describeRequirements(sb.service?.requirements ?? []) }),
     patch: {
       lieutenantPacts: [...(gs.lieutenantPacts ?? []), sb.id],
-      journal: addJournal(gs, sr('pact.journalAccepted', { name: sb.name, station: translateStationName(sb.station) }), 'decision'),
+      journal: addJournal(gs, jt('subBossResolutions', 'pact.journalAccepted', { name: jEnemy(sb.name), station: jStation(sb.station) }), 'decision'),
     },
   }
 }
@@ -209,7 +227,7 @@ export function breakPact(gs: GameState, sb: SubBossData): SubBossResolutionResu
       brokenPacts: [...(gs.brokenPacts ?? []), sb.id],
       pillarStanding: shiftPillar(gs, pillarKey(sb), -12),
       reputation: gs.reputation - 5,
-      journal: addJournal(gs, sr('pact.journalBroken', { name: sb.name }), 'decision'),
+      journal: addJournal(gs, jt('subBossResolutions', 'pact.journalBroken', { name: jEnemy(sb.name) }), 'decision'),
     },
   }
 }
@@ -370,7 +388,7 @@ export function resolveSubBoss(
           pillarStanding: shiftPillar(gs, pillarKey(sb), +10),
           reputation: gs.reputation + 8,
           pastDecisions: [...(gs.pastDecisions ?? []), `served-lt-${sb.id}`],
-          journal: addJournal(gs, sr('pact.journalHonored', { name: sb.name }), 'decision'),
+          journal: addJournal(gs, jt('subBossResolutions', 'pact.journalHonored', { name: jEnemy(sb.name) }), 'decision'),
         },
       }
     }

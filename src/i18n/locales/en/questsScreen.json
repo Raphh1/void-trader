@@ -64,5 +64,13 @@
   "toRetrieve": "To retrieve:",
   "notRetrievedYet": "(not retrieved yet)",
   "reward": "Reward: {{credits}} cr",
-  "repSuffix": " · +{{value}} rep"
+  "repSuffix": " · +{{value}} rep",
+  "pactsHeader": "◆ LIEUTENANT BARGAINS ({{count}})",
+  "pactTag": "BARGAIN",
+  "pactWith": "Bargain — {{name}}",
+  "pactDemand": "What they expect of you",
+  "pactConditions": "Conditions",
+  "pactReadyHere": "✓ All set — honor the bargain from this station's hub.",
+  "pactReadyGo": "✓ All set — head to {{station}} to honor the bargain.",
+  "pactWhere": "→ {{station}}"
 }

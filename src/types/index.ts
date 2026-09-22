@@ -424,11 +424,25 @@ export interface WorldEvent {
 
 // ── JOURNAL DE BORD ──────────────────────────────────────────────────────────
 
+// Paramètre d'une entrée : valeur brute, nom à traduire à l'affichage, ou sous-texte.
+export type JournalParam =
+  | string
+  | number
+  | { tr: 'station' | 'enemy' | 'faction'; v: string }
+  | JournalText
+
+export interface JournalText {
+  ns: string
+  key: string
+  params?: Record<string, JournalParam>
+}
+
 export interface JournalEntry {
   id: number
   day: number
   station: string
-  text: string
+  text: string          // rendu à la création — repli pour les vieilles sauvegardes
+  i18n?: JournalText    // clé + paramètres, rendus dans la langue active
   category: 'combat' | 'decision' | 'travel' | 'nexus' | 'prison' | 'event'
 }
 

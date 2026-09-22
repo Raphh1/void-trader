@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { addDecision, shiftPillar } from '../../engine/memoryEvents'
-import { addJournal } from '../../engine/journal'
+import { addJournal, jt, jStation, jFaction } from '../../engine/journal'
 import { drawInterrogation, interrogatorKind, type InterrogatorKind, INTERROGATION_PASS_SCORE, INTERROGATION_TOTAL, type InterrogationQuestion } from '../../data/interrogationQuestions'
-import { translateStationName, translateFactionName } from '../../engine/goodsI18n'
+import { translateFactionName } from '../../engine/goodsI18n'
 import { announceCoinFlip } from '../../engine/coinFlip'
 
 type Phase = 'intro' | 'choices' | 'quiz' | 'result'
@@ -196,13 +196,13 @@ export function InterrogationScreen() {
         if (passed) {
           free(
             t('quiz.passMessage', { score: finalScore, total: INTERROGATION_TOTAL }),
-            { journal: addJournal(gs, t('quiz.passJournal', { faction: translateFactionName(info.faction), score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
+            { journal: addJournal(gs, jt('interrogationScreen', 'quiz.passJournal', { faction: jFaction(info.faction), score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
           )
         } else {
           prison(
             t('quiz.failMessage', { score: finalScore, total: INTERROGATION_TOTAL }),
             rng(3, 6),
-            { journal: addJournal(gs, t('quiz.failJournal', { faction: translateFactionName(info.faction), score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
+            { journal: addJournal(gs, jt('interrogationScreen', 'quiz.failJournal', { faction: jFaction(info.faction), score: finalScore, total: INTERROGATION_TOTAL }), 'prison') }
           )
         }
         return
@@ -334,7 +334,7 @@ export function InterrogationScreen() {
             : gs.pillarStanding
           free(
             t('choices.talkResult', { amount: confiscated }),
-            { credits: gs.credits - confiscated, reputation: gs.reputation - 10, pastDecisions: addDecision(gs, 'cooperated-interrogation'), pillarStanding: pillarDelta, journal: addJournal(gs, t('choices.talkJournal', { faction: translateFactionName(info.faction) }), 'decision') }
+            { credits: gs.credits - confiscated, reputation: gs.reputation - 10, pastDecisions: addDecision(gs, 'cooperated-interrogation'), pillarStanding: pillarDelta, journal: addJournal(gs, jt('interrogationScreen', 'choices.talkJournal', { faction: jFaction(info.faction) }), 'decision') }
           )
         }}>
           {t('choices.talkFreely')}
@@ -346,19 +346,19 @@ export function InterrogationScreen() {
           if (roll < 0.45) {
             free(
               t('choices.denySuccess'),
-              { reputation: gs.reputation - 5, journal: addJournal(gs, t('choices.denySuccessJournal'), 'decision') }
+              { reputation: gs.reputation - 5, journal: addJournal(gs, jt('interrogationScreen', 'choices.denySuccessJournal'), 'decision') }
             )
           } else if (roll < 0.75) {
             prison(
               t('choices.denyMidFail'),
               rng(2, 4),
-              { reputation: gs.reputation - 15, journal: addJournal(gs, t('choices.denyMidFailJournal'), 'prison') }
+              { reputation: gs.reputation - 15, journal: addJournal(gs, jt('interrogationScreen', 'choices.denyMidFailJournal'), 'prison') }
             )
           } else {
             prison(
               t('choices.denyBadFail'),
               rng(4, 7),
-              { reputation: gs.reputation - 20, journal: addJournal(gs, t('choices.denyBadFailJournal'), 'prison') }
+              { reputation: gs.reputation - 20, journal: addJournal(gs, jt('interrogationScreen', 'choices.denyBadFailJournal'), 'prison') }
             )
           }
         }}>
@@ -374,14 +374,14 @@ export function InterrogationScreen() {
             if (roll < 0.65) {
               free(
                 t('choices.bribeSuccess', { amount: bribeAmount }),
-                { credits: gs.credits - bribeAmount, journal: addJournal(gs, t('choices.bribeSuccessJournal', { station: translateStationName(gs.currentStation), amount: bribeAmount }), 'decision') }
+                { credits: gs.credits - bribeAmount, journal: addJournal(gs, jt('interrogationScreen', 'choices.bribeSuccessJournal', { station: jStation(gs.currentStation), amount: bribeAmount }), 'decision') }
               )
             } else {
               patch({ credits: gs.credits - bribeAmount })
               prison(
                 t('choices.bribeFail', { amount: bribeAmount }),
                 rng(3, 5),
-                { journal: addJournal(gs, t('choices.bribeFailJournal'), 'prison') }
+                { journal: addJournal(gs, jt('interrogationScreen', 'choices.bribeFailJournal'), 'prison') }
               )
             }
           }}>
@@ -394,13 +394,13 @@ export function InterrogationScreen() {
           if (roll < 0.15) {
             free(
               t('choices.resistSuccess'),
-              { playerHp: Math.max(1, gs.playerHp - rng(30, 55)), prisonEscapes: gs.prisonEscapes + 1, reputation: gs.reputation + 20, pastDecisions: addDecision(gs, 'escaped-interrogation'), journal: addJournal(gs, t('choices.resistSuccessJournal'), 'prison') }
+              { playerHp: Math.max(1, gs.playerHp - rng(30, 55)), prisonEscapes: gs.prisonEscapes + 1, reputation: gs.reputation + 20, pastDecisions: addDecision(gs, 'escaped-interrogation'), journal: addJournal(gs, jt('interrogationScreen', 'choices.resistSuccessJournal'), 'prison') }
             )
           } else {
             prison(
               t('choices.resistFail'),
               rng(4, 8),
-              { playerHp: Math.max(1, gs.playerHp - rng(35, 65)), journal: addJournal(gs, t('choices.resistFailJournal'), 'prison') }
+              { playerHp: Math.max(1, gs.playerHp - rng(35, 65)), journal: addJournal(gs, jt('interrogationScreen', 'choices.resistFailJournal'), 'prison') }
             )
           }
         }}>
@@ -416,7 +416,7 @@ export function InterrogationScreen() {
               moralTags: [...(gs.moralTags ?? []), 'délateur'],
               credits: gs.credits + 500,
               pastDecisions: addDecision(gs, 'betrayed-at-interrogation'),
-              journal: addJournal(gs, t('choices.betrayJournal'), 'decision'),
+              journal: addJournal(gs, jt('interrogationScreen', 'choices.betrayJournal'), 'decision'),
             }
           )
         }}>

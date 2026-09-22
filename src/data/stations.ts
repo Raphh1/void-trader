@@ -507,8 +507,15 @@ export const PEACEFUL_STATIONS = new Set([
   'Port Méridien', 'Colonie Perséphone', 'Star Quest', 'Scotty Golden North', 'La Tribosphère', 'Paradoxa Eterna'
 ])
 
-// Stations où le carburant est en vente et où les upgrades vaisseau sont disponibles
-export const FUEL_STATIONS = new Set([
+// ── CARBURANT ────────────────────────────────────────────────────────────────
+// Presque toutes les stations vendent du carburant, mais à des prix très
+// différents : les dépôts ci-dessous sont bon marché, ailleurs le prix dépend
+// du type de station (le luxe fait payer) et de l'isolement (distance au dépôt
+// le plus proche). Rester à sec n'est plus un blocage, c'est un choix : payer
+// cher sur place ou viser un dépôt. Quelques lieux morts n'en vendent pas.
+
+/** Dépôts : carburant au prix plancher. */
+export const FUEL_DEPOTS = new Set([
   'La Carcasse',
   'Port Méridien',
   'La Balise',
@@ -520,6 +527,59 @@ export const FUEL_STATIONS = new Set([
   'Fort Kharos',
   'Le Grand Bazar',
 ])
+
+/** Lieux morts ou verrouillés : aucune pompe. On y survit en fouillant. */
+export const NO_FUEL_STATIONS = new Set([
+  "L'Arc Perdu",
+  'Station Quarantaine',
+  "L'Épave Vivante",
+  'Les Cendres',
+  'Station Fantôme',
+  'Le Purgatoire',
+])
+
+export function sellsFuel(name: string): boolean {
+  return !NO_FUEL_STATIONS.has(name)
+}
+
+export const FUEL_DEPOT_PRICE = 200
+
+const FUEL_TYPE_PRICE: Record<string, number> = {
+  industrial: 230, peaceful: 260, scientific: 290, military: 290,
+  ruins: 340, dangerous: 360, luxury: 440,
+}
+
+// Chaque unité de carburant à parcourir jusqu'au dépôt le plus proche ajoute 12 %.
+const FUEL_ISOLATION_STEP = 0.12
+
+const _fuelPriceCache = new Map<string, number | null>()
+
+/**
+ * Prix de base d'une unité de carburant dans une station, ou null si elle
+ * n'en vend pas. Ne dépend que de la carte : calculé une fois par station.
+ */
+export function getFuelPrice(name: string): number | null {
+  if (_fuelPriceCache.has(name)) return _fuelPriceCache.get(name)!
+  let price: number | null
+  if (!sellsFuel(name)) price = null
+  else if (FUEL_DEPOTS.has(name)) price = FUEL_DEPOT_PRICE
+  else {
+    const base = FUEL_TYPE_PRICE[getStation(name).type] ?? 300
+    const isolation = fuelToNearestRefuel(name, undefined, 0, FUEL_DEPOTS)
+    const factor = 1 + FUEL_ISOLATION_STEP * (Number.isFinite(isolation) ? isolation : 8)
+    price = Math.round((base * factor) / 10) * 10
+  }
+  _fuelPriceCache.set(name, price)
+  return price
+}
+
+/** Couleur d'affichage d'un prix de carburant : vert bon marché → rouge ruineux. */
+export function fuelPriceColor(price: number): string {
+  if (price <= FUEL_DEPOT_PRICE) return 'var(--green)'
+  if (price < 400) return 'var(--cyan)'
+  if (price < 650) return 'var(--orange)'
+  return 'var(--red)'
+}
 
 export const BOSS_STATIONS: Record<string, string> = {
   // Faucons Noirs
@@ -624,6 +684,47 @@ export function findPath(from: string, to: string, excluded?: Set<string>): stri
     }
   }
   return []
+}
+
+/**
+ * Carburant minimal pour rejoindre une station qui vend du carburant, en
+ * enchaînant les sauts (Dijkstra). `perJumpExtra` = surcoût par saut des
+ * événements mondiaux. Infinity si aucune n'est joignable. Sert à détecter un
+ * joueur coincé même quand des voisins restent accessibles : aller dans une
+ * impasse avec son dernier carburant ne le sort pas d'affaire. `targets`
+ * restreint les destinations (ex. les seuls dépôts, pour le prix d'isolement).
+ */
+export function fuelToNearestRefuel(
+  from: string, excluded?: Set<string>, perJumpExtra = 0,
+  targets?: Set<string>,
+): number {
+  const isTarget = (n: string) => targets ? targets.has(n) : sellsFuel(n)
+  if (isTarget(from)) return 0
+  const adj: Record<string, { to: string; cost: number }[]> = {}
+  const link = (a: string, b: string, cost: number) => { (adj[a] ??= []).push({ to: b, cost }) }
+  for (const s of getStations()) {
+    if (excluded?.has(s.name)) continue
+    for (const [src, cost] of Object.entries(s.fuelCostFrom)) {
+      if (excluded?.has(src) && src !== from) continue
+      link(src, s.name, cost + perJumpExtra)
+      link(s.name, src, cost + perJumpExtra)
+    }
+  }
+  const dist: Record<string, number> = { [from]: 0 }
+  const done = new Set<string>()
+  while (true) {
+    let cur: string | null = null
+    for (const [name, d] of Object.entries(dist)) {
+      if (!done.has(name) && (cur === null || d < dist[cur])) cur = name
+    }
+    if (cur === null) return Infinity
+    if (isTarget(cur)) return dist[cur]
+    done.add(cur)
+    for (const { to, cost } of adj[cur] ?? []) {
+      const d = dist[cur] + cost
+      if (d < (dist[to] ?? Infinity)) dist[to] = d
+    }
+  }
 }
 
 export const getStations = memoByLang(buildStations)

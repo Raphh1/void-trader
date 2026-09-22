@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
-import { getAccessibleStations, getFuelCost, getStation, findPath, PEACEFUL_STATIONS, FUEL_STATIONS } from '../../data/stations'
+import { getAccessibleStations, getFuelCost, getStation, findPath, PEACEFUL_STATIONS, FUEL_DEPOTS, getFuelPrice, fuelPriceColor } from '../../data/stations'
 import { getWorldEventFuelBonus, getClosedStations, getActiveEvents } from '../../engine/worldEvents'
 import { getEnemyByTier, scaleEnemy } from '../../data/enemies'
 import { AsteroidDodge } from '../minigames/AsteroidDodge'
@@ -18,9 +18,9 @@ function NextHops({ stationName, currentName }: { stationName: string; currentNa
       {hops.map((h, i) => (
         <span key={h.name}>
           {i > 0 && <span style={{ opacity: 0.4, margin: '0 4px' }}>·</span>}
-          <span style={{ color: FUEL_STATIONS.has(h.name) ? 'var(--green)' : 'var(--text-dim)' }}
-            title={FUEL_STATIONS.has(h.name) ? t('sellsFuel') : undefined}>
-            {FUEL_STATIONS.has(h.name) ? '⛽ ' : ''}{translateStationName(h.name)}
+          <span style={{ color: FUEL_DEPOTS.has(h.name) ? 'var(--green)' : 'var(--text-dim)' }}
+            title={FUEL_DEPOTS.has(h.name) ? t('sellsFuel') : undefined}>
+            {FUEL_DEPOTS.has(h.name) ? '⛽ ' : ''}{translateStationName(h.name)}
           </span>
           <span style={{ color: 'var(--cyan)', opacity: 0.7, marginLeft: '3px', fontSize: '9px' }}>{t('cost', { amount: getFuelCost(stationName, h.name) })}</span>
         </span>
@@ -194,9 +194,12 @@ export function TravelScreen() {
                   <div className="t-xs mt4" style={{ color: canGo ? 'var(--cyan)' : 'var(--red)' }}>
                     {cost} {t('fuelUnit')}{fuelBonus > 0 ? <span className="t-red"> (+{fuelBonus})</span> : ''}
                   </div>
-                  {FUEL_STATIONS.has(station.name) && (
-                    <div className="t-xs mt4" style={{ color: 'var(--green)' }}>{t('sellsFuelBadge')}</div>
-                  )}
+                  {(() => {
+                    const fp = getFuelPrice(station.name)
+                    if (fp === null) return <div className="t-xs mt4 t-dim">{t('noFuelBadge')}</div>
+                    if (FUEL_DEPOTS.has(station.name)) return <div className="t-xs mt4" style={{ color: 'var(--green)' }}>{t('sellsFuelBadge', { price: fp })}</div>
+                    return <div className="t-xs mt4" style={{ color: fuelPriceColor(fp) }}>{t('fuelPriceBadge', { price: fp })}</div>
+                  })()}
                   {banned && <div className="t-xs t-red mt4">{t('banned')}</div>}
                   {isClosed && <div className="t-xs t-red mt4">{t('blocked')}</div>}
                 </div>

@@ -1,7 +1,7 @@
 {
   "back": "← BACK",
   "title": "SHIP WORKSHOP",
-  "fuelStationTag": "REFUELING STATION",
+  "fuelStationTag": "FUEL DEPOT",
   "structure": "HULL",
   "fuel": "Fuel:",
   "repairs": "REPAIRS",
@@ -9,8 +9,8 @@
   "insufficient": " (insufficient)",
   "refueling": "REFUELING",
   "tankFull": "Tank full.",
-  "noFuelDepot": "This station has no fuel depot.",
-  "joinFuelStation": "Head to a refueling station: The Wreckyard, Port Meridian, The Beacon, Confluence, The Refinery, Black Relay, Transit Relay, Fort Kharos.",
+  "noFuelDepot": "No pump here: this place is dead.",
+  "joinFuelStation": "Scavenge for fuel from the hub, or head to a nearby station. Depots (⛽ on the map) are the cheapest.",
   "shipModules": "SHIP MODULES",
   "maxed": "MAXED",
   "mkProgress": "Mk {{current}} → Mk {{next}}",
@@ -115,5 +115,7 @@
       "desc": "+25 max player HP"
     }
   },
-  "hullHp": "{{hp}} / {{max}} HP"
+  "hullHp": "{{hp}} / {{max}} HP",
+  "fuelButton": "+{{amount}} fuel — {{cost}} cr",
+  "fuelUnitPrice": "Price here: {{price}} cr / unit"
 }

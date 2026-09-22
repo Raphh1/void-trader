@@ -1,7 +1,7 @@
 {
   "back": "← RETOUR",
   "title": "ATELIER VAISSEAU",
-  "fuelStationTag": "STATION DE RAVITAILLEMENT",
+  "fuelStationTag": "DÉPÔT DE CARBURANT",
   "structure": "STRUCTURE",
   "fuel": "Carburant :",
   "repairs": "RÉPARATIONS",
@@ -9,8 +9,8 @@
   "insufficient": " (insuffisant)",
   "refueling": "RAVITAILLEMENT",
   "tankFull": "Réservoir plein.",
-  "noFuelDepot": "Cette station ne dispose pas de dépôt de carburant.",
-  "joinFuelStation": "Rejoins une station de ravitaillement : La Carcasse, Port Méridien, La Balise, Confluent, La Raffinerie, Relais Noir, Relais de Transit, Fort Kharos.",
+  "noFuelDepot": "Aucune pompe ici : ce lieu est mort.",
+  "joinFuelStation": "Fouille pour du carburant depuis le hub, ou rejoins une station voisine. Les dépôts (⛽ sur la carte) sont les moins chers.",
   "shipModules": "MODULES DU VAISSEAU",
   "maxed": "MAXÉ",
   "mkProgress": "Mk {{current}} → Mk {{next}}",
@@ -115,5 +115,7 @@
       "desc": "+25 PV joueur max"
     }
   },
-  "hullHp": "{{hp}} / {{max}} PV"
+  "hullHp": "{{hp}} / {{max}} PV",
+  "fuelButton": "+{{amount}} carburant — {{cost}} cr",
+  "fuelUnitPrice": "Prix ici : {{price}} cr / unité"
 }

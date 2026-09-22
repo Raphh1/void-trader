@@ -6,6 +6,7 @@ import { questTitle, questDescription, questGiver } from '../engine/questI18n'
 import { localizeMajorQuest, getMajorQuestForNpc } from '../engine/majorQuests'
 import { getActiveEvents } from '../engine/worldEvents'
 import { translateFactionName } from '../engine/goodsI18n'
+import { addJournal, jt, jStation, journalEntryText } from '../engine/journal'
 import type { GameState, WorldEvent } from '../types'
 
 // Deux fuites de traduction observées en jeu, sur une capture d'écran :
@@ -128,6 +129,22 @@ describe('fuites de traduction', () => {
     expect(getActiveEvents(gs)[0].title).not.toBe('Épidémie (figé)')
     expect(translateFactionName('Soldats de Raphazarus')).toBe("Raphazarus's soldiers")
     expect(translateFactionName('Autorités locales')).toBe('Local authorities')
+    await setLanguage('fr')
+  })
+
+  // Le journal de bord est persisté : l'entrée garde sa clé et ses paramètres
+  // bruts, et doit se relire dans la langue active.
+  it('retraduit le journal de bord quand la langue change', async () => {
+    await setLanguage('fr')
+    const gs = { day: 3, currentStation: 'La Carcasse', journal: [] } as unknown as GameState
+    const [entree] = addJournal(gs, jt('gameStore', 'travelJournal', { from: jStation('La Carcasse'), to: jStation('Fort Kharos') }), 'travel')
+    const texteFr = journalEntryText(entree)
+    expect(texteFr).toContain('La Carcasse')
+
+    await setLanguage('en')
+    const texteEn = journalEntryText(entree)
+    expect(texteEn, 'entrée figée dans la langue de création').not.toBe(texteFr)
+    expect(texteEn).toContain('The Wreckyard')
     await setLanguage('fr')
   })
 })

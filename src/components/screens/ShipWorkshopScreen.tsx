@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import i18n from '../../i18n/config'
 import { useGameStore } from '../../store/gameStore'
-import { FUEL_STATIONS } from '../../data/stations'
+import { getFuelUnitPrice } from '../../engine/marketPricing'
+import { FUEL_DEPOTS } from '../../data/stations'
 import type { GameState } from '../../types'
 import { translateGood } from '../../engine/goodsI18n'
 
@@ -206,8 +207,9 @@ export function ShipWorkshopScreen() {
 
   const missingHp   = gs.shipMaxHp - gs.shipHp
   const missingFuel = gs.maxFuel - gs.fuel
-  const fuelPrice   = 210
-  const isFuelStation = FUEL_STATIONS.has(gs.currentStation)
+  const fuelPrice   = getFuelUnitPrice(gs)
+  const isFuelStation = fuelPrice !== null
+  const isDepot = FUEL_DEPOTS.has(gs.currentStation)
 
   const shipPct = (gs.shipHp / gs.shipMaxHp) * 100
 
@@ -217,7 +219,7 @@ export function ShipWorkshopScreen() {
         <button className="px-btn px-btn--sm" style={{ width: 'auto' }} onClick={() => goTo('station-hub')}>{t('back')}</button>
         <div className="t-sm t-bright">{t('title')}</div>
         <div className="t-xs t-gold">{gs.credits.toLocaleString()} cr</div>
-        {isFuelStation && <div className="tag tag--green t-xs">{t('fuelStationTag')}</div>}
+        {isDepot && <div className="tag tag--green t-xs">{t('fuelStationTag')}</div>}
       </div>
 
       {/* État du vaisseau */}
@@ -256,19 +258,19 @@ export function ShipWorkshopScreen() {
         }
       </div>
 
-      {/* Carburant — uniquement stations de ravitaillement */}
+      {/* Carburant — partout sauf les lieux morts ; prix selon la station */}
       {isFuelStation
         ? missingFuel > 0
           ? (
             <div className="px-box">
-              <div className="t-xs t-dim mb8">{t('refueling')}</div>
+              <div className="t-xs t-dim mb8">{t('refueling')} · <span className="t-cyan">{t('fuelUnitPrice', { price: fuelPrice })}</span></div>
               <div className="col gap4">
                 {[1, Math.min(3, missingFuel), missingFuel].filter((v, i, a) => a.indexOf(v) === i && v > 0).map(amount => {
-                  const cost = amount * fuelPrice
+                  const cost = amount * fuelPrice!
                   return (
                     <button key={amount} className="px-btn" disabled={gs.credits < cost}
-                      onClick={() => buyFuel(amount, fuelPrice)}>
-                      +{amount} carburant — {cost.toLocaleString()} cr
+                      onClick={() => buyFuel(amount, fuelPrice!)}>
+                      {t('fuelButton', { amount, cost: cost.toLocaleString() })}
                       {gs.credits < cost ? t('insufficient') : ''}
                     </button>
                   )
@@ -373,8 +375,8 @@ export function ShipWorkshopScreen() {
         </div>
       </div>
 
-      {/* Améliorations legacy — uniquement stations de ravitaillement */}
-      {isFuelStation && (
+      {/* Améliorations legacy — uniquement dans les dépôts */}
+      {isDepot && (
         <div className="px-box">
           <div className="t-xs t-dim mb8">{t('legacyUpgrades')}</div>
           <div className="t-xs t-dim mb8" style={{ color: 'var(--cyan)' }}>

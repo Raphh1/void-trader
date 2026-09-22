@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { initI18n } from '../i18n/config'
 import {
   getStations, getStation, findPath, getFuelCost,
-  BOSS_STATIONS, FUEL_STATIONS, PEACEFUL_STATIONS,
+  BOSS_STATIONS, FUEL_DEPOTS, PEACEFUL_STATIONS,
 } from '../data/stations'
 import { getEnemyForStation, getTierLow, getTierBoss, getArenaFighters, scaleEnemy } from '../data/enemies'
 import { getFullBuyMult, getFullSellMult } from '../engine/marketPricing'
@@ -30,7 +30,7 @@ describe('intégrité du graphe de stations', () => {
 
   it('ne référence que des stations existantes dans les ensembles spéciaux', () => {
     const known = new Set(getStations().map(s => s.name))
-    for (const name of [...FUEL_STATIONS, ...PEACEFUL_STATIONS, ...Object.keys(BOSS_STATIONS)]) {
+    for (const name of [...FUEL_DEPOTS, ...PEACEFUL_STATIONS, ...Object.keys(BOSS_STATIONS)]) {
       expect(known, `station inconnue : "${name}"`).toContain(name)
     }
   })

@@ -2,12 +2,12 @@ import { useMemo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { playBuy, playSell } from '../../engine/sfx'
-import { getStation, FUEL_STATIONS, LOOT_ONLY_ITEMS } from '../../data/stations'
+import { getStation, LOOT_ONLY_ITEMS } from '../../data/stations'
 import { getBuyDiscount } from '../../engine/factions'
 import { getWorldEventPriceMultiplier, getActiveEvents } from '../../engine/worldEvents'
 import { getCulteArtefactMult, getFactionSurchargeAtStation, getStationFactionName, getRepLevel, getFactionRep, STATION_FACTION_CONTROL } from '../../engine/factionRep'
 import { getRunBuyMult } from '../../data/runModifiers'
-import { getFullBuyMult, getFullSellMult, getMarketContext, getPillarDiscount } from '../../engine/marketPricing'
+import { getFullBuyMult, getFullSellMult, getMarketContext, getPillarDiscount, getFuelUnitPrice } from '../../engine/marketPricing'
 import { getBlackMarketOffers, isBlackMarketAvailable, buyBlackMarketOffer } from '../../engine/blackMarket'
 import { translateGood, translateWeaponName, translateArmorName, translateStationName, translateFactionName } from '../../engine/goodsI18n'
 import { getPassiveMods } from '../../data/relics'
@@ -309,8 +309,9 @@ export function MarketScreen() {
                 </button>
               )
             })}
-            {FUEL_STATIONS.has(gs.currentStation) && gs.fuel < gs.maxFuel && (() => {
-              const price = Math.floor((frozenBasePrices['Carburant de récup'] ?? 240) * getFullBuyMult(gs, station.type, 'Carburant de récup') * (1 - discount / 100))
+            {gs.fuel < gs.maxFuel && (() => {
+              const price = getFuelUnitPrice(gs)
+              if (price === null) return null
               return (
                 <button className="px-btn px-btn--green" disabled={gs.credits < price}
                   onClick={() => { playBuy(); useGameStore.getState().buyFuel(1, price) }}>

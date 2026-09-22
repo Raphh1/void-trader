@@ -23,7 +23,7 @@ import { useMetaStore } from './metaStore'
 import { drawRunModifiers, getRunCombatCreditBonus, getRunCombatRepDelta, getRunLootMult, getRunTravelFuelExtra } from '../data/runModifiers'
 import { drawRunObjective, getRunObjective } from '../data/runObjectives'
 import { createChainEvent, shouldCreateChainEvent, type ChainEvent } from '../engine/chainEvents'
-import { addJournal } from '../engine/journal'
+import { addJournal, jt, jStation, jEnemy } from '../engine/journal'
 import { resolveNexusWars, getHolderBountyHunters, getSubBossKillConsequence } from '../engine/nexus'
 import { arePillarSubBossesCleared } from '../data/subBosses'
 import { shouldRaphazarusStrike, getRaphazarusWarrior } from '../engine/raphazarus'
@@ -31,7 +31,7 @@ import { getSubBossAtStation, generateLieutenantStationAssignment } from '../dat
 import { getDailyExpenses } from '../engine/expenses'
 import { checkBossHomeVisit, getBossHomeVisit } from '../engine/bossHomeVisits'
 import { resolveShipDown } from '../engine/shipDamage'
-import { translateEnemyName, translateWeaponName, translateStationName, translateArmorName, translateGood } from '../engine/goodsI18n'
+import { translateEnemyName, translateWeaponName, translateArmorName, translateGood } from '../engine/goodsI18n'
 import { grantLieutenantReward } from '../data/lieutenantRewards'
 import { getPassiveMods, drawRelicChoices } from '../data/relics'
 import { tickCrewDay, crewCasualty, type CrewLine } from '../engine/crew'
@@ -590,7 +590,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
         screen: 'combat',
         stamina: newGs.maxStamina,
         pillarStanding: { ...newGs.pillarStanding, raphazarus: (newGs.pillarStanding?.raphazarus ?? 0) - 5 },
-        journal: addJournal(newGs, gt('raphazarusWarriorJournal', { name: translateEnemyName(warrior.name) }), 'combat'),
+        journal: addJournal(newGs, jt('gameStore', 'raphazarusWarriorJournal', { name: jEnemy(warrior.name) }), 'combat'),
       }
       travelMsg = (travelMsg ? travelMsg + ' | ' : '') + gt('raphazarusWarriorAmbush', { name: translateEnemyName(warrior.name) })
     }
@@ -650,7 +650,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     newGs = { ...newGs, pendingChainEvents: pendingChain }
 
     // Journal — entrée de voyage
-    const travelJournal = addJournal(gs, gt('travelJournal', { from: translateStationName(gs.currentStation), to: translateStationName(station) }), 'travel')
+    const travelJournal = addJournal(gs, jt('gameStore', 'travelJournal', { from: jStation(gs.currentStation), to: jStation(station) }), 'travel')
     newGs = { ...newGs, journal: travelJournal }
 
     // ── SEEDING PILIERS — rumeurs jours 3-8 (5.2) ────────────────────────────
@@ -673,7 +673,7 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
             ...newGs,
             credits: newGs.credits - lost,
             reputation: newGs.reputation - 6,
-            journal: addJournal(newGs, gt('folieCrisis.blackoutJournal'), 'decision'),
+            journal: addJournal(newGs, jt('gameStore', 'folieCrisis.blackoutJournal'), 'decision'),
           }
           travelMsg = (travelMsg ? travelMsg + ' | ' : '') + gt('folieCrisis.blackoutMsg', { amount: lost })
         } else if (r < 0.75) {
@@ -681,14 +681,14 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
           newGs = {
             ...newGs,
             playerHp: Math.max(1, newGs.playerHp - dmg),
-            journal: addJournal(newGs, gt('folieCrisis.hungerJournal'), 'decision'),
+            journal: addJournal(newGs, jt('gameStore', 'folieCrisis.hungerJournal'), 'decision'),
           }
           travelMsg = (travelMsg ? travelMsg + ' | ' : '') + gt('folieCrisis.hungerMsg', { amount: dmg })
         } else {
           newGs = {
             ...newGs,
             reputation: newGs.reputation - 10,
-            journal: addJournal(newGs, gt('folieCrisis.noticedJournal'), 'decision'),
+            journal: addJournal(newGs, jt('gameStore', 'folieCrisis.noticedJournal'), 'decision'),
           }
           travelMsg = (travelMsg ? travelMsg + ' | ' : '') + gt('folieCrisis.noticedMsg')
         }
@@ -1132,7 +1132,7 @@ function handleCombatOutcome(
         nexusFragments: newFragments,
         stationPiecesRallied: newFragments.length,
         stalker: undefined,
-        journal: addJournal(gs, gt('fragmentRetaken', { name: translateEnemyName(gs.stalker.name), boss: visit.bossName }), 'combat'),
+        journal: addJournal(gs, jt('gameStore', 'fragmentRetaken', { name: jEnemy(gs.stalker.name), boss: visit.bossName }), 'combat'),
       }
     }
   }
@@ -1256,11 +1256,9 @@ function handleCombatOutcome(
       ...combatQuests.map(q => gt('combatQuestLine', { title: q.title, credits: q.creditReward.toLocaleString(), rep: q.repReward })),
     ].filter(Boolean).join('\n') || null
     // Journal — victoire au combat
-    const enemyName = gs.combatEnemy?.name ? translateEnemyName(gs.combatEnemy.name) : gt('unknownEnemy')
+    const enemyName = gs.combatEnemy?.name ? jEnemy(gs.combatEnemy.name) : jt('gameStore', 'unknownEnemy')
     const isBoss = reward?.isBossKill
-    const victoryText = isBoss
-      ? gt('victoryJournalBoss', { enemy: enemyName, station: translateStationName(gs.currentStation) })
-      : gt('victoryJournalNormal', { enemy: enemyName, station: translateStationName(gs.currentStation) })
+    const victoryText = jt('gameStore', isBoss ? 'victoryJournalBoss' : 'victoryJournalNormal', { enemy: enemyName, station: jStation(gs.currentStation) })
     newGs = { ...newGs, journal: addJournal(gs, victoryText, 'combat') }
     // Sub-boss vaincu au combat
     let subBossMsg: string | null = null
@@ -1333,7 +1331,7 @@ function handleCombatOutcome(
       combatsFled: (gs.combatsFled ?? 0) + 1,
       pendingCombatOutcome: 'fled' as CombatOutcome,
       screen: 'combat-outcome' as Screen,
-      journal: addJournal(gs, gt('fledJournal', { enemy: gs.combatEnemy?.name ? translateEnemyName(gs.combatEnemy.name) : gt('unknownEnemy'), station: translateStationName(gs.currentStation) }), 'combat'),
+      journal: addJournal(gs, jt('gameStore', 'fledJournal', { enemy: gs.combatEnemy?.name ? jEnemy(gs.combatEnemy.name) : jt('gameStore', 'unknownEnemy'), station: jStation(gs.currentStation) }), 'combat'),
     }
     set({ gs: fledGs })
   } else if (outcome === 'dead') {
@@ -1371,7 +1369,7 @@ function handleCombatOutcome(
       cargo: newCargo,
       equippedWeapon: weaponSeized ? null : gs.equippedWeapon,
       pendingMessage: captureInfo,
-      journal: addJournal(gs, gt('capturedJournal', { enemy: gs.combatEnemy?.name ? translateEnemyName(gs.combatEnemy.name) : gt('unknownEnemy'), station: translateStationName(gs.currentStation) }), 'prison'),
+      journal: addJournal(gs, jt('gameStore', 'capturedJournal', { enemy: gs.combatEnemy?.name ? jEnemy(gs.combatEnemy.name) : jt('gameStore', 'unknownEnemy'), station: jStation(gs.currentStation) }), 'prison'),
     }})
   } else if (outcome === 'stunned') {
     const creditsLost = Math.floor(Math.random() * 400 + 200)

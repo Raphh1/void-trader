@@ -3,7 +3,7 @@ import { initI18n } from '../i18n/config'
 import { getSubBossesForPillar } from '../data/subBosses'
 import { getStations } from '../data/stations'
 import { getTierBoss } from '../data/enemies'
-import { canResolveSubBoss, resolveSubBoss, getResolutionMeta, pactProgress, breakPact } from '../engine/subBossResolutions'
+import { canResolveSubBoss, resolveSubBoss, getResolutionMeta, pactProgress, breakPact, getActivePacts, pactRequirements } from '../engine/subBossResolutions'
 import type { GameState } from '../types'
 
 beforeAll(async () => {
@@ -245,5 +245,20 @@ describe('prix des pots-de-vin', () => {
     // système de combat et de services devient contournable à la carte.
     expect(total / QUETE_MOYENNE, 'acheter les 16 lieutenants est trop accessible')
       .toBeGreaterThan(40)
+  })
+})
+
+// L'écran Quêtes ne listait pas les marchés : la barre latérale renvoyait vers
+// un écran vide pour un marché avec le Roi de Nuit.
+describe('marchés affichés dans les quêtes', () => {
+  it('retrouve le marché en cours et détaille chaque condition', () => {
+    const gs = baseGs({ lieutenantPacts: ['sco-1'] })
+    const pacts = getActivePacts(gs)
+    expect(pacts.map(p => p.sb.name)).toEqual(['Le Roi de Nuit'])
+
+    const reqs = pactRequirements(gs, pacts[0].sb)
+    expect(reqs.length).toBe(pacts[0].sb.service!.requirements.length)
+    expect(reqs.every(r => r.label.length > 0)).toBe(true)
+    expect(reqs.some(r => !r.met)).toBe(true)
   })
 })

@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import { questTitle } from '../../engine/questI18n'
 import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
-import { getStations, getAccessibleStations, PEACEFUL_STATIONS, findPath, getFuelCost, FUEL_STATIONS } from '../../data/stations'
+import { getStations, getAccessibleStations, PEACEFUL_STATIONS, findPath, getFuelCost, FUEL_DEPOTS, getFuelPrice, fuelPriceColor } from '../../data/stations'
 import { STATION_POSITIONS } from '../../data/stationPositions'
 import { STATION_FACTION_CONTROL } from '../../engine/factionRep'
 import { getClosedStations, getWorldEventFuelBonus, getActiveEvents } from '../../engine/worldEvents'
@@ -489,8 +489,8 @@ export function MapScreen() {
                 {hasQuest && (
                   <text x={pos.x + r - 2} y={pos.y - r + 2} fontSize="8" fill="#ffd700" textAnchor="middle" style={{ pointerEvents: 'none' }}>★</text>
                 )}
-                {/* Pompe à carburant : station qui VEND du carburant */}
-                {FUEL_STATIONS.has(station.name) && (
+                {/* Pompe : dépôt, carburant au prix plancher (le prix des autres est dans l'infobulle) */}
+                {FUEL_DEPOTS.has(station.name) && (
                   <text x={pos.x - r - 1} y={pos.y - r + 3} fontSize="8" textAnchor="middle" style={{ pointerEvents: 'none' }}>⛽</text>
                 )}
                 {/* Label station */}
@@ -559,9 +559,16 @@ export function MapScreen() {
               {t('tooltip.fuelFromHere', { cost: (hovStation.fuelCostFrom[gs.currentStation] ?? 0) + fuelBonus })}
             </div>
           )}
-          {FUEL_STATIONS.has(hovStation.name) && (
-            <div style={{ fontSize: '8px', color: '#40ff80', marginBottom: '4px' }}>{t('tooltip.sellsFuel')}</div>
-          )}
+          {(() => {
+            const fp = getFuelPrice(hovStation.name)
+            if (fp === null) return <div style={{ fontSize: '8px', color: 'var(--dim)', marginBottom: '4px' }}>{t('tooltip.noFuel')}</div>
+            const depot = FUEL_DEPOTS.has(hovStation.name)
+            return (
+              <div style={{ fontSize: '8px', color: depot ? '#40ff80' : fuelPriceColor(fp), marginBottom: '4px' }}>
+                {t(depot ? 'tooltip.sellsFuel' : 'tooltip.fuelPrice', { price: fp })}
+              </div>
+            )
+          })()}
           {hovStation.goods.length > 0 && (
             <div style={{ fontSize: '8px', color: 'var(--dim)', borderTop: '1px solid var(--border)', paddingTop: '6px', marginTop: '4px' }}>
               {hovStation.goods.slice(0, 4).map(translateGood).join(' · ')}

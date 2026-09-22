@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import type { JournalEntry } from '../../types'
 import { translateStationName } from '../../engine/goodsI18n'
+import { journalEntryText } from '../../engine/journal'
 
 const CATEGORY_COLORS: Record<JournalEntry['category'], string> = {
   combat:   'var(--red)',
@@ -53,7 +54,7 @@ export function JournalScreen() {
                 <span className="t-xs t-dim">{t('day', { day: entry.day })}</span>
               </div>
               <div className="t-xs" style={{ lineHeight: '2', color: 'var(--text)', fontStyle: 'italic' }}>
-                {entry.text}
+                {journalEntryText(entry)}
               </div>
             </div>
           )

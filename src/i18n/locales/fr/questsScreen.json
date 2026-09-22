@@ -64,5 +64,13 @@
   "toRetrieve": "À récupérer :",
   "notRetrievedYet": "(pas encore récupéré)",
   "reward": "Récompense : {{credits}} cr",
-  "repSuffix": " · +{{value}} rép"
+  "repSuffix": " · +{{value}} rép",
+  "pactsHeader": "◆ MARCHÉS AVEC LES LIEUTENANTS ({{count}})",
+  "pactTag": "MARCHÉ",
+  "pactWith": "Marché — {{name}}",
+  "pactDemand": "Ce qu'il attend de toi",
+  "pactConditions": "Conditions",
+  "pactReadyHere": "✓ Tout est réuni — honore le marché depuis le hub de cette station.",
+  "pactReadyGo": "✓ Tout est réuni — rends-toi à {{station}} pour honorer le marché.",
+  "pactWhere": "→ {{station}}"
 }

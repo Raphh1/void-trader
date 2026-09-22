@@ -9,7 +9,7 @@ import {
   getJsonExploreLuxury, getJsonExploreGeneric,
 } from './jsonEventLoader'
 import { rollMemoryEvent, addDecision, shiftPillar } from './memoryEvents'
-import { addJournal } from './journal'
+import { addJournal, jt } from './journal'
 import i18n from '../i18n/config'
 import { translateStationName } from './goodsI18n'
 
@@ -287,7 +287,7 @@ const SCENES_SCIENTIFIC: Array<() => ExploreResult> = [
     type: 'event',
     description: st('scientific.1.desc'),
     choices: [
-      { label: st('scientific.1.c0'), result: (gs) => ({ gs: { reputation: gs.reputation + 20, credits: gs.credits + rng(400, 900), pastDecisions: addDecision(gs, 'aided-scientist'), journal: addJournal(gs, st('scientific.1.c0journal'), 'decision') }, message: st('scientific.1.c0msg') }) },
+      { label: st('scientific.1.c0'), result: (gs) => ({ gs: { reputation: gs.reputation + 20, credits: gs.credits + rng(400, 900), pastDecisions: addDecision(gs, 'aided-scientist'), journal: addJournal(gs, jt('explorationScenes', 'scientific.1.c0journal'), 'decision') }, message: st('scientific.1.c0msg') }) },
       { label: st('scientific.1.c1'), result: (gs) => ({ gs: { credits: gs.credits + rng(500, 1200), reputation: gs.reputation - 15 }, message: st('scientific.1.c1msg') }) },
       { label: st('scientific.1.c2'), result: () => ({ gs: {}, message: st('scientific.1.c2msg') }) }
     ]
@@ -678,7 +678,7 @@ export const WANDER_EVENTS_MID: Array<(gs: GameState) => WanderEvent> = [
         const q = quickQuest(gs!, 'bounty', 'Transfuge', 'wanderMid.3.c0qTitle', 'wanderMid.3.c0qDesc', t.name, undefined, 4500, 30)
         return { gs: { reputation: gs!.reputation + 10 }, message: st('wanderMid.3.c0msg', { target: translateStationName(t.name) }), quest: q }
       }},
-      { label: st('wanderMid.3.c1'), result: (gs) => ({ gs: { credits: (gs?.credits ?? 0) + rng(400, 900), reputation: (gs?.reputation ?? 0) - 20, moralTags: [...(gs?.moralTags ?? []), 'délateur'], pastDecisions: addDecision(gs!, 'betrayed-transfuge'), journal: addJournal(gs!, st('wanderMid.3.c1journal'), 'decision') }, message: st('wanderMid.3.c1msg') }) },
+      { label: st('wanderMid.3.c1'), result: (gs) => ({ gs: { credits: (gs?.credits ?? 0) + rng(400, 900), reputation: (gs?.reputation ?? 0) - 20, moralTags: [...(gs?.moralTags ?? []), 'délateur'], pastDecisions: addDecision(gs!, 'betrayed-transfuge'), journal: addJournal(gs!, jt('explorationScenes', 'wanderMid.3.c1journal'), 'decision') }, message: st('wanderMid.3.c1msg') }) },
       { label: st('wanderMid.3.c2'), result: () => ({ gs: {}, message: st('wanderMid.3.c2msg') }) }
     ]
   }),
@@ -802,10 +802,10 @@ export const WANDER_EVENTS_HIGH: Array<(gs: GameState) => WanderEvent> = [
         const newCargo: typeof gs.cargo = { ...gs.cargo, 'Médicaments': (gs.cargo['Médicaments'] ?? 1) - 1 }
         if ((newCargo['Médicaments'] ?? 0) <= 0) delete (newCargo as Record<string, number>)['Médicaments']
         const q = t ? quickQuest(gs, 'revenge', 'Mercenaire Cador', 'wanderHigh.3.c0qTitle', 'wanderHigh.3.c0qDesc', t.name, undefined, 2500, 20) : undefined
-        return { gs: { reputation: gs.reputation + 18, cargo: newCargo, pastDecisions: addDecision(gs, 'saved-mercenary'), journal: addJournal(gs, st('wanderHigh.3.c0journal'), 'decision') }, message: st('wanderHigh.3.c0msg', { target: translateStationName(t?.name ?? st('wanderHigh.3.c0fallbackTarget')) }), quest: q ?? undefined }
+        return { gs: { reputation: gs.reputation + 18, cargo: newCargo, pastDecisions: addDecision(gs, 'saved-mercenary'), journal: addJournal(gs, jt('explorationScenes', 'wanderHigh.3.c0journal'), 'decision') }, message: st('wanderHigh.3.c0msg', { target: translateStationName(t?.name ?? st('wanderHigh.3.c0fallbackTarget')) }), quest: q ?? undefined }
       }},
       { label: st('wanderHigh.3.c1'), result: () => ({ gs: {}, message: st('wanderHigh.3.c1msg') }) },
-      { label: st('wanderHigh.3.c2'), result: (gs) => ({ gs: { credits: (gs?.credits ?? 0) + rng(150, 400), reputation: (gs?.reputation ?? 0) - 18, moralTags: [...(gs?.moralTags ?? []), 'opportuniste'], pastDecisions: addDecision(gs!, 'pillaged-wounded'), journal: addJournal(gs!, st('wanderHigh.3.c2journal'), 'decision') }, message: st('wanderHigh.3.c2msg') }) }
+      { label: st('wanderHigh.3.c2'), result: (gs) => ({ gs: { credits: (gs?.credits ?? 0) + rng(150, 400), reputation: (gs?.reputation ?? 0) - 18, moralTags: [...(gs?.moralTags ?? []), 'opportuniste'], pastDecisions: addDecision(gs!, 'pillaged-wounded'), journal: addJournal(gs!, jt('explorationScenes', 'wanderHigh.3.c2journal'), 'decision') }, message: st('wanderHigh.3.c2msg') }) }
     ]
   }),
 
@@ -1304,7 +1304,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
         { label: st('stationWander.fortKharos.1.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
           const q = t ? quickQuest(gs!, 'escort', 'Recrue désertrice', 'stationWander.fortKharos.1.c0qTitle', 'stationWander.fortKharos.1.c0qDesc', t.name, undefined, 2000, -10) : undefined
-          return { gs: { cargo: { ...(gs?.cargo ?? {}), 'Passager': ((gs?.cargo ?? {})['Passager'] ?? 0) + 1 }, pastDecisions: addDecision(gs!, 'helped-defector'), journal: addJournal(gs!, st('stationWander.fortKharos.1.c0journal'), 'decision') }, message: st('stationWander.fortKharos.1.c0msg', { target: translateStationName(t?.name ?? st('stationWander.fortKharos.1.c0fallbackTarget')) }), quest: q ?? undefined }
+          return { gs: { cargo: { ...(gs?.cargo ?? {}), 'Passager': ((gs?.cargo ?? {})['Passager'] ?? 0) + 1 }, pastDecisions: addDecision(gs!, 'helped-defector'), journal: addJournal(gs!, jt('explorationScenes', 'stationWander.fortKharos.1.c0journal'), 'decision') }, message: st('stationWander.fortKharos.1.c0msg', { target: translateStationName(t?.name ?? st('stationWander.fortKharos.1.c0fallbackTarget')) }), quest: q ?? undefined }
         }},
         { label: st('stationWander.fortKharos.1.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 6 }, message: st('stationWander.fortKharos.1.c1msg') }) },
         { label: st('stationWander.fortKharos.1.c2'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) - 15, credits: (gs?.credits ?? 0) + 300 }, message: st('stationWander.fortKharos.1.c2msg') }) }
@@ -1346,9 +1346,9 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
       choices: [
         { label: st('stationWander.emporiumRequiem.0.c0'), result: (gs) => {
           const t = gs && pickTarget(gs)
-          if (!t) return { gs: { credits: (gs?.credits ?? 0) + 400, reputation: (gs?.reputation ?? 0) + 8, pastDecisions: addDecision(gs!, 'pistis-ally'), pillarStanding: shiftPillar(gs!, 'cesarion', +8), journal: addJournal(gs!, st('stationWander.emporiumRequiem.0.c0noTargetJournal'), 'event') }, message: st('stationWander.emporiumRequiem.0.c0noTargetMsg') }
+          if (!t) return { gs: { credits: (gs?.credits ?? 0) + 400, reputation: (gs?.reputation ?? 0) + 8, pastDecisions: addDecision(gs!, 'pistis-ally'), pillarStanding: shiftPillar(gs!, 'cesarion', +8), journal: addJournal(gs!, jt('explorationScenes', 'stationWander.emporiumRequiem.0.c0noTargetJournal'), 'event') }, message: st('stationWander.emporiumRequiem.0.c0noTargetMsg') }
           const q = quickQuest(gs!, 'delivery', 'Pistis', 'stationWander.emporiumRequiem.0.c0qTitle', 'stationWander.emporiumRequiem.0.c0qDesc', t.name, 'Renseignements', 3000, 8)
-          return { gs: { reputation: gs!.reputation + 8, pastDecisions: addDecision(gs!, 'pistis-ally'), pillarStanding: shiftPillar(gs!, 'cesarion', +8), journal: addJournal(gs!, st('stationWander.emporiumRequiem.0.c0journal'), 'event') }, message: st('stationWander.emporiumRequiem.0.c0msg', { target: translateStationName(t.name) }), quest: q }
+          return { gs: { reputation: gs!.reputation + 8, pastDecisions: addDecision(gs!, 'pistis-ally'), pillarStanding: shiftPillar(gs!, 'cesarion', +8), journal: addJournal(gs!, jt('explorationScenes', 'stationWander.emporiumRequiem.0.c0journal'), 'event') }, message: st('stationWander.emporiumRequiem.0.c0msg', { target: translateStationName(t.name) }), quest: q }
         }},
         { label: st('stationWander.emporiumRequiem.0.c1'), result: (gs) => ({ gs: { reputation: (gs?.reputation ?? 0) + 3 }, message: st('stationWander.emporiumRequiem.0.c1msg') }) }
       ]
@@ -1416,7 +1416,7 @@ export const STATION_WANDER_EVENTS: Partial<Record<string, Array<(gs: GameState)
           label: st('stationWander.arcPerdu.1.c0'),
           result: (gs) => {
             const roll = Math.random()
-            if (roll < 0.25) return { gs: { reputation: gs!.reputation + 5, pillarStanding: shiftPillar(gs!, 'raphazarus', +8), pastDecisions: addDecision(gs!, 'passed-raphazarus-patrol'), journal: addJournal(gs!, st('stationWander.arcPerdu.1.c0journal'), 'event') }, message: st('stationWander.arcPerdu.1.c0msgPass') }
+            if (roll < 0.25) return { gs: { reputation: gs!.reputation + 5, pillarStanding: shiftPillar(gs!, 'raphazarus', +8), pastDecisions: addDecision(gs!, 'passed-raphazarus-patrol'), journal: addJournal(gs!, jt('explorationScenes', 'stationWander.arcPerdu.1.c0journal'), 'event') }, message: st('stationWander.arcPerdu.1.c0msgPass') }
             if (roll < 0.60) return { gs: { pendingInterrogation: { faction: "Soldats de Raphazarus", captureStation: gs!.currentStation }, screen: 'interrogation' as const }, message: st('stationWander.arcPerdu.1.c0msgInterrogation') }
             return { gs: { isImprisoned: true, prisonDaysLeft: rng(3, 6), screen: 'prison' as const, playerHp: Math.max(1, gs!.playerHp - rng(20, 40)) }, message: st('stationWander.arcPerdu.1.c0msgPrison') }
           }

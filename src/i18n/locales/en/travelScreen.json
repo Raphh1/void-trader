@@ -1,8 +1,13 @@
 {
   "connections": "Connections →",
-  "sellsFuel": "Sells fuel",
+  "sellsFuel": "Depot: cheap fuel",
   "cost": "(cost {{amount}})",
-  "dangerLabels": ["◆ SAFE", "◆ RISKY", "◆ DANGEROUS", "◆ WAR ZONE"],
+  "dangerLabels": [
+    "◆ SAFE",
+    "◆ RISKY",
+    "◆ DANGEROUS",
+    "◆ WAR ZONE"
+  ],
   "back": "← BACK",
   "title": "DESTINATION",
   "fuel": "Fuel:",
@@ -13,11 +18,13 @@
   "noDestination": "No destination reachable from here.",
   "priceHint": " · Prices: {{list}}...",
   "fuelUnit": "FUEL",
-  "sellsFuelBadge": "⛽ SELLS FUEL",
+  "sellsFuelBadge": "⛽ DEPOT — fuel at {{price}} cr",
   "banned": "BANNED",
   "blocked": "⚠ BLOCKED",
   "nextStep": "◎ NEXT STEP ON ROUTE",
   "finalDestination": "◎ FINAL DESTINATION",
   "activeQuest": "★ Active quest: {{title}}",
-  "pirateInterceptor": "Interceptor pirate"
+  "pirateInterceptor": "Interceptor pirate",
+  "fuelPriceBadge": "⛽ Fuel: {{price}} cr",
+  "noFuelBadge": "✗ No fuel"
 }

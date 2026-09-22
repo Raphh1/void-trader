@@ -4,7 +4,8 @@ import { TypewriterText } from '../ui/TypewriterText'
 import type { GameState, WeaponData } from '../../types'
 import { useGameStore } from '../../store/gameStore'
 import { StatusBarWithDeltas } from '../ui/StatusBar'
-import { getStation, BOSS_STATIONS, FUEL_STATIONS, getAccessibleStations, getFuelCost } from '../../data/stations'
+import { getFuelUnitPrice } from '../../engine/marketPricing'
+import { getStation, BOSS_STATIONS, PEACEFUL_STATIONS, getAccessibleStations, getFuelCost, fuelToNearestRefuel } from '../../data/stations'
 import { getEnemyForStation, scaleEnemy, getTierBoss } from '../../data/enemies'
 import { rollExplorationEvent, rollWanderEvent, type WanderEvent } from '../../engine/exploration'
 import type { ExploreResult } from '../../engine/exploration'
@@ -30,12 +31,12 @@ import { getBossHomeVisit, resolveBossHomeVisit, type BossHomeVisitDef, type Bos
 import { getRunModifiers } from '../../data/runModifiers'
 import { getRunObjective } from '../../data/runObjectives'
 import { getSubBossAtStation, isSubBossDefeated, getSubBossProgress, arePillarSubBossesCleared, getSubBossesForPillar, getSubBossStation, rollLieutenantClueEvent, LIEUTENANT_CLUE_REVEAL_LEVEL, type LieutenantClueEvent } from '../../data/subBosses'
-import { canResolveSubBoss, resolveSubBoss, getResolutionMeta, hasPact, pactProgress, breakPact } from '../../engine/subBossResolutions'
+import { canResolveSubBoss, resolveSubBoss, getResolutionMeta, hasPact, breakPact, getActivePacts } from '../../engine/subBossResolutions'
 import { getAvailableClues, canCollectClue, collectClue } from '../../engine/nexus'
 import { getDailyExpenses, getDailyExpenseBreakdown } from '../../engine/expenses'
 import { resolveShipDown } from '../../engine/shipDamage'
 import { useTranslation } from 'react-i18next'
-import { getActiveEvents } from '../../engine/worldEvents'
+import { getActiveEvents, getClosedStations, getWorldEventFuelBonus } from '../../engine/worldEvents'
 import { getQuestsAtStation, canStartQuest, completeQuest, type EquipmentQuest } from '../../data/equipmentQuests'
 import { LORE_TOTAL } from '../../data/loreFragments'
 import { ExploreResultPanel } from './hub/ExploreResultPanel'
@@ -63,12 +64,7 @@ export function StationHub() {
 
   // Marchés en cours avec des lieutenants, recalculés à chaque rendu pour que
   // la progression suive l'état réel du joueur (cargo, réputation, voyages...).
-  const activePacts = (gs.lieutenantPacts ?? [])
-    .map(id => ['alanossa', 'cesarion', 'raphazarus', 'scotty']
-      .flatMap(p => getSubBossesForPillar(p, gs))
-      .find(sb => sb.id === id))
-    .filter((sb): sb is NonNullable<typeof sb> => !!sb)
-    .map(sb => ({ sb, progress: pactProgress(gs, sb) }))
+  const activePacts = getActivePacts(gs)
 
   // Missions majeures en cours : elles comptent comme des quêtes, sinon le
   // bouton Quêtes restait grisé (et la barre latérale vide) sans contrat actif.
@@ -139,11 +135,26 @@ export function StationHub() {
     const c = getFuelCost(gs.currentStation, s.name)
     return c > gs.fuel && c <= gs.maxFuel
   })
-  const fuelStranded = reachableCount === 0 && gs.fuel > 0 && fuelWouldHelp
-  // Soupape de sécurité : chercher du carburant est proposé quand on est à sec, ou
-  // en état critique ET que du carburant supplémentaire débloquerait une route.
-  const fuelCritical = reachableCount <= 1 && fuelWouldHelp
-  const canScavengeFuel = (gs.fuel <= 0 || fuelCritical) && !FUEL_STATIONS.has(gs.currentStation)
+  // Coincé pour de bon : plus assez de carburant pour rejoindre une station qui
+  // en vend, même en enchaînant les sauts. Les voisins accessibles ne suffisent
+  // pas (depuis La Couronne d'Eos à 2 de carburant, Résidence Orbitale et Club
+  // Privé Éos sont des impasses). Mêmes exclusions que l'écran Voyage.
+  const hubEvents = getActiveEvents(gs)
+  const travelExcluded = new Set(getClosedStations(hubEvents))
+  if (!gs.arcPerduUnlocked) travelExcluded.add("L'Arc Perdu")
+  if (gs.class.peacefulBan) for (const s of PEACEFUL_STATIONS) travelExcluded.add(s)
+  const refuelCost = fuelToNearestRefuel(gs.currentStation, travelExcluded, getWorldEventFuelBonus(hubEvents))
+  const cutOffFromFuel = refuelCost > gs.fuel
+  const fuelStranded = (reachableCount === 0 && gs.fuel > 0 && fuelWouldHelp) || (cutOffFromFuel && gs.fuel > 0)
+  // Soupape de sécurité : chercher du carburant est proposé quand on est à sec,
+  // coupé de tout ravitaillement, ou en état critique ET que du carburant
+  // supplémentaire débloquerait une route.
+  const fuelCritical = (reachableCount <= 1 && fuelWouldHelp) || cutOffFromFuel
+  // Fouiller reste le dernier recours : seulement si on ne peut pas acheter ici
+  // (pas de pompe, ou pas les moyens). Vendre partout ne sauve pas un joueur fauché.
+  const fuelPriceHere = getFuelUnitPrice(gs)
+  const canBuyFuelHere = fuelPriceHere !== null && gs.credits >= fuelPriceHere
+  const canScavengeFuel = (gs.fuel <= 0 || fuelCritical) && !canBuyFuelHere
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const ambianceText = useMemo(() => getAmbiance(gs.currentStation), [gs.currentStation, i18n.language])
   const factionBlocked     = isFactionBlockedAtStation(gs, gs.currentStation)
@@ -1267,9 +1278,11 @@ export function StationHub() {
                     {gs.fuel <= 0 ? t('travelNoFuel') : t('travel', { fuel: gs.fuel })}
                   </button>
                 )}
-                {fuelCritical && reachableCount > 0 && !FUEL_STATIONS.has(gs.currentStation) && (
+                {fuelCritical && reachableCount > 0 && !canBuyFuelHere && (
                   <div className="t-xs t-red" style={{ padding: '4px 8px', background: 'rgba(255,0,0,0.08)', border: '1px solid var(--red)' }}>
-                    {t('fuelCritical', { count: reachableCount, plural: reachableCount > 1 ? 's' : '' })}
+                    {cutOffFromFuel && Number.isFinite(refuelCost)
+                      ? t('fuelCutOff', { need: refuelCost, fuel: gs.fuel })
+                      : t('fuelCritical', { count: reachableCount, plural: reachableCount > 1 ? 's' : '' })}
                   </div>
                 )}
                 {canScavengeFuel && (

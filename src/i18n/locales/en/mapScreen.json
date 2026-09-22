@@ -7,7 +7,7 @@
   "routeTo": "◎ ROUTE → {{station}}",
   "hops": "({{count}} hop{{plural}})",
   "clearRoute": "Clear route",
-  "fuelLegend": "⛽ fuel",
+  "fuelLegend": "⛽ depot (cheap fuel)",
   "portraitBlock": {
     "title": "ROTATE YOUR PHONE",
     "desc": "The sector map needs horizontal space. Switch to landscape mode to navigate, zoom, and place waypoints with your finger."
@@ -23,7 +23,9 @@
     "accessBanned": "⛔ ACCESS BANNED",
     "activeQuest": "★ ACTIVE QUEST",
     "fuelFromHere": "⛽ {{cost}} fuel from here",
-    "sellsFuel": "⛽ SELLS FUEL (refueling available)"
+    "sellsFuel": "⛽ DEPOT — fuel at {{price}} cr",
+    "fuelPrice": "⛽ Fuel: {{price}} cr",
+    "noFuel": "✗ No fuel here"
   },
   "setOrigin": "⚑ Origin",
   "pickOrigin": "⚑ Pick a starting station…",

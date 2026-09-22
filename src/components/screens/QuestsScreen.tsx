@@ -9,6 +9,8 @@ import { BOSS_TRIGGER_TYPES, CRAFTED_DELIVERY_ITEMS } from '../../engine/quests'
 import { getRecipeForItem } from '../../data/recipes'
 import type { MajorQuestCondition, QuestType, GameState } from '../../types'
 import { translateGood, translateEnemyName, translateStationName } from '../../engine/goodsI18n'
+import { getActivePacts, pactRequirements } from '../../engine/subBossResolutions'
+import { getSubBossStation } from '../../data/subBosses'
 
 function stageDestination(cond: MajorQuestCondition, t: TFunction): string | null {
   switch (cond.type) {
@@ -86,6 +88,7 @@ export function QuestsScreen() {
   const TYPE_COMPLETE_HINT = t('completeHint', { returnObjects: true }) as unknown as Record<string, string>
   const gs   = useGameStore(s => s.gs!)
   const goTo = useGameStore(s => s.goTo)
+  const pacts = getActivePacts(gs)
 
   return (
     <div className="layout">
@@ -98,7 +101,7 @@ export function QuestsScreen() {
         <div className="t-xs t-dim">{t('completedCount', { count: gs.completedQuestIds.length })}</div>
       </div>
 
-      {gs.activeQuests.length === 0 && !gs.majorQuests.some(q => !q.completed && !q.failed) && (
+      {gs.activeQuests.length === 0 && pacts.length === 0 && !gs.majorQuests.some(q => !q.completed && !q.failed) && (
         <div className="px-box t-dim t-xs">
           {t('noActiveQuest')}
         </div>
@@ -176,6 +179,48 @@ export function QuestsScreen() {
 
                 <div className="t-xs t-dim mt8">
                   {t('givenByPrefix')} <span className="t-bright">{mq.giver}</span> {t('givenByMiddle')} <span style={{ color: 'var(--cyan)' }}>{translateStationName(mq.giverStation)}</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {/* ── MARCHÉS AVEC LES LIEUTENANTS ────────────────────────── */}
+      {pacts.length > 0 && (
+        <div className="col gap4">
+          <div className="t-xs t-dim" style={{ letterSpacing: '0.1em' }}>{t('pactsHeader', { count: pacts.length })}</div>
+          {pacts.map(({ sb, progress }) => {
+            const station = getSubBossStation(gs, sb)
+            const isHere = station === gs.currentStation
+            const borderCol = progress.done ? 'var(--green)' : isHere ? 'var(--gold)' : 'var(--purple)'
+            return (
+              <div key={sb.id} className="px-box" style={{ borderColor: borderCol }}>
+                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                  <div className="t-sm t-bright" style={{ flex: 1, marginRight: '8px' }}>{t('pactWith', { name: translateEnemyName(sb.name) })}</div>
+                  <div className="tag tag--purple t-xs">{t('pactTag')}</div>
+                </div>
+
+                {sb.service?.demand && (
+                  <>
+                    <div className="t-xs t-dim mb4" style={{ letterSpacing: '0.1em' }}>{t('pactDemand')}</div>
+                    <div className="t-xs mb8" style={{ lineHeight: '2', fontStyle: 'italic' }}>{sb.service.demand}</div>
+                  </>
+                )}
+
+                <div className="t-xs t-dim mb4" style={{ letterSpacing: '0.1em' }}>{t('pactConditions')}</div>
+                <div className="t-xs mb8" style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                  {pactRequirements(gs, sb).map((req, i) => (
+                    <div key={i} style={{ color: req.met ? 'var(--green)' : 'var(--orange)' }}>
+                      {req.met ? '✓' : '○'} {req.label}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="t-xs" style={{ color: progress.done ? 'var(--green)' : isHere ? 'var(--gold)' : 'var(--text-dim)', fontWeight: progress.done ? 'bold' : undefined }}>
+                  {progress.done
+                    ? isHere ? t('pactReadyHere') : t('pactReadyGo', { station: translateStationName(station) })
+                    : isHere ? t('youAreHere') : t('pactWhere', { station: translateStationName(station) })}
                 </div>
               </div>
             )

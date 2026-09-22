@@ -1,5 +1,7 @@
 import type { GameState } from '../types'
 import i18n from '../i18n/config'
+import { getFuelPrice } from '../data/stations'
+import { getBuyDiscount } from './factions'
 
 const mt = (key: string, params?: Record<string, unknown>) => i18n.t(key, { ns: 'marketScreen', ...params })
 
@@ -151,4 +153,15 @@ export function getMarketContext(gs: GameState, stationType: string): string[] {
   }
 
   return lines
+}
+
+// ── CARBURANT ────────────────────────────────────────────────────────────────
+// Un seul prix pour le marché et l'atelier : celui de la station (type +
+// isolement, voir getFuelPrice), moins la remise de faction. Pas de
+// multiplicateur d'arbitrage : le carburant va dans le réservoir, il ne se
+// revend pas. null = la station n'en vend pas.
+export function getFuelUnitPrice(gs: GameState): number | null {
+  const base = getFuelPrice(gs.currentStation)
+  if (base === null) return null
+  return Math.max(1, Math.floor(base * (1 - getBuyDiscount(gs) / 100)))
 }
