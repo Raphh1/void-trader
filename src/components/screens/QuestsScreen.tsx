@@ -33,6 +33,8 @@ const TYPE_CLASS: Record<string, string> = {
   extraction: 'tag--cyan',
   bounty:     'tag--gold',
   patrol:     'tag--dim',
+  hunt:       'tag--orange',
+  mediation:  'tag--green',
 }
 
 function bossGuidance(q: { type: QuestType; targetStation: string }, gs: GameState, isAtTarget: boolean, t: TFunction) {
@@ -265,6 +267,9 @@ export function QuestsScreen() {
                 <div className="t-dim" style={{ fontStyle: 'italic', fontSize: '7px' }}>
                   {TYPE_COMPLETE_HINT[q.type]}
                 </div>
+                {q.type === 'hunt' && (
+                  <div className="t-xs" style={{ color: 'var(--orange)' }}>{t('huntProgress', { progress: q.progress ?? 0, goal: q.goal ?? 2 })}</div>
+                )}
                 {bossGuidance(q, gs, isAtTarget, t)}
                 {q.targetItem && q.type !== 'extraction' && (() => {
                   const sellers = !hasItem && q.type !== 'escort' ? getStationsSellingItem(q.targetItem!) : []

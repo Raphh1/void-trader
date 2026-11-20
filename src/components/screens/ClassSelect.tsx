@@ -8,6 +8,7 @@ import { drawRunObjective, getRunObjective } from '../../data/runObjectives'
 import { MetaScreen } from './MetaScreen'
 import { translateClassName, translateStationName } from '../../engine/goodsI18n'
 import { getDailySetup, getDailyBest } from '../../engine/daily'
+import { MultiplayerLobby } from '../ui/Multiplayer'
 
 // Toutes ces fonctions de tirage ne renvoient que des identifiants stables
 // (nom de classe / id de modificateur / id d'objectif), jamais les objets
@@ -121,6 +122,8 @@ export function ClassSelect() {
           <div className="t-xl t-gold" style={{ letterSpacing: '4px' }}>VOID TRADER</div>
           <div className="t-dim t-xs mt4">{t('subtitle')}</div>
         </div>
+
+        <MultiplayerLobby />
 
         {/* Carte de classe */}
         <div className="px-box px-box--hi" style={{ borderColor: drawn.color, marginTop: '16px' }}>

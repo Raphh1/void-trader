@@ -243,6 +243,27 @@ export function canStartQuest(gs: GameState, quest: EquipmentQuest): { ok: boole
   return { ok: missing.length === 0, missing }
 }
 
+/**
+ * Toutes les conditions d'une quête, remplies ou non. La carte n'affichait que
+ * les manquantes : une fois les objets réunis, le coût en crédits disparaissait
+ * et « Compléter » débitait 500 cr sans prévenir.
+ */
+export function questRequirementStatus(gs: GameState, quest: EquipmentQuest): { label: string; met: boolean }[] {
+  return quest.requirements.map(req => {
+    const met = canStartQuest(gs, { ...quest, id: '', requirements: [req] }).ok
+    switch (req.type) {
+      case 'credits':      return { met, label: eq('req.credits', { amount: req.amount.toLocaleString(i18n.language) }) }
+      case 'reputation':   return { met, label: eq('missing.reputation', { value: gs.reputation, needed: req.min }) }
+      case 'item':         return { met, label: eq('missing.item', { name: translateGood(req.name), have: gs.cargo[req.name] ?? 0, needed: req.qty }) }
+      case 'combatsWon':   return { met, label: eq('missing.combatsWon', { value: gs.combatsWon ?? 0, needed: req.min }) }
+      case 'visitStation': return { met, label: eq('req.visitStation', { station: translateStationName(req.station) }) }
+      case 'bossKill':     return { met, label: eq('missing.bossKill', { boss: translateEnemyName(req.bossName) }) }
+      case 'day':          return { met, label: eq('missing.day', { value: gs.day, needed: req.min }) }
+      case 'subBoss':      return { met, label: eq('req.subBoss') }
+    }
+  })
+}
+
 export function completeQuest(gs: GameState, quest: EquipmentQuest): Partial<GameState> {
   const patch: Partial<GameState> = {
     completedEquipmentQuests: [...(gs.completedEquipmentQuests ?? []), quest.id],

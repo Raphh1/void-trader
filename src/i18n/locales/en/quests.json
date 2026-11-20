@@ -12,7 +12,9 @@
     "heist": "Acquisition: {{item}}",
     "extraction": "Extraction from {{target}}",
     "bounty": "Bounty — {{boss}}",
-    "patrol": "Patrol: {{target}}"
+    "patrol": "Patrol: {{target}}",
+    "hunt": "Hunt: {{target}}",
+    "mediation": "Mediation at {{target}}"
   },
   "craftedDeliveryDesc": "{{giver}} needs {{item}} — a part you can't buy anywhere. It has to be crafted at the Workshop before it can be delivered to {{target}}.",
   "bossFallbackKill": "the boss of {{target}}",
@@ -75,6 +77,18 @@
       "Unstable zone on {{target}}. Needs a physical presence: move around, check access points, hang around hotspots. Three actions on site.",
       "{{giver}} has assets on {{target}} that need to stay intact. Secure the zone over three passes — no report, just presence.",
       "Keeping order on {{target}}. No paperwork, no forms — just show up wherever it's rough, three times. Usually enough."
+    ],
+    "hunt": [
+      "{{giver}} pays to clean up {{target}}. Raiders have made themselves at home in the corridors: explore, find them, win {{count}} fights. No proof needed, word will get around.",
+      "The docks of {{target}} have become hunting grounds. {{giver}} wants the hunters hunted: win {{count}} fights there and the bounty is yours.",
+      "{{giver}} lost two convoys to the vermin squatting {{target}}. \"I want them scared to come out.\" {{count}} victories on site.",
+      "Cleanup contract on {{target}}. No specific target, no boss to bring down: just volume. Win {{count}} fights there, {{giver}} handles the rest."
+    ],
+    "mediation": [
+      "Two crews are fighting over a dock at {{target}} and it's about to turn into a shootout. {{giver}} wants calm: talk them down, pay them off, or silence the loudest one.",
+      "A strike is blocking the docks of {{target}}. The bosses won't give in, neither will the dockers. {{giver}} needs things moving again, however it's done.",
+      "A gambling debt has gone sour at {{target}}: two families are ready to pay each other an armed visit. {{giver}} pays whoever brings back peace.",
+      "The settlers and the militia of {{target}} have been glaring at each other for a week. {{giver}} wants a mediator, not a hero. But a hero will do."
     ]
   },
   "chain": {
@@ -87,7 +101,9 @@
     "revenge": "{{giver}} identified others responsible. 'There's more left. Same station, same method. Want the sequel?' Harder. Pays more.",
     "bounty": "Cascading contract. The previous target had a backer. {{giver}} traced it. 'The real head is out there.' Higher bounty.",
     "sabotage": "{{giver}} wants to push further. 'What we did shook things up. Now's the time to drive it home.' Same target, different mission.",
-    "heist": "{{giver}} spotted something else on site. 'Going there, you saw what I hadn't. There's more to take there.' Additional acquisition."
+    "heist": "{{giver}} spotted something else on site. 'Going there, you saw what I hadn't. There's more to take there.' Additional acquisition.",
+    "hunt": "{{giver}} saw what you can do. \"There are more of them, further out. Same rate, more targets.\" Cleanup, higher bounty.",
+    "mediation": "Your last job for {{giver}} made waves. \"Now we need to calm down the ones who took it badly.\" Mediation, higher bounty."
   },
   "faction": {
     "titles": {

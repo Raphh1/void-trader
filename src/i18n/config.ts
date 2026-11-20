@@ -48,4 +48,13 @@ export async function setLanguage(lang: SupportedLanguage): Promise<void> {
   localStorage.setItem(STORAGE_KEY, lang)
 }
 
+// Les montants sont formatés partout avec `n.toLocaleString()` sans argument,
+// donc selon la langue du NAVIGATEUR : un navigateur anglais affichait
+// « 1,900 cr » dans le jeu en français. On fait suivre à ce format par défaut
+// la langue du jeu ; un appel qui précise sa locale n'est pas touché.
+const nativeToLocaleString = Number.prototype.toLocaleString
+Number.prototype.toLocaleString = function (this: number, locales?: Intl.LocalesArgument, options?: Intl.NumberFormatOptions) {
+  return nativeToLocaleString.call(this, locales ?? (i18n.language || undefined), options)
+}
+
 export default i18n

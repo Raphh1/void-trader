@@ -1,16 +1,60 @@
 {
   "quests": {
-    "eqLameRecup": { "title": "La Lame Récupérée", "description": "Un forgeron de la Carcasse parle d'une lame ancienne enfouie dans la ferraille. Il a besoin de matériaux pour la restaurer.", "weaponEffect": "+30% dégâts (perce l'armure)" },
-    "eqGiletGarde": { "title": "Le Gilet du Garde Déchu", "description": "Un ancien garde de Fort Kharos vend son équipement. Il veut quitter le secteur. Il a besoin de carburant et de crédits.", "armorDesc": "L'ancien propriétaire est parti. Le gilet est resté." },
-    "eqFusilFantome": { "title": "Le Fusil du Fantôme", "description": "Une rumeur circule sur Station Fantôme : une arme légendaire est cachée dans les conduits d'aération. Pour la trouver, il faut y avoir survécu.", "weaponEffect": "Aveugle l'ennemi 1 tour. Trouvé dans les conduits d'une station qui n'existe pas." },
-    "eqArmureMira": { "title": "L'Armure des Profondeurs", "description": "Les mineurs de Mira parlent d'une armure cristalline trouvée dans les galeries les plus profondes. Elle a des propriétés étranges.", "armorDesc": "Les cristaux de Mira renvoient l'énergie." },
-    "eqLameNoctis": { "title": "La Commande de Noctis", "description": "Un artisan de la Forge Noire peut forger une lame de qualité Noctis — mais il a besoin de composants spécifiques et d'une preuve de valeur.", "weaponEffect": "Frappe deux fois (×0.85 chacune). Forgée dans les profondeurs de la Forge Noire." },
-    "eqCanonVelkor": { "title": "Le Canon des Abysses", "description": "Dans les Abysses de Velkor, un prototype d'arme pré-Fracture attend d'être restauré. Il faut des données classifiées pour débloquer sa chambre forte.", "weaponEffect": "Étourdit + brûle 15-25/tour ×3. Prototype pré-Fracture." },
-    "eqArmureEcarlate": { "title": "L'Armure de l'Écarlate", "description": "Les Gardiens Écarlates conservent une armure légendaire dans leur Arsenal. La mériter exige loyauté et sang.", "armorDesc": "Portée par les champions des Gardiens. +10 PV/tour." },
-    "eqVampirelleMk2": { "title": "Vampirelle Mk.II", "description": "Le Docteur Flinch à la Bulle a perfectionné la technologie vampirique. Il a besoin de composants biologiques et de cobayes... ou juste de crédits.", "weaponEffect": "Vole 35% des dégâts en PV. Version améliorée par Flinch." },
-    "eqLameNexus": { "title": "La Lame du Nexus", "description": "Les ruines du Berceau cachent l'arme la plus ancienne du secteur. Forgée avant la Fracture, elle nécessite des artefacts de chaque coin du secteur pour être réactivée.", "weaponEffect": "Frappe + momentum max instantané. L'arme qui existait avant tout." },
-    "eqArmureSingularite": { "title": "Le Projet Singularité", "description": "ARIA-9 à Sanctum Machina possède les plans d'une armure qui n'est pas censée exister. La construire nécessite la coopération d'un esprit humain et d'une IA.", "armorDesc": "Absorbe un coup fatal. Projet interdit. Parfait." },
-    "eqSceptreRoi": { "title": "Le Sceptre du Roi Perdu", "description": "L'Arc Perdu contient l'arme d'un roi oublié. Raphazarus sait où elle se trouve — mais il ne la donnera qu'à quelqu'un qui a prouvé sa valeur sur les champs de bataille.", "weaponEffect": "Dégâts × (1 + 1.5×%PV manquants), max ×2.5. L'arme d'un roi qui a tout perdu — sauf sa fureur." }
+    "eqLameRecup": {
+      "title": "La Lame Récupérée",
+      "description": "Un forgeron de la Carcasse parle d'une lame ancienne enfouie dans la ferraille. Il a besoin de matériaux pour la restaurer.",
+      "weaponEffect": "+30% dégâts (perce l'armure)"
+    },
+    "eqGiletGarde": {
+      "title": "Le Gilet du Garde Déchu",
+      "description": "Un ancien garde de Fort Kharos vend son équipement. Il veut quitter le secteur. Il a besoin de carburant et de crédits.",
+      "armorDesc": "L'ancien propriétaire est parti. Le gilet est resté."
+    },
+    "eqFusilFantome": {
+      "title": "Le Fusil du Fantôme",
+      "description": "Une rumeur circule sur Station Fantôme : une arme légendaire est cachée dans les conduits d'aération. Pour la trouver, il faut y avoir survécu.",
+      "weaponEffect": "Aveugle l'ennemi 1 tour. Trouvé dans les conduits d'une station qui n'existe pas."
+    },
+    "eqArmureMira": {
+      "title": "L'Armure des Profondeurs",
+      "description": "Les mineurs de Mira parlent d'une armure cristalline trouvée dans les galeries les plus profondes. Elle a des propriétés étranges.",
+      "armorDesc": "Les cristaux de Mira renvoient l'énergie."
+    },
+    "eqLameNoctis": {
+      "title": "La Commande de Noctis",
+      "description": "Un artisan de la Forge Noire peut forger une lame de qualité Noctis — mais il a besoin de composants spécifiques et d'une preuve de valeur.",
+      "weaponEffect": "Frappe deux fois (×0.85 chacune). Forgée dans les profondeurs de la Forge Noire."
+    },
+    "eqCanonVelkor": {
+      "title": "Le Canon des Abysses",
+      "description": "Dans les Abysses de Velkor, un prototype d'arme pré-Fracture attend d'être restauré. Il faut des données classifiées pour débloquer sa chambre forte.",
+      "weaponEffect": "Étourdit + brûle 15-25/tour ×3. Prototype pré-Fracture."
+    },
+    "eqArmureEcarlate": {
+      "title": "L'Armure de l'Écarlate",
+      "description": "Les Gardiens Écarlates conservent une armure légendaire dans leur Arsenal. La mériter exige loyauté et sang.",
+      "armorDesc": "Portée par les champions des Gardiens. +10 PV/tour."
+    },
+    "eqVampirelleMk2": {
+      "title": "Vampirelle Mk.II",
+      "description": "Le Docteur Flinch à la Bulle a perfectionné la technologie vampirique. Il a besoin de composants biologiques et de cobayes... ou juste de crédits.",
+      "weaponEffect": "Vole 35% des dégâts en PV. Version améliorée par Flinch."
+    },
+    "eqLameNexus": {
+      "title": "La Lame du Nexus",
+      "description": "Les ruines du Berceau cachent l'arme la plus ancienne du secteur. Forgée avant la Fracture, elle nécessite des artefacts de chaque coin du secteur pour être réactivée.",
+      "weaponEffect": "Frappe + momentum max instantané. L'arme qui existait avant tout."
+    },
+    "eqArmureSingularite": {
+      "title": "Le Projet Singularité",
+      "description": "ARIA-9 à Sanctum Machina possède les plans d'une armure qui n'est pas censée exister. La construire nécessite la coopération d'un esprit humain et d'une IA.",
+      "armorDesc": "Absorbe un coup fatal. Projet interdit. Parfait."
+    },
+    "eqSceptreRoi": {
+      "title": "Le Sceptre du Roi Perdu",
+      "description": "L'Arc Perdu contient l'arme d'un roi oublié. Raphazarus sait où elle se trouve — mais il ne la donnera qu'à quelqu'un qui a prouvé sa valeur sur les champs de bataille.",
+      "weaponEffect": "Dégâts × (1 + 1.5×%PV manquants), max ×2.5. L'arme d'un roi qui a tout perdu — sauf sa fureur."
+    }
   },
   "missing": {
     "alreadyCompleted": "Déjà complétée",
@@ -22,5 +66,16 @@
     "bossKill": "Vaincre {{boss}}",
     "day": "Jour {{value}}/{{needed}}",
     "subBoss": "Sous-boss requis non vaincu"
+  },
+  "req": {
+    "credits": "Coût : {{amount}} cr, payés en complétant",
+    "visitStation": "Avoir visité {{station}}",
+    "subBoss": "Vaincre un lieutenant précis"
+  },
+  "difficulty": {
+    "common": "COMMUNE",
+    "rare": "RARE",
+    "epic": "ÉPIQUE",
+    "legendary": "LÉGENDAIRE"
   }
 }

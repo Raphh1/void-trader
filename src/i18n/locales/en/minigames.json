@@ -82,5 +82,33 @@
     "success": "◆ SUCCESS",
     "miss": "✗ MISS",
     "stopButton": "► STOP!"
+  },
+  "attackBar": {
+    "title": {
+      "mains": "— BARE HANDS —",
+      "lame": "— STRIKE —",
+      "tir": "— BURST —",
+      "precision": "— PRECISION SHOT —",
+      "lourd": "— HEAVY WEAPON —",
+      "explosif": "— THROW —"
+    },
+    "hint": {
+      "mains": "Stop the cursor at the center of the bar. At the edge you graze; at the center you hit hard.",
+      "lame": "A single fast pass. Dead center, the blade lands clean: up to ×1.6.",
+      "tir": "Three bullets, three cursors: fire on each pass. A fully perfect burst earns a bonus.",
+      "precision": "The cursor is slow, but only the golden line really counts: up to ×2.3, and almost nothing beside it.",
+      "lourd": "The cursor speeds up. The zone is wide and forgiving: this weapon hurts even when poorly aimed.",
+      "explosif": "The target isn't centered. The cursor bounces back and forth: let go before the fuse burns out."
+    },
+    "grade": {
+      "parfait": "PERFECT",
+      "bien": "GOOD",
+      "bof": "MEH",
+      "rate": "MISS"
+    },
+    "shotsLeft": "Bullets left: {{count}}",
+    "fuse": "Fuse lit…",
+    "result": "Damage ×{{mult}}",
+    "strike": "STRIKE (Space)"
   }
 }

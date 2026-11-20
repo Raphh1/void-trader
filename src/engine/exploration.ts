@@ -420,15 +420,20 @@ export function rollExplorationEvent(gs: GameState): ExploreResult {
   const danger = station.danger
   const fightsDone = gs.explorationFightsDone ?? 0
 
+  // Boss après 3 combats et la profondeur 7, dans les zones dangereuses. Tant
+  // que le chef n'est pas tombé, il se montre au plus tard à la profondeur 9 :
+  // avec 30 % fixes (et le combat forcé qui passait avant aux profondeurs
+  // paires), on pouvait descendre à 13 sans jamais le croiser.
+  if (fightsDone >= 3 && depth >= 7 && danger >= 2) {
+    const chance = gs.stationBossesBeaten.includes(gs.currentStation) ? 0.30
+      : depth >= 9 ? 1 : depth === 8 ? 0.6 : 0.35
+    if (Math.random() < chance) return { type: 'boss' }
+  }
+
   // Garantie minimum 3 combats : forcer un combat tous les 2 niveaux
   // si le quota de combats n'est pas atteint
   if (depth >= 2 && depth % 2 === 0 && fightsDone < depth / 2) {
     return { type: 'combat', depth }
-  }
-
-  // Boss uniquement après 3 combats ET profondeur 7+, dans les zones dangereuses
-  if (fightsDone >= 3 && depth >= 7 && danger >= 2 && Math.random() < 0.30) {
-    return { type: 'boss' }
   }
 
   // Grand loot à profondeur élevée (après les combats)

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { questTitle, questDescription, questGiver } from '../../engine/questI18n'
 import { TypewriterText } from '../ui/TypewriterText'
-import type { GameState, WeaponData } from '../../types'
+import type { GameState, Quest, WeaponData } from '../../types'
 import { useGameStore } from '../../store/gameStore'
 import { StatusBarWithDeltas } from '../ui/StatusBar'
 import { getFuelUnitPrice } from '../../engine/marketPricing'
@@ -13,6 +13,7 @@ import { generateQuest } from '../../engine/quests'
 import { localizeMajorQuest } from '../../engine/majorQuests'
 import { describeLieutenantReward } from '../../data/lieutenantRewards'
 import { RunDock, CompetitorNewsLines, CompetitorEncounter } from '../ui/RunExtras'
+import { MultiplayerDock } from '../ui/Multiplayer'
 import { getStationEvents, type StationEvent } from '../../engine/stationEvents'
 import { getNamedNpcs, getNpcService } from '../../engine/npcTracker'
 import { getAmbiance } from '../../engine/jsonEventLoader'
@@ -37,17 +38,18 @@ import { getDailyExpenses, getDailyExpenseBreakdown } from '../../engine/expense
 import { resolveShipDown } from '../../engine/shipDamage'
 import { useTranslation } from 'react-i18next'
 import { getActiveEvents, getClosedStations, getWorldEventFuelBonus } from '../../engine/worldEvents'
-import { getQuestsAtStation, canStartQuest, completeQuest, type EquipmentQuest } from '../../data/equipmentQuests'
+import { getQuestsAtStation, canStartQuest, completeQuest, questRequirementStatus, type EquipmentQuest } from '../../data/equipmentQuests'
 import { LORE_TOTAL } from '../../data/loreFragments'
 import { ExploreResultPanel } from './hub/ExploreResultPanel'
 import { WanderResultPanel } from './hub/WanderResultPanel'
 import { QuestOfferPanel } from './hub/QuestOfferPanel'
+import { MediationPanel } from './hub/MediationPanel'
 import { StationEventPanel } from './hub/StationEventPanel'
 import { NpcEncounterPanel } from './hub/NpcEncounterPanel'
 
 const DANGER_CLS   = ['danger-0', 'danger-1', 'danger-2', 'danger-3']
 
-type HubMode = 'menu' | 'explore-result' | 'wander-result' | 'quest-offer' | 'station-event' | 'npc-encounter' | 'lockpick-game' | 'card-game' | 'fuel-scavenge' | 'delivery-event' | 'negotiation' | 'navigation-minigame' | 'customs' | 'lieutenant-clue'
+type HubMode = 'menu' | 'explore-result' | 'wander-result' | 'quest-offer' | 'station-event' | 'npc-encounter' | 'lockpick-game' | 'card-game' | 'fuel-scavenge' | 'delivery-event' | 'negotiation' | 'navigation-minigame' | 'customs' | 'lieutenant-clue' | 'mediation'
 
 export function StationHub() {
   const { t, i18n }   = useTranslation('stationHub')
@@ -118,6 +120,7 @@ export function StationHub() {
   const [bossVisitResult, setBossVisitResult] = useState<BossHomeVisitResult | null>(null)
   const [pendingDeliveryQuest, setPendingDeliveryQuest] = useState<ReturnType<typeof generateQuest>>(null)
   const [deliveryResult, setDeliveryResult] = useState<string | null>(null)
+  const [mediationQuest, setMediationQuest] = useState<Quest | null>(null)
   const [negotiationBase]   = useState(() => Math.floor(Math.random() * 1500 + 600))
   const [negoResult, setNegoResult]         = useState<{ earned: number; label: string } | null>(null)
   const [questRerollsLeft, setQuestRerollsLeft] = useState(3)
@@ -297,7 +300,7 @@ export function StationHub() {
 
   function rerollQuest() {
     setQuestRerollsLeft(n => n - 1)
-    setQuestOffer(generateQuest(gs))
+    setQuestOffer(generateQuest(gs, questOffer?.type))
   }
 
   function openStationEvent(ev: StationEvent) {
@@ -407,6 +410,12 @@ export function StationHub() {
     )
   }
 
+  if (mode === 'mediation') {
+    // Une fois réglée, la quête quitte la liste : on garde la copie pour afficher le dénouement.
+    const q = gs.activeQuests.find(aq => aq.id === mediationQuest?.id) ?? mediationQuest
+    if (q) return <MediationPanel gs={gs} quest={q} onDone={() => { setMode('menu'); setMediationQuest(null) }} />
+  }
+
   // ── LIVRAISON MANUELLE AVEC OBSTACLES ────────────────────────────────────
 
   if (mode === 'delivery-event' && pendingDeliveryQuest) {
@@ -465,7 +474,7 @@ export function StationHub() {
         <div className="px-box px-box--hi">
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
             <div className="t-sm t-bright">{questTitle(q)}</div>
-            <div className="tag t-xs tag--cyan">{q.type.toUpperCase()}</div>
+            <div className="tag t-xs tag--cyan">{i18n.t(`typeLabels.${q.type}`, { ns: 'questsScreen', defaultValue: q.type.toUpperCase() })}</div>
           </div>
           <div className="t-xs" style={{ lineHeight: '2.2', marginBottom: '10px' }}>
             <TypewriterText text={scene.desc} speed={16} />
@@ -887,6 +896,7 @@ export function StationHub() {
     <div className="scanlines" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <StatusBarWithDeltas gs={gs} />
       <RunDock gs={gs} />
+      <MultiplayerDock gs={gs} />
 
       {/* ── MODE CONQUÊTE (post-victoire) ──────────────────────────────────── */}
       {gs.conquestMode && (
@@ -1527,12 +1537,14 @@ export function StationHub() {
                   <div key={q.id} className="col gap4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '8px' }}>
                     <div className="row" style={{ justifyContent: 'space-between' }}>
                       <div className="t-sm" style={{ color: diffColors[q.difficulty] }}>{q.title}</div>
-                      <div className="tag t-xs" style={{ color: diffColors[q.difficulty], borderColor: 'currentColor' }}>{q.difficulty.toUpperCase()}</div>
+                      <div className="tag t-xs" style={{ color: diffColors[q.difficulty], borderColor: 'currentColor' }}>{i18n.t(`difficulty.${q.difficulty}`, { ns: 'equipmentQuests' })}</div>
                     </div>
                     <div className="t-xs t-dim" style={{ lineHeight: 1.6 }}>{q.description}</div>
-                    {!check.ok && (
-                      <div className="t-xs t-red">{check.missing.join(' · ')}</div>
-                    )}
+                    <div className="t-xs" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      {questRequirementStatus(gs, q).map((r, i) => (
+                        <div key={i} style={{ color: r.met ? 'var(--green)' : 'var(--orange)' }}>{r.met ? '✓' : '○'} {r.label}</div>
+                      ))}
+                    </div>
                     <button className="px-btn px-btn--sm" style={{ width: 'auto', borderColor: diffColors[q.difficulty], color: diffColors[q.difficulty], opacity: check.ok ? 1 : 0.4 }}
                       disabled={!check.ok}
                       onClick={() => {
@@ -2114,6 +2126,7 @@ export function StationHub() {
         const isHere = q.targetStation === gs.currentStation
         const isDeliveryReady = isHere && (q.type === 'delivery' || q.type === 'heist') && !!q.targetItem && (gs.cargo[q.targetItem!] ?? 0) > 0
         const isPatrolHere = q.type === 'patrol' && isHere
+        const isMediationHere = q.type === 'mediation' && isHere
         const patrolProg = q.progress ?? 0
         const isHov = hoveredQuest === q.id
         const borderCol = isDeliveryReady ? 'var(--green)' : isHere ? 'var(--gold)' : 'var(--border)'
@@ -2127,8 +2140,9 @@ export function StationHub() {
             onClick={() => goTo('quests')}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
-              <span style={{ fontSize: '8px', letterSpacing: '1px', color: typeCol }}>{q.type.toUpperCase()}</span>
-              {isHere && !isDeliveryReady && !isPatrolHere && <span style={{ color: 'var(--gold)', fontSize: '8px' }}>{t('questSidebar.here')}</span>}
+              <span style={{ fontSize: '8px', letterSpacing: '1px', color: typeCol }}>{i18n.t(`typeLabels.${q.type}`, { ns: 'questsScreen', defaultValue: q.type.toUpperCase() })}</span>
+              {isHere && !isDeliveryReady && !isPatrolHere && !isMediationHere && <span style={{ color: 'var(--gold)', fontSize: '8px' }}>{t('questSidebar.here')}</span>}
+              {isMediationHere && <span style={{ color: 'var(--green)', fontSize: '8px' }}>{t('questSidebar.mediateTag')}</span>}
               {isDeliveryReady && <span style={{ color: 'var(--green)', fontSize: '8px' }}>{t('questSidebar.deliverTag')}</span>}
             </div>
             <div style={{ fontSize: '9px', color: 'var(--text)', lineHeight: '1.6', marginBottom: '2px' }}>{questTitle(q)}</div>
@@ -2142,6 +2156,17 @@ export function StationHub() {
               <button className="px-btn px-btn--sm" style={{ marginTop: '6px', color: 'var(--green)', borderColor: 'var(--green)', fontSize: '8px', padding: '4px 8px' }}
                 onClick={(e) => { e.stopPropagation(); setPendingDeliveryQuest(q); setDeliveryResult(null); setMode('delivery-event') }}>
                 {t('questSidebar.deliverButton', { item: q.targetItem ? translateGood(q.targetItem) : q.targetItem })}
+              </button>
+            )}
+            {q.type === 'hunt' && (
+              <div style={{ marginTop: '4px', borderLeft: '2px solid var(--orange)', paddingLeft: '6px', fontSize: '8px', color: 'var(--dim)' }}>
+                {t('questSidebar.huntProgress', { progress: q.progress ?? 0, goal: q.goal ?? 2 })}
+              </div>
+            )}
+            {isMediationHere && (
+              <button className="px-btn px-btn--sm" style={{ marginTop: '6px', color: 'var(--green)', borderColor: 'var(--green)', fontSize: '8px', padding: '4px 8px' }}
+                onClick={(e) => { e.stopPropagation(); setMediationQuest(q); setMode('mediation') }}>
+                {t('questSidebar.mediateButton')}
               </button>
             )}
             {isPatrolHere && patrolProg >= 3 && (

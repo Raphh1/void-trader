@@ -253,7 +253,10 @@
     "majorType": "MISSION MAJEURE · {{current}}/{{total}}",
     "pactType": "MARCHÉ",
     "pactWith": "Marché — {{name}}",
-    "pactReady": "▶ HONORER"
+    "pactReady": "▶ HONORER",
+    "huntProgress": "Combats gagnés ici : {{progress}}/{{goal}}",
+    "mediateButton": "Régler le conflit",
+    "mediateTag": "▶ CONFLIT"
   },
   "equipmentQuestsHeader": "🗡 QUÊTES D'ÉQUIPEMENT",
   "completeButton": "✓ Compléter",
@@ -378,5 +381,19 @@
   "briefingHeader": "◆ BRIEFING — JOUR {{day}}",
   "dayEnded": "JOUR {{day}} TERMINÉ",
   "worldEventBanner": "⚠ ÉVÉNEMENT MONDIAL — {{title}}",
-  "worldEventSpan": "J{{from}}–J{{to}}"
+  "worldEventSpan": "J{{from}}–J{{to}}",
+  "mediation": {
+    "header": "◆ MÉDIATION — {{target}}",
+    "scene": "Deux camps se font face sur le quai. Tout le monde attend de voir de quel côté tu vas pencher.",
+    "persuade": "Convaincre les deux camps ({{pct}} % — selon ta réputation)",
+    "persuadeUsed": "Persuasion déjà tentée : ils ne t'écoutent plus",
+    "pay": "Payer les deux camps ({{amount}} cr — réussite assurée, moitié de la réputation)",
+    "payTooExpensive": "Payer les deux camps ({{amount}} cr — tu n'as pas assez)",
+    "force": "Trancher par la force (combat — +20 % de crédits, moitié de la réputation)",
+    "persuadeSuccess": "Ta parole porte. Les armes se baissent, on se serre la main du bout des doigts.",
+    "persuadeFail": "Ils te rient au nez et la tension monte d'un cran (−5 rép.). Il faudra une autre méthode.",
+    "paid": "Quelques crédits glissés de chaque côté, et tout le monde se découvre une passion pour la paix.",
+    "later": "Revenir plus tard",
+    "continue": "Continuer"
+  }
 }

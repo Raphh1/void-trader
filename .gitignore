@@ -35,3 +35,7 @@ Thumbs.db
 
 # Claude Code
 .claude/
+
+# playtest
+scripts/playtest/shots/
+scripts/playtest/.errors.log

@@ -1,0 +1,17 @@
+{
+  "name": "void-trader-server",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Serveur de salons multijoueur de Void Trader (relais WebSocket, sans logique de jeu)",
+  "type": "module",
+  "main": "index.mjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "ws": "8.22.0"
+  }
+}

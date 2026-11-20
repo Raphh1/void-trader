@@ -253,7 +253,10 @@
     "majorType": "MAJOR MISSION · {{current}}/{{total}}",
     "pactType": "BARGAIN",
     "pactWith": "Bargain — {{name}}",
-    "pactReady": "▶ HONOR"
+    "pactReady": "▶ HONOR",
+    "huntProgress": "Fights won here: {{progress}}/{{goal}}",
+    "mediateButton": "Settle the dispute",
+    "mediateTag": "▶ DISPUTE"
   },
   "equipmentQuestsHeader": "🗡 EQUIPMENT QUESTS",
   "completeButton": "✓ Complete",
@@ -378,5 +381,19 @@
   "briefingHeader": "◆ BRIEFING — DAY {{day}}",
   "dayEnded": "DAY {{day}} OVER",
   "worldEventBanner": "⚠ WORLD EVENT — {{title}}",
-  "worldEventSpan": "D{{from}}–D{{to}}"
+  "worldEventSpan": "D{{from}}–D{{to}}",
+  "mediation": {
+    "header": "◆ MEDIATION — {{target}}",
+    "scene": "Two sides face each other on the dock. Everyone is waiting to see which way you'll lean.",
+    "persuade": "Talk both sides down ({{pct}}% — based on your reputation)",
+    "persuadeUsed": "Persuasion already tried: they won't listen to you anymore",
+    "pay": "Pay off both sides ({{amount}} cr — guaranteed, half the reputation)",
+    "payTooExpensive": "Pay off both sides ({{amount}} cr — you can't afford it)",
+    "force": "Settle it by force (fight — +20% credits, half the reputation)",
+    "persuadeSuccess": "Your word carries. Weapons go down, hands get shaken, reluctantly.",
+    "persuadeFail": "They laugh in your face and the tension rises a notch (−5 rep). You'll need another approach.",
+    "paid": "A few credits slipped to each side, and everyone suddenly discovers a passion for peace.",
+    "later": "Come back later",
+    "continue": "Continue"
+  }
 }

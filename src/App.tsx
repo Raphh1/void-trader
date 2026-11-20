@@ -38,6 +38,7 @@ import { RelicChoiceModal }     from './components/ui/RunExtras'
 import { CoinFlipOverlay }      from './components/ui/CoinFlipOverlay'
 import { useHotkeys }           from './components/ui/useHotkeys'
 import { RunStory }             from './components/ui/RunStory'
+import { useMultiplayerBridge, DaySyncOverlay, MultiplayerConnectionBanner } from './components/ui/Multiplayer'
 
 function Toast({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   useEffect(() => {
@@ -77,6 +78,7 @@ function renderScreen(screen: string) {
 
 export default function App() {
   useHotkeys()
+  useMultiplayerBridge()
   const gs    = useGameStore(s => s.gs)
   const patch = useGameStore(s => s.patch)
   const [showMeta, setShowMeta]       = useState(false)
@@ -112,6 +114,8 @@ export default function App() {
       </div>
       <RelicChoiceModal />
       <CoinFlipOverlay />
+      <DaySyncOverlay />
+      <MultiplayerConnectionBanner />
       {gs.pendingMessage && (
         <Toast message={gs.pendingMessage} onDismiss={() => patch({ pendingMessage: null })} />
       )}

@@ -1,0 +1,85 @@
+{
+  "lobby": {
+    "title": "◆ MULTIJOUEUR",
+    "pitch": "Joue avec tes potes : chacun sa run, dans le même secteur. Vous vous croisez, vos achats font bouger les prix des autres, et le plus riche gagne.",
+    "open": "Jouer avec des amis",
+    "close": "Fermer",
+    "name": "Ton pseudo",
+    "sync": "Jours synchronisés : chacun attend les autres à la fin de sa journée",
+    "create": "Créer un salon",
+    "code": "Code du salon",
+    "join": "Rejoindre",
+    "server": "Serveur",
+    "serverHint": "Adresse du serveur de salons. En local : lance « npm run server » sur la machine qui sert le jeu.",
+    "connecting": "Connexion…",
+    "room": "SALON {{code}}",
+    "syncOn": "jours synchronisés",
+    "syncOff": "jours libres",
+    "shareSync": "Donne ce code à tes potes. Ils peuvent rejoindre tant que personne n'a fini sa première journée.",
+    "shareFree": "Donne ce code à tes potes. Ils peuvent rejoindre à tout moment.",
+    "chooseClass": "Choisis ta classe ci-dessous et lance ta partie quand tu veux : chacun joue la sienne.",
+    "finished": "Ta partie dans ce salon est terminée. La prochaine se jouera en solo.",
+    "leave": "Quitter le salon",
+    "retry": "Réessayer"
+  },
+  "roster": {
+    "you": "toi",
+    "offline": "hors ligne",
+    "lobby": "au salon",
+    "dead": "mort",
+    "won": "victoire",
+    "fragments": "Nexus {{count}}/4"
+  },
+  "error": {
+    "bad_name": "Pseudo invalide : 1 à 16 lettres, chiffres, espaces ou - _ ' .",
+    "bad_code": "Le code d'un salon fait 5 caractères.",
+    "bad_server": "Adresse de serveur invalide (ws://… ou wss://…).",
+    "unreachable": "Serveur injoignable. Est-il bien lancé ?",
+    "room_not_found": "Aucun salon avec ce code.",
+    "room_full": "Salon complet (6 joueurs maximum).",
+    "name_taken": "Ce pseudo est déjà pris dans ce salon.",
+    "room_started": "La partie a déjà commencé dans ce salon.",
+    "server_full": "Serveur plein, réessaie plus tard.",
+    "room_lost": "Ce salon n'existe plus (serveur redémarré ?).",
+    "replaced": "Ta partie est ouverte dans un autre onglet.",
+    "gift_failed": "Don impossible : ton pote n'est plus à quai.",
+    "bad_request": "Action refusée par le serveur.",
+    "generic": "Erreur de connexion."
+  },
+  "banner": {
+    "connecting": "MULTIJOUEUR — connexion au salon…",
+    "reconnecting": "MULTIJOUEUR — connexion perdue, reconnexion…",
+    "solo": "Continuer en solo"
+  },
+  "wait": {
+    "title": "FIN DE JOURNÉE",
+    "text": "Le jour {{day}} commencera quand tout le monde aura fini sa journée.",
+    "waitingFor": "En attente de :",
+    "player": "{{name}} — jour {{day}}",
+    "notStarted": "{{name}} — n'a pas encore décollé",
+    "feed": "◆ DANS LE SECTEUR",
+    "leave": "Quitter le salon et continuer en solo",
+    "leaveConfirm": "Confirmer : quitter le salon"
+  },
+  "dock": {
+    "chip": "Salon {{code}} · rang {{rank}} sur {{total}}",
+    "online": "{{count}} en ligne",
+    "feed": "◆ DERNIÈRES NOUVELLES",
+    "noFeed": "Rien pour l'instant.",
+    "here": "◆ À QUAI AVEC TOI",
+    "gift": "Donner {{amount}} cr",
+    "leaveConfirm": "Confirmer : quitter le salon"
+  },
+  "travel": {
+    "friendsHere": "Ici : {{names}}"
+  },
+  "giftReceived": "{{name}} t'a donné {{amount}} cr !",
+  "giftSent": "Tu as donné {{amount}} cr à {{name}}.",
+  "news": {
+    "join": "{{name}} a rejoint le salon.",
+    "leave": "{{name}} a quitté le salon.",
+    "dead": "{{name}} est mort. Un concurrent de moins.",
+    "won": "{{name}} a réuni les fragments du Nexus — victoire !",
+    "gift": "{{name}} a donné {{amount}} cr à {{to}}."
+  }
+}

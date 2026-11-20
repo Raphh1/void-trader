@@ -10,7 +10,9 @@
     "heist": "BRAQUAGE",
     "extraction": "EXTRACTION",
     "bounty": "PRIME",
-    "patrol": "PATROUILLE"
+    "patrol": "PATROUILLE",
+    "hunt": "CHASSE",
+    "mediation": "MÉDIATION"
   },
   "completeHint": {
     "delivery": "Arriver à destination avec l'item en cargo",
@@ -21,7 +23,9 @@
     "heist": "Arriver à destination avec l'item acquis sur place",
     "extraction": "Ramener l'item ici depuis la destination",
     "bounty": "Vaincre le chef de la station cible (voir le guide ci-dessous)",
-    "patrol": "Arriver à destination"
+    "patrol": "Arriver à destination",
+    "hunt": "Gagner des combats à la station cible (explorer ou errer sur place)",
+    "mediation": "Sur place, cliquer « Régler le conflit » dans la colonne des quêtes"
   },
   "guideNotAtTarget": "◆ Guide : une fois sur place, reste sur cette station et clique plusieurs fois sur EXPLORER (pas \"Errer\") sans voyager ailleurs. Le combat contre le chef se déclenche seul après un certain nombre d'explorations.",
   "explore": "EXPLORER",
@@ -33,7 +37,7 @@
   "fightsProgress": "Combats déclenchés ici : {{fights}}/3{{status}}",
   "fightsReady": " ✓",
   "fightsNotReady": " — il en faut plus",
-  "conditionsMet": "Conditions réunies — chaque exploration a maintenant une chance de faire apparaître le chef.",
+  "conditionsMet": "Conditions réunies — le chef peut surgir à chaque exploration, et se montre au plus tard à la profondeur 9.",
   "back": "← RETOUR",
   "activeQuests": "QUÊTES ACTIVES ({{count}}/5)",
   "majorMissionsTag": "{{count}} mission{{plural}} majeure{{plural}}",
@@ -72,5 +76,6 @@
   "pactConditions": "Conditions",
   "pactReadyHere": "✓ Tout est réuni — honore le marché depuis le hub de cette station.",
   "pactReadyGo": "✓ Tout est réuni — rends-toi à {{station}} pour honorer le marché.",
-  "pactWhere": "→ {{station}}"
+  "pactWhere": "→ {{station}}",
+  "huntProgress": "Combats gagnés sur place : {{progress}}/{{goal}}"
 }

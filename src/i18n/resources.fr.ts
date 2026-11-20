@@ -37,6 +37,7 @@ import majorQuestsFr from './locales/fr/majorQuests.json'
 import journalScreenFr from './locales/fr/journalScreen.json'
 import relicsFr from './locales/fr/relics.json'
 import competitorsFr from './locales/fr/competitors.json'
+import multiplayerFr from './locales/fr/multiplayer.json'
 import crewFr from './locales/fr/crew.json'
 import coinFlipFr from './locales/fr/coinFlip.json'
 import runStoryFr from './locales/fr/runStory.json'
@@ -117,6 +118,7 @@ export default {
   journalScreen: journalScreenFr,
   relics: relicsFr,
   competitors: competitorsFr,
+  multiplayer: multiplayerFr,
   crew: crewFr,
   coinFlip: coinFlipFr,
   runStory: runStoryFr,

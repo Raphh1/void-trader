@@ -10,7 +10,9 @@
     "heist": "HEIST",
     "extraction": "EXTRACTION",
     "bounty": "BOUNTY",
-    "patrol": "PATROL"
+    "patrol": "PATROL",
+    "hunt": "HUNT",
+    "mediation": "MEDIATION"
   },
   "completeHint": {
     "delivery": "Arrive at destination with the item in cargo",
@@ -21,7 +23,9 @@
     "heist": "Arrive at destination with the item acquired on-site",
     "extraction": "Bring the item back here from the destination",
     "bounty": "Defeat the target station's boss (see guide below)",
-    "patrol": "Arrive at destination"
+    "patrol": "Arrive at destination",
+    "hunt": "Win fights at the target station (explore or wander there)",
+    "mediation": "On site, click \"Settle the dispute\" in the quest column"
   },
   "guideNotAtTarget": "◆ Guide: once on-site, stay at this station and click EXPLORE (not \"Wander\") several times without traveling elsewhere. The fight against the boss triggers on its own after a certain number of explorations.",
   "explore": "EXPLORE",
@@ -33,7 +37,7 @@
   "fightsProgress": "Fights triggered here: {{fights}}/3{{status}}",
   "fightsReady": " ✓",
   "fightsNotReady": " — need more",
-  "conditionsMet": "Conditions met — every exploration now has a chance to make the boss appear.",
+  "conditionsMet": "Conditions met — the boss can show up at any exploration, and will appear by depth 9 at the latest.",
   "back": "← BACK",
   "activeQuests": "ACTIVE QUESTS ({{count}}/5)",
   "majorMissionsTag": "{{count}} major mission{{plural}}",
@@ -72,5 +76,6 @@
   "pactConditions": "Conditions",
   "pactReadyHere": "✓ All set — honor the bargain from this station's hub.",
   "pactReadyGo": "✓ All set — head to {{station}} to honor the bargain.",
-  "pactWhere": "→ {{station}}"
+  "pactWhere": "→ {{station}}",
+  "huntProgress": "Fights won on site: {{progress}}/{{goal}}"
 }

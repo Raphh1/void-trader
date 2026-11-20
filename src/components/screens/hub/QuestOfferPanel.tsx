@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function QuestOfferPanel({ gs, questOffer, addQuest, rerollsLeft, onReroll, onReturn }: Props) {
-  const { t } = useTranslation('hubPanels')
+  const { t, i18n } = useTranslation('hubPanels')
   const gossip = getGossip(gs.currentStation)
   const forced = rerollsLeft <= 0
 
@@ -31,7 +31,7 @@ export function QuestOfferPanel({ gs, questOffer, addQuest, rerollsLeft, onRerol
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: '8px' }}>
             <div className="t-sm t-bright">{questTitle(questOffer)}</div>
             <div className={`tag t-xs ${questOffer.type === 'kill' ? 'tag--red' : questOffer.type === 'delivery' ? 'tag--cyan' : 'tag--dim'}`}>
-              {questOffer.type.toUpperCase()}
+              {i18n.t(`typeLabels.${questOffer.type}`, { ns: 'questsScreen', defaultValue: questOffer.type.toUpperCase() })}
             </div>
           </div>
           <div className="t-xs" style={{ lineHeight: '2' }}>{questOffer.description}</div>

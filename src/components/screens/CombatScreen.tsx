@@ -7,6 +7,7 @@ import { HackSequence } from '../minigames/HackSequence'
 import { StopTheBar } from '../minigames/StopTheBar'
 import { QuickDraw } from '../minigames/QuickDraw'
 import { ReactFlash } from '../minigames/ReactFlash'
+import { AttackBar } from '../minigames/AttackBar'
 import { getSubBossMinigame } from '../../data/subBosses'
 import { localizedEnemyDescription } from '../../data/enemies'
 import type { SubBossMinigameKind } from '../../data/subBosses'
@@ -50,6 +51,7 @@ export function CombatScreen() {
   const [hackOpen, setHackOpen]               = useState(false)
   // Coup ciblé sous-boss : mini-jeu en attente + l'action à résoudre à sa fin
   const [sbGame, setSbGame]                   = useState<{ kind: SubBossMinigameKind; difficulty: 1 | 2 | 3; action: CombatAction } | null>(null)
+  const [attackBarAction, setAttackBarAction] = useState<CombatAction | null>(null)
   const [negotiateConditions, setNegotiateConditions] = useState<NegotiateCondition[] | null>(null)
   const [enemyDamaged, setEnemyDamaged]       = useState(false)
   const [playerDamaged, setPlayerDamaged]     = useState(false)
@@ -165,6 +167,11 @@ export function CombatScreen() {
       const mg = getSubBossMinigame(enemy.name)
       if (mg) { setSbGame({ ...mg, action }); return }
     }
+    // Contre les autres ennemis, chaque coup passe par la barre d'attaque.
+    if (DAMAGE_ACTIONS.has(action.type) && !('precisionMult' in action)) {
+      setAttackBarAction(action)
+      return
+    }
     setFrozenHp({ player: gs.playerHp, enemy: cs.enemyHp })
     playClick()
     submit(action)
@@ -177,6 +184,14 @@ export function CombatScreen() {
     setSbGame(null)
     setFrozenHp({ player: gs.playerHp, enemy: cs.enemyHp })
     playClick()
+    submit(action)
+  }
+
+  function resolveAttackBar(mult: number) {
+    if (!attackBarAction) return
+    const action = { ...attackBarAction, precisionMult: mult }
+    setAttackBarAction(null)
+    setFrozenHp({ player: gs.playerHp, enemy: cs.enemyHp })
     submit(action)
   }
 
@@ -335,6 +350,14 @@ export function CombatScreen() {
                 act({ type: 'attack' })
               }
             }} />
+          </div>
+        </div>
+      )}
+
+      {attackBarAction && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div style={{ maxWidth: '640px', width: '100%' }}>
+            <AttackBar key={cs.turnCount} weapon={weapon} onResult={resolveAttackBar} />
           </div>
         </div>
       )}

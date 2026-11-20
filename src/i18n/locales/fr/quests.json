@@ -12,7 +12,9 @@
     "heist": "Acquisition : {{item}}",
     "extraction": "Extraction depuis {{target}}",
     "bounty": "Prime — {{boss}}",
-    "patrol": "Patrouille : {{target}}"
+    "patrol": "Patrouille : {{target}}",
+    "hunt": "Chasse : {{target}}",
+    "mediation": "Médiation à {{target}}"
   },
   "craftedDeliveryDesc": "{{giver}} a besoin de {{item}} — une pièce qui ne s'achète nulle part. Il faut la fabriquer à l'Atelier avant de pouvoir la livrer à {{target}}.",
   "bossFallbackKill": "le chef de {{target}}",
@@ -75,6 +77,18 @@
       "Zone instable sur {{target}}. Il faut une présence physique : circuler, explorer les accès, traîner dans les points chauds. Trois actions sur place.",
       "{{giver}} a des actifs sur {{target}} qui doivent rester intacts. Sécuriser la zone en trois passages — pas de rapport, juste de la présence.",
       "Maintien de l'ordre sur {{target}}. Pas de bureau, pas de formulaire — juste se montrer partout où ça craint, trois fois. Ça suffit généralement."
+    ],
+    "hunt": [
+      "{{giver}} paie pour faire le ménage sur {{target}}. Des pillards ont pris leurs aises dans les coursives : explore, trouve-les, gagne {{count}} combats. Pas besoin de rapporter de preuve, ça se saura.",
+      "Les quais de {{target}} sont devenus un terrain de chasse. {{giver}} veut que ça change de sens : remporte {{count}} combats sur place et la prime est à toi.",
+      "{{giver}} a perdu deux convois à cause de la vermine qui squatte {{target}}. « Je veux qu'ils aient peur de sortir. » {{count}} victoires sur place.",
+      "Contrat de nettoyage sur {{target}}. Ni cible précise ni chef à abattre : du volume. Gagne {{count}} combats là-bas, {{giver}} s'occupe du reste."
+    ],
+    "mediation": [
+      "Deux équipages se disputent un quai à {{target}} et ça va finir en fusillade. {{giver}} veut le calme : convaincs-les, paie-les ou fais taire le plus bruyant.",
+      "Une grève bloque les docks de {{target}}. Les patrons ne cèdent pas, les dockers non plus. {{giver}} a besoin que ça reparte, peu importe comment.",
+      "Une dette de jeu a dégénéré à {{target}} : deux familles sont prêtes à se rendre visite armes à la main. {{giver}} paie qui ramènera la paix.",
+      "Les colons et la milice de {{target}} se regardent en chiens de faïence depuis une semaine. {{giver}} veut un médiateur, pas un héros. Mais un héros fera l'affaire."
     ]
   },
   "chain": {
@@ -87,7 +101,9 @@
     "revenge": "{{giver}} a identifié d'autres responsables. 'Il en reste. Même station, même méthode. Tu veux la suite ?' Plus difficile. Plus payant.",
     "bounty": "Contrat en cascade. La cible précédente avait un commanditaire. {{giver}} a remonté la piste. 'La vraie tête est là-bas.' Prime plus haute.",
     "sabotage": "{{giver}} veut aller plus loin. 'Ce qu'on a fait a déstabilisé les choses. Maintenant c'est le moment d'enfoncer le clou.' Même cible, autre mission.",
-    "heist": "{{giver}} a repéré autre chose sur place. 'En y allant, t'as vu ce que j'avais pas vu. Y'a plus à prendre là-bas.' Acquisition supplémentaire."
+    "heist": "{{giver}} a repéré autre chose sur place. 'En y allant, t'as vu ce que j'avais pas vu. Y'a plus à prendre là-bas.' Acquisition supplémentaire.",
+    "hunt": "{{giver}} a vu ce que tu sais faire. « Il en reste d'autres, plus loin. Même tarif, plus de cibles. » Nettoyage, prime majorée.",
+    "mediation": "Ton dernier travail pour {{giver}} a fait des remous. « Il faut maintenant calmer ceux qui l'ont mal pris. » Médiation, prime majorée."
   },
   "faction": {
     "titles": {

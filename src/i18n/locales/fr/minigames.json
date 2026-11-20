@@ -82,5 +82,33 @@
     "success": "◆ RÉUSSI",
     "miss": "✗ RATÉ",
     "stopButton": "► STOP !"
+  },
+  "attackBar": {
+    "title": {
+      "mains": "— À MAINS NUES —",
+      "lame": "— FRAPPE —",
+      "tir": "— RAFALE —",
+      "precision": "— TIR DE PRÉCISION —",
+      "lourd": "— ARME LOURDE —",
+      "explosif": "— LANCER —"
+    },
+    "hint": {
+      "mains": "Arrête le curseur au centre de la barre. Au bord, tu effleures ; au centre, tu cognes.",
+      "lame": "Un seul passage, rapide. Pile au centre, la lame fait mouche : jusqu'à ×1,6.",
+      "tir": "Trois balles, trois curseurs : tire à chaque passage. Une rafale entièrement parfaite vaut un bonus.",
+      "precision": "Le curseur est lent, mais seul le trait doré compte vraiment : jusqu'à ×2,3, et presque rien à côté.",
+      "lourd": "Le curseur accélère. La zone est large et pardonne : l'arme fait mal même mal visée.",
+      "explosif": "La cible n'est pas au centre. Le curseur fait des allers-retours : lâche avant que la mèche ne brûle."
+    },
+    "grade": {
+      "parfait": "PARFAIT",
+      "bien": "BIEN",
+      "bof": "BOF",
+      "rate": "RATÉ"
+    },
+    "shotsLeft": "Balles restantes : {{count}}",
+    "fuse": "Mèche allumée…",
+    "result": "Dégâts ×{{mult}}",
+    "strike": "FRAPPER (Espace)"
   }
 }

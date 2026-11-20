@@ -145,6 +145,7 @@ export interface Enemy {
   // sinon leur mitigation se cumule au plafond et les rend imbattables.
   damageCapPct?: number
   competitorId?: string   // duel contre un concurrent (engine/competitors.ts)
+  questId?: string        // homme de main d'une médiation réglée par la force
 }
 
 export type SubBossResolution = 'kill' | 'manipulate' | 'betray' | 'ally' | 'sabotage' | 'bribe' | 'service'
@@ -237,7 +238,7 @@ export interface Cargo {
 
 // ── QUÊTES ───────────────────────────────────────────────────────────────────
 
-export type QuestType = 'delivery' | 'kill' | 'revenge' | 'escort' | 'sabotage' | 'heist' | 'extraction' | 'bounty' | 'patrol'
+export type QuestType = 'delivery' | 'kill' | 'revenge' | 'escort' | 'sabotage' | 'heist' | 'extraction' | 'bounty' | 'patrol' | 'hunt' | 'mediation'
 
 export interface Quest {
   id: string
@@ -253,6 +254,8 @@ export interface Quest {
   dayMult?: number
   factionId?: string
   progress?: number
+  goal?: number            // chasse : combats à gagner sur place
+  persuasionFailed?: boolean // médiation : la persuasion a déjà échoué
   // Recette de rendu du texte. `title` et `description` sont figés dans la
   // langue de génération et persistés tels quels dans la sauvegarde : sans
   // ces clés, une quête créée en français le reste après un passage en

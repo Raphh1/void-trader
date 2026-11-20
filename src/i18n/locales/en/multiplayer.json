@@ -1,0 +1,85 @@
+{
+  "lobby": {
+    "title": "◆ MULTIPLAYER",
+    "pitch": "Play with your friends: each runs their own game in the same sector. You cross paths, your trades move each other's prices, and the richest wins.",
+    "open": "Play with friends",
+    "close": "Close",
+    "name": "Your nickname",
+    "sync": "Synchronized days: everyone waits for the others at the end of their day",
+    "create": "Create a room",
+    "code": "Room code",
+    "join": "Join",
+    "server": "Server",
+    "serverHint": "Room server address. Locally: run \"npm run server\" on the machine serving the game.",
+    "connecting": "Connecting…",
+    "room": "ROOM {{code}}",
+    "syncOn": "synchronized days",
+    "syncOff": "free days",
+    "shareSync": "Give this code to your friends. They can join until someone finishes their first day.",
+    "shareFree": "Give this code to your friends. They can join at any time.",
+    "chooseClass": "Pick your class below and start whenever you like: everyone plays their own run.",
+    "finished": "Your game in this room is over. The next one will be played solo.",
+    "leave": "Leave room",
+    "retry": "Retry"
+  },
+  "roster": {
+    "you": "you",
+    "offline": "offline",
+    "lobby": "in lobby",
+    "dead": "dead",
+    "won": "victory",
+    "fragments": "Nexus {{count}}/4"
+  },
+  "error": {
+    "bad_name": "Invalid nickname: 1 to 16 letters, digits, spaces or - _ ' .",
+    "bad_code": "A room code is 5 characters long.",
+    "bad_server": "Invalid server address (ws://… or wss://…).",
+    "unreachable": "Server unreachable. Is it running?",
+    "room_not_found": "No room with this code.",
+    "room_full": "Room full (6 players max).",
+    "name_taken": "This nickname is already taken in this room.",
+    "room_started": "The game has already started in this room.",
+    "server_full": "Server full, try again later.",
+    "room_lost": "This room no longer exists (server restarted?).",
+    "replaced": "Your game is open in another tab.",
+    "gift_failed": "Gift failed: your friend is no longer docked here.",
+    "bad_request": "Action refused by the server.",
+    "generic": "Connection error."
+  },
+  "banner": {
+    "connecting": "MULTIPLAYER — connecting to the room…",
+    "reconnecting": "MULTIPLAYER — connection lost, reconnecting…",
+    "solo": "Continue solo"
+  },
+  "wait": {
+    "title": "END OF DAY",
+    "text": "Day {{day}} will begin once everyone has finished their day.",
+    "waitingFor": "Waiting for:",
+    "player": "{{name}} — day {{day}}",
+    "notStarted": "{{name}} — hasn't taken off yet",
+    "feed": "◆ IN THE SECTOR",
+    "leave": "Leave the room and continue solo",
+    "leaveConfirm": "Confirm: leave the room"
+  },
+  "dock": {
+    "chip": "Room {{code}} · rank {{rank}} of {{total}}",
+    "online": "{{count}} online",
+    "feed": "◆ LATEST NEWS",
+    "noFeed": "Nothing yet.",
+    "here": "◆ DOCKED WITH YOU",
+    "gift": "Give {{amount}} cr",
+    "leaveConfirm": "Confirm: leave the room"
+  },
+  "travel": {
+    "friendsHere": "Here: {{names}}"
+  },
+  "giftReceived": "{{name}} gave you {{amount}} cr!",
+  "giftSent": "You gave {{amount}} cr to {{name}}.",
+  "news": {
+    "join": "{{name}} joined the room.",
+    "leave": "{{name}} left the room.",
+    "dead": "{{name}} is dead. One less competitor.",
+    "won": "{{name}} gathered the Nexus fragments — victory!",
+    "gift": "{{name}} gave {{amount}} cr to {{to}}."
+  }
+}

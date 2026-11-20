@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useGameStore } from '../../store/gameStore'
 import { getStations, getAccessibleStations, PEACEFUL_STATIONS, findPath, getFuelCost, FUEL_DEPOTS, getFuelPrice, fuelPriceColor } from '../../data/stations'
 import { STATION_POSITIONS } from '../../data/stationPositions'
+import { FriendMarkers } from '../ui/Multiplayer'
 import { STATION_FACTION_CONTROL } from '../../engine/factionRep'
 import { getClosedStations, getWorldEventFuelBonus, getActiveEvents } from '../../engine/worldEvents'
 import { translateGood, translateStationName } from '../../engine/goodsI18n'
@@ -510,6 +511,8 @@ export function MapScreen() {
             )
           })}
 
+          {/* ── AUTRES JOUEURS (multijoueur) ───────────────────────────────── */}
+          <FriendMarkers positions={STATION_POSITIONS} />
         </g>
       </svg>
 

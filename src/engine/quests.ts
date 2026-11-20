@@ -1,4 +1,4 @@
-import type { GameState, Quest, QuestType, QuestText } from '../types'
+import type { GameState, Quest, QuestType, QuestText, Enemy } from '../types'
 import { getAccessibleStations, getStation, LOOT_ONLY_ITEMS, PILLAR_SEAT_STATIONS, BOSS_STATIONS } from '../data/stations'
 import { getRunQuestRewardMult } from '../data/runModifiers'
 import { translateGood, translateStationName, translateEnemyName } from './goodsI18n'
@@ -11,6 +11,7 @@ const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
 const DESC_POOL_SIZES: Record<QuestType, number> = {
   delivery: 5, kill: 5, revenge: 5, escort: 5,
   sabotage: 4, heist: 4, extraction: 4, bounty: 4, patrol: 4,
+  hunt: 4, mediation: 4,
 }
 // Rend la description ET renvoie sa recette : l'index tiré au hasard doit être
 // mémorisé, sinon le texte ne peut pas être régénéré dans une autre langue.
@@ -122,6 +123,7 @@ const BOSS_NAMES = BOSS_STATIONS
 const ALL_TYPES: QuestType[] = [
   'delivery','kill','revenge',
   'escort','sabotage','heist','extraction','bounty','patrol',
+  'hunt','mediation',
 ]
 
 // Types dont la complétion exige de vaincre le chef de la station cible —
@@ -129,43 +131,67 @@ const ALL_TYPES: QuestType[] = [
 // Une station trop calme rendrait la quête littéralement impossible.
 export const BOSS_TRIGGER_TYPES: QuestType[] = ['kill', 'revenge', 'sabotage', 'bounty']
 
-// Poids par type pour le tirage (rare = plus intéressant)
-const TYPE_WEIGHTS: Record<QuestType, number> = {
-  delivery:   20, revenge:   15, kill:      12,
-  escort:     10, sabotage:  8,  extraction: 8,  heist:     5,
-  bounty:     5,  patrol:    3,
-}
+/** Quêtes où l'on transporte quelque chose (ou quelqu'un) d'une station à l'autre. */
+export const CARRY_TYPES: QuestType[] = ['delivery', 'escort', 'extraction', 'heist']
 
-function pickWeightedType(available: QuestType[]): QuestType {
-  const total = available.reduce((s, t) => s + TYPE_WEIGHTS[t], 0)
+// Peuvent viser la station où l'on se trouve : du travail sur place, sans voyager.
+const LOCAL_TYPES: QuestType[] = ['hunt', 'mediation']
+const LOCAL_CHANCE: Partial<Record<QuestType, number>> = { hunt: 0.4, mediation: 0.3 }
+
+// Les stations voisines sont souvent calmes, ce qui écarte les contrats de
+// chef : avec l'ancien barème, 9 offres sur 10 y étaient du transport.
+const TYPE_WEIGHTS: Record<QuestType, number> = {
+  hunt:     14, mediation: 12, kill:  9, revenge: 9, sabotage: 7,
+  delivery:  7, patrol:     6, escort: 5, extraction: 5, heist: 4, bounty: 5,
+}
+// Un type déjà en cours revient moins souvent : on ne cumule pas trois livraisons.
+const ACTIVE_TYPE_PENALTY = 0.35
+
+function pickWeightedType(available: QuestType[], weight: (t: QuestType) => number): QuestType {
+  const total = available.reduce((s, t) => s + weight(t), 0)
   let r = Math.random() * total
   for (const t of available) {
-    r -= TYPE_WEIGHTS[t]
+    r -= weight(t)
     if (r <= 0) return t
   }
   return available[available.length - 1]
 }
 
-export function generateQuest(gs: GameState): Quest | null {
+/** Combats à gagner pour une chasse : plus la station est dangereuse, plus il y a de monde à déloger. */
+export function huntGoal(danger: number): number {
+  return danger >= 2 ? 3 : 2
+}
+
+/**
+ * `avoidType` : le type de l'offre qu'on vient de refuser. Changer d'offre doit
+ * proposer autre chose, pas la même livraison vers une autre station.
+ */
+export function generateQuest(gs: GameState, avoidType?: QuestType): Quest | null {
+  const here = getStation(gs.currentStation)
   const accessible = getAccessibleStations(gs.currentStation)
     .filter(s => s.name !== gs.currentStation)
   if (accessible.length === 0) return null
 
   const usedCombos = new Set(gs.activeQuests.map(q => `${q.type}:${q.targetStation}`))
+  const activeTypes = new Set(gs.activeQuests.map(q => q.type))
+  const targetsFor = (t: QuestType) => {
+    const pool = BOSS_TRIGGER_TYPES.includes(t) ? accessible.filter(s => s.danger >= 2) : accessible
+    return pool.filter(s => !usedCombos.has(`${t}:${s.name}`))
+  }
+  const canTargetHere = (t: QuestType) => LOCAL_TYPES.includes(t) && !usedCombos.has(`${t}:${here.name}`)
 
-  const candidates = accessible.filter(s =>
-    ALL_TYPES.some(t => !usedCombos.has(`${t}:${s.name}`))
-  )
-  const pool = candidates.length > 0 ? candidates : accessible
-  const target = pick(pool)
+  const possible = ALL_TYPES.filter(t => targetsFor(t).length > 0 || canTargetHere(t))
+  const sansRefus = possible.filter(t => t !== avoidType)
+  const types = sansRefus.length > 0 ? sansRefus : possible.length > 0 ? possible : ['delivery' as QuestType]
+  const type = pickWeightedType(types, t => TYPE_WEIGHTS[t] * (activeTypes.has(t) ? ACTIVE_TYPE_PENALTY : 1))
+
+  const voisins = targetsFor(type)
+  const target = canTargetHere(type) && (voisins.length === 0 || Math.random() < (LOCAL_CHANCE[type] ?? 0))
+    ? here
+    : pick(voisins.length > 0 ? voisins : accessible)
 
   const giver = pick(GIVER_NAMES)
   const id    = Math.random().toString(36).slice(2, 8)
-
-  const typesForTarget = target.danger < 2 ? ALL_TYPES.filter(t => !BOSS_TRIGGER_TYPES.includes(t)) : ALL_TYPES
-  const availableTypes = typesForTarget.filter(t => !usedCombos.has(`${t}:${target.name}`))
-  const types = availableTypes.length > 0 ? availableTypes : typesForTarget
-  const type  = pickWeightedType(types)
 
   const dayMult = +Math.min(2.5, 1 + (gs.day - 1) * 0.05).toFixed(2)
   const scale   = (base: number) => Math.round(base * dayMult * ECONOMY_MULT)
@@ -237,26 +263,80 @@ export function generateQuest(gs: GameState): Quest | null {
       return { id, title: i18n.t('titles.patrol', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.patrol', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
         description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 6, dayMult }
     }
+    case 'hunt': {
+      const goal   = huntGoal(target.danger)
+      const reward = scale(rng(800, 2000) + goal * 300)
+      const dsc    = pickDesc('hunt', { giver, target: target.name, count: String(goal) })
+      return { id, title: i18n.t('titles.hunt', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.hunt', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 12, dayMult, goal, progress: 0 }
+    }
+    case 'mediation': {
+      const reward = scale(rng(1000, 2600))
+      const dsc    = pickDesc('mediation', { giver, target: target.name })
+      return { id, title: i18n.t('titles.mediation', { ns: 'quests', target: translateStationName(target.name) }), titleI18n: { key: 'titles.mediation', params: { target: target.name } }, giver, giverStation: gs.currentStation, type,
+        description: dsc.texte, descI18n: dsc.recette, targetStation: target.name, creditReward: reward, repReward: 20, dayMult }
+    }
   }
+}
+
+// ── MÉDIATION ────────────────────────────────────────────────────────────────
+// Sur place, trois façons de régler le conflit : convaincre (selon ta
+// réputation, une seule tentative), payer les deux camps (sûr mais coûteux)
+// ou trancher par la force contre l'homme de main local.
+
+export function mediationPersuadeChance(gs: GameState): number {
+  return Math.min(0.9, Math.max(0.15, 0.3 + gs.reputation / 150))
+}
+
+export function mediationBribe(quest: Quest): number {
+  return Math.round(quest.creditReward * 0.4)
+}
+
+/** Payer : la quête est réglée, mais personne ne te doit de respect. */
+export function mediationPaidQuest(quest: Quest): Quest {
+  return { ...quest, repReward: Math.floor(quest.repReward / 2) }
+}
+
+/** Par la force : mieux payé (le donneur aime les résultats), moins respecté. */
+export function mediationForcedQuest(quest: Quest): Quest {
+  return { ...quest, creditReward: Math.round(quest.creditReward * 1.2), repReward: Math.floor(quest.repReward / 2), progress: 1 }
+}
+
+/**
+ * Après une victoire : avance les chasses de la station et règle la médiation
+ * dont l'homme de main vient de tomber. Les quêtes accomplies sont ensuite
+ * validées par `checkQuestsOnArrival`.
+ */
+export function recordVictoryForQuests(gs: GameState, enemy: Enemy | null): Quest[] {
+  return gs.activeQuests.map(q => {
+    if (q.type === 'hunt' && q.targetStation === gs.currentStation) return { ...q, progress: (q.progress ?? 0) + 1 }
+    if (q.type === 'mediation' && enemy?.questId === q.id) return mediationForcedQuest(q)
+    return q
+  })
 }
 
 // ── QUÊTES ENCHAÎNÉES ────────────────────────────────────────────────────────
 
+// Les suites passent avant toute nouvelle offre : une livraison qui enchaînait
+// sur une livraison faisait tourner le joueur en rond. Une suite change de registre.
 const CHAIN_CHANCE: Partial<Record<QuestType, number>> = {
-  delivery: 0.45, escort: 0.40, extraction: 0.40, patrol: 0.35,
+  delivery: 0.35, escort: 0.35, extraction: 0.35, patrol: 0.35,
   kill: 0.30, revenge: 0.25, bounty: 0.25, sabotage: 0.20, heist: 0.20,
+  hunt: 0.30, mediation: 0.30,
 }
 
 const CHAIN_FOLLOW: Partial<Record<QuestType, QuestType[]>> = {
-  delivery:   ['delivery', 'extraction', 'escort'],
-  escort:     ['delivery', 'extraction'],
-  extraction: ['delivery', 'heist'],
-  patrol:     ['patrol', 'bounty'],
-  kill:       ['bounty', 'kill'],
+  delivery:   ['hunt', 'mediation', 'escort'],
+  escort:     ['hunt', 'mediation'],
+  extraction: ['heist', 'hunt'],
+  patrol:     ['hunt', 'bounty'],
+  kill:       ['bounty', 'hunt'],
   revenge:    ['kill', 'bounty'],
-  bounty:     ['bounty', 'kill'],
-  sabotage:   ['kill', 'sabotage'],
-  heist:      ['delivery', 'heist'],
+  bounty:     ['kill', 'hunt'],
+  sabotage:   ['kill', 'mediation'],
+  heist:      ['hunt', 'mediation'],
+  hunt:       ['patrol', 'kill', 'mediation'],
+  mediation:  ['escort', 'hunt', 'revenge'],
 }
 
 function chainDesc(type: QuestType, prev: Quest): string {
@@ -288,6 +368,7 @@ export function generateChainQuest(completed: Quest, gs: GameState): Quest | nul
     delivery: [700, 2500], escort: [1500, 4000], extraction: [1200, 3500],
     patrol: [900, 2500], kill: [1700, 5500], revenge: [1000, 3200],
     bounty: [3200, 7500], sabotage: [2000, 5000], heist: [2500, 6000],
+    hunt: [1200, 3000], mediation: [1300, 3200],
   }
   const [rMin, rMax] = REWARDS[newType]
   const creditReward = scale(rng(rMin, rMax))
@@ -306,6 +387,7 @@ export function generateChainQuest(completed: Quest, gs: GameState): Quest | nul
     description: chainDesc(newType, completed),
     descI18n: { key: `chain.${newType}`, params: { giver: completed.giver } },
     creditReward, repReward, dayMult,
+    ...(newType === 'hunt' ? { goal: huntGoal(target.danger), progress: 0 } : {}),
   }
 }
 
@@ -355,6 +437,10 @@ export function checkQuestsOnArrival(gs: GameState): { completed: Quest[]; compl
       } else if ((q.type === 'revenge' || q.type === 'sabotage') && gs.stationBossesBeaten.includes(q.targetStation)) {
         completed.push(q)
       } else if ((q.type === 'kill' || q.type === 'bounty') && gs.stationBossesBeaten.includes(q.targetStation)) {
+        completed.push(q)
+      } else if (q.type === 'hunt' && (q.progress ?? 0) >= (q.goal ?? huntGoal(getStation(q.targetStation).danger))) {
+        completed.push(q)
+      } else if (q.type === 'mediation' && (q.progress ?? 0) >= 1) {
         completed.push(q)
       }
     }

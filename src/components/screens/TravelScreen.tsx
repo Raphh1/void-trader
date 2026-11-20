@@ -7,6 +7,7 @@ import { getEnemyByTier, scaleEnemy } from '../../data/enemies'
 import { AsteroidDodge } from '../minigames/AsteroidDodge'
 import { resolveShipDown } from '../../engine/shipDamage'
 import { translateGood, translateStationName } from '../../engine/goodsI18n'
+import { useFriendsByStation } from '../ui/Multiplayer'
 
 function NextHops({ stationName, currentName }: { stationName: string; currentName: string }) {
   const { t } = useTranslation('travelScreen')
@@ -42,6 +43,8 @@ export function TravelScreen() {
   const goTo        = useGameStore(s => s.goTo)
   const setWaypoint = useGameStore(s => s.setWaypoint)
   const startCombat = useGameStore(s => s.startCombat)
+  const { t: tm }   = useTranslation('multiplayer')
+  const friendsAt   = useFriendsByStation()
 
   const [pending, setPending] = useState<Pending | null>(null)
   const accessible = getAccessibleStations(gs.currentStation).filter(s =>
@@ -188,6 +191,9 @@ export function TravelScreen() {
                     {station.description}
                   </div>
                   {priceHint && <div className="t-xs t-cyan mt4">{priceHint}</div>}
+                  {friendsAt.has(station.name) && (
+                    <div className="t-xs mt4" style={{ color: 'var(--cyan)' }}>👥 {tm('travel.friendsHere', { names: friendsAt.get(station.name)!.join(', ') })}</div>
+                  )}
                 </div>
                 <div style={{ textAlign: 'right', minWidth: '110px' }}>
                   <div className={`t-xs ${DANGER_CLS[station.danger]}`}>{DANGER_LABEL[station.danger]}</div>

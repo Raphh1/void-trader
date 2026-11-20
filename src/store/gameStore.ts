@@ -7,7 +7,7 @@ import { initCombat, processCombatAction, type CombatAction } from '../engine/co
 import { getArenaEnemyForRound } from '../data/enemies'
 import { initMultiCombat, processMultiAction, type MultiCombatAction } from '../engine/multiCombat'
 import { checkObjectives } from '../engine/objectives'
-import { checkQuestsOnArrival, completeQuest, generateChainQuest, buildTutorialQuest, TUTORIAL_QUEST_ID } from '../engine/quests'
+import { checkQuestsOnArrival, completeQuest, generateChainQuest, buildTutorialQuest, recordVictoryForQuests, TUTORIAL_QUEST_ID } from '../engine/quests'
 import { checkMajorQuestAdvancement } from '../engine/majorQuests'
 import { applyClassTravelEffects, rollTravelEvent, spendAction } from '../engine/travelEvents'
 import { rollPillarRumor } from '../engine/pillarRumors'
@@ -51,6 +51,7 @@ function crewDay(gs: GameState): { gs: GameState; lines: string[] } {
   return { gs: out, lines: lines.map(crewText) }
 }
 import { createCompetitors, tickCompetitors, competitorHere, shouldCompetitorAmbush, competitorToEnemy, settleCompetitorDuel } from '../engine/competitors'
+import { isInRoom, isFinishedInRoom, leaveRoom, drainPendingNews, reportTrade } from './multiStore'
 import i18n from '../i18n/config'
 
 const rng = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -278,6 +279,8 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
   },
 
   selectClass: (c, mods_arg, activeMetaIds, daily) => {
+    // Partie terminée dans un salon multijoueur : la suivante se joue en solo.
+    if (isFinishedInRoom()) leaveRoom()
     const base = buildInitialState(c)
     const { meta } = useMetaStore.getState()
     const effectiveIds = activeMetaIds ?? meta.unlockedIds
@@ -294,6 +297,8 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     if (daily) gs = { ...gs, dailyChallenge: daily, competitors: createCompetitors(gs.currentStation, rand) }
     // Relique de départ : la run a un « build » dès la première minute.
     gs = { ...gs, pendingRelicChoice: { options: drawRelicChoices(gs, 3, rand), source: 'start' } }
+    // En salon, les concurrents sont les autres joueurs : pas de pilotes IA en plus.
+    if (isInRoom()) gs = { ...gs, competitors: [] }
     set({ gs: { ...gs, screen: 'intro' as Screen } })
   },
 
@@ -360,6 +365,9 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
 
     // Concurrents — un jour passe pour eux aussi
     newGs = { ...newGs, ...tickCompetitors(newGs), pendingCompetitorId: null }
+    // Multijoueur — ce qu'ont fait les autres joueurs depuis ton dernier voyage
+    const remoteNews = drainPendingNews()
+    if (remoteNews.length > 0) newGs = { ...newGs, competitorNews: [...(newGs.competitorNews ?? []), ...remoteNews].slice(-4) }
 
     // Équipage — salaires, loyauté, réparations du mécano
     const equipage = crewDay(newGs)
@@ -855,7 +863,9 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
   }),
 
 
-  buyCargo: (item, price) => set(s => {
+  buyCargo: (item, price) => {
+    const before = get().gs?.cargo[item] ?? 0
+    set(s => {
     if (!s.gs || s.gs.credits < price) return s
     if (s.gs.class.cannotBuyWeapons && item.toLowerCase().includes('arme')) return s
     const maxCargo = 15 + (s.gs.shipModules?.soute ?? 0) * 5
@@ -873,16 +883,25 @@ export const useGameStore = create<Store>()(persist((rawSet, get) => {
     if (itemMax !== undefined && (s.gs.cargo[item] ?? 0) >= itemMax) return s
     const cargo = { ...s.gs.cargo, [item]: (s.gs.cargo[item] ?? 0) + 1 }
     return { gs: { ...s.gs, credits: s.gs.credits - price, cargo } }
-  }),
+    })
+    // Multijoueur — les autres voient le prix monter dans cette station
+    const gs = get().gs
+    if (gs && (gs.cargo[item] ?? 0) > before) reportTrade(gs.day, gs.currentStation, item, 'buy')
+  },
 
-  sellCargo: (item, price) => set(s => {
+  sellCargo: (item, price) => {
+    const before = get().gs?.cargo[item] ?? 0
+    set(s => {
     if (!s.gs || !s.gs.cargo[item]) return s
     const cargo = { ...s.gs.cargo, [item]: s.gs.cargo[item] - 1 }
     if (cargo[item] === 0) delete cargo[item]
     const medBonus = s.gs.class.medicBonus && item === 'Médicaments' ? Math.floor(price * 0.5) : 0
     const tradeBonus = Math.floor(price * (s.gs.class.tradeBonusPercent ?? 0) / 100)
     return { gs: { ...s.gs, credits: s.gs.credits + price + medBonus + tradeBonus, cargo } }
-  }),
+    })
+    const gs = get().gs
+    if (gs && (gs.cargo[item] ?? 0) < before) reportTrade(gs.day, gs.currentStation, item, 'sell')
+  },
 
   buyFuel: (amount, priceEach) => set(s => {
     if (!s.gs) return s
@@ -1235,7 +1254,8 @@ function handleCombatOutcome(
       const runObj = getRunObjective(runObjId)
       if (runObj?.check(newGs)) newGs = { ...newGs, runObjectiveCompleted: true }
     }
-    // Compléter les quêtes de combat (vengeance, kill, bounty, sabotage) après victoire
+    // Compléter les quêtes de combat (vengeance, kill, bounty, sabotage, chasse, médiation) après victoire
+    newGs = { ...newGs, activeQuests: recordVictoryForQuests(newGs, gs.combatEnemy) }
     const { completed: combatQuests } = checkQuestsOnArrival(newGs)
     let combatRayaneGambleSum = gs.class.name === 'Rayane' ? (newGs.rayaneGambleOffer ?? 0) : 0
     for (const q of combatQuests) {
